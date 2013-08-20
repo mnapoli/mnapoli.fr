@@ -9,7 +9,7 @@
   <meta name="author" content="Matthieu Napoli">
 
   
-  <meta name="description" content="Hi. I&#8217;m Matthieu Napoli. Here are some thoughts of mine. Dec 6th, 2012 Comments dependency-injection php Introduction to Dependency Injection &hellip;">
+  <meta name="description" content="Hi. I&#8217;m Matthieu Napoli. Here are some thoughts of mine. Jul 1st, 2013 Comments dependency-injection php-di Controllers as services? This post &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -73,6 +73,7 @@
   	  </div>
   	</div>
   </div>
+  <a href="https://github.com/mnapoli/mnapoli.github.io"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
   <div class="container" id="main">
     <div class="span12">
       <div class="row-fluid">
@@ -87,6 +88,559 @@
 
 <div class="blog-index">
   
+  
+  
+    <article>
+      
+
+  <div class="row-fluid">
+    <div class="span2">
+		<h1 class="date-time">
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2013-07-01T20:00:00+02:00" pubdate data-updated="true">Jul 1<span>st</span>, 2013</time></h5>
+          <div class="row-fluid">
+          
+          <a href="http://mnapoli.github.io/controllers-as-services/#disqus_thread">Comments </a> <span class="fui-bubble-16"></span>
+          
+          </div>
+          
+          <div class="row-fluid">
+          
+          <a href="/blog/categories/dependency-injection/"><span class="badge">dependency-injection</span></a>
+          
+          <a href="/blog/categories/php-di/"><span class="badge">php-di</span></a>
+          
+          </div>
+          
+    </div>
+    <div class="span10">
+      <h1 class="link"><a href="/controllers-as-services/">Controllers as services?</a></h1>
+      <p>This post is sort-of a response to the <a href="http://www.whitewashing.de/2013/06/27/extending_symfony2__controller_utilities.html">blog post of Benjamin Eberlei about Controllers in Symfony 2</a>.</p>
+
+<p>The subject is about Controllers and their dependencies:</p>
+
+<blockquote><p>Controllers as a service are a heated topic in the Symfony world. Developers mainly choose to extend the base class, because its much simpler to use and less to write.</p></blockquote>
+
+<p>With Symfony 2, you can write controllers 2 ways:</p>
+
+<ol>
+<li><p>extend the base Controller class. This is simpler and more practical but it ties up your controller to Symfony. Also, to fetch dependencies, you have to get them from the container, which is known as the <strong>Service Locator anti-pattern</strong> (= bad).</p></li>
+<li><p>create a “normal” class, and use it as a service. That means you can use dependency injection through the constructor to get your dependencies. This is clean, this looks good, but you end up with managing a lot of dependencies :/</p></li>
+</ol>
+
+
+<p>To ease up solution n°2, Benjamin proposes to create a “ControllerUtility” class which would group the most used controller services. That way, you dramatically reduce the dependencies, and still hide the container.</p>
+
+<p>I use a different solution.</p>
+
+
+      
+       <a href="/controllers-as-services/">Read on &rarr;</a> 
+    </div>
+  </div>
+
+
+
+    </article>
+    
+    <hr>
+    
+  
+  
+    <article>
+      
+
+  <div class="row-fluid">
+    <div class="span2">
+		<h1 class="date-time">
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2013-06-09T20:00:00+02:00" pubdate data-updated="true">Jun 9<span>th</span>, 2013</time></h5>
+          <div class="row-fluid">
+          
+          <a href="http://mnapoli.github.io/should-you-really-write-ugly-code-no/#disqus_thread">Comments </a> <span class="fui-bubble-16"></span>
+          
+          </div>
+          
+          <div class="row-fluid">
+          
+          <a href="/blog/categories/best-practices/"><span class="badge">best-practices</span></a>
+          
+          </div>
+          
+    </div>
+    <div class="span10">
+      <h1 class="link"><a href="/should-you-really-write-ugly-code-no/">Should you really write ugly code? Spoiler: no</a></h1>
+      <p>I recently stumbled upon François Zaninotto’s blog post: <a href="http://redotheweb.com/2013/06/04/you-should-write-ugly-code.html">You should write ugly code</a>. While he makes several good points, I strongly disagree with him and I feel the urge to give my opinion on the matter (what did you expect, this is a blog).</p>
+
+<p>The point that he makes is that he encourages developers to write “ugly code”, i.e. code that works and that doesn’t follow best practices or anything related to code quality.</p>
+
+<blockquote><p>[..] developers shouldn’t care about code beauty, because that’s not their job. Instead, they should focus on creating great products, which is infinitely more satisfying.</p></blockquote>
+
+<p>Later, he insists that by writing ugly code, we ship faster than if we had to worry and handle code quality. And shipping faster is good for the business.</p>
+
+<p>Well that’s true. That’s called <strong>Technical Debt</strong>. And like any debt, you’ll have to repay later.</p>
+
+<p><img src="/images/posts/technical-debt.png" width="400"></p>
+
+
+      
+       <a href="/should-you-really-write-ugly-code-no/">Read on &rarr;</a> 
+    </div>
+  </div>
+
+
+
+    </article>
+    
+    <hr>
+    
+  
+  
+    <article>
+      
+
+  <div class="row-fluid">
+    <div class="span2">
+		<h1 class="date-time">
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2013-06-08T20:00:00+02:00" pubdate data-updated="true">Jun 8<span>th</span>, 2013</time></h5>
+          <div class="row-fluid">
+          
+          <a href="http://mnapoli.github.io/code-coverage-reports-with-github-travis-and/#disqus_thread">Comments </a> <span class="fui-bubble-16"></span>
+          
+          </div>
+          
+          <div class="row-fluid">
+          
+          <a href="/blog/categories/continuous-integration/"><span class="badge">continuous-integration</span></a>
+          
+          <a href="/blog/categories/github/"><span class="badge">github</span></a>
+          
+          </div>
+          
+    </div>
+    <div class="span10">
+      <h1 class="link"><a href="/code-coverage-reports-with-github-travis-and/">Code coverage reports with GitHub, Travis and Coveralls</a></h1>
+      <p>You have a PHP project hosted on GitHub with continuous integration using Travis-CI?</p>
+
+<p>How about setting up <strong>code coverage reports</strong>?</p>
+
+<p>For example, here is the code coverage report of <a href="http://mnapoli.github.io/PHP-DI/">PHP-DI</a>: <a href="https://coveralls.io/r/mnapoli/PHP-DI?branch=master"><img src="https://coveralls.io/repos/mnapoli/PHP-DI/badge.png?branch=master" alt="Coverage Status" /></a> (click on the link to see the details).</p>
+
+
+      
+       <a href="/code-coverage-reports-with-github-travis-and/">Read on &rarr;</a> 
+    </div>
+  </div>
+
+
+
+    </article>
+    
+    <hr>
+    
+  
+  
+    <article>
+      
+
+  <div class="row-fluid">
+    <div class="span2">
+		<h1 class="date-time">
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2013-04-16T20:00:00+02:00" pubdate data-updated="true">Apr 16<span>th</span>, 2013</time></h5>
+          <div class="row-fluid">
+          
+          <a href="http://mnapoli.github.io/overriding-dependencies-with-composer/#disqus_thread">Comments </a> <span class="fui-bubble-16"></span>
+          
+          </div>
+          
+          <div class="row-fluid">
+          
+          <a href="/blog/categories/composer/"><span class="badge">composer</span></a>
+          
+          <a href="/blog/categories/github/"><span class="badge">github</span></a>
+          
+          <a href="/blog/categories/myclabs/"><span class="badge">myclabs</span></a>
+          
+          </div>
+          
+    </div>
+    <div class="span10">
+      <h1 class="link"><a href="/overriding-dependencies-with-composer/">Overriding dependencies with Composer</a></h1>
+      <p>At my company, <strong>My C-Sense</strong>, we use Doctrine amongst other PHP frameworks and libraries. When we find bugs (or need new features), we contribute to the project through our <a href="https://github.com/myclabs">open source initiative</a>.</p>
+
+<p>The problem is when we submit a pull request on Github, several months usually happen until our fix appears in a stable release.</p>
+
+<p>To be able to enjoy our bugfixes immediately, here is our workflow:</p>
+
+<ul>
+<li>We fork the repository of the project to <a href="https://github.com/myclabs">our organization account</a></li>
+<li>We commit and publish the bugfix in a branch of our repository</li>
+<li>We submit a Pull Request</li>
+<li>We override the dependency to the project with our version in Composer</li>
+</ul>
+
+
+<p>Overriding a dependency <a href="http://getcomposer.org/doc/04-schema.md#repositories">is quite simple</a>: just add your git repository in your <code>composer.json</code> and require you branch.</p>
+
+<p>But when we want to override, for example, <code>doctrine/common</code> which is used by <code>doctrine/orm</code>, then we have a problem: <code>doctrine/orm</code> wants a stable version of <code>doctrine/common</code>, it will conflict with your requirement to a dev branch.</p>
+
+<p>The solution is to <strong>alias your dev branch to a stable release</strong>, and that is possible through the awesome “<a href="http://getcomposer.org/doc/articles/aliases.md#require-inline-alias">inline alias</a>” functionality in Composer.</p>
+
+
+      
+       <a href="/overriding-dependencies-with-composer/">Read on &rarr;</a> 
+    </div>
+  </div>
+
+
+
+    </article>
+    
+    <hr>
+    
+  
+  
+    <article>
+      
+
+  <div class="row-fluid">
+    <div class="span2">
+		<h1 class="date-time">
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2013-04-01T20:00:00+02:00" pubdate data-updated="true">Apr 1<span>st</span>, 2013</time></h5>
+          <div class="row-fluid">
+          
+          <a href="http://mnapoli.github.io/programming-jokes-of-the-week-end/#disqus_thread">Comments </a> <span class="fui-bubble-16"></span>
+          
+          </div>
+          
+          <div class="row-fluid">
+          
+          </div>
+          
+    </div>
+    <div class="span10">
+      <h1 class="link"><a href="/programming-jokes-of-the-week-end/">Programming jokes of the week end</a></h1>
+      <p>Every developer knows this joke:</p>
+
+<blockquote><p>Some people, when confronted with a problem, think “I know, I’ll use regular expressions.” Now they have two problems.</p></blockquote>
+
+<p>I can’t help but share the great serie that I read on twitter tonight:</p>
+
+
+      
+       <a href="/programming-jokes-of-the-week-end/">Read on &rarr;</a> 
+    </div>
+  </div>
+
+
+
+    </article>
+    
+    <hr>
+    
+  
+  
+    <article>
+      
+
+  <div class="row-fluid">
+    <div class="span2">
+		<h1 class="date-time">
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2013-03-22T20:00:00+01:00" pubdate data-updated="true">Mar 22<span>nd</span>, 2013</time></h5>
+          <div class="row-fluid">
+          
+          <a href="http://mnapoli.github.io/the-optional-singleton-pattern/#disqus_thread">Comments </a> <span class="fui-bubble-16"></span>
+          
+          </div>
+          
+          <div class="row-fluid">
+          
+          <a href="/blog/categories/design-patterns/"><span class="badge">design-patterns</span></a>
+          
+          <a href="/blog/categories/php/"><span class="badge">php</span></a>
+          
+          </div>
+          
+    </div>
+    <div class="span10">
+      <h1 class="link"><a href="/the-optional-singleton-pattern/">The “Optional Singleton” pattern</a></h1>
+      <p>The <a href="http://en.wikipedia.org/wiki/Singleton_pattern">singleton</a> is a practical design pattern, that’s the reason it is so popular amongst beginners. It is also an anti-pattern because of the problems it introduces (global state, difficult to test, …).</p>
+
+<p>While I agree with that, and the fact that Singletons should be used with (a lot of) moderation, I also like an alternative pattern which comes with the advantage of the singleton and balances out its disadvantages. This can be useful if you have to work on a codebase that has singletons.</p>
+
+<p>I’m calling this pattern the <strong>Optional Singleton</strong> for lack of a better name.</p>
+
+<p>Simply put, this is a class which you can use as a singleton, or not (it’s optional ;):</p>
+
+<ul>
+<li>you can still use the handy <code>MySingleton::getInstance()</code></li>
+<li>you can however create new instances of the class, for example for tests</li>
+</ul>
+
+
+
+      
+       <a href="/the-optional-singleton-pattern/">Read on &rarr;</a> 
+    </div>
+  </div>
+
+
+
+    </article>
+    
+    <hr>
+    
+  
+  
+    <article>
+      
+
+  <div class="row-fluid">
+    <div class="span2">
+		<h1 class="date-time">
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2013-03-05T20:00:00+01:00" pubdate data-updated="true">Mar 5<span>th</span>, 2013</time></h5>
+          <div class="row-fluid">
+          
+          <a href="http://mnapoli.github.io/confirm-dialogs-for-html-links-and-buttons/#disqus_thread">Comments </a> <span class="fui-bubble-16"></span>
+          
+          </div>
+          
+          <div class="row-fluid">
+          
+          <a href="/blog/categories/jquery/"><span class="badge">jquery</span></a>
+          
+          <a href="/blog/categories/myc-labs/"><span class="badge">myc-labs</span></a>
+          
+          </div>
+          
+    </div>
+    <div class="span10">
+      <h1 class="link"><a href="/confirm-dialogs-for-html-links-and-buttons/">jQuery plugin: Confirm dialogs for HTML links and buttons</a></h1>
+      <p>This is the first open source project created at my company, so I am quite proud of it even though it is not much.</p>
+
+<p>The name is <a href="http://myclabs.github.io/jquery.confirm/"><strong>jquery.confirm</strong></a>, which is pretty explicit. It lets you have confirmation dialogs for links or buttons. For example, <strong>&ldquo;Are you sure you want to delete that comment?&rdquo;</strong> kind of things.</p>
+
+<p>I am going to present its basic usage and options here.</p>
+
+<p>The idea is to write <a href="http://en.wikipedia.org/wiki/Unobtrusive_JavaScript">unobtrusive Javascript</a> by letting the user write clean HTML:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;home&quot;</span> <span class="na">class=</span><span class="s">&quot;confirm&quot;</span><span class="nt">&gt;</span>Go to home<span class="nt">&lt;/a&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To enable confirmation on this link, simply:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.confirm&quot;</span><span class="p">).</span><span class="nx">confirm</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+
+      
+       <a href="/confirm-dialogs-for-html-links-and-buttons/">Read on &rarr;</a> 
+    </div>
+  </div>
+
+
+
+    </article>
+    
+    <hr>
+    
+  
+  
+    <article>
+      
+
+  <div class="row-fluid">
+    <div class="span2">
+		<h1 class="date-time">
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2013-02-04T20:00:00+01:00" pubdate data-updated="true">Feb 4<span>th</span>, 2013</time></h5>
+          <div class="row-fluid">
+          
+          <a href="http://mnapoli.github.io/be-a-better-programmer-take-a-step-back/#disqus_thread">Comments </a> <span class="fui-bubble-16"></span>
+          
+          </div>
+          
+          <div class="row-fluid">
+          
+          <a href="/blog/categories/best-practices/"><span class="badge">best-practices</span></a>
+          
+          </div>
+          
+    </div>
+    <div class="span10">
+      <h1 class="link"><a href="/be-a-better-programmer-take-a-step-back/">Be a better programmer: take a step back</a></h1>
+      <p><em>Replace [client] by [boss] or anything of the kind if you prefer.</em></p>
+
+<h2>A day at work</h2>
+
+<blockquote><p><strong>Bug #3890 from Client</strong></p>
+
+<p>There is an application crash, it says “division by zero error in SpeedCalculator::compute()”.</p>
+
+<p>Please fix ASAP!</p></blockquote>
+
+
+      
+       <a href="/be-a-better-programmer-take-a-step-back/">Read on &rarr;</a> 
+    </div>
+  </div>
+
+
+
+    </article>
+    
+    <hr>
+    
+  
+  
+    <article>
+      
+
+  <div class="row-fluid">
+    <div class="span2">
+		<h1 class="date-time">
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2012-12-10T20:00:00+01:00" pubdate data-updated="true">Dec 10<span>th</span>, 2012</time></h5>
+          <div class="row-fluid">
+          
+          <a href="http://mnapoli.github.io/doctrine-schema-validation-in-a-phpunit-test/#disqus_thread">Comments </a> <span class="fui-bubble-16"></span>
+          
+          </div>
+          
+          <div class="row-fluid">
+          
+          <a href="/blog/categories/doctrine/"><span class="badge">doctrine</span></a>
+          
+          <a href="/blog/categories/phpunit/"><span class="badge">phpunit</span></a>
+          
+          </div>
+          
+    </div>
+    <div class="span10">
+      <h1 class="link"><a href="/doctrine-schema-validation-in-a-phpunit-test/">Doctrine schema validation in a PHPUnit test</a></h1>
+      <p>Doctrine offers a <a href="http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/tools.html#runtime-vs-development-mapping-validation">command line option to validate the schema</a> (or mapping):</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>./doctrine orm:validate-schema</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This is very useful, when I ran it against my code, which was <em>working</em> by the way, I got several errors/warnings.</p>
+
+<p>However, I didn’t want to have to run this tool manually once in a while. I already have tests for that. So I thought: <strong>why not integrating the schema validation to the tests!</strong></p>
+
+
+      
+       <a href="/doctrine-schema-validation-in-a-phpunit-test/">Read on &rarr;</a> 
+    </div>
+  </div>
+
+
+
+    </article>
+    
+    <hr>
+    
   
   
     <article>
@@ -188,206 +742,10 @@
 
     </article>
     
-    <hr>
-    
-  
-  
-    <article>
-      
-
-  <div class="row-fluid">
-    <div class="span2">
-		<h1 class="date-time">
-
-
-
-
-
-
-
-
-  
-
-
-<i class="icon-calendar-empty"></i> <time datetime="2012-11-23T20:00:00+01:00" pubdate data-updated="true">Nov 23<span>rd</span>, 2012</time></h5>
-          <div class="row-fluid">
-          
-          <a href="http://mnapoli.github.io/php-fig-should-define-php-interfaces/#disqus_thread">Comments </a> <span class="fui-bubble-16"></span>
-          
-          </div>
-          
-          <div class="row-fluid">
-          
-          <a href="/blog/categories/php/"><span class="badge">php</span></a>
-          
-          <a href="/blog/categories/php-fig/"><span class="badge">php-fig</span></a>
-          
-          </div>
-          
-    </div>
-    <div class="span10">
-      <h1 class="link"><a href="/php-fig-should-define-php-interfaces/">The PHP-FIG should define PHP interfaces</a></h1>
-      <p>Bouncing on the discussion initiated in the <a href="https://github.com/php-fig/fig-standards/issues/57">#52</a> ticket of the PHP-FIG project on Github: « <strong>Explain the scope of the PSR system</strong> », I’ll explain the case I’m trying to make.</p>
-
-<p>First, <a href="http://www.php-fig.org/"><strong>PHP-FIG</strong></a>, which stands for <em>Framework Interoperability Group</em>, is a gathering of major PHP frameworks and project who try to:</p>
-
-<blockquote><p>talk about the commonalities between our projects and find ways we can work together.</p></blockquote>
-
-<p>This group has released PSR-0, PSR-1 and PSR-2, three specifications of coding standards, guide style and code organisation (for autoloading interoperability). Now the question is asked: is it the role of the PHP-FIG to define technical “code” specifications or is it out of its scope? Here is my answer.</p>
-
-<p><strong>PSR-0/1-2 are contracts between its users to ensure cohesiveness and compatibility.</strong></p>
-
-
-      
-       <a href="/php-fig-should-define-php-interfaces/">Read on &rarr;</a> 
-    </div>
-  </div>
-
-
-
-    </article>
-    
-    <hr>
-    
-  
-  
-    <article>
-      
-
-  <div class="row-fluid">
-    <div class="span2">
-		<h1 class="date-time">
-
-
-
-
-
-
-
-
-  
-
-
-<i class="icon-calendar-empty"></i> <time datetime="2012-10-05T20:00:00+02:00" pubdate data-updated="true">Oct 5<span>th</span>, 2012</time></h5>
-          <div class="row-fluid">
-          
-          <a href="http://mnapoli.github.io/doctrine-2-yaml-reference/#disqus_thread">Comments </a> <span class="fui-bubble-16"></span>
-          
-          </div>
-          
-          <div class="row-fluid">
-          
-          <a href="/blog/categories/php/"><span class="badge">php</span></a>
-          
-          </div>
-          
-    </div>
-    <div class="span10">
-      <h1 class="link"><a href="/doctrine-2-yaml-reference/">Doctrine 2 YAML reference</a></h1>
-      <p>If you are working with Doctrine 2 and its YAML configuration files for the object mapping, you may find the documentation lacking some details.</p>
-
-<p>Here is a gist of all the YAML syntax possible:</p>
-
-
-      
-       <a href="/doctrine-2-yaml-reference/">Read on &rarr;</a> 
-    </div>
-  </div>
-
-
-
-    </article>
-    
-    <hr>
-    
-  
-  
-    <article>
-      
-
-  <div class="row-fluid">
-    <div class="span2">
-		<h1 class="date-time">
-
-
-
-
-
-
-
-
-  
-
-
-<i class="icon-calendar-empty"></i> <time datetime="2012-09-20T20:00:00+02:00" pubdate data-updated="true">Sep 20<span>th</span>, 2012</time></h5>
-          <div class="row-fluid">
-          
-          <a href="http://mnapoli.github.io/dependency-injection-with-php/#disqus_thread">Comments </a> <span class="fui-bubble-16"></span>
-          
-          </div>
-          
-          <div class="row-fluid">
-          
-          <a href="/blog/categories/dependency-injection/"><span class="badge">dependency-injection</span></a>
-          
-          <a href="/blog/categories/php/"><span class="badge">php</span></a>
-          
-          <a href="/blog/categories/php-di/"><span class="badge">php-di</span></a>
-          
-          </div>
-          
-    </div>
-    <div class="span10">
-      <h1 class="link"><a href="/dependency-injection-with-php/">Dependency Injection with PHP</a></h1>
-      <p>I used to develop using Singletons, registries or even static classes. Those days are gone.</p>
-
-<p>I decided to use <strong>Dependency Injection</strong> so that:</p>
-
-<ul>
-<li>my classes would be testable</li>
-<li>replacing an implementation by another would be not only doable, but easy (and so extending a library/module would too)</li>
-<li>the design of those classes wouldn’t be guided by the question of “how they will be used”</li>
-<li>my code would be cleaner, simpler</li>
-<li>and IDE auto-completion/type-hinting would always work</li>
-</ul>
-
-
-<p>I gave a try to Symfony and ZF2 DI systems, but they both seem way too complicated for just a simple need (that anyone who has worked with Spring would understand):</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">class</span> <span class="nc">MyClass</span> <span class="p">{</span>
-</span><span class='line'>    <span class="sd">/**</span>
-</span><span class='line'><span class="sd">     * @Inject</span>
-</span><span class='line'><span class="sd">     * @var MyService</span>
-</span><span class='line'><span class="sd">     */</span>
-</span><span class='line'>    <span class="k">private</span> <span class="nv">$service</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This short code means: <em>Inject, using a simple annotation, an instance of another class into a property</em>.</p>
-
-<p>I started working on a framework enabling such functionality few months ago. It is now in a mature state. It is based on the <a href="http://docs.doctrine-project.org/projects/doctrine-common/en/latest/reference/annotations.html">Annotations library of Doctrine 2</a>, and takes most of its ideas of Spring 3.</p>
-
-<p>You can check out this framework on its official website: <a href="http://mnapoli.github.com/PHP-DI/">PHP-DI</a>, and you are welcome to use it or contribute.</p>
-
-      
-      
-    </div>
-  </div>
-
-
-
-    </article>
-    
   
   <div class="pagination">
+    
+    <a class="prev" href="/blog/page/2/">&larr; Older</a>
     
 
     

@@ -1,0 +1,339 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Be a better programmer: take a step back - Matthieu Napoli</title>
+  <meta name="author" content="Matthieu Napoli">
+
+  
+  <meta name="description" content="Be a better programmer: take a step back Feb 4th, 2013 Replace [client] by [boss] or anything of the kind if you prefer. A day at work Bug #3890 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://mnapoli.github.io/be-a-better-programmer-take-a-step-back">
+  <link href="/favicon.png" rel="icon">
+  <link href='http://fonts.googleapis.com/css?family=Quicksand:300,400' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Matthieu Napoli" type="application/atom+xml">
+  <script src="/js/jquery.js"></script>
+  <script src="/js/bootstrap-collapse.js"></script>
+  <script src="/js/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/js/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <div class="navbar navbar-inverse navbar-static-top">
+  	<div class="navbar-inner">
+  	  <div class="container">
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+          <span class="fui-menu-24"></span>
+        </a>
+  	  	<div class="nav-collapse collapse navbar-responsive-collapse" style="height:0;">
+  	      <ul class="nav">
+    
+        <li ><a href="/">Home</a></li>
+    
+        <li ><a href="/about-me.html">About me</a></li>
+    
+</ul>
+
+<ul class="nav pull-right">
+    
+    <li><a href="http://github.com/mnapoli" title="Github Profile"><i class="icon-github-sign social-navbar"></i></a></li>
+    
+    
+    <li><a href="http://linkedin.com/in/matthieunapoli" title="Linkedin Profile"><i class="icon-linkedin-sign social-navbar"></i></a></li>
+    
+    
+    <li><a href="http://twitter.com/matthieunapoli" title="Twitter Profile"><i class="icon-twitter-sign social-navbar"></i></a></li>
+    
+    
+    
+    
+</ul>
+
+  	    </div>
+  	  </div>
+  	</div>
+  </div>
+  <a href="https://github.com/mnapoli/mnapoli.github.io"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+  <div class="container" id="main">
+    <div class="span12">
+      <div class="row-fluid">
+        <div id="content">
+          <div>
+<article class="hentry" role="article">
+  
+
+  <header>
+  <div class="jumbotron">
+    Be a better programmer: take a step back
+	<h5>
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2013-02-04T20:00:00+01:00" pubdate data-updated="true">Feb 4<span>th</span>, 2013</time></h5>
+  </div>
+</header>
+  <div class="row-fluid">
+    <div class="span12">
+      <p><em>Replace [client] by [boss] or anything of the kind if you prefer.</em></p>
+
+<h2>A day at work</h2>
+
+<blockquote><p><strong>Bug #3890 from Client</strong></p>
+
+<p>There is an application crash, it says “division by zero error in SpeedCalculator::compute()”.</p>
+
+<p>Please fix ASAP!</p></blockquote>
+
+<!-- more -->
+
+
+<p>You open <code>SpeedCalculator.php</code> to find:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">public</span> <span class="k">function</span> <span class="nf">compute</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">distance</span> <span class="o">/</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">time</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Fixing the bug</h2>
+
+<p>Easy! Who wrote that code anyway, how could he not think of that!</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">public</span> <span class="k">function</span> <span class="nf">compute</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">time</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">distance</span> <span class="o">/</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">time</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>There you go, the bug is fixed in 2 minutes.</p>
+
+<p>Later, the same bug is found in <code>RatioCalculator</code> and <code>MoneyCalculator</code>, but once these are fixed too, everyone in the team is sure the problem won’t appear anywhere, it’s gone, for sure this time! The code is rock solid now!</p>
+
+<p>A month later, another bug pops in. The application does not crash anymore, but the client happens to see wrong calculation results in his reports because of the <code>return 0;</code>.</p>
+
+<h2>Take a step back</h2>
+
+<p>What if, instead of rushing, we took a step back.</p>
+
+<blockquote><p>Why did this situation happen?</p>
+
+<p><code>$this-&gt;time</code> was set to 0.</p></blockquote>
+
+<p>Easy! Let’s prevent that.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">public</span> <span class="k">function</span> <span class="nf">setTime</span><span class="p">(</span><span class="nv">$time</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="nv">$time</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">throw</span> <span class="k">new</span> <span class="nx">InvalidArgumentException</span><span class="p">(</span><span class="s2">&quot;Invalid value&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">time</span> <span class="o">=</span> <span class="nv">$time</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now this is better, you guarantee the integrity of the data. But the client is not very happy! When he fills the form with a time of 0, the application shows an error page.</p>
+
+<p>So you work on displaying a nice error message by catching the exception in the controller.</p>
+
+<p>When you’re done, you realize you also got the same thing to do for RatioCalculator and MoneyCalculator, so you copy paste and you are good to go.</p>
+
+<p>Wait a minute, the client prefers that the error message is displayed in orange rather than red. So you change the color and copy-paste the code again.</p>
+
+<h2>Take another step back</h2>
+
+<p><strong>What if, instead of fixing a bug, you answered a need?</strong></p>
+
+<p>Why did the client put 0 in the form? Because he made a mistake.</p>
+
+<p>What is needed here?</p>
+
+<ul>
+<li>Is it <strong>only</strong> making sure the time that the user inputs in “speedCalculationForm” is ≠ 0?</li>
+<li>Is it <strong>only</strong> making sure the “speedCalculationForm” contains valid data?</li>
+<li><strong>Or is it validating all user inputs?</strong></li>
+</ul>
+
+
+<p>So what about a validation library for example?</p>
+
+<p>Waaaaait! Don’t go and write one yourself! For the love of god, take a step back, breathe, and look at what already exists.</p>
+
+<h2>Needs</h2>
+
+<p>We, programmers, love being technical. When your client or your boss thinks out loud about what he wants, we can’t help but imagine how we could implement it.</p>
+
+<p>But we need be able to take a step back. If we want to be really good in our jobs, <strong>we have to understand the needs before thinking about solutions</strong>. And that takes a lot of effort.</p>
+
+<p>Does the client really need “a blinking button that moves away when you try to click on it?” or does he need something else, something that he doesn’t know about and that you could help him define? And the same goes for yourself! Do you really need to open a file and write some infos in there, or do you simply need a logging system?</p>
+
+<p>Take a step back, try and see the big picture. Because one may be a very good programmer, but code’s purpose is to answer a need.</p>
+
+<p>Not a <em>&ldquo;fix the bugs in the bug tracker&rdquo;</em> kind of need, but rather a <em>&ldquo;I want an application will help me calculate speed based on input data, and if I type in invalid data then for fuck’s sake just tell me don’t go and calculate some weird results&rdquo;</em>.</p>
+
+    </div>
+  </div>
+
+
+
+  <footer>
+    <hr>
+    
+    <div class="row-fluid">
+      
+      <div class="span6">
+        <p class="meta">
+        
+        
+
+
+
+  <a href="/blog/categories/best-practices/"><span class="badge">best-practices</span></a>
+
+
+
+
+        </p>
+      </div>
+      
+      <div class="span6 social-sharing">
+        <div class="sharing">
+  <div class="addthis_toolbox addthis_default_style ">
+  
+  
+  <a class="addthis_button_tweet"></a>
+  
+  
+  <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+      </div>
+      
+      
+    </div>
+    
+    <div class="row-fluid">
+      <div class="span12">
+        <p class="meta">
+          
+            <a class="basic-alignment left" href="/doctrine-schema-validation-in-a-phpunit-test/" title="Previous Post: Doctrine schema validation in a PHPUnit test">&laquo; Doctrine schema validation in a PHPUnit test</a>
+          
+          
+            <a class="basic-alignment right" href="/confirm-dialogs-for-html-links-and-buttons/" title="Next Post: jQuery plugin: Confirm dialogs for HTML links and buttons">jQuery plugin: Confirm dialogs for HTML links and buttons &raquo;</a>
+          
+        </p>
+      </div>
+    </div>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+
+
+        </div>
+      </div>
+      <div class="row-fluid">
+        <footer class="footer-page" role="contentinfo">
+          <p>
+  Copyright &copy; 2013 - Matthieu Napoli -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span> - Theme by <a href="http://alexgaribay.com">Alex Garibay</a>
+</p>
+
+
+        </footer>
+      </div>
+    </div>
+  </div>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'mnapoli';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://mnapoli.github.io/be-a-better-programmer-take-a-step-back/';
+        var disqus_url = 'http://mnapoli.github.io/be-a-better-programmer-take-a-step-back/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

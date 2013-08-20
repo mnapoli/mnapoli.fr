@@ -4,7 +4,7 @@
   <title><![CDATA[Matthieu Napoli]]></title>
   <link href="http://mnapoli.github.io/atom.xml" rel="self"/>
   <link href="http://mnapoli.github.io/"/>
-  <updated>2013-08-20T14:34:42+02:00</updated>
+  <updated>2013-08-20T18:02:01+02:00</updated>
   <id>http://mnapoli.github.io/</id>
   <author>
     <name><![CDATA[Matthieu Napoli]]></name>
@@ -12,6 +12,593 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Controllers as services?]]></title>
+    <link href="http://mnapoli.github.io/controllers-as-services/"/>
+    <updated>2013-07-01T20:00:00+02:00</updated>
+    <id>http://mnapoli.github.io/controllers-as-services</id>
+    <content type="html"><![CDATA[<p>This post is sort-of a response to the <a href="http://www.whitewashing.de/2013/06/27/extending_symfony2__controller_utilities.html">blog post of Benjamin Eberlei about Controllers in Symfony 2</a>.</p>
+
+<p>The subject is about Controllers and their dependencies:</p>
+
+<blockquote><p>Controllers as a service are a heated topic in the Symfony world. Developers mainly choose to extend the base class, because its much simpler to use and less to write.</p></blockquote>
+
+<p>With Symfony 2, you can write controllers 2 ways:</p>
+
+<ol>
+<li><p>extend the base Controller class. This is simpler and more practical but it ties up your controller to Symfony. Also, to fetch dependencies, you have to get them from the container, which is known as the <strong>Service Locator anti-pattern</strong> (= bad).</p></li>
+<li><p>create a “normal” class, and use it as a service. That means you can use dependency injection through the constructor to get your dependencies. This is clean, this looks good, but you end up with managing a lot of dependencies :/</p></li>
+</ol>
+
+
+<p>To ease up solution n°2, Benjamin proposes to create a “ControllerUtility” class which would group the most used controller services. That way, you dramatically reduce the dependencies, and still hide the container.</p>
+
+<p>I use a different solution.</p>
+
+<!-- more -->
+
+
+<h2>Constructor injection is not the only possible injection</h2>
+
+<p>The idea is to keep the solution n°2, but use <strong>Property Injection</strong> instead of Constructor Injection.</p>
+
+<p>Property injection is generally frowned upon, and for good reasons:</p>
+
+<ul>
+<li>injecting in a private property breaks encapsulation</li>
+<li>it is not an explicit dependency: there is no contract saying your class need the property to be set to work</li>
+<li>if you use annotations to mark the dependency to be injected, your class is dependent on the container</li>
+</ul>
+
+
+<p><strong>BUT</strong></p>
+
+<p>if you follow best practices, <strong>your controllers will not contain business logic</strong> (only routing calls to the models and binding returned values to view).</p>
+
+<p>So:</p>
+
+<ul>
+<li>you will not unit-test it (that doesn’t mean you won’t write functional tests on the interface though)</li>
+<li>you may not need to reuse it elsewhere</li>
+<li>if you change the framework, you may have to rewrite it (or parts of it) anyway (because most dependencies like Request, Response, etc. will have changed)</li>
+</ul>
+
+
+<p>Because of that, I chose to use Property injection.</p>
+
+<h2>Property injection</h2>
+
+<p>Here is what my controllers look like:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="o">&lt;?</span><span class="nx">php</span>
+</span><span class='line'><span class="k">use</span> <span class="nx">DI\Annotation\Inject</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">UserController</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="sd">/**</span>
+</span><span class='line'><span class="sd">     * @Inject</span>
+</span><span class='line'><span class="sd">     * @var RouterInterface</span>
+</span><span class='line'><span class="sd">     */</span>
+</span><span class='line'>    <span class="k">private</span> <span class="nv">$router</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="sd">/**</span>
+</span><span class='line'><span class="sd">     * @Inject</span>
+</span><span class='line'><span class="sd">     * @var FormFactoryInterface </span>
+</span><span class='line'><span class="sd">     */</span>
+</span><span class='line'>    <span class="k">private</span> <span class="nv">$formFactory</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">public</span> <span class="k">function</span> <span class="nf">createForm</span><span class="p">(</span><span class="nv">$type</span><span class="p">,</span> <span class="nv">$data</span><span class="p">,</span> <span class="nv">$options</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="c1">// $this-&gt;formFactory-&gt;...</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Note this is an example using <a href="http://mnapoli.github.io/PHP-DI/">PHP-DI</a>, my alternative DI Container. It allows to mark injections using annotations.</p>
+
+<p>I know many PHP devs don’t like annotations, and there are some reasons not to use it. But in this case, because of the points I explained above, I find it acceptable to use the <code>@Inject</code> annotation. I find it also extremely practical.</p>
+
+<p>Of course, this example also applies without using annotations (using a configuration file f.e.), and <strong>it also applies to Symfony’s container</strong>.</p>
+
+<p>In the end:</p>
+
+<ul>
+<li>controllers don’t use the container</li>
+<li>controllers can be reused elsewhere, given they are fetched through the container</li>
+<li>we have full auto-completion and refactoring support in IDEs</li>
+<li><strong>controllers are easy and fast to write and read</strong> (and that’s something I value a lot)</li>
+</ul>
+
+
+<p>By the way, some Java developers may find this pattern of code familiar, it’s inspired from when I was working with Spring :)</p>
+
+<h2>Performance note</h2>
+
+<blockquote><p>You are injecting services that may not be used</p></blockquote>
+
+<p><a href="http://mnapoli.github.io/PHP-DI/">PHP-DI</a> and <a href="http://symfony.com/doc/current/components/dependency_injection/index.html">Symfony DIC</a> both support lazy injection, i.e. injecting a proxy that will load the target service only when it is used.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Should you really write ugly code? Spoiler: no]]></title>
+    <link href="http://mnapoli.github.io/should-you-really-write-ugly-code-no/"/>
+    <updated>2013-06-09T20:00:00+02:00</updated>
+    <id>http://mnapoli.github.io/should-you-really-write-ugly-code-no</id>
+    <content type="html"><![CDATA[<p>I recently stumbled upon François Zaninotto’s blog post: <a href="http://redotheweb.com/2013/06/04/you-should-write-ugly-code.html">You should write ugly code</a>. While he makes several good points, I strongly disagree with him and I feel the urge to give my opinion on the matter (what did you expect, this is a blog).</p>
+
+<p>The point that he makes is that he encourages developers to write “ugly code”, i.e. code that works and that doesn’t follow best practices or anything related to code quality.</p>
+
+<blockquote><p>[..] developers shouldn’t care about code beauty, because that’s not their job. Instead, they should focus on creating great products, which is infinitely more satisfying.</p></blockquote>
+
+<p>Later, he insists that by writing ugly code, we ship faster than if we had to worry and handle code quality. And shipping faster is good for the business.</p>
+
+<p>Well that’s true. That’s called <strong>Technical Debt</strong>. And like any debt, you’ll have to repay later.</p>
+
+<p><img src="http://mnapoli.github.io/images/posts/technical-debt.png" width="400"></p>
+
+<!-- more -->
+
+
+<p><em>Technical debt diagram, borrowed from Planet Geek for the (awesome) “<a href="http://www.planetgeek.ch/2013/06/05/clean-code-cheat-sheet/">Clean Code cheat sheet</a>“.</em></p>
+
+<p>Payback is a bitch and future-you will be cursing present-you for writing ugly code. The cost of change is directly affected, and when you tell your boss that Feature B will takes 2 weeks, he will point out that Feature A took only 2 days.</p>
+
+<p>I won’t get radical as well and say that you should alway write “beautiful code”. What I advocate for is to carefully choose your side.</p>
+
+<p>You need to get a prototype working for a demo? Then get it done quick and dirty! Heck I even used <a href="http://php.net/manual/fr/function.mysql-query.php">mysql_query</a> on an internal website once, and it worked. I know that this website will never need any real maintenance, so I can sleep without fearing for <a href="http://www.codinghorror.com/blog/2008/06/coding-for-violent-psychopaths.html">violent psychopaths</a>.</p>
+
+<p>But if you plan on writing software that will be maintained for a few years, you would definitely earn by writing beautiful code. Code quality earns you money, and that’s something difficult for managers to get (especially if they have never developed, or never seen code quality benefits before). I once took part on the rewrite of a whole application. After the rewrite, the manager was completely amazed that we needed only a few days to do what would systematically take a month or two before.</p>
+
+<p>I’d like to finish on his take about “<em>coding trends</em>” and what he calls “<em>trend setters</em>” like Eric Evans with his <a href="http://en.wikipedia.org/wiki/Domain-driven_design">Domain Driven Design</a>. DDD is not a trend, it is a set of patterns and methods to help you in specific situations. <a href="http://www.amazon.com/dp/0321125215/ref=cm_sw_su_dp">Evans book</a> is very clear about it: DDD can be unhelpful if you try to use it everywhere. That is very reductive to say that all these kind of people (Evans, Martin Fowler, Jeff Atwood) do is “<em>to explain why pattern A is better than pattern B. Until someone else publishes a book, explaining that pattern C is much, much better.</em>”</p>
+
+<p>Thanks to these guys, and best practices in general, I make my company earn money with apps that don’t need to be rewritten every year. I can work on my colleague’s code without pulling my hair and wishing him a painful death. I can participate to Open Source projects because I can understand the code.</p>
+
+<p><strong>TL;DR</strong></p>
+
+<ul>
+<li>Go quick and dirty, but expect troubles on the long run</li>
+<li>Care about quality, that will slow you down but get you farther</li>
+</ul>
+
+
+<p>Both are valid options, but choose carefully.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Code coverage reports with GitHub, Travis and Coveralls]]></title>
+    <link href="http://mnapoli.github.io/code-coverage-reports-with-github-travis-and/"/>
+    <updated>2013-06-08T20:00:00+02:00</updated>
+    <id>http://mnapoli.github.io/code-coverage-reports-with-github-travis-and</id>
+    <content type="html"><![CDATA[<p>You have a PHP project hosted on GitHub with continuous integration using Travis-CI?</p>
+
+<p>How about setting up <strong>code coverage reports</strong>?</p>
+
+<p>For example, here is the code coverage report of <a href="http://mnapoli.github.io/PHP-DI/">PHP-DI</a>: <a href="https://coveralls.io/r/mnapoli/PHP-DI?branch=master"><img src="https://coveralls.io/repos/mnapoli/PHP-DI/badge.png?branch=master" alt="Coverage Status" /></a> (click on the link to see the details).</p>
+
+<!-- more -->
+
+
+<p>To do so, you will need to create an account and enable your project at <a href="https://coveralls.io/">Coveralls</a>. Then add this to your <code>composer.json</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="s2">&quot;require-dev&quot;</span><span class="err">:</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nt">&quot;satooshi/php-coveralls&quot;</span><span class="p">:</span> <span class="s2">&quot;dev-master&quot;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Finally, update your <code>.travis.yml</code> configuration:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">language</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">php</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">php</span><span class="p-Indicator">:</span>
+</span><span class='line'> <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">5.3</span>
+</span><span class='line'> <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">5.4</span>
+</span><span class='line'> <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">5.5</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">before_script</span><span class="p-Indicator">:</span>
+</span><span class='line'> <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">wget http://getcomposer.org/composer.phar</span>
+</span><span class='line'> <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">php composer.phar install --dev --no-interaction</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">script</span><span class="p-Indicator">:</span>
+</span><span class='line'> <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">mkdir -p build/logs</span>
+</span><span class='line'> <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">phpunit --coverage-clover build/logs/clover.xml</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">after_script</span><span class="p-Indicator">:</span>
+</span><span class='line'> <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">php vendor/bin/coveralls -v</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now if you commit and push, Travis will run the tests and push the code coverage results to Coverall. Check out your project page on Coverall!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Overriding dependencies with Composer]]></title>
+    <link href="http://mnapoli.github.io/overriding-dependencies-with-composer/"/>
+    <updated>2013-04-16T20:00:00+02:00</updated>
+    <id>http://mnapoli.github.io/overriding-dependencies-with-composer</id>
+    <content type="html"><![CDATA[<p>At my company, <strong>My C-Sense</strong>, we use Doctrine amongst other PHP frameworks and libraries. When we find bugs (or need new features), we contribute to the project through our <a href="https://github.com/myclabs">open source initiative</a>.</p>
+
+<p>The problem is when we submit a pull request on Github, several months usually happen until our fix appears in a stable release.</p>
+
+<p>To be able to enjoy our bugfixes immediately, here is our workflow:</p>
+
+<ul>
+<li>We fork the repository of the project to <a href="https://github.com/myclabs">our organization account</a></li>
+<li>We commit and publish the bugfix in a branch of our repository</li>
+<li>We submit a Pull Request</li>
+<li>We override the dependency to the project with our version in Composer</li>
+</ul>
+
+
+<p>Overriding a dependency <a href="http://getcomposer.org/doc/04-schema.md#repositories">is quite simple</a>: just add your git repository in your <code>composer.json</code> and require you branch.</p>
+
+<p>But when we want to override, for example, <code>doctrine/common</code> which is used by <code>doctrine/orm</code>, then we have a problem: <code>doctrine/orm</code> wants a stable version of <code>doctrine/common</code>, it will conflict with your requirement to a dev branch.</p>
+
+<p>The solution is to <strong>alias your dev branch to a stable release</strong>, and that is possible through the awesome “<a href="http://getcomposer.org/doc/articles/aliases.md#require-inline-alias">inline alias</a>” functionality in Composer.</p>
+
+<!-- more -->
+
+
+<p>Here is an example:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="nt">&quot;require&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nt">&quot;doctrine/orm&quot;</span><span class="p">:</span> <span class="s2">&quot;2.3.*&quot;</span><span class="p">,</span>
+</span><span class='line'>        <span class="nt">&quot;doctrine/common&quot;</span><span class="p">:</span> <span class="s2">&quot;dev-ChainDriverFix as 2.3.0&quot;</span>
+</span><span class='line'>    <span class="p">},</span>
+</span><span class='line'>    <span class="nt">&quot;repositories&quot;</span><span class="p">:</span> <span class="p">[</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;git&quot;</span><span class="p">,</span>
+</span><span class='line'>            <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;https://github.com/myclabs/common.git&quot;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">]</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here, our branch <code>ChainDriverFix</code> will override the 2.3.0 version of <code>doctrine/common</code>, which will also be compatible with <code>doctrine/orm</code>!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Programming jokes of the week end]]></title>
+    <link href="http://mnapoli.github.io/programming-jokes-of-the-week-end/"/>
+    <updated>2013-04-01T20:00:00+02:00</updated>
+    <id>http://mnapoli.github.io/programming-jokes-of-the-week-end</id>
+    <content type="html"><![CDATA[<p>Every developer knows this joke:</p>
+
+<blockquote><p>Some people, when confronted with a problem, think “I know, I’ll use regular expressions.” Now they have two problems.</p></blockquote>
+
+<p>I can’t help but share the great serie that I read on twitter tonight:</p>
+
+<!-- more -->
+
+
+
+
+<div class='embed tweet'><blockquote class="twitter-tweet"><p>A programmer had a problem. He thought to himself, &quot;I know, I&#39;ll solve it with threads!&quot;. has Now problems. two he</p>&mdash; Davidlohr Bueso (@davidlohr) <a href="https://twitter.com/davidlohr/statuses/288786300067270656">January 8, 2013</a></blockquote>
+<script async src="http://mnapoli.github.io//platform.twitter.com/widgets.js" charset="utf-8"></script></div>
+
+
+
+
+<div class='embed tweet'><blockquote class="twitter-tweet"><p><a href="https://twitter.com/davidlohr">@davidlohr</a> <a href="https://twitter.com/stramit">@stramit</a> &quot;I know! I&#39;ll add some locks!&quot; Now he ha</p>&mdash; Aras Pranckevičius (@aras_p) <a href="https://twitter.com/aras_p/statuses/289026199852830720">January 9, 2013</a></blockquote>
+<script async src="http://mnapoli.github.io//platform.twitter.com/widgets.js" charset="utf-8"></script></div>
+
+
+
+
+<div class='embed tweet'><blockquote class="twitter-tweet"><p><a href="https://twitter.com/davidlohr">@davidlohr</a> <a href="https://twitter.com/TheZotmeister">@TheZotmeister</a> and dear lord if he was handling udp packets. Then. And dear lord if he was handling udp packets. Then he would ha</p>&mdash; Juuso (@gameproducer) <a href="https://twitter.com/gameproducer/statuses/289081742248251394">January 9, 2013</a></blockquote>
+<script async src="http://mnapoli.github.io//platform.twitter.com/widgets.js" charset="utf-8"></script></div>
+
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[The “Optional Singleton” pattern]]></title>
+    <link href="http://mnapoli.github.io/the-optional-singleton-pattern/"/>
+    <updated>2013-03-22T20:00:00+01:00</updated>
+    <id>http://mnapoli.github.io/the-optional-singleton-pattern</id>
+    <content type="html"><![CDATA[<p>The <a href="http://en.wikipedia.org/wiki/Singleton_pattern">singleton</a> is a practical design pattern, that’s the reason it is so popular amongst beginners. It is also an anti-pattern because of the problems it introduces (global state, difficult to test, …).</p>
+
+<p>While I agree with that, and the fact that Singletons should be used with (a lot of) moderation, I also like an alternative pattern which comes with the advantage of the singleton and balances out its disadvantages. This can be useful if you have to work on a codebase that has singletons.</p>
+
+<p>I’m calling this pattern the <strong>Optional Singleton</strong> for lack of a better name.</p>
+
+<p>Simply put, this is a class which you can use as a singleton, or not (it’s optional ;):</p>
+
+<ul>
+<li>you can still use the handy <code>MySingleton::getInstance()</code></li>
+<li>you can however create new instances of the class, for example for tests</li>
+</ul>
+
+
+<!-- more -->
+
+
+<p>There is nothing revolutionary about it, see for yourself:</p>
+
+<div><script src='https://gist.github.com/5221664.js'></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+
+<p>Of course, this is a pattern that has to be used where it makes sense. Singletons, as cool as they can be, will never do better than dependency injection.</p>
+
+<hr />
+
+<p><strong>Update</strong>: I’ve received numerous responses (mostly “the singleton is an anti-pattern” which I agree to). Here is one of my response that I’d like to have here as well:</p>
+
+<blockquote><p>The entire point of the singleton pattern is that you <strong>can’t</strong> instantiate the class. That’s why the pattern is called singleton.</p></blockquote>
+
+<p>My answer:</p>
+
+<blockquote><p>Yes, but in 90% of its derived usage it’s not because we want only one instance, it’s because it’s practical.</p>
+
+<p>Quote from wikipedia: “There is criticism of the use of the singleton pattern, as some consider it an anti-pattern, judging that it is overused, <strong>introduces unnecessary restrictions in situations where a sole instance of a class is not actually required</strong>, and introduces global state into an application.”</p>
+
+<p>For example one may use the singleton pattern for services: accessing them is practical, you can access them anywhere with the singleton pattern. I’ve seen codebases with this pattern.</p>
+
+<p>Now if I come on a codebase using the singleton for services, and if I can’t rewrite everything, I’ll turn the Singletons into “Optional Singletons” so that the existing code still work, and so that I can use Dependency Injection over those services in the new code that I’ll write.</p></blockquote>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[jQuery plugin: Confirm dialogs for HTML links and buttons]]></title>
+    <link href="http://mnapoli.github.io/confirm-dialogs-for-html-links-and-buttons/"/>
+    <updated>2013-03-05T20:00:00+01:00</updated>
+    <id>http://mnapoli.github.io/confirm-dialogs-for-html-links-and-buttons</id>
+    <content type="html"><![CDATA[<p>This is the first open source project created at my company, so I am quite proud of it even though it is not much.</p>
+
+<p>The name is <a href="http://myclabs.github.io/jquery.confirm/"><strong>jquery.confirm</strong></a>, which is pretty explicit. It lets you have confirmation dialogs for links or buttons. For example, <strong>&ldquo;Are you sure you want to delete that comment?&rdquo;</strong> kind of things.</p>
+
+<p>I am going to present its basic usage and options here.</p>
+
+<p>The idea is to write <a href="http://en.wikipedia.org/wiki/Unobtrusive_JavaScript">unobtrusive Javascript</a> by letting the user write clean HTML:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;home&quot;</span> <span class="na">class=</span><span class="s">&quot;confirm&quot;</span><span class="nt">&gt;</span>Go to home<span class="nt">&lt;/a&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To enable confirmation on this link, simply:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.confirm&quot;</span><span class="p">).</span><span class="nx">confirm</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<!-- more -->
+
+
+<p>That will show a confirmation dialog each time the user clicks the link. If the user confirms, the plugin will then redirect him to the link.</p>
+
+<p>You can configure the texts and labels through the options. You can also change the actions that are executed when the user confirms (follow the link) or cancels (do nothing), so you can perform AJAX requests for example.</p>
+
+<p>One interesting option is to force the link to be called with a POST request instead of a GET:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.confirm&quot;</span><span class="p">).</span><span class="nx">confirm</span><span class="p">({</span>
+</span><span class='line'>    <span class="nx">post</span><span class="o">:</span> <span class="kc">true</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>On your server-side code, you can check that the request is POST and refuse GET request. That can help prevent security issues like someone sending a link to delete someone else’s account for example: <a href="http://example.com/my-account/delete.">http://example.com/my-account/delete.</a> If you only accept POST request, people clicking on that link won’t see their account deleted (because the request would be a GET).</p>
+
+<p>If you want to learn more or try it, the website contains the <a href="http://myclabs.github.io/jquery.confirm/">official documentation and some demos</a>.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Be a better programmer: take a step back]]></title>
+    <link href="http://mnapoli.github.io/be-a-better-programmer-take-a-step-back/"/>
+    <updated>2013-02-04T20:00:00+01:00</updated>
+    <id>http://mnapoli.github.io/be-a-better-programmer-take-a-step-back</id>
+    <content type="html"><![CDATA[<p><em>Replace [client] by [boss] or anything of the kind if you prefer.</em></p>
+
+<h2>A day at work</h2>
+
+<blockquote><p><strong>Bug #3890 from Client</strong></p>
+
+<p>There is an application crash, it says “division by zero error in SpeedCalculator::compute()”.</p>
+
+<p>Please fix ASAP!</p></blockquote>
+
+<!-- more -->
+
+
+<p>You open <code>SpeedCalculator.php</code> to find:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">public</span> <span class="k">function</span> <span class="nf">compute</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">distance</span> <span class="o">/</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">time</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Fixing the bug</h2>
+
+<p>Easy! Who wrote that code anyway, how could he not think of that!</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">public</span> <span class="k">function</span> <span class="nf">compute</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">time</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">distance</span> <span class="o">/</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">time</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>There you go, the bug is fixed in 2 minutes.</p>
+
+<p>Later, the same bug is found in <code>RatioCalculator</code> and <code>MoneyCalculator</code>, but once these are fixed too, everyone in the team is sure the problem won’t appear anywhere, it’s gone, for sure this time! The code is rock solid now!</p>
+
+<p>A month later, another bug pops in. The application does not crash anymore, but the client happens to see wrong calculation results in his reports because of the <code>return 0;</code>.</p>
+
+<h2>Take a step back</h2>
+
+<p>What if, instead of rushing, we took a step back.</p>
+
+<blockquote><p>Why did this situation happen?</p>
+
+<p><code>$this-&gt;time</code> was set to 0.</p></blockquote>
+
+<p>Easy! Let’s prevent that.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">public</span> <span class="k">function</span> <span class="nf">setTime</span><span class="p">(</span><span class="nv">$time</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="nv">$time</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">throw</span> <span class="k">new</span> <span class="nx">InvalidArgumentException</span><span class="p">(</span><span class="s2">&quot;Invalid value&quot;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">time</span> <span class="o">=</span> <span class="nv">$time</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now this is better, you guarantee the integrity of the data. But the client is not very happy! When he fills the form with a time of 0, the application shows an error page.</p>
+
+<p>So you work on displaying a nice error message by catching the exception in the controller.</p>
+
+<p>When you’re done, you realize you also got the same thing to do for RatioCalculator and MoneyCalculator, so you copy paste and you are good to go.</p>
+
+<p>Wait a minute, the client prefers that the error message is displayed in orange rather than red. So you change the color and copy-paste the code again.</p>
+
+<h2>Take another step back</h2>
+
+<p><strong>What if, instead of fixing a bug, you answered a need?</strong></p>
+
+<p>Why did the client put 0 in the form? Because he made a mistake.</p>
+
+<p>What is needed here?</p>
+
+<ul>
+<li>Is it <strong>only</strong> making sure the time that the user inputs in “speedCalculationForm” is ≠ 0?</li>
+<li>Is it <strong>only</strong> making sure the “speedCalculationForm” contains valid data?</li>
+<li><strong>Or is it validating all user inputs?</strong></li>
+</ul>
+
+
+<p>So what about a validation library for example?</p>
+
+<p>Waaaaait! Don’t go and write one yourself! For the love of god, take a step back, breathe, and look at what already exists.</p>
+
+<h2>Needs</h2>
+
+<p>We, programmers, love being technical. When your client or your boss thinks out loud about what he wants, we can’t help but imagine how we could implement it.</p>
+
+<p>But we need be able to take a step back. If we want to be really good in our jobs, <strong>we have to understand the needs before thinking about solutions</strong>. And that takes a lot of effort.</p>
+
+<p>Does the client really need “a blinking button that moves away when you try to click on it?” or does he need something else, something that he doesn’t know about and that you could help him define? And the same goes for yourself! Do you really need to open a file and write some infos in there, or do you simply need a logging system?</p>
+
+<p>Take a step back, try and see the big picture. Because one may be a very good programmer, but code’s purpose is to answer a need.</p>
+
+<p>Not a <em>&ldquo;fix the bugs in the bug tracker&rdquo;</em> kind of need, but rather a <em>&ldquo;I want an application will help me calculate speed based on input data, and if I type in invalid data then for fuck’s sake just tell me don’t go and calculate some weird results&rdquo;</em>.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Doctrine schema validation in a PHPUnit test]]></title>
+    <link href="http://mnapoli.github.io/doctrine-schema-validation-in-a-phpunit-test/"/>
+    <updated>2012-12-10T20:00:00+01:00</updated>
+    <id>http://mnapoli.github.io/doctrine-schema-validation-in-a-phpunit-test</id>
+    <content type="html"><![CDATA[<p>Doctrine offers a <a href="http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/tools.html#runtime-vs-development-mapping-validation">command line option to validate the schema</a> (or mapping):</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>./doctrine orm:validate-schema</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This is very useful, when I ran it against my code, which was <em>working</em> by the way, I got several errors/warnings.</p>
+
+<p>However, I didn’t want to have to run this tool manually once in a while. I already have tests for that. So I thought: <strong>why not integrating the schema validation to the tests!</strong></p>
+
+<!-- more -->
+
+
+<p>So here is my implementation of a PHPUnit test failing when Doctrine validation find errors:</p>
+
+<div><script src='https://gist.github.com/4249675.js'></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Introduction to Dependency Injection with a real life example]]></title>

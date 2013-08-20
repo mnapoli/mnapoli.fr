@@ -1,0 +1,350 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Controllers as services? - Matthieu Napoli</title>
+  <meta name="author" content="Matthieu Napoli">
+
+  
+  <meta name="description" content="Controllers as services? Jul 1st, 2013 This post is sort-of a response to the blog post of Benjamin Eberlei about Controllers in Symfony 2. The &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://mnapoli.github.io/controllers-as-services">
+  <link href="/favicon.png" rel="icon">
+  <link href='http://fonts.googleapis.com/css?family=Quicksand:300,400' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Matthieu Napoli" type="application/atom+xml">
+  <script src="/js/jquery.js"></script>
+  <script src="/js/bootstrap-collapse.js"></script>
+  <script src="/js/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/js/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <div class="navbar navbar-inverse navbar-static-top">
+  	<div class="navbar-inner">
+  	  <div class="container">
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+          <span class="fui-menu-24"></span>
+        </a>
+  	  	<div class="nav-collapse collapse navbar-responsive-collapse" style="height:0;">
+  	      <ul class="nav">
+    
+        <li ><a href="/">Home</a></li>
+    
+        <li ><a href="/about-me.html">About me</a></li>
+    
+</ul>
+
+<ul class="nav pull-right">
+    
+    <li><a href="http://github.com/mnapoli" title="Github Profile"><i class="icon-github-sign social-navbar"></i></a></li>
+    
+    
+    <li><a href="http://linkedin.com/in/matthieunapoli" title="Linkedin Profile"><i class="icon-linkedin-sign social-navbar"></i></a></li>
+    
+    
+    <li><a href="http://twitter.com/matthieunapoli" title="Twitter Profile"><i class="icon-twitter-sign social-navbar"></i></a></li>
+    
+    
+    
+    
+</ul>
+
+  	    </div>
+  	  </div>
+  	</div>
+  </div>
+  <a href="https://github.com/mnapoli/mnapoli.github.io"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+  <div class="container" id="main">
+    <div class="span12">
+      <div class="row-fluid">
+        <div id="content">
+          <div>
+<article class="hentry" role="article">
+  
+
+  <header>
+  <div class="jumbotron">
+    Controllers as services?
+	<h5>
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2013-07-01T20:00:00+02:00" pubdate data-updated="true">Jul 1<span>st</span>, 2013</time></h5>
+  </div>
+</header>
+  <div class="row-fluid">
+    <div class="span12">
+      <p>This post is sort-of a response to the <a href="http://www.whitewashing.de/2013/06/27/extending_symfony2__controller_utilities.html">blog post of Benjamin Eberlei about Controllers in Symfony 2</a>.</p>
+
+<p>The subject is about Controllers and their dependencies:</p>
+
+<blockquote><p>Controllers as a service are a heated topic in the Symfony world. Developers mainly choose to extend the base class, because its much simpler to use and less to write.</p></blockquote>
+
+<p>With Symfony 2, you can write controllers 2 ways:</p>
+
+<ol>
+<li><p>extend the base Controller class. This is simpler and more practical but it ties up your controller to Symfony. Also, to fetch dependencies, you have to get them from the container, which is known as the <strong>Service Locator anti-pattern</strong> (= bad).</p></li>
+<li><p>create a “normal” class, and use it as a service. That means you can use dependency injection through the constructor to get your dependencies. This is clean, this looks good, but you end up with managing a lot of dependencies :/</p></li>
+</ol>
+
+
+<p>To ease up solution n°2, Benjamin proposes to create a “ControllerUtility” class which would group the most used controller services. That way, you dramatically reduce the dependencies, and still hide the container.</p>
+
+<p>I use a different solution.</p>
+
+<!-- more -->
+
+
+<h2>Constructor injection is not the only possible injection</h2>
+
+<p>The idea is to keep the solution n°2, but use <strong>Property Injection</strong> instead of Constructor Injection.</p>
+
+<p>Property injection is generally frowned upon, and for good reasons:</p>
+
+<ul>
+<li>injecting in a private property breaks encapsulation</li>
+<li>it is not an explicit dependency: there is no contract saying your class need the property to be set to work</li>
+<li>if you use annotations to mark the dependency to be injected, your class is dependent on the container</li>
+</ul>
+
+
+<p><strong>BUT</strong></p>
+
+<p>if you follow best practices, <strong>your controllers will not contain business logic</strong> (only routing calls to the models and binding returned values to view).</p>
+
+<p>So:</p>
+
+<ul>
+<li>you will not unit-test it (that doesn’t mean you won’t write functional tests on the interface though)</li>
+<li>you may not need to reuse it elsewhere</li>
+<li>if you change the framework, you may have to rewrite it (or parts of it) anyway (because most dependencies like Request, Response, etc. will have changed)</li>
+</ul>
+
+
+<p>Because of that, I chose to use Property injection.</p>
+
+<h2>Property injection</h2>
+
+<p>Here is what my controllers look like:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="o">&lt;?</span><span class="nx">php</span>
+</span><span class='line'><span class="k">use</span> <span class="nx">DI\Annotation\Inject</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">UserController</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="sd">/**</span>
+</span><span class='line'><span class="sd">     * @Inject</span>
+</span><span class='line'><span class="sd">     * @var RouterInterface</span>
+</span><span class='line'><span class="sd">     */</span>
+</span><span class='line'>    <span class="k">private</span> <span class="nv">$router</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="sd">/**</span>
+</span><span class='line'><span class="sd">     * @Inject</span>
+</span><span class='line'><span class="sd">     * @var FormFactoryInterface </span>
+</span><span class='line'><span class="sd">     */</span>
+</span><span class='line'>    <span class="k">private</span> <span class="nv">$formFactory</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">public</span> <span class="k">function</span> <span class="nf">createForm</span><span class="p">(</span><span class="nv">$type</span><span class="p">,</span> <span class="nv">$data</span><span class="p">,</span> <span class="nv">$options</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="c1">// $this-&gt;formFactory-&gt;...</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Note this is an example using <a href="http://mnapoli.github.io/PHP-DI/">PHP-DI</a>, my alternative DI Container. It allows to mark injections using annotations.</p>
+
+<p>I know many PHP devs don’t like annotations, and there are some reasons not to use it. But in this case, because of the points I explained above, I find it acceptable to use the <code>@Inject</code> annotation. I find it also extremely practical.</p>
+
+<p>Of course, this example also applies without using annotations (using a configuration file f.e.), and <strong>it also applies to Symfony’s container</strong>.</p>
+
+<p>In the end:</p>
+
+<ul>
+<li>controllers don’t use the container</li>
+<li>controllers can be reused elsewhere, given they are fetched through the container</li>
+<li>we have full auto-completion and refactoring support in IDEs</li>
+<li><strong>controllers are easy and fast to write and read</strong> (and that’s something I value a lot)</li>
+</ul>
+
+
+<p>By the way, some Java developers may find this pattern of code familiar, it’s inspired from when I was working with Spring :)</p>
+
+<h2>Performance note</h2>
+
+<blockquote><p>You are injecting services that may not be used</p></blockquote>
+
+<p><a href="http://mnapoli.github.io/PHP-DI/">PHP-DI</a> and <a href="http://symfony.com/doc/current/components/dependency_injection/index.html">Symfony DIC</a> both support lazy injection, i.e. injecting a proxy that will load the target service only when it is used.</p>
+
+    </div>
+  </div>
+
+
+
+  <footer>
+    <hr>
+    
+    <div class="row-fluid">
+      
+      <div class="span6">
+        <p class="meta">
+        
+        
+
+
+
+  <a href="/blog/categories/dependency-injection/"><span class="badge">dependency-injection</span></a>
+
+  <a href="/blog/categories/php-di/"><span class="badge">php-di</span></a>
+
+
+
+
+        </p>
+      </div>
+      
+      <div class="span6 social-sharing">
+        <div class="sharing">
+  <div class="addthis_toolbox addthis_default_style ">
+  
+  
+  <a class="addthis_button_tweet"></a>
+  
+  
+  <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+      </div>
+      
+      
+    </div>
+    
+    <div class="row-fluid">
+      <div class="span12">
+        <p class="meta">
+          
+            <a class="basic-alignment left" href="/should-you-really-write-ugly-code-no/" title="Previous Post: Should you really write ugly code? Spoiler: no">&laquo; Should you really write ugly code? Spoiler: no</a>
+          
+          
+        </p>
+      </div>
+    </div>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+
+
+        </div>
+      </div>
+      <div class="row-fluid">
+        <footer class="footer-page" role="contentinfo">
+          <p>
+  Copyright &copy; 2013 - Matthieu Napoli -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span> - Theme by <a href="http://alexgaribay.com">Alex Garibay</a>
+</p>
+
+
+        </footer>
+      </div>
+    </div>
+  </div>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'mnapoli';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://mnapoli.github.io/controllers-as-services/';
+        var disqus_url = 'http://mnapoli.github.io/controllers-as-services/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

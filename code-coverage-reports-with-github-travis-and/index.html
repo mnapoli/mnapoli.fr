@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>The PHP-FIG should define PHP interfaces - Matthieu Napoli</title>
+  <title>Code coverage reports with GitHub, Travis and Coveralls - Matthieu Napoli</title>
   <meta name="author" content="Matthieu Napoli">
 
   
-  <meta name="description" content="The PHP-FIG should define PHP interfaces Nov 23rd, 2012 Bouncing on the discussion initiated in the #52 ticket of the PHP-FIG project on Github: « &hellip;">
+  <meta name="description" content="Code coverage reports with GitHub, Travis and Coveralls Jun 8th, 2013 You have a PHP project hosted on GitHub with continuous integration using &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://mnapoli.github.io/php-fig-should-define-php-interfaces">
+  <link rel="canonical" href="http://mnapoli.github.io/code-coverage-reports-with-github-travis-and">
   <link href="/favicon.png" rel="icon">
   <link href='http://fonts.googleapis.com/css?family=Quicksand:300,400' rel='stylesheet' type='text/css'>
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
@@ -84,7 +84,7 @@
 
   <header>
   <div class="jumbotron">
-    The PHP-FIG should define PHP interfaces
+    Code coverage reports with GitHub, Travis and Coveralls
 	<h5>
 
 
@@ -97,41 +97,71 @@
   
 
 
-<i class="icon-calendar-empty"></i> <time datetime="2012-11-23T20:00:00+01:00" pubdate data-updated="true">Nov 23<span>rd</span>, 2012</time></h5>
+<i class="icon-calendar-empty"></i> <time datetime="2013-06-08T20:00:00+02:00" pubdate data-updated="true">Jun 8<span>th</span>, 2013</time></h5>
   </div>
 </header>
   <div class="row-fluid">
     <div class="span12">
-      <p>Bouncing on the discussion initiated in the <a href="https://github.com/php-fig/fig-standards/issues/57">#52</a> ticket of the PHP-FIG project on Github: « <strong>Explain the scope of the PSR system</strong> », I’ll explain the case I’m trying to make.</p>
+      <p>You have a PHP project hosted on GitHub with continuous integration using Travis-CI?</p>
 
-<p>First, <a href="http://www.php-fig.org/"><strong>PHP-FIG</strong></a>, which stands for <em>Framework Interoperability Group</em>, is a gathering of major PHP frameworks and project who try to:</p>
+<p>How about setting up <strong>code coverage reports</strong>?</p>
 
-<blockquote><p>talk about the commonalities between our projects and find ways we can work together.</p></blockquote>
-
-<p>This group has released PSR-0, PSR-1 and PSR-2, three specifications of coding standards, guide style and code organisation (for autoloading interoperability). Now the question is asked: is it the role of the PHP-FIG to define technical “code” specifications or is it out of its scope? Here is my answer.</p>
-
-<p><strong>PSR-0/1-2 are contracts between its users to ensure cohesiveness and compatibility.</strong></p>
+<p>For example, here is the code coverage report of <a href="http://mnapoli.github.io/PHP-DI/">PHP-DI</a>: <a href="https://coveralls.io/r/mnapoli/PHP-DI?branch=master"><img src="https://coveralls.io/repos/mnapoli/PHP-DI/badge.png?branch=master" alt="Coverage Status" /></a> (click on the link to see the details).</p>
 
 <!-- more -->
 
 
-<p>Think of the PSR-0 for example, it enabled all projects to be compatible regarding class autoloading. To achieve this, no code or PHP interface was necessary because what the autoloading needed was only file names, directories and class names constraints.</p>
+<p>To do so, you will need to create an account and enable your project at <a href="https://coveralls.io/">Coveralls</a>. Then add this to your <code>composer.json</code>:</p>
 
-<p>Now there are other questions that need standardization for interoperability between PHP projects. And some of them <strong>need</strong> PHP interfaces.</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="s2">&quot;require-dev&quot;</span><span class="err">:</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nt">&quot;satooshi/php-coveralls&quot;</span><span class="p">:</span> <span class="s2">&quot;dev-master&quot;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p>For example, PHP (or the SPL) <a href="https://github.com/php-fig/fig-standards/issues/59">does not define a Collection interface</a> (or any implementation). However, a Collection is a base object, and I bet it is used (or could be used) in many projects. Now Doctrine defined their own Collection interface (because it needed it) and I’m sure other projects did the same for the same reasons, but that situation is stupid. A Collection is a standard data structure, implementations may vary but the Collection interface should be defined once and for all.</p>
 
-<p>And <strong>PHP interfaces are contracts between its users to ensure cohesiveness and compatibility</strong>.</p>
+<p>Finally, update your <code>.travis.yml</code> configuration:</p>
 
-<p>Notice any similarity between PSR-0/&frac12; and interfaces? They are the same thing, applied to different things. They are technical specifications.</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">language</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">php</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">php</span><span class="p-Indicator">:</span>
+</span><span class='line'> <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">5.3</span>
+</span><span class='line'> <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">5.4</span>
+</span><span class='line'> <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">5.5</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">before_script</span><span class="p-Indicator">:</span>
+</span><span class='line'> <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">wget http://getcomposer.org/composer.phar</span>
+</span><span class='line'> <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">php composer.phar install --dev --no-interaction</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">script</span><span class="p-Indicator">:</span>
+</span><span class='line'> <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">mkdir -p build/logs</span>
+</span><span class='line'> <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">phpunit --coverage-clover build/logs/clover.xml</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">after_script</span><span class="p-Indicator">:</span>
+</span><span class='line'> <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">php vendor/bin/coveralls -v</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p>I agree that the SPL was a good start and maybe would have been a good place for such things, but it is a still project, with no big changes lately, a lot of inertia and several big lacks (and who decides what’s in the SPL?). The PHP FIG is the perfect group to bring a solution to this: it is active, dynamic, open and transparent, representative of the major PHP projects, and it has the competences and the momentum to make it useful and used (that will not be “yet another PHP library”, it will be used by major frameworks).</p>
 
-<p>If PHP-FIG doesn’t do it, then who will (and more importantly: who will make it a success)?</p>
-
-<p>And to extend my point, have a look on the Java side (JSR), and for example <a href="http://jcp.org/aboutJava/communityprocess/jsr/cacheFS.pdf">JSR-107</a> which defines interfaces for cache API, or <a href="http://en.wikipedia.org/wiki/Java_Persistence_API">JSR-220</a> which defines JPA (specification of persistence API that Doctrine 2 has followed).</p>
-
-<p><strong>TL/DR</strong>: I think <strong>PHP-FIG should define and provide PHP interfaces</strong>. PHP-FIG defines technical specifications for interoperability between PHP projects. PHP interfaces are a form of technical specifications, they can allow PHP projects to be more compatible and work better together. PHP-FIG is the best group possible to standardize classic/mainstream API (utility classes, …). Java does it, it works, that should inspire us.</p>
+<p>Now if you commit and push, Travis will run the tests and push the code coverage results to Coverall. Check out your project page on Coverall!</p>
 
     </div>
   </div>
@@ -150,9 +180,9 @@
 
 
 
-  <a href="/blog/categories/php/"><span class="badge">php</span></a>
+  <a href="/blog/categories/continuous-integration/"><span class="badge">continuous-integration</span></a>
 
-  <a href="/blog/categories/php-fig/"><span class="badge">php-fig</span></a>
+  <a href="/blog/categories/github/"><span class="badge">github</span></a>
 
 
 
@@ -182,10 +212,10 @@
       <div class="span12">
         <p class="meta">
           
-            <a class="basic-alignment left" href="/doctrine-2-yaml-reference/" title="Previous Post: Doctrine 2 YAML reference">&laquo; Doctrine 2 YAML reference</a>
+            <a class="basic-alignment left" href="/overriding-dependencies-with-composer/" title="Previous Post: Overriding dependencies with Composer">&laquo; Overriding dependencies with Composer</a>
           
           
-            <a class="basic-alignment right" href="/introduction-dependency-injection-with-real-life-example/" title="Next Post: Introduction to Dependency Injection with a real life example">Introduction to Dependency Injection with a real life example &raquo;</a>
+            <a class="basic-alignment right" href="/should-you-really-write-ugly-code-no/" title="Next Post: Should you really write ugly code? Spoiler: no">Should you really write ugly code? Spoiler: no &raquo;</a>
           
         </p>
       </div>
@@ -224,8 +254,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://mnapoli.github.io/php-fig-should-define-php-interfaces/';
-        var disqus_url = 'http://mnapoli.github.io/php-fig-should-define-php-interfaces/';
+        var disqus_identifier = 'http://mnapoli.github.io/code-coverage-reports-with-github-travis-and/';
+        var disqus_url = 'http://mnapoli.github.io/code-coverage-reports-with-github-travis-and/';
         var disqus_script = 'embed.js';
       
     (function () {

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: jquery | Matthieu Napoli]]></title>
+  <link href="http://mnapoli.github.io/blog/categories/jquery/atom.xml" rel="self"/>
+  <link href="http://mnapoli.github.io/"/>
+  <updated>2013-08-20T18:02:01+02:00</updated>
+  <id>http://mnapoli.github.io/</id>
+  <author>
+    <name><![CDATA[Matthieu Napoli]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[jQuery plugin: Confirm dialogs for HTML links and buttons]]></title>
+    <link href="http://mnapoli.github.io/confirm-dialogs-for-html-links-and-buttons/"/>
+    <updated>2013-03-05T20:00:00+01:00</updated>
+    <id>http://mnapoli.github.io/confirm-dialogs-for-html-links-and-buttons</id>
+    <content type="html"><![CDATA[<p>This is the first open source project created at my company, so I am quite proud of it even though it is not much.</p>
+
+<p>The name is <a href="http://myclabs.github.io/jquery.confirm/"><strong>jquery.confirm</strong></a>, which is pretty explicit. It lets you have confirmation dialogs for links or buttons. For example, <strong>&ldquo;Are you sure you want to delete that comment?&rdquo;</strong> kind of things.</p>
+
+<p>I am going to present its basic usage and options here.</p>
+
+<p>The idea is to write <a href="http://en.wikipedia.org/wiki/Unobtrusive_JavaScript">unobtrusive Javascript</a> by letting the user write clean HTML:</p>
+
+<p><code>html
+&lt;a href="home" class="confirm"&gt;Go to home&lt;/a&gt;
+</code></p>
+
+<p>To enable confirmation on this link, simply:</p>
+
+<p><code>javascript
+$(".confirm").confirm();
+</code></p>
+
+<!-- more -->
+
+
+<p>That will show a confirmation dialog each time the user clicks the link. If the user confirms, the plugin will then redirect him to the link.</p>
+
+<p>You can configure the texts and labels through the options. You can also change the actions that are executed when the user confirms (follow the link) or cancels (do nothing), so you can perform AJAX requests for example.</p>
+
+<p>One interesting option is to force the link to be called with a POST request instead of a GET:</p>
+
+<p>```javascript
+$(&ldquo;.confirm&rdquo;).confirm({</p>
+
+<pre><code>post: true
+</code></pre>
+
+<p>});
+```</p>
+
+<p>On your server-side code, you can check that the request is POST and refuse GET request. That can help prevent security issues like someone sending a link to delete someone else’s account for example: <a href="http://example.com/my-account/delete.">http://example.com/my-account/delete.</a> If you only accept POST request, people clicking on that link won’t see their account deleted (because the request would be a GET).</p>
+
+<p>If you want to learn more or try it, the website contains the <a href="http://myclabs.github.io/jquery.confirm/">official documentation and some demos</a>.</p>
+]]></content>
+  </entry>
+  
+</feed>

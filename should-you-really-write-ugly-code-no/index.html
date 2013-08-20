@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>The PHP-FIG should define PHP interfaces - Matthieu Napoli</title>
+  <title>Should you really write ugly code? Spoiler: no - Matthieu Napoli</title>
   <meta name="author" content="Matthieu Napoli">
 
   
-  <meta name="description" content="The PHP-FIG should define PHP interfaces Nov 23rd, 2012 Bouncing on the discussion initiated in the #52 ticket of the PHP-FIG project on Github: « &hellip;">
+  <meta name="description" content="Should you really write ugly code? Spoiler: no Jun 9th, 2013 I recently stumbled upon François Zaninotto’s blog post: You should write ugly code. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://mnapoli.github.io/php-fig-should-define-php-interfaces">
+  <link rel="canonical" href="http://mnapoli.github.io/should-you-really-write-ugly-code-no">
   <link href="/favicon.png" rel="icon">
   <link href='http://fonts.googleapis.com/css?family=Quicksand:300,400' rel='stylesheet' type='text/css'>
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
@@ -84,7 +84,7 @@
 
   <header>
   <div class="jumbotron">
-    The PHP-FIG should define PHP interfaces
+    Should you really write ugly code? Spoiler: no
 	<h5>
 
 
@@ -97,41 +97,49 @@
   
 
 
-<i class="icon-calendar-empty"></i> <time datetime="2012-11-23T20:00:00+01:00" pubdate data-updated="true">Nov 23<span>rd</span>, 2012</time></h5>
+<i class="icon-calendar-empty"></i> <time datetime="2013-06-09T20:00:00+02:00" pubdate data-updated="true">Jun 9<span>th</span>, 2013</time></h5>
   </div>
 </header>
   <div class="row-fluid">
     <div class="span12">
-      <p>Bouncing on the discussion initiated in the <a href="https://github.com/php-fig/fig-standards/issues/57">#52</a> ticket of the PHP-FIG project on Github: « <strong>Explain the scope of the PSR system</strong> », I’ll explain the case I’m trying to make.</p>
+      <p>I recently stumbled upon François Zaninotto’s blog post: <a href="http://redotheweb.com/2013/06/04/you-should-write-ugly-code.html">You should write ugly code</a>. While he makes several good points, I strongly disagree with him and I feel the urge to give my opinion on the matter (what did you expect, this is a blog).</p>
 
-<p>First, <a href="http://www.php-fig.org/"><strong>PHP-FIG</strong></a>, which stands for <em>Framework Interoperability Group</em>, is a gathering of major PHP frameworks and project who try to:</p>
+<p>The point that he makes is that he encourages developers to write “ugly code”, i.e. code that works and that doesn’t follow best practices or anything related to code quality.</p>
 
-<blockquote><p>talk about the commonalities between our projects and find ways we can work together.</p></blockquote>
+<blockquote><p>[..] developers shouldn’t care about code beauty, because that’s not their job. Instead, they should focus on creating great products, which is infinitely more satisfying.</p></blockquote>
 
-<p>This group has released PSR-0, PSR-1 and PSR-2, three specifications of coding standards, guide style and code organisation (for autoloading interoperability). Now the question is asked: is it the role of the PHP-FIG to define technical “code” specifications or is it out of its scope? Here is my answer.</p>
+<p>Later, he insists that by writing ugly code, we ship faster than if we had to worry and handle code quality. And shipping faster is good for the business.</p>
 
-<p><strong>PSR-0/1-2 are contracts between its users to ensure cohesiveness and compatibility.</strong></p>
+<p>Well that’s true. That’s called <strong>Technical Debt</strong>. And like any debt, you’ll have to repay later.</p>
+
+<p><img src="/images/posts/technical-debt.png" width="400"></p>
 
 <!-- more -->
 
 
-<p>Think of the PSR-0 for example, it enabled all projects to be compatible regarding class autoloading. To achieve this, no code or PHP interface was necessary because what the autoloading needed was only file names, directories and class names constraints.</p>
+<p><em>Technical debt diagram, borrowed from Planet Geek for the (awesome) “<a href="http://www.planetgeek.ch/2013/06/05/clean-code-cheat-sheet/">Clean Code cheat sheet</a>“.</em></p>
 
-<p>Now there are other questions that need standardization for interoperability between PHP projects. And some of them <strong>need</strong> PHP interfaces.</p>
+<p>Payback is a bitch and future-you will be cursing present-you for writing ugly code. The cost of change is directly affected, and when you tell your boss that Feature B will takes 2 weeks, he will point out that Feature A took only 2 days.</p>
 
-<p>For example, PHP (or the SPL) <a href="https://github.com/php-fig/fig-standards/issues/59">does not define a Collection interface</a> (or any implementation). However, a Collection is a base object, and I bet it is used (or could be used) in many projects. Now Doctrine defined their own Collection interface (because it needed it) and I’m sure other projects did the same for the same reasons, but that situation is stupid. A Collection is a standard data structure, implementations may vary but the Collection interface should be defined once and for all.</p>
+<p>I won’t get radical as well and say that you should alway write “beautiful code”. What I advocate for is to carefully choose your side.</p>
 
-<p>And <strong>PHP interfaces are contracts between its users to ensure cohesiveness and compatibility</strong>.</p>
+<p>You need to get a prototype working for a demo? Then get it done quick and dirty! Heck I even used <a href="http://php.net/manual/fr/function.mysql-query.php">mysql_query</a> on an internal website once, and it worked. I know that this website will never need any real maintenance, so I can sleep without fearing for <a href="http://www.codinghorror.com/blog/2008/06/coding-for-violent-psychopaths.html">violent psychopaths</a>.</p>
 
-<p>Notice any similarity between PSR-0/&frac12; and interfaces? They are the same thing, applied to different things. They are technical specifications.</p>
+<p>But if you plan on writing software that will be maintained for a few years, you would definitely earn by writing beautiful code. Code quality earns you money, and that’s something difficult for managers to get (especially if they have never developed, or never seen code quality benefits before). I once took part on the rewrite of a whole application. After the rewrite, the manager was completely amazed that we needed only a few days to do what would systematically take a month or two before.</p>
 
-<p>I agree that the SPL was a good start and maybe would have been a good place for such things, but it is a still project, with no big changes lately, a lot of inertia and several big lacks (and who decides what’s in the SPL?). The PHP FIG is the perfect group to bring a solution to this: it is active, dynamic, open and transparent, representative of the major PHP projects, and it has the competences and the momentum to make it useful and used (that will not be “yet another PHP library”, it will be used by major frameworks).</p>
+<p>I’d like to finish on his take about “<em>coding trends</em>” and what he calls “<em>trend setters</em>” like Eric Evans with his <a href="http://en.wikipedia.org/wiki/Domain-driven_design">Domain Driven Design</a>. DDD is not a trend, it is a set of patterns and methods to help you in specific situations. <a href="http://www.amazon.com/dp/0321125215/ref=cm_sw_su_dp">Evans book</a> is very clear about it: DDD can be unhelpful if you try to use it everywhere. That is very reductive to say that all these kind of people (Evans, Martin Fowler, Jeff Atwood) do is “<em>to explain why pattern A is better than pattern B. Until someone else publishes a book, explaining that pattern C is much, much better.</em>”</p>
 
-<p>If PHP-FIG doesn’t do it, then who will (and more importantly: who will make it a success)?</p>
+<p>Thanks to these guys, and best practices in general, I make my company earn money with apps that don’t need to be rewritten every year. I can work on my colleague’s code without pulling my hair and wishing him a painful death. I can participate to Open Source projects because I can understand the code.</p>
 
-<p>And to extend my point, have a look on the Java side (JSR), and for example <a href="http://jcp.org/aboutJava/communityprocess/jsr/cacheFS.pdf">JSR-107</a> which defines interfaces for cache API, or <a href="http://en.wikipedia.org/wiki/Java_Persistence_API">JSR-220</a> which defines JPA (specification of persistence API that Doctrine 2 has followed).</p>
+<p><strong>TL;DR</strong></p>
 
-<p><strong>TL/DR</strong>: I think <strong>PHP-FIG should define and provide PHP interfaces</strong>. PHP-FIG defines technical specifications for interoperability between PHP projects. PHP interfaces are a form of technical specifications, they can allow PHP projects to be more compatible and work better together. PHP-FIG is the best group possible to standardize classic/mainstream API (utility classes, …). Java does it, it works, that should inspire us.</p>
+<ul>
+<li>Go quick and dirty, but expect troubles on the long run</li>
+<li>Care about quality, that will slow you down but get you farther</li>
+</ul>
+
+
+<p>Both are valid options, but choose carefully.</p>
 
     </div>
   </div>
@@ -150,9 +158,7 @@
 
 
 
-  <a href="/blog/categories/php/"><span class="badge">php</span></a>
-
-  <a href="/blog/categories/php-fig/"><span class="badge">php-fig</span></a>
+  <a href="/blog/categories/best-practices/"><span class="badge">best-practices</span></a>
 
 
 
@@ -182,10 +188,10 @@
       <div class="span12">
         <p class="meta">
           
-            <a class="basic-alignment left" href="/doctrine-2-yaml-reference/" title="Previous Post: Doctrine 2 YAML reference">&laquo; Doctrine 2 YAML reference</a>
+            <a class="basic-alignment left" href="/code-coverage-reports-with-github-travis-and/" title="Previous Post: Code coverage reports with GitHub, Travis and Coveralls">&laquo; Code coverage reports with GitHub, Travis and Coveralls</a>
           
           
-            <a class="basic-alignment right" href="/introduction-dependency-injection-with-real-life-example/" title="Next Post: Introduction to Dependency Injection with a real life example">Introduction to Dependency Injection with a real life example &raquo;</a>
+            <a class="basic-alignment right" href="/controllers-as-services/" title="Next Post: Controllers as services?">Controllers as services? &raquo;</a>
           
         </p>
       </div>
@@ -224,8 +230,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://mnapoli.github.io/php-fig-should-define-php-interfaces/';
-        var disqus_url = 'http://mnapoli.github.io/php-fig-should-define-php-interfaces/';
+        var disqus_identifier = 'http://mnapoli.github.io/should-you-really-write-ugly-code-no/';
+        var disqus_url = 'http://mnapoli.github.io/should-you-really-write-ugly-code-no/';
         var disqus_script = 'embed.js';
       
     (function () {
