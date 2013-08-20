@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[My Octopress Blog]]></title>
+  <link href="http://mnapoli.github.io/atom.xml" rel="self"/>
+  <link href="http://mnapoli.github.io/"/>
+  <updated>2013-08-20T12:27:27+02:00</updated>
+  <id>http://mnapoli.github.io/</id>
+  <author>
+    <name><![CDATA[Matthieu Napoli]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Doctrine 2 YAML reference]]></title>
+    <link href="http://mnapoli.github.io/doctrine-2-yaml-reference/"/>
+    <updated>2012-10-05T20:00:00+02:00</updated>
+    <id>http://mnapoli.github.io/doctrine-2-yaml-reference</id>
+    <content type="html"><![CDATA[<p>If you are working with Doctrine 2 and its YAML configuration files for the object mapping, you may find the documentation lacking some details.</p>
+
+<p>Here is a gist of all the YAML syntax possible:</p>
+
+<!-- more -->
+
+
+
+
+<div><script src='https://gist.github.com/3839501.js'></script>
+<noscript><pre><code></code></pre></noscript></div>
+
+
+<p>It is based on <a href="http://blog.hio.fr/2011/09/17/doctrine2-yaml-mapping-example.html">this blog article</a>, completed, and turned into a git repository (thanks to github), so anyone can fork it and improve it.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Dependency Injection with PHP]]></title>
+    <link href="http://mnapoli.github.io/dependency-injection-with-php/"/>
+    <updated>2012-09-20T20:00:00+02:00</updated>
+    <id>http://mnapoli.github.io/dependency-injection-with-php</id>
+    <content type="html"><![CDATA[<p>I used to develop using Singletons, registries or even static classes. Those days are gone.</p>
+
+<p>I decided to use <strong>Dependency Injection</strong> so that:</p>
+
+<ul>
+<li>my classes would be testable</li>
+<li>replacing an implementation by another would be not only doable, but easy (and so extending a library/module would too)</li>
+<li>the design of those classes wouldn’t be guided by the question of “how they will be used”</li>
+<li>my code would be cleaner, simpler</li>
+<li>and IDE auto-completion/type-hinting would always work</li>
+</ul>
+
+
+<p>I gave a try to Symfony and ZF2 DI systems, but they both seem way too complicated for just a simple need (that anyone who has worked with Spring would understand):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">class</span> <span class="nc">MyClass</span> <span class="p">{</span>
+</span><span class='line'>    <span class="sd">/**</span>
+</span><span class='line'><span class="sd">     * @Inject</span>
+</span><span class='line'><span class="sd">     * @var MyService</span>
+</span><span class='line'><span class="sd">     */</span>
+</span><span class='line'>    <span class="k">private</span> <span class="nv">$service</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This short code means: <em>Inject, using a simple annotation, an instance of another class into a property</em>.</p>
+
+<p>I started working on a framework enabling such functionality few months ago. It is now in a mature state. It is based on the <a href="http://docs.doctrine-project.org/projects/doctrine-common/en/latest/reference/annotations.html">Annotations library of Doctrine 2</a>, and takes most of its ideas of Spring 3.</p>
+
+<p>You can check out this framework on its official website: <a href="http://mnapoli.github.com/PHP-DI/">PHP-DI</a>, and you are welcome to use it or contribute.</p>
+]]></content>
+  </entry>
+  
+</feed>
