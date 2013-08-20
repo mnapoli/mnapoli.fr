@@ -4,7 +4,7 @@ title: "The PHP-FIG should define PHP interfaces"
 date: 2012-11-23 20:00
 comments: true
 external-url:
-categories:
+categories: php php-fig
 ---
 
 Bouncing on the discussion initiated in the [#52](https://github.com/php-fig/fig-standards/issues/57) ticket of the PHP-FIG project on Github: « **Explain the scope of the PSR system** », I’ll explain the case I’m trying to make.
