@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: php | Matthieu Napoli]]></title>
+  <link href="http://mnapoli.github.io/blog/categories/php/atom.xml" rel="self"/>
+  <link href="http://mnapoli.github.io/"/>
+  <updated>2013-08-20T14:34:42+02:00</updated>
+  <id>http://mnapoli.github.io/</id>
+  <author>
+    <name><![CDATA[Matthieu Napoli]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Introduction to Dependency Injection with a real life example]]></title>
+    <link href="http://mnapoli.github.io/introduction-dependency-injection-with-real-life-example/"/>
+    <updated>2012-12-06T20:00:00+01:00</updated>
+    <id>http://mnapoli.github.io/introduction-dependency-injection-with-real-life-example</id>
+    <content type="html"><![CDATA[<p>This example is an introduction to the <strong>Dependency Injection</strong> concept. It is based on the PHP library <a href="http://mnapoli.github.com/PHP-DI/">PHP-DI</a>.</p>
+
+<h2>Classic implementation</h2>
+
+<p>Given you have:</p>
+
+<p>```php
+class GoogleMapsService {</p>
+
+<pre><code>public function getCoordinatesFromAddress($address) {
+    // calls Google Maps webservice
+}
+</code></pre>
+
+<p>}</p>
+
+<p>class OpenStreetMapService {</p>
+
+<pre><code>public function getCoordinatesFromAddress($address) {
+    // calls OpenStreetMap webservice
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<p>The classic way of doing things is:</p>
+
+<p>```php
+class StoreService {</p>
+
+<pre><code>public function getStoreCoordinates($store) {
+    $geolocationService = new GoogleMapsService();
+    // or $geolocationService = GoogleMapsService::getInstance() if you use singletons
+    return $geolocationService-&gt;getCoordinatesFromAddress($store-&gt;getAddress());
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<p>Now we want to use the OpenStreetMapService instead of GoogleMapsService, how do we do? We have to change the code of StoreService, and all the other classes that use GoogleMapsService.</p>
+
+<p><strong>Without dependency injection, your classes are tightly coupled with their dependencies.</strong></p>
+
+<!-- more -->
+
+
+<h2>Dependency injection implementation</h2>
+
+<p>The StoreService now uses dependency injection:</p>
+
+<p>```php
+class StoreService {</p>
+
+<pre><code>/**
+ * @Inject
+ * @var GeolocationService
+ */
+private $geolocationService;
+
+public function getStoreCoordinates($store) {
+    return $this-&gt;geolocationService-&gt;getCoordinatesFromAddress($store-&gt;getAddress());
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<p>And the services are defined using an interface:</p>
+
+<p>```php
+interface GeolocationService {</p>
+
+<pre><code>public function getCoordinatesFromAddress($address);
+</code></pre>
+
+<p>}</p>
+
+<p>class GoogleMapsService implements GeolocationService {</p>
+
+<pre><code>public function getCoordinatesFromAddress($address) {
+    // calls Google Maps webservice
+}
+</code></pre>
+
+<p>}</p>
+
+<p>class OpenStreetMapService implements GeolocationService {</p>
+
+<pre><code>public function getCoordinatesFromAddress($address) {
+    // calls OpenStreetMap webservice
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<p>If you use <a href="http://mnapoli.github.com/PHP-DI/">PHP-DI</a> (a PHP dependency injection library), you then configure which implementation will be used:</p>
+
+<p>```php
+$container->set(&lsquo;GeolocationService&rsquo;)</p>
+
+<pre><code>      -&gt;bindTo('OpenStreetMapService');
+</code></pre>
+
+<p>```</p>
+
+<p>If you change your mind, there’s just one line of configuration to change.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[The PHP-FIG should define PHP interfaces]]></title>
+    <link href="http://mnapoli.github.io/php-fig-should-define-php-interfaces/"/>
+    <updated>2012-11-23T20:00:00+01:00</updated>
+    <id>http://mnapoli.github.io/php-fig-should-define-php-interfaces</id>
+    <content type="html"><![CDATA[<p>Bouncing on the discussion initiated in the <a href="https://github.com/php-fig/fig-standards/issues/57">#52</a> ticket of the PHP-FIG project on Github: « <strong>Explain the scope of the PSR system</strong> », I’ll explain the case I’m trying to make.</p>
+
+<p>First, <a href="http://www.php-fig.org/"><strong>PHP-FIG</strong></a>, which stands for <em>Framework Interoperability Group</em>, is a gathering of major PHP frameworks and project who try to:</p>
+
+<blockquote><p>talk about the commonalities between our projects and find ways we can work together.</p></blockquote>
+
+<p>This group has released PSR-0, PSR-1 and PSR-2, three specifications of coding standards, guide style and code organisation (for autoloading interoperability). Now the question is asked: is it the role of the PHP-FIG to define technical “code” specifications or is it out of its scope? Here is my answer.</p>
+
+<p><strong>PSR-0/1-2 are contracts between its users to ensure cohesiveness and compatibility.</strong></p>
+
+<!-- more -->
+
+
+<p>Think of the PSR-0 for example, it enabled all projects to be compatible regarding class autoloading. To achieve this, no code or PHP interface was necessary because what the autoloading needed was only file names, directories and class names constraints.</p>
+
+<p>Now there are other questions that need standardization for interoperability between PHP projects. And some of them <strong>need</strong> PHP interfaces.</p>
+
+<p>For example, PHP (or the SPL) <a href="https://github.com/php-fig/fig-standards/issues/59">does not define a Collection interface</a> (or any implementation). However, a Collection is a base object, and I bet it is used (or could be used) in many projects. Now Doctrine defined their own Collection interface (because it needed it) and I’m sure other projects did the same for the same reasons, but that situation is stupid. A Collection is a standard data structure, implementations may vary but the Collection interface should be defined once and for all.</p>
+
+<p>And <strong>PHP interfaces are contracts between its users to ensure cohesiveness and compatibility</strong>.</p>
+
+<p>Notice any similarity between PSR-0/&frac12; and interfaces? They are the same thing, applied to different things. They are technical specifications.</p>
+
+<p>I agree that the SPL was a good start and maybe would have been a good place for such things, but it is a still project, with no big changes lately, a lot of inertia and several big lacks (and who decides what’s in the SPL?). The PHP FIG is the perfect group to bring a solution to this: it is active, dynamic, open and transparent, representative of the major PHP projects, and it has the competences and the momentum to make it useful and used (that will not be “yet another PHP library”, it will be used by major frameworks).</p>
+
+<p>If PHP-FIG doesn’t do it, then who will (and more importantly: who will make it a success)?</p>
+
+<p>And to extend my point, have a look on the Java side (JSR), and for example <a href="http://jcp.org/aboutJava/communityprocess/jsr/cacheFS.pdf">JSR-107</a> which defines interfaces for cache API, or <a href="http://en.wikipedia.org/wiki/Java_Persistence_API">JSR-220</a> which defines JPA (specification of persistence API that Doctrine 2 has followed).</p>
+
+<p><strong>TL/DR</strong>: I think <strong>PHP-FIG should define and provide PHP interfaces</strong>. PHP-FIG defines technical specifications for interoperability between PHP projects. PHP interfaces are a form of technical specifications, they can allow PHP projects to be more compatible and work better together. PHP-FIG is the best group possible to standardize classic/mainstream API (utility classes, …). Java does it, it works, that should inspire us.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Doctrine 2 YAML reference]]></title>
+    <link href="http://mnapoli.github.io/doctrine-2-yaml-reference/"/>
+    <updated>2012-10-05T20:00:00+02:00</updated>
+    <id>http://mnapoli.github.io/doctrine-2-yaml-reference</id>
+    <content type="html"><![CDATA[<p>If you are working with Doctrine 2 and its YAML configuration files for the object mapping, you may find the documentation lacking some details.</p>
+
+<p>Here is a gist of all the YAML syntax possible:</p>
+
+<!-- more -->
+
+
+<p><div><script src='https://gist.github.com/3839501.js'></script>
+<noscript><pre><code></code></pre></noscript></div>
+</p>
+
+<p>It is based on <a href="http://blog.hio.fr/2011/09/17/doctrine2-yaml-mapping-example.html">this blog article</a>, completed, and turned into a git repository (thanks to github), so anyone can fork it and improve it.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Dependency Injection with PHP]]></title>
+    <link href="http://mnapoli.github.io/dependency-injection-with-php/"/>
+    <updated>2012-09-20T20:00:00+02:00</updated>
+    <id>http://mnapoli.github.io/dependency-injection-with-php</id>
+    <content type="html"><![CDATA[<p>I used to develop using Singletons, registries or even static classes. Those days are gone.</p>
+
+<p>I decided to use <strong>Dependency Injection</strong> so that:</p>
+
+<ul>
+<li>my classes would be testable</li>
+<li>replacing an implementation by another would be not only doable, but easy (and so extending a library/module would too)</li>
+<li>the design of those classes wouldn’t be guided by the question of “how they will be used”</li>
+<li>my code would be cleaner, simpler</li>
+<li>and IDE auto-completion/type-hinting would always work</li>
+</ul>
+
+
+<p>I gave a try to Symfony and ZF2 DI systems, but they both seem way too complicated for just a simple need (that anyone who has worked with Spring would understand):</p>
+
+<p>```php
+class MyClass {</p>
+
+<pre><code>/**
+ * @Inject
+ * @var MyService
+ */
+private $service;
+</code></pre>
+
+<p>}
+```</p>
+
+<p>This short code means: <em>Inject, using a simple annotation, an instance of another class into a property</em>.</p>
+
+<p>I started working on a framework enabling such functionality few months ago. It is now in a mature state. It is based on the <a href="http://docs.doctrine-project.org/projects/doctrine-common/en/latest/reference/annotations.html">Annotations library of Doctrine 2</a>, and takes most of its ideas of Spring 3.</p>
+
+<p>You can check out this framework on its official website: <a href="http://mnapoli.github.com/PHP-DI/">PHP-DI</a>, and you are welcome to use it or contribute.</p>
+]]></content>
+  </entry>
+  
+</feed>

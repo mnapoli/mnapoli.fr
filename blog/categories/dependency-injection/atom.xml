@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: dependency-injection | Matthieu Napoli]]></title>
+  <link href="http://mnapoli.github.io/blog/categories/dependency-injection/atom.xml" rel="self"/>
+  <link href="http://mnapoli.github.io/"/>
+  <updated>2013-08-20T14:34:42+02:00</updated>
+  <id>http://mnapoli.github.io/</id>
+  <author>
+    <name><![CDATA[Matthieu Napoli]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Introduction to Dependency Injection with a real life example]]></title>
+    <link href="http://mnapoli.github.io/introduction-dependency-injection-with-real-life-example/"/>
+    <updated>2012-12-06T20:00:00+01:00</updated>
+    <id>http://mnapoli.github.io/introduction-dependency-injection-with-real-life-example</id>
+    <content type="html"><![CDATA[<p>This example is an introduction to the <strong>Dependency Injection</strong> concept. It is based on the PHP library <a href="http://mnapoli.github.com/PHP-DI/">PHP-DI</a>.</p>
+
+<h2>Classic implementation</h2>
+
+<p>Given you have:</p>
+
+<p>```php
+class GoogleMapsService {</p>
+
+<pre><code>public function getCoordinatesFromAddress($address) {
+    // calls Google Maps webservice
+}
+</code></pre>
+
+<p>}</p>
+
+<p>class OpenStreetMapService {</p>
+
+<pre><code>public function getCoordinatesFromAddress($address) {
+    // calls OpenStreetMap webservice
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<p>The classic way of doing things is:</p>
+
+<p>```php
+class StoreService {</p>
+
+<pre><code>public function getStoreCoordinates($store) {
+    $geolocationService = new GoogleMapsService();
+    // or $geolocationService = GoogleMapsService::getInstance() if you use singletons
+    return $geolocationService-&gt;getCoordinatesFromAddress($store-&gt;getAddress());
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<p>Now we want to use the OpenStreetMapService instead of GoogleMapsService, how do we do? We have to change the code of StoreService, and all the other classes that use GoogleMapsService.</p>
+
+<p><strong>Without dependency injection, your classes are tightly coupled with their dependencies.</strong></p>
+
+<!-- more -->
+
+
+<h2>Dependency injection implementation</h2>
+
+<p>The StoreService now uses dependency injection:</p>
+
+<p>```php
+class StoreService {</p>
+
+<pre><code>/**
+ * @Inject
+ * @var GeolocationService
+ */
+private $geolocationService;
+
+public function getStoreCoordinates($store) {
+    return $this-&gt;geolocationService-&gt;getCoordinatesFromAddress($store-&gt;getAddress());
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<p>And the services are defined using an interface:</p>
+
+<p>```php
+interface GeolocationService {</p>
+
+<pre><code>public function getCoordinatesFromAddress($address);
+</code></pre>
+
+<p>}</p>
+
+<p>class GoogleMapsService implements GeolocationService {</p>
+
+<pre><code>public function getCoordinatesFromAddress($address) {
+    // calls Google Maps webservice
+}
+</code></pre>
+
+<p>}</p>
+
+<p>class OpenStreetMapService implements GeolocationService {</p>
+
+<pre><code>public function getCoordinatesFromAddress($address) {
+    // calls OpenStreetMap webservice
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<p>If you use <a href="http://mnapoli.github.com/PHP-DI/">PHP-DI</a> (a PHP dependency injection library), you then configure which implementation will be used:</p>
+
+<p>```php
+$container->set(&lsquo;GeolocationService&rsquo;)</p>
+
+<pre><code>      -&gt;bindTo('OpenStreetMapService');
+</code></pre>
+
+<p>```</p>
+
+<p>If you change your mind, there’s just one line of configuration to change.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Dependency Injection with PHP]]></title>
+    <link href="http://mnapoli.github.io/dependency-injection-with-php/"/>
+    <updated>2012-09-20T20:00:00+02:00</updated>
+    <id>http://mnapoli.github.io/dependency-injection-with-php</id>
+    <content type="html"><![CDATA[<p>I used to develop using Singletons, registries or even static classes. Those days are gone.</p>
+
+<p>I decided to use <strong>Dependency Injection</strong> so that:</p>
+
+<ul>
+<li>my classes would be testable</li>
+<li>replacing an implementation by another would be not only doable, but easy (and so extending a library/module would too)</li>
+<li>the design of those classes wouldn’t be guided by the question of “how they will be used”</li>
+<li>my code would be cleaner, simpler</li>
+<li>and IDE auto-completion/type-hinting would always work</li>
+</ul>
+
+
+<p>I gave a try to Symfony and ZF2 DI systems, but they both seem way too complicated for just a simple need (that anyone who has worked with Spring would understand):</p>
+
+<p>```php
+class MyClass {</p>
+
+<pre><code>/**
+ * @Inject
+ * @var MyService
+ */
+private $service;
+</code></pre>
+
+<p>}
+```</p>
+
+<p>This short code means: <em>Inject, using a simple annotation, an instance of another class into a property</em>.</p>
+
+<p>I started working on a framework enabling such functionality few months ago. It is now in a mature state. It is based on the <a href="http://docs.doctrine-project.org/projects/doctrine-common/en/latest/reference/annotations.html">Annotations library of Doctrine 2</a>, and takes most of its ideas of Spring 3.</p>
+
+<p>You can check out this framework on its official website: <a href="http://mnapoli.github.com/PHP-DI/">PHP-DI</a>, and you are welcome to use it or contribute.</p>
+]]></content>
+  </entry>
+  
+</feed>

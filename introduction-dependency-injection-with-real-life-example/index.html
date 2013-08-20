@@ -1,24 +1,107 @@
-<?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Matthieu Napoli]]></title>
-  <link href="http://mnapoli.github.io/atom.xml" rel="self"/>
-  <link href="http://mnapoli.github.io/"/>
-  <updated>2013-08-20T14:34:42+02:00</updated>
-  <id>http://mnapoli.github.io/</id>
-  <author>
-    <name><![CDATA[Matthieu Napoli]]></name>
-    
-  </author>
-  <generator uri="http://octopress.org/">Octopress</generator>
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Introduction to Dependency Injection with a real life example - Matthieu Napoli</title>
+  <meta name="author" content="Matthieu Napoli">
 
   
-  <entry>
-    <title type="html"><![CDATA[Introduction to Dependency Injection with a real life example]]></title>
-    <link href="http://mnapoli.github.io/introduction-dependency-injection-with-real-life-example/"/>
-    <updated>2012-12-06T20:00:00+01:00</updated>
-    <id>http://mnapoli.github.io/introduction-dependency-injection-with-real-life-example</id>
-    <content type="html"><![CDATA[<p>This example is an introduction to the <strong>Dependency Injection</strong> concept. It is based on the PHP library <a href="http://mnapoli.github.com/PHP-DI/">PHP-DI</a>.</p>
+  <meta name="description" content="Introduction to Dependency Injection with a real life example Dec 6th, 2012 This example is an introduction to the Dependency Injection concept. It &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://mnapoli.github.io/introduction-dependency-injection-with-real-life-example">
+  <link href="/favicon.png" rel="icon">
+  <link href='http://fonts.googleapis.com/css?family=Quicksand:300,400' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Matthieu Napoli" type="application/atom+xml">
+  <script src="/js/jquery.js"></script>
+  <script src="/js/bootstrap-collapse.js"></script>
+  <script src="/js/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/js/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <div class="navbar navbar-inverse navbar-static-top">
+  	<div class="navbar-inner">
+  	  <div class="container">
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+          <span class="fui-menu-24"></span>
+        </a>
+  	  	<div class="nav-collapse collapse navbar-responsive-collapse" style="height:0;">
+  	      <ul class="nav">
+    
+        <li ><a href="/">Home</a></li>
+    
+        <li ><a href="/about-me.html">About me</a></li>
+    
+</ul>
+
+<ul class="nav pull-right">
+    
+    <li><a href="http://github.com/mnapoli" title="Github Profile"><i class="icon-github-sign social-navbar"></i></a></li>
+    
+    
+    <li><a href="http://linkedin.com/in/matthieunapoli" title="Linkedin Profile"><i class="icon-linkedin-sign social-navbar"></i></a></li>
+    
+    
+    <li><a href="http://twitter.com/matthieunapoli" title="Twitter Profile"><i class="icon-twitter-sign social-navbar"></i></a></li>
+    
+    
+    
+    
+</ul>
+
+  	    </div>
+  	  </div>
+  	</div>
+  </div>
+  <div class="container" id="main">
+    <div class="span12">
+      <div class="row-fluid">
+        <div id="content">
+          <div>
+<article class="hentry" role="article">
+  
+
+  <header>
+  <div class="jumbotron">
+    Introduction to Dependency Injection with a real life example
+	<h5>
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2012-12-06T20:00:00+01:00" pubdate data-updated="true">Dec 6<span>th</span>, 2012</time></h5>
+  </div>
+</header>
+  <div class="row-fluid">
+    <div class="span12">
+      <p>This example is an introduction to the <strong>Dependency Injection</strong> concept. It is based on the PHP library <a href="http://mnapoli.github.com/PHP-DI/">PHP-DI</a>.</p>
 
 <h2>Classic implementation</h2>
 
@@ -149,112 +232,126 @@
 
 
 <p>If you change your mind, there’s just one line of configuration to change.</p>
-]]></content>
-  </entry>
+
+    </div>
+  </div>
+
+
+
+  <footer>
+    <hr>
+    
+    <div class="row-fluid">
+      
+      <div class="span6">
+        <p class="meta">
+        
+        
+
+
+
+  <a href="/blog/categories/dependency-injection/"><span class="badge">dependency-injection</span></a>
+
+  <a href="/blog/categories/php/"><span class="badge">php</span></a>
+
+
+
+
+        </p>
+      </div>
+      
+      <div class="span6 social-sharing">
+        <div class="sharing">
+  <div class="addthis_toolbox addthis_default_style ">
   
-  <entry>
-    <title type="html"><![CDATA[The PHP-FIG should define PHP interfaces]]></title>
-    <link href="http://mnapoli.github.io/php-fig-should-define-php-interfaces/"/>
-    <updated>2012-11-23T20:00:00+01:00</updated>
-    <id>http://mnapoli.github.io/php-fig-should-define-php-interfaces</id>
-    <content type="html"><![CDATA[<p>Bouncing on the discussion initiated in the <a href="https://github.com/php-fig/fig-standards/issues/57">#52</a> ticket of the PHP-FIG project on Github: « <strong>Explain the scope of the PSR system</strong> », I’ll explain the case I’m trying to make.</p>
-
-<p>First, <a href="http://www.php-fig.org/"><strong>PHP-FIG</strong></a>, which stands for <em>Framework Interoperability Group</em>, is a gathering of major PHP frameworks and project who try to:</p>
-
-<blockquote><p>talk about the commonalities between our projects and find ways we can work together.</p></blockquote>
-
-<p>This group has released PSR-0, PSR-1 and PSR-2, three specifications of coding standards, guide style and code organisation (for autoloading interoperability). Now the question is asked: is it the role of the PHP-FIG to define technical “code” specifications or is it out of its scope? Here is my answer.</p>
-
-<p><strong>PSR-0/1-2 are contracts between its users to ensure cohesiveness and compatibility.</strong></p>
-
-<!-- more -->
-
-
-<p>Think of the PSR-0 for example, it enabled all projects to be compatible regarding class autoloading. To achieve this, no code or PHP interface was necessary because what the autoloading needed was only file names, directories and class names constraints.</p>
-
-<p>Now there are other questions that need standardization for interoperability between PHP projects. And some of them <strong>need</strong> PHP interfaces.</p>
-
-<p>For example, PHP (or the SPL) <a href="https://github.com/php-fig/fig-standards/issues/59">does not define a Collection interface</a> (or any implementation). However, a Collection is a base object, and I bet it is used (or could be used) in many projects. Now Doctrine defined their own Collection interface (because it needed it) and I’m sure other projects did the same for the same reasons, but that situation is stupid. A Collection is a standard data structure, implementations may vary but the Collection interface should be defined once and for all.</p>
-
-<p>And <strong>PHP interfaces are contracts between its users to ensure cohesiveness and compatibility</strong>.</p>
-
-<p>Notice any similarity between PSR-0/&frac12; and interfaces? They are the same thing, applied to different things. They are technical specifications.</p>
-
-<p>I agree that the SPL was a good start and maybe would have been a good place for such things, but it is a still project, with no big changes lately, a lot of inertia and several big lacks (and who decides what’s in the SPL?). The PHP FIG is the perfect group to bring a solution to this: it is active, dynamic, open and transparent, representative of the major PHP projects, and it has the competences and the momentum to make it useful and used (that will not be “yet another PHP library”, it will be used by major frameworks).</p>
-
-<p>If PHP-FIG doesn’t do it, then who will (and more importantly: who will make it a success)?</p>
-
-<p>And to extend my point, have a look on the Java side (JSR), and for example <a href="http://jcp.org/aboutJava/communityprocess/jsr/cacheFS.pdf">JSR-107</a> which defines interfaces for cache API, or <a href="http://en.wikipedia.org/wiki/Java_Persistence_API">JSR-220</a> which defines JPA (specification of persistence API that Doctrine 2 has followed).</p>
-
-<p><strong>TL/DR</strong>: I think <strong>PHP-FIG should define and provide PHP interfaces</strong>. PHP-FIG defines technical specifications for interoperability between PHP projects. PHP interfaces are a form of technical specifications, they can allow PHP projects to be more compatible and work better together. PHP-FIG is the best group possible to standardize classic/mainstream API (utility classes, …). Java does it, it works, that should inspire us.</p>
-]]></content>
-  </entry>
   
-  <entry>
-    <title type="html"><![CDATA[Doctrine 2 YAML reference]]></title>
-    <link href="http://mnapoli.github.io/doctrine-2-yaml-reference/"/>
-    <updated>2012-10-05T20:00:00+02:00</updated>
-    <id>http://mnapoli.github.io/doctrine-2-yaml-reference</id>
-    <content type="html"><![CDATA[<p>If you are working with Doctrine 2 and its YAML configuration files for the object mapping, you may find the documentation lacking some details.</p>
-
-<p>Here is a gist of all the YAML syntax possible:</p>
-
-<!-- more -->
-
-
-
-
-<div><script src='https://gist.github.com/3839501.js'></script>
-<noscript><pre><code></code></pre></noscript></div>
-
-
-<p>It is based on <a href="http://blog.hio.fr/2011/09/17/doctrine2-yaml-mapping-example.html">this blog article</a>, completed, and turned into a git repository (thanks to github), so anyone can fork it and improve it.</p>
-]]></content>
-  </entry>
+  <a class="addthis_button_tweet"></a>
   
-  <entry>
-    <title type="html"><![CDATA[Dependency Injection with PHP]]></title>
-    <link href="http://mnapoli.github.io/dependency-injection-with-php/"/>
-    <updated>2012-09-20T20:00:00+02:00</updated>
-    <id>http://mnapoli.github.io/dependency-injection-with-php</id>
-    <content type="html"><![CDATA[<p>I used to develop using Singletons, registries or even static classes. Those days are gone.</p>
-
-<p>I decided to use <strong>Dependency Injection</strong> so that:</p>
-
-<ul>
-<li>my classes would be testable</li>
-<li>replacing an implementation by another would be not only doable, but easy (and so extending a library/module would too)</li>
-<li>the design of those classes wouldn’t be guided by the question of “how they will be used”</li>
-<li>my code would be cleaner, simpler</li>
-<li>and IDE auto-completion/type-hinting would always work</li>
-</ul>
-
-
-<p>I gave a try to Symfony and ZF2 DI systems, but they both seem way too complicated for just a simple need (that anyone who has worked with Spring would understand):</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">class</span> <span class="nc">MyClass</span> <span class="p">{</span>
-</span><span class='line'>    <span class="sd">/**</span>
-</span><span class='line'><span class="sd">     * @Inject</span>
-</span><span class='line'><span class="sd">     * @var MyService</span>
-</span><span class='line'><span class="sd">     */</span>
-</span><span class='line'>    <span class="k">private</span> <span class="nv">$service</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This short code means: <em>Inject, using a simple annotation, an instance of another class into a property</em>.</p>
-
-<p>I started working on a framework enabling such functionality few months ago. It is now in a mature state. It is based on the <a href="http://docs.doctrine-project.org/projects/doctrine-common/en/latest/reference/annotations.html">Annotations library of Doctrine 2</a>, and takes most of its ideas of Spring 3.</p>
-
-<p>You can check out this framework on its official website: <a href="http://mnapoli.github.com/PHP-DI/">PHP-DI</a>, and you are welcome to use it or contribute.</p>
-]]></content>
-  </entry>
   
-</feed>
+  <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+      </div>
+      
+      
+    </div>
+    
+    <div class="row-fluid">
+      <div class="span12">
+        <p class="meta">
+          
+            <a class="basic-alignment left" href="/php-fig-should-define-php-interfaces/" title="Previous Post: The PHP-FIG should define PHP interfaces">&laquo; The PHP-FIG should define PHP interfaces</a>
+          
+          
+        </p>
+      </div>
+    </div>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+
+
+        </div>
+      </div>
+      <div class="row-fluid">
+        <footer class="footer-page" role="contentinfo">
+          <p>
+  Copyright &copy; 2013 - Matthieu Napoli -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span> - Theme by <a href="http://alexgaribay.com">Alex Garibay</a>
+</p>
+
+
+        </footer>
+      </div>
+    </div>
+  </div>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'mnapoli';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://mnapoli.github.io/introduction-dependency-injection-with-real-life-example/';
+        var disqus_url = 'http://mnapoli.github.io/introduction-dependency-injection-with-real-life-example/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
