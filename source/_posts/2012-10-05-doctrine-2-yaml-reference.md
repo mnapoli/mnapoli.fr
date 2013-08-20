@@ -4,7 +4,7 @@ title: "Doctrine 2 YAML reference"
 date: 2012-10-05 20:00
 comments: true
 external-url:
-categories: php
+categories: doctrine
 ---
 
 If you are working with Doctrine 2 and its YAML configuration files for the object mapping, you may find the documentation lacking some details.
