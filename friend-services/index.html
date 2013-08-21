@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Overriding dependencies with Composer - Matthieu Napoli</title>
+  <title>Friend services? - Matthieu Napoli</title>
   <meta name="author" content="Matthieu Napoli">
 
   
-  <meta name="description" content="Overriding dependencies with Composer Apr 16th, 2013 At my company, My C-Sense, we use Doctrine amongst other PHP frameworks and libraries. When we &hellip;">
+  <meta name="description" content="Friend services? Aug 9th, 2013 Using the Domain Driven Design methodology, I sometimes end up on such a situation: a behavior in a model class is &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://mnapoli.github.io/overriding-dependencies-with-composer">
+  <link rel="canonical" href="http://mnapoli.github.io/friend-services">
   <link href="/favicon.png" rel="icon">
   <link href='http://fonts.googleapis.com/css?family=Quicksand:300,400' rel='stylesheet' type='text/css'>
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
@@ -86,7 +86,7 @@
 
   <header>
   <div class="jumbotron">
-    Overriding dependencies with Composer
+    Friend services?
 	<h5>
 
 
@@ -99,35 +99,23 @@
   
 
 
-<i class="icon-calendar-empty"></i> <time datetime="2013-04-16T20:00:00+02:00" pubdate data-updated="true">Apr 16<span>th</span>, 2013</time></h5>
+<i class="icon-calendar-empty"></i> <time datetime="2013-08-09T17:03:00+02:00" pubdate data-updated="true">Aug 9<span>th</span>, 2013</time></h5>
   </div>
 </header>
   <div class="row-fluid">
     <div class="span12">
-      <p>At my company, <strong>My C-Sense</strong>, we use Doctrine amongst other PHP frameworks and libraries. When we find bugs (or need new features), we contribute to the project through our <a href="https://github.com/myclabs">open source initiative</a>.</p>
+      <p>Using the Domain Driven Design methodology, I sometimes end up on such a situation: a behavior in a model class is complex and involving other classes. It’s time to put that behavior in a service (or a factory if the situation applies to a constructor).</p>
 
-<p>The problem is when we submit a pull request on Github, several months usually happen until our fix appears in a stable release.</p>
+<p>The problem is that in my service, I am not in the context of the domain class. If I move <code>Foo::something()</code> into <code>FooService::something($foo)</code>, then <strong>I can’t access private properties of Foo</strong>, thus limiting me to the public API of Foo.</p>
 
-<p>To be able to enjoy our bugfixes immediately, here is our workflow:</p>
+<p>Now I end up adding accessors, thus breaking encapsulation and complexifying everything where all I wanted was improving the code.</p>
 
-<ul>
-<li>We fork the repository of the project to <a href="https://github.com/myclabs">our organization account</a></li>
-<li>We commit and publish the bugfix in a branch of our repository</li>
-<li>We submit a Pull Request</li>
-<li>We override the dependency to the project with our version in Composer</li>
-</ul>
-
-
-<p>Overriding a dependency <a href="http://getcomposer.org/doc/04-schema.md#repositories">is quite simple</a>: just add your git repository in your <code>composer.json</code> and require you branch.</p>
-
-<p>But when we want to override, for example, <code>doctrine/common</code> which is used by <code>doctrine/orm</code>, then we have a problem: <code>doctrine/orm</code> wants a stable version of <code>doctrine/common</code>, it will conflict with your requirement to a dev branch.</p>
-
-<p>The solution is to <strong>alias your dev branch to a stable release</strong>, and that is possible through the awesome “<a href="http://getcomposer.org/doc/articles/aliases.md#require-inline-alias">inline alias</a>” functionality in Composer.</p>
+<p>VB.Net has a concept of “Friend” visibility, i.e. if A is friend with B, then A can access private properties of B (or something like that it’s been a long time :p). PHP doesn’t have such a concept natively, but here is a tryout to apply it with workarounds.</p>
 
 <!-- more -->
 
 
-<p>Here is an example:</p>
+<p><em>Disclaimer</em>: the code is not pretty and is not for production. This is just an idea thrown around.</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -141,22 +129,44 @@
 <span class='line-number'>10</span>
 <span class='line-number'>11</span>
 <span class='line-number'>12</span>
-</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span>
-</span><span class='line'>    <span class="nt">&quot;require&quot;</span><span class="p">:</span> <span class="p">{</span>
-</span><span class='line'>        <span class="nt">&quot;doctrine/orm&quot;</span><span class="p">:</span> <span class="s2">&quot;2.3.*&quot;</span><span class="p">,</span>
-</span><span class='line'>        <span class="nt">&quot;doctrine/common&quot;</span><span class="p">:</span> <span class="s2">&quot;dev-ChainDriverFix as 2.3.0&quot;</span>
-</span><span class='line'>    <span class="p">},</span>
-</span><span class='line'>    <span class="nt">&quot;repositories&quot;</span><span class="p">:</span> <span class="p">[</span>
-</span><span class='line'>        <span class="p">{</span>
-</span><span class='line'>            <span class="nt">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;git&quot;</span><span class="p">,</span>
-</span><span class='line'>            <span class="nt">&quot;url&quot;</span><span class="p">:</span> <span class="s2">&quot;https://github.com/myclabs/common.git&quot;</span>
-</span><span class='line'>        <span class="p">}</span>
-</span><span class='line'>    <span class="p">]</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="o">&lt;?</span><span class="nx">php</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">Foo</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">private</span> <span class="nv">$bar</span> <span class="o">=</span> <span class="s1">&#39;hello world&#39;</span><span class="p">;</span>
 </span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">FriendOfFoo</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">public</span> <span class="k">function</span> <span class="nf">doSomething</span><span class="p">(</span><span class="nv">$foo</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="k">function</span><span class="p">()</span> <span class="k">use</span> <span class="p">(</span><span class="nv">$foo</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">echo</span> <span class="nv">$foo</span><span class="o">-&gt;</span><span class="na">bar</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">};</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">$foo</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Foo</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">$service</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">FriendOfFoo</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">$closure</span> <span class="o">=</span> <span class="nv">$service</span><span class="o">-&gt;</span><span class="na">doSomething</span><span class="p">(</span><span class="nv">$foo</span><span class="p">)</span><span class="o">-&gt;</span><span class="na">bindTo</span><span class="p">(</span><span class="k">null</span><span class="p">,</span> <span class="nv">$foo</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">$closure</span><span class="p">();</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Here, our branch <code>ChainDriverFix</code> will override the 2.3.0 version of <code>doctrine/common</code>, which will also be compatible with <code>doctrine/orm</code>!</p>
+<p>See it in action on <a href="http://3v4l.org/e9RNO">3v4l.org</a>.</p>
+
+<p>Here, FriendOfFoo is a service that has access to Foo’s private and protected properties.</p>
+
+<p>We achieve that by writing the methods of the service into closures. We can then <a href="http://php.net/manual/en/closure.bindto.php">bind those closures to the context of Foo</a>, and voilà!</p>
+
+<p>If you see a better way of achieving this, I am interested.</p>
 
     </div>
   </div>
@@ -175,11 +185,9 @@
 
 
 
-  <a href="/blog/categories/composer/"><span class="badge">composer</span></a>
+  <a href="/blog/categories/ddd/"><span class="badge">ddd</span></a>
 
-  <a href="/blog/categories/github/"><span class="badge">github</span></a>
-
-  <a href="/blog/categories/myclabs/"><span class="badge">myclabs</span></a>
+  <a href="/blog/categories/php/"><span class="badge">php</span></a>
 
 
 
@@ -209,10 +217,8 @@
       <div class="span12">
         <p class="meta">
           
-            <a class="basic-alignment left" href="/programming-jokes-of-the-week-end/" title="Previous Post: Programming jokes of the week end">&laquo; Programming jokes of the week end</a>
+            <a class="basic-alignment left" href="/controllers-as-services/" title="Previous Post: Controllers as services?">&laquo; Controllers as services?</a>
           
-          
-            <a class="basic-alignment right" href="/code-coverage-reports-with-github-travis-and/" title="Next Post: Code coverage reports with GitHub, Travis and Coveralls">Code coverage reports with GitHub, Travis and Coveralls &raquo;</a>
           
         </p>
       </div>
@@ -251,8 +257,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://mnapoli.github.io/overriding-dependencies-with-composer/';
-        var disqus_url = 'http://mnapoli.github.io/overriding-dependencies-with-composer/';
+        var disqus_identifier = 'http://mnapoli.github.io/friend-services/';
+        var disqus_url = 'http://mnapoli.github.io/friend-services/';
         var disqus_script = 'embed.js';
       
     (function () {

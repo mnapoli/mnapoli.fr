@@ -9,7 +9,7 @@
   <meta name="author" content="Matthieu Napoli">
 
   
-  <meta name="description" content="Hi. I&#8217;m Matthieu Napoli. Here are some thoughts of mine. Jul 1st, 2013 Comments dependency-injection php-di Controllers as services? This post &hellip;">
+  <meta name="description" content="Hi. I&#8217;m Matthieu Napoli. Here are some thoughts of mine. Aug 9th, 2013 Comments ddd php Friend services? Using the Domain Driven Design &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -50,7 +50,9 @@
     
         <li ><a href="/">Home</a></li>
     
-        <li ><a href="/about-me.html">About me</a></li>
+        <li ><a href="/archives/">Archives</a></li>
+    
+        <li ><a href="/about-me/">About me</a></li>
     
 </ul>
 
@@ -88,6 +90,63 @@
 
 <div class="blog-index">
   
+  
+  
+    <article>
+      
+
+  <div class="row-fluid">
+    <div class="span2">
+		<h1 class="date-time">
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2013-08-09T17:03:00+02:00" pubdate data-updated="true">Aug 9<span>th</span>, 2013</time></h5>
+          <div class="row-fluid">
+          
+          <a href="http://mnapoli.github.io/friend-services/#disqus_thread">Comments </a> <span class="fui-bubble-16"></span>
+          
+          </div>
+          
+          <div class="row-fluid">
+          
+          <a href="/blog/categories/ddd/"><span class="badge">ddd</span></a>
+          
+          <a href="/blog/categories/php/"><span class="badge">php</span></a>
+          
+          </div>
+          
+    </div>
+    <div class="span10">
+      <h1 class="link"><a href="/friend-services/">Friend services?</a></h1>
+      <p>Using the Domain Driven Design methodology, I sometimes end up on such a situation: a behavior in a model class is complex and involving other classes. It’s time to put that behavior in a service (or a factory if the situation applies to a constructor).</p>
+
+<p>The problem is that in my service, I am not in the context of the domain class. If I move <code>Foo::something()</code> into <code>FooService::something($foo)</code>, then <strong>I can’t access private properties of Foo</strong>, thus limiting me to the public API of Foo.</p>
+
+<p>Now I end up adding accessors, thus breaking encapsulation and complexifying everything where all I wanted was improving the code.</p>
+
+<p>VB.Net has a concept of “Friend” visibility, i.e. if A is friend with B, then A can access private properties of B (or something like that it’s been a long time :p). PHP doesn’t have such a concept natively, but here is a tryout to apply it with workarounds.</p>
+
+
+      
+       <a href="/friend-services/">Read on &rarr;</a> 
+    </div>
+  </div>
+
+
+
+    </article>
+    
+    <hr>
+    
   
   
     <article>
@@ -245,6 +304,8 @@
           <a href="/blog/categories/continuous-integration/"><span class="badge">continuous-integration</span></a>
           
           <a href="/blog/categories/github/"><span class="badge">github</span></a>
+          
+          <a href="/blog/categories/php/"><span class="badge">php</span></a>
           
           </div>
           
@@ -632,109 +693,6 @@
 
       
        <a href="/doctrine-schema-validation-in-a-phpunit-test/">Read on &rarr;</a> 
-    </div>
-  </div>
-
-
-
-    </article>
-    
-    <hr>
-    
-  
-  
-    <article>
-      
-
-  <div class="row-fluid">
-    <div class="span2">
-		<h1 class="date-time">
-
-
-
-
-
-
-
-
-  
-
-
-<i class="icon-calendar-empty"></i> <time datetime="2012-12-06T20:00:00+01:00" pubdate data-updated="true">Dec 6<span>th</span>, 2012</time></h5>
-          <div class="row-fluid">
-          
-          <a href="http://mnapoli.github.io/introduction-dependency-injection-with-real-life-example/#disqus_thread">Comments </a> <span class="fui-bubble-16"></span>
-          
-          </div>
-          
-          <div class="row-fluid">
-          
-          <a href="/blog/categories/dependency-injection/"><span class="badge">dependency-injection</span></a>
-          
-          <a href="/blog/categories/php/"><span class="badge">php</span></a>
-          
-          </div>
-          
-    </div>
-    <div class="span10">
-      <h1 class="link"><a href="/introduction-dependency-injection-with-real-life-example/">Introduction to Dependency Injection with a real life example</a></h1>
-      <p>This example is an introduction to the <strong>Dependency Injection</strong> concept. It is based on the PHP library <a href="http://mnapoli.github.com/PHP-DI/">PHP-DI</a>.</p>
-
-<h2>Classic implementation</h2>
-
-<p>Given you have:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">class</span> <span class="nc">GoogleMapsService</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">public</span> <span class="k">function</span> <span class="nf">getCoordinatesFromAddress</span><span class="p">(</span><span class="nv">$address</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="c1">// calls Google Maps webservice</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span><span class='line'>
-</span><span class='line'><span class="k">class</span> <span class="nc">OpenStreetMapService</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">public</span> <span class="k">function</span> <span class="nf">getCoordinatesFromAddress</span><span class="p">(</span><span class="nv">$address</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="c1">// calls OpenStreetMap webservice</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The classic way of doing things is:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">class</span> <span class="nc">StoreService</span> <span class="p">{</span>
-</span><span class='line'>    <span class="k">public</span> <span class="k">function</span> <span class="nf">getStoreCoordinates</span><span class="p">(</span><span class="nv">$store</span><span class="p">)</span> <span class="p">{</span>
-</span><span class='line'>        <span class="nv">$geolocationService</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">GoogleMapsService</span><span class="p">();</span>
-</span><span class='line'>        <span class="c1">// or $geolocationService = GoogleMapsService::getInstance() if you use singletons</span>
-</span><span class='line'>        <span class="k">return</span> <span class="nv">$geolocationService</span><span class="o">-&gt;</span><span class="na">getCoordinatesFromAddress</span><span class="p">(</span><span class="nv">$store</span><span class="o">-&gt;</span><span class="na">getAddress</span><span class="p">());</span>
-</span><span class='line'>    <span class="p">}</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Now we want to use the OpenStreetMapService instead of GoogleMapsService, how do we do? We have to change the code of StoreService, and all the other classes that use GoogleMapsService.</p>
-
-<p><strong>Without dependency injection, your classes are tightly coupled with their dependencies.</strong></p>
-
-
-      
-       <a href="/introduction-dependency-injection-with-real-life-example/">Read on &rarr;</a> 
     </div>
   </div>
 
