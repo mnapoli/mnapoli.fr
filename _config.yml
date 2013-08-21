@@ -106,7 +106,9 @@ facebook_like: false
 navigation:
 - text: Home
   url: /
+- text: Archives
+  url: /archives/
 - text: About me
-  url: /about-me.html
+  url: /about-me/
 
 linkedin_user: matthieunapoli
