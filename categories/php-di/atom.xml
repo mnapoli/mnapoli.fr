@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: php-di | Matthieu Napoli]]></title>
+  <link href="http://mnapoli.github.io/categories/php-di/atom.xml" rel="self"/>
+  <link href="http://mnapoli.github.io/"/>
+  <updated>2013-09-04T22:07:03+02:00</updated>
+  <id>http://mnapoli.github.io/</id>
+  <author>
+    <name><![CDATA[Matthieu Napoli]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Controllers as services?]]></title>
+    <link href="http://mnapoli.github.io/controllers-as-services/"/>
+    <updated>2013-07-01T20:00:00+02:00</updated>
+    <id>http://mnapoli.github.io/controllers-as-services</id>
+    <content type="html"><![CDATA[<p>This post is sort-of a response to the <a href="http://www.whitewashing.de/2013/06/27/extending_symfony2__controller_utilities.html">blog post of Benjamin Eberlei about Controllers in Symfony 2</a>.</p>
+
+<p>The subject is about Controllers and their dependencies:</p>
+
+<blockquote><p>Controllers as a service are a heated topic in the Symfony world. Developers mainly choose to extend the base class, because its much simpler to use and less to write.</p></blockquote>
+
+<p>With Symfony 2, you can write controllers 2 ways:</p>
+
+<ol>
+<li><p>extend the base Controller class. This is simpler and more practical but it ties up your controller to Symfony. Also, to fetch dependencies, you have to get them from the container, which is known as the <strong>Service Locator anti-pattern</strong> (= bad).</p></li>
+<li><p>create a “normal” class, and use it as a service. That means you can use dependency injection through the constructor to get your dependencies. This is clean, this looks good, but you end up with managing a lot of dependencies :/</p></li>
+</ol>
+
+
+<p>To ease up solution n°2, Benjamin proposes to create a “ControllerUtility” class which would group the most used controller services. That way, you dramatically reduce the dependencies, and still hide the container.</p>
+
+<p>I use a different solution.</p>
+
+<!-- more -->
+
+
+<h2>Constructor injection is not the only possible injection</h2>
+
+<p>The idea is to keep the solution n°2, but use <strong>Property Injection</strong> instead of Constructor Injection.</p>
+
+<p>Property injection is generally frowned upon, and for good reasons:</p>
+
+<ul>
+<li>injecting in a private property breaks encapsulation</li>
+<li>it is not an explicit dependency: there is no contract saying your class need the property to be set to work</li>
+<li>if you use annotations to mark the dependency to be injected, your class is dependent on the container</li>
+</ul>
+
+
+<p><strong>BUT</strong></p>
+
+<p>if you follow best practices, <strong>your controllers will not contain business logic</strong> (only routing calls to the models and binding returned values to view).</p>
+
+<p>So:</p>
+
+<ul>
+<li>you will not unit-test it (that doesn’t mean you won’t write functional tests on the interface though)</li>
+<li>you may not need to reuse it elsewhere</li>
+<li>if you change the framework, you may have to rewrite it (or parts of it) anyway (because most dependencies like Request, Response, etc. will have changed)</li>
+</ul>
+
+
+<p>Because of that, I chose to use Property injection.</p>
+
+<h2>Property injection</h2>
+
+<p>Here is what my controllers look like:</p>
+
+<p>```php
+&lt;?php
+use DI\Annotation\Inject;</p>
+
+<p>class UserController
+{</p>
+
+<pre><code>/**
+ * @Inject
+ * @var RouterInterface
+ */
+private $router;
+
+/**
+ * @Inject
+ * @var FormFactoryInterface 
+ */
+private $formFactory;
+
+public function createForm($type, $data, $options)
+{
+    // $this-&gt;formFactory-&gt;...
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<p>Note this is an example using <a href="http://mnapoli.github.io/PHP-DI/">PHP-DI</a>, my alternative DI Container. It allows to mark injections using annotations.</p>
+
+<p>I know many PHP devs don’t like annotations, and there are some reasons not to use it. But in this case, because of the points I explained above, I find it acceptable to use the <code>@Inject</code> annotation. I find it also extremely practical.</p>
+
+<p>Of course, this example also applies without using annotations (using a configuration file f.e.), and <strong>it also applies to Symfony’s container</strong>.</p>
+
+<p>In the end:</p>
+
+<ul>
+<li>controllers don’t use the container</li>
+<li>controllers can be reused elsewhere, given they are fetched through the container</li>
+<li>we have full auto-completion and refactoring support in IDEs</li>
+<li><strong>controllers are easy and fast to write and read</strong> (and that’s something I value a lot)</li>
+</ul>
+
+
+<p>By the way, some Java developers may find this pattern of code familiar, it’s inspired from when I was working with Spring :)</p>
+
+<h2>Performance note</h2>
+
+<blockquote><p>You are injecting services that may not be used</p></blockquote>
+
+<p><a href="http://mnapoli.github.io/PHP-DI/">PHP-DI</a> and <a href="http://symfony.com/doc/current/components/dependency_injection/index.html">Symfony DIC</a> both support lazy injection, i.e. injecting a proxy that will load the target service only when it is used.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Dependency Injection with PHP]]></title>
+    <link href="http://mnapoli.github.io/dependency-injection-with-php/"/>
+    <updated>2012-09-20T20:00:00+02:00</updated>
+    <id>http://mnapoli.github.io/dependency-injection-with-php</id>
+    <content type="html"><![CDATA[<p>I used to develop using Singletons, registries or even static classes. Those days are gone.</p>
+
+<p>I decided to use <strong>Dependency Injection</strong> so that:</p>
+
+<ul>
+<li>my classes would be testable</li>
+<li>replacing an implementation by another would be not only doable, but easy (and so extending a library/module would too)</li>
+<li>the design of those classes wouldn’t be guided by the question of “how they will be used”</li>
+<li>my code would be cleaner, simpler</li>
+<li>and IDE auto-completion/type-hinting would always work</li>
+</ul>
+
+
+<p>I gave a try to Symfony and ZF2 DI systems, but they both seem way too complicated for just a simple need (that anyone who has worked with Spring would understand):</p>
+
+<p>```php
+class MyClass {</p>
+
+<pre><code>/**
+ * @Inject
+ * @var MyService
+ */
+private $service;
+</code></pre>
+
+<p>}
+```</p>
+
+<p>This short code means: <em>Inject, using a simple annotation, an instance of another class into a property</em>.</p>
+
+<p>I started working on a framework enabling such functionality few months ago. It is now in a mature state. It is based on the <a href="http://docs.doctrine-project.org/projects/doctrine-common/en/latest/reference/annotations.html">Annotations library of Doctrine 2</a>, and takes most of its ideas of Spring 3.</p>
+
+<p>You can check out this framework on its official website: <a href="http://mnapoli.github.com/PHP-DI/">PHP-DI</a>, and you are welcome to use it or contribute.</p>
+]]></content>
+  </entry>
+  
+</feed>

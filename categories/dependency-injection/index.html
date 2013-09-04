@@ -5,12 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Doctrine schema validation in a PHPUnit test - Matthieu Napoli</title>
+  <title>Category: dependency-injection - Matthieu Napoli</title>
   <meta name="author" content="Matthieu Napoli">
 
   
-  <meta name="description" content="Doctrine schema validation in a PHPUnit test Dec 10th, 2012 Doctrine offers a command line option to validate the schema (or mapping): 1
-./doctrine &hellip;">
+  <meta name="description" content="Category: dependency-injection">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://mnapoli.github.io/doctrine-schema-validation-in-a-phpunit-test">
+  <link rel="canonical" href="http://mnapoli.github.iocategories/dependency-injection">
   <link href="/favicon.png" rel="icon">
   <link href='http://fonts.googleapis.com/css?family=Quicksand:300,400' rel='stylesheet' type='text/css'>
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
@@ -81,118 +80,135 @@
     <div class="span12">
       <div class="row-fluid">
         <div id="content">
-          <div>
-<article class="hentry" role="article">
+          <article role="article">
   
-
   <header>
-  <div class="jumbotron">
-    Doctrine schema validation in a PHPUnit test
-	<h5>
-
-
-
-
-
-
-
-
-  
-
-
-<i class="icon-calendar-empty"></i> <time datetime="2012-12-10T20:00:00+01:00" pubdate data-updated="true">Dec 10<span>th</span>, 2012</time></h5>
-  </div>
-</header>
-  <div class="row-fluid">
-    <div class="span12">
-      <p>Doctrine offers a <a href="http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/tools.html#runtime-vs-development-mapping-validation">command line option to validate the schema</a> (or mapping):</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>./doctrine orm:validate-schema</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This is very useful, when I ran it against my code, which was <em>working</em> by the way, I got several errors/warnings.</p>
-
-<p>However, I didn’t want to have to run this tool manually once in a while. I already have tests for that. So I thought: <strong>why not integrating the schema validation to the tests!</strong></p>
-
-<!-- more -->
-
-
-<p>So here is my implementation of a PHPUnit test failing when Doctrine validation find errors:</p>
-
-<div><script src='https://gist.github.com/4249675.js'></script>
-<noscript><pre><code></code></pre></noscript></div>
-
-
-
-
+    <div class="jumbotron">
+      Category: dependency-injection
     </div>
-  </div>
-
-
-
-  <footer>
-    <hr>
     
-    <div class="row-fluid">
-      
-      <div class="span6">
-        <p class="meta">
-        
-        
-
-
-
-  <a href="/categories/doctrine/"><span class="badge">doctrine</span></a>
-
-  <a href="/categories/phpunit/"><span class="badge">phpunit</span></a>
-
-
-
-
-        </p>
-      </div>
-      
-      <div class="span6 social-sharing">
-        <div class="sharing">
-  <div class="addthis_toolbox addthis_default_style ">
+  </header>
   
+  <div id="blog-archives" class="category">
+
   
-  <a class="addthis_button_tweet"></a>
-  
-  
-  <a class="addthis_counter addthis_pill_style"></a>
-  </div>
-  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+  <div class="row-fluid">
+    <div class="span1">
+  	
+  	
+  	  
+  	    <h2>2013</h2>
+  	
+    </div>
+    <div class="span11">
+      <article>
+  	
+<div class="row-fluid">
+	<div class="span1">
+		<h1 class="date-time"><time datetime="2013-07-01T20:00:00+02:00" pubdate><span class='month'>Jul</span> <span class='day'>01</span><span class='year'><!--2013--></span></time></h1>
+	</div>
+	<div class="span10">
+		<h1><a href="/controllers-as-services/">Controllers as services?</a></h1>
+	</div>
 </div>
 
-      </div>
-      
-      
+<div class="row-fluid">
+	<div class="span1">
+	</div>
+	<div class="span10">
+		
+
+		<footer class="archive">
+		  <span class="categories">posted in <a class='category' href='/categories/dependency-injection/'>dependency-injection</a>, <a class='category' href='/categories/php-di/'>php-di</a></span>
+		</footer>
+		
+	</div>
+</div>
+
+
+  	</article>
     </div>
-    
-    <div class="row-fluid">
-      <div class="span12">
-        <p class="meta">
-          
-            <a class="basic-alignment left" href="/introduction-dependency-injection-with-real-life-example/" title="Previous Post: Introduction to Dependency Injection with a real life example">&laquo; Introduction to Dependency Injection with a real life example</a>
-          
-          
-            <a class="basic-alignment right" href="/be-a-better-programmer-take-a-step-back/" title="Next Post: Be a better programmer: take a step back">Be a better programmer: take a step back &raquo;</a>
-          
-        </p>
-      </div>
+  </div>
+
+  
+  <div class="row-fluid">
+    <div class="span1">
+  	
+  	
+  	  
+  	    <h2>2012</h2>
+  	
     </div>
-  </footer>
+    <div class="span11">
+      <article>
+  	
+<div class="row-fluid">
+	<div class="span1">
+		<h1 class="date-time"><time datetime="2012-12-06T20:00:00+01:00" pubdate><span class='month'>Dec</span> <span class='day'>06</span><span class='year'><!--2012--></span></time></h1>
+	</div>
+	<div class="span10">
+		<h1><a href="/introduction-dependency-injection-with-real-life-example/">Introduction to Dependency Injection with a real life example</a></h1>
+	</div>
+</div>
+
+<div class="row-fluid">
+	<div class="span1">
+	</div>
+	<div class="span10">
+		
+
+		<footer class="archive">
+		  <span class="categories">posted in <a class='category' href='/categories/dependency-injection/'>dependency-injection</a>, <a class='category' href='/categories/php/'>php</a></span>
+		</footer>
+		
+	</div>
+</div>
+
+
+  	</article>
+    </div>
+  </div>
+
+  
+  <div class="row-fluid">
+    <div class="span1">
+  	
+  	
+    </div>
+    <div class="span11">
+      <article>
+  	
+<div class="row-fluid">
+	<div class="span1">
+		<h1 class="date-time"><time datetime="2012-09-20T20:00:00+02:00" pubdate><span class='month'>Sep</span> <span class='day'>20</span><span class='year'><!--2012--></span></time></h1>
+	</div>
+	<div class="span10">
+		<h1><a href="/dependency-injection-with-php/">Dependency Injection with PHP</a></h1>
+	</div>
+</div>
+
+<div class="row-fluid">
+	<div class="span1">
+	</div>
+	<div class="span10">
+		
+
+		<footer class="archive">
+		  <span class="categories">posted in <a class='category' href='/categories/dependency-injection/'>dependency-injection</a>, <a class='category' href='/categories/php/'>php</a>, <a class='category' href='/categories/php-di/'>php-di</a></span>
+		</footer>
+		
+	</div>
+</div>
+
+
+  	</article>
+    </div>
+  </div>
+
+</div>
+
 </article>
 
-  <section>
-    <h1>Comments</h1>
-    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</div>
-  </section>
-
-</div>
 
 
 
@@ -216,10 +232,7 @@
       var disqus_shortname = 'mnapoli';
       
         
-        // var disqus_developer = 1;
-        var disqus_identifier = 'http://mnapoli.github.io/doctrine-schema-validation-in-a-phpunit-test/';
-        var disqus_url = 'http://mnapoli.github.io/doctrine-schema-validation-in-a-phpunit-test/';
-        var disqus_script = 'embed.js';
+        var disqus_script = 'count.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

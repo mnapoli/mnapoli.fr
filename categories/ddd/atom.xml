@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: ddd | Matthieu Napoli]]></title>
+  <link href="http://mnapoli.github.io/categories/ddd/atom.xml" rel="self"/>
+  <link href="http://mnapoli.github.io/"/>
+  <updated>2013-09-04T22:07:03+02:00</updated>
+  <id>http://mnapoli.github.io/</id>
+  <author>
+    <name><![CDATA[Matthieu Napoli]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Friend services?]]></title>
+    <link href="http://mnapoli.github.io/friend-services/"/>
+    <updated>2013-08-09T17:03:00+02:00</updated>
+    <id>http://mnapoli.github.io/friend-services</id>
+    <content type="html"><![CDATA[<p>Using the Domain Driven Design methodology, I sometimes end up on such a situation: a behavior in a model class is complex and involving other classes. It’s time to put that behavior in a service (or a factory if the situation applies to a constructor).</p>
+
+<p>The problem is that in my service, I am not in the context of the domain class. If I move <code>Foo::something()</code> into <code>FooService::something($foo)</code>, then <strong>I can’t access private properties of Foo</strong>, thus limiting me to the public API of Foo.</p>
+
+<p>Now I end up adding accessors, thus breaking encapsulation and complexifying everything where all I wanted was improving the code.</p>
+
+<p>VB.Net has a concept of “Friend” visibility, i.e. if A is friend with B, then A can access private properties of B (or something like that it’s been a long time :p). PHP doesn’t have such a concept natively, but here is a tryout to apply it with workarounds.</p>
+
+<!-- more -->
+
+
+<p><em>Disclaimer</em>: the code is not pretty and is not for production. This is just an idea thrown around.</p>
+
+<p>```php
+&lt;?php
+class Foo {</p>
+
+<pre><code>private $bar = 'hello world';
+</code></pre>
+
+<p>}</p>
+
+<p>class FriendOfFoo {</p>
+
+<pre><code>public function doSomething($foo) {
+    return function() use ($foo) {
+        echo $foo-&gt;bar;
+    };
+}
+</code></pre>
+
+<p>}</p>
+
+<p>$foo = new Foo();</p>
+
+<p>$service = new FriendOfFoo();</p>
+
+<p>$closure = $service->doSomething($foo)&ndash;>bindTo(null, $foo);</p>
+
+<p>$closure();
+```</p>
+
+<p>See it in action on <a href="http://3v4l.org/e9RNO">3v4l.org</a>.</p>
+
+<p>Here, FriendOfFoo is a service that has access to Foo’s private and protected properties.</p>
+
+<p>We achieve that by writing the methods of the service into closures. We can then <a href="http://php.net/manual/en/closure.bindto.php">bind those closures to the context of Foo</a>, and voilà!</p>
+
+<p>If you see a better way of achieving this, I am interested.</p>
+]]></content>
+  </entry>
+  
+</feed>

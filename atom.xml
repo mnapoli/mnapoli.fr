@@ -4,7 +4,7 @@
   <title><![CDATA[Matthieu Napoli]]></title>
   <link href="http://mnapoli.github.io/atom.xml" rel="self"/>
   <link href="http://mnapoli.github.io/"/>
-  <updated>2013-08-21T17:08:17+02:00</updated>
+  <updated>2013-09-04T22:07:03+02:00</updated>
   <id>http://mnapoli.github.io/</id>
   <author>
     <name><![CDATA[Matthieu Napoli]]></name>
@@ -12,6 +12,35 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Giving a try to Octopress as a blog engine]]></title>
+    <link href="http://mnapoli.github.io/giving-a-try-to-octopress-as-a-blog-engine/"/>
+    <updated>2013-08-21T16:17:00+02:00</updated>
+    <id>http://mnapoli.github.io/giving-a-try-to-octopress-as-a-blog-engine</id>
+    <content type="html"><![CDATA[<p>This blog was running on Wordpress. And I hated it.</p>
+
+<p>Writing an article was really not funny, especially when I needed to include some code!</p>
+
+<p>In 2013, what&rsquo;s the best way to write down text and code? <strong>Markdown</strong>!</p>
+
+<!-- more -->
+
+
+<p>So I gave a try to <a href="http://jekyllrb.com/">Jekyll</a> first, and it was quite nice. But then I stumbled upon <a href="http://octopress.org/"><strong>Octopress</strong></a>, and given that is a real blog engine, I switched. I had to rewrite all the previous article into Markdown, and it was fast!</p>
+
+<p>So right now I&rsquo;m loving it. Especially the fact that I can write drafts anywhere using a text editor, that anybody can submit pull requests through Github to fix an article, and that my articles are finally in a standardized reusable format on my hard drive.</p>
+
+<p>It&rsquo;s fair to mention the not funny parts though:</p>
+
+<ul>
+<li>You need to install ruby, rvm, and many things. Because of OS X, zsh and stuff, I got stuck and frustrated :(</li>
+<li>With Octopress, you need to work on a <code>source</code> branch, not the <code>master</code> branch: there&rsquo;s a <code>rake deploy</code> command to publish to master</li>
+<li>It&rsquo;s not that easy to work with themes, plugins, …</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Friend services?]]></title>

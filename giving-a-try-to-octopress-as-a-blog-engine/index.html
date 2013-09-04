@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>jQuery plugin: Confirm dialogs for HTML links and buttons - Matthieu Napoli</title>
+  <title>Giving a try to Octopress as a blog engine - Matthieu Napoli</title>
   <meta name="author" content="Matthieu Napoli">
 
   
-  <meta name="description" content="jQuery plugin: Confirm dialogs for HTML links and buttons Mar 5th, 2013 This is the first open source project created at my company, so I am quite &hellip;">
+  <meta name="description" content="Giving a try to Octopress as a blog engine Aug 21st, 2013 This blog was running on Wordpress. And I hated it. Writing an article was really not &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://mnapoli.github.io/confirm-dialogs-for-html-links-and-buttons">
+  <link rel="canonical" href="http://mnapoli.github.io/giving-a-try-to-octopress-as-a-blog-engine">
   <link href="/favicon.png" rel="icon">
   <link href='http://fonts.googleapis.com/css?family=Quicksand:300,400' rel='stylesheet' type='text/css'>
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
@@ -86,7 +86,7 @@
 
   <header>
   <div class="jumbotron">
-    jQuery plugin: Confirm dialogs for HTML links and buttons
+    Giving a try to Octopress as a blog engine
 	<h5>
 
 
@@ -99,54 +99,32 @@
   
 
 
-<i class="icon-calendar-empty"></i> <time datetime="2013-03-05T20:00:00+01:00" pubdate data-updated="true">Mar 5<span>th</span>, 2013</time></h5>
+<i class="icon-calendar-empty"></i> <time datetime="2013-08-21T16:17:00+02:00" pubdate data-updated="true">Aug 21<span>st</span>, 2013</time></h5>
   </div>
 </header>
   <div class="row-fluid">
     <div class="span12">
-      <p>This is the first open source project created at my company, so I am quite proud of it even though it is not much.</p>
+      <p>This blog was running on Wordpress. And I hated it.</p>
 
-<p>The name is <a href="http://myclabs.github.io/jquery.confirm/"><strong>jquery.confirm</strong></a>, which is pretty explicit. It lets you have confirmation dialogs for links or buttons. For example, <strong>&ldquo;Are you sure you want to delete that comment?&rdquo;</strong> kind of things.</p>
+<p>Writing an article was really not funny, especially when I needed to include some code!</p>
 
-<p>I am going to present its basic usage and options here.</p>
-
-<p>The idea is to write <a href="http://en.wikipedia.org/wiki/Unobtrusive_JavaScript">unobtrusive Javascript</a> by letting the user write clean HTML:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;home&quot;</span> <span class="na">class=</span><span class="s">&quot;confirm&quot;</span><span class="nt">&gt;</span>Go to home<span class="nt">&lt;/a&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>To enable confirmation on this link, simply:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.confirm&quot;</span><span class="p">).</span><span class="nx">confirm</span><span class="p">();</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
+<p>In 2013, what&rsquo;s the best way to write down text and code? <strong>Markdown</strong>!</p>
 
 <!-- more -->
 
 
-<p>That will show a confirmation dialog each time the user clicks the link. If the user confirms, the plugin will then redirect him to the link.</p>
+<p>So I gave a try to <a href="http://jekyllrb.com/">Jekyll</a> first, and it was quite nice. But then I stumbled upon <a href="http://octopress.org/"><strong>Octopress</strong></a>, and given that is a real blog engine, I switched. I had to rewrite all the previous article into Markdown, and it was fast!</p>
 
-<p>You can configure the texts and labels through the options. You can also change the actions that are executed when the user confirms (follow the link) or cancels (do nothing), so you can perform AJAX requests for example.</p>
+<p>So right now I&rsquo;m loving it. Especially the fact that I can write drafts anywhere using a text editor, that anybody can submit pull requests through Github to fix an article, and that my articles are finally in a standardized reusable format on my hard drive.</p>
 
-<p>One interesting option is to force the link to be called with a POST request instead of a GET:</p>
+<p>It&rsquo;s fair to mention the not funny parts though:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.confirm&quot;</span><span class="p">).</span><span class="nx">confirm</span><span class="p">({</span>
-</span><span class='line'>    <span class="nx">post</span><span class="o">:</span> <span class="kc">true</span>
-</span><span class='line'><span class="p">});</span>
-</span></code></pre></td></tr></table></div></figure>
+<ul>
+<li>You need to install ruby, rvm, and many things. Because of OS X, zsh and stuff, I got stuck and frustrated :(</li>
+<li>With Octopress, you need to work on a <code>source</code> branch, not the <code>master</code> branch: there&rsquo;s a <code>rake deploy</code> command to publish to master</li>
+<li>It&rsquo;s not that easy to work with themes, plugins, …</li>
+</ul>
 
-
-<p>On your server-side code, you can check that the request is POST and refuse GET request. That can help prevent security issues like someone sending a link to delete someone else’s account for example: <a href="http://example.com/my-account/delete.">http://example.com/my-account/delete.</a> If you only accept POST request, people clicking on that link won’t see their account deleted (because the request would be a GET).</p>
-
-<p>If you want to learn more or try it, the website contains the <a href="http://myclabs.github.io/jquery.confirm/">official documentation and some demos</a>.</p>
 
     </div>
   </div>
@@ -162,14 +140,6 @@
         <p class="meta">
         
         
-
-
-
-  <a href="/categories/jquery/"><span class="badge">jquery</span></a>
-
-  <a href="/categories/myc-labs/"><span class="badge">myc-labs</span></a>
-
-
 
 
         </p>
@@ -197,10 +167,8 @@
       <div class="span12">
         <p class="meta">
           
-            <a class="basic-alignment left" href="/be-a-better-programmer-take-a-step-back/" title="Previous Post: Be a better programmer: take a step back">&laquo; Be a better programmer: take a step back</a>
+            <a class="basic-alignment left" href="/friend-services/" title="Previous Post: Friend services?">&laquo; Friend services?</a>
           
-          
-            <a class="basic-alignment right" href="/the-optional-singleton-pattern/" title="Next Post: The “Optional Singleton” pattern">The “Optional Singleton” pattern &raquo;</a>
           
         </p>
       </div>
@@ -239,8 +207,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://mnapoli.github.io/confirm-dialogs-for-html-links-and-buttons/';
-        var disqus_url = 'http://mnapoli.github.io/confirm-dialogs-for-html-links-and-buttons/';
+        var disqus_identifier = 'http://mnapoli.github.io/giving-a-try-to-octopress-as-a-blog-engine/';
+        var disqus_url = 'http://mnapoli.github.io/giving-a-try-to-octopress-as-a-blog-engine/';
         var disqus_script = 'embed.js';
       
     (function () {
