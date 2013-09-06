@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Giving a try to Octopress as a blog engine - Matthieu Napoli</title>
+  <title>Running composer install when you switch branch - Matthieu Napoli</title>
   <meta name="author" content="Matthieu Napoli">
 
   
-  <meta name="description" content="Giving a try to Octopress as a blog engine Aug 21st, 2013 This blog was running on Wordpress. And I hated it. Writing an article was really not &hellip;">
+  <meta name="description" content="Running composer install when you switch branch Sep 9th, 2013 When working with Composer and git branches, you will end up either: reinstalling &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://mnapoli.github.io/giving-a-try-to-octopress-as-a-blog-engine">
+  <link rel="canonical" href="http://mnapoli.github.io/run-composer-install-when-you-switch-branch">
   <link href="/favicon.png" rel="icon">
   <link href='http://fonts.googleapis.com/css?family=Quicksand:300,400' rel='stylesheet' type='text/css'>
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
@@ -86,7 +86,7 @@
 
   <header>
   <div class="jumbotron">
-    Giving a try to Octopress as a blog engine
+    Running composer install when you switch branch
 	<h5>
 
 
@@ -99,32 +99,37 @@
   
 
 
-<i class="icon-calendar-empty"></i> <time datetime="2013-08-21T16:17:00+02:00" pubdate data-updated="true">Aug 21<span>st</span>, 2013</time></h5>
+<i class="icon-calendar-empty"></i> <time datetime="2013-09-09T17:03:00+02:00" pubdate data-updated="true">Sep 9<span>th</span>, 2013</time></h5>
   </div>
 </header>
   <div class="row-fluid">
     <div class="span12">
-      <p>This blog was running on Wordpress. And I hated it.</p>
-
-<p>Writing an article was really not funny, especially when I needed to include some code!</p>
-
-<p>In 2013, what&rsquo;s the best way to write down text and code? <strong>Markdown</strong>!</p>
-
-<!-- more -->
-
-
-<p>So I gave a try to <a href="http://jekyllrb.com/">Jekyll</a> first, and it was quite nice. But then I stumbled upon <a href="http://octopress.org/"><strong>Octopress</strong></a>, and given that is a real blog engine, I switched. I had to rewrite all the previous article into Markdown, and it was fast!</p>
-
-<p>So right now I&rsquo;m loving it. Especially the fact that I can write drafts anywhere using a text editor, that anybody can submit pull requests through Github to fix an article, and that my articles are finally in a standardized reusable format on my hard drive.</p>
-
-<p>It&rsquo;s fair to mention the not funny parts though:</p>
+      <p>When working with <a href="http://getcomposer.org/">Composer</a> and git branches, you will end up either:</p>
 
 <ul>
-<li>You need to install ruby, rvm, and many things. Because of OS X, zsh and stuff, I got stuck and frustrated :(</li>
-<li>With Octopress, you need to work on a <code>source</code> branch, not the <code>master</code> branch: there&rsquo;s a <code>rake deploy</code> command to publish to master</li>
-<li>It&rsquo;s not that easy to work with themes, plugins, …</li>
+<li>reinstalling dependencies each time you switch branch</li>
+<li>or meeting weird bugs because you didn&rsquo;t</li>
 </ul>
 
+
+<p>because <code>composer.json</code> may have changed between branches.</p>
+
+<p>To have composer automatically re-install dependencies when you switch to a branch, simply create a <code>.git/hooks/post-checkout</code> file in your project repository:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c">#!/bin/sh</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">cd</span> <span class="nv">$GIT_DIR</span>/..
+</span><span class='line'>
+</span><span class='line'>composer install
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This is a git post-checkout hook (as the name suggest)</p>
 
     </div>
   </div>
@@ -140,6 +145,14 @@
         <p class="meta">
         
         
+
+
+
+  <a href="/categories/composer/"><span class="badge">composer</span></a>
+
+  <a href="/categories/git/"><span class="badge">git</span></a>
+
+
 
 
         </p>
@@ -167,10 +180,8 @@
       <div class="span12">
         <p class="meta">
           
-            <a class="basic-alignment left" href="/friend-services/" title="Previous Post: Friend services?">&laquo; Friend services?</a>
+            <a class="basic-alignment left" href="/i-herd-you-like-tests/" title="Previous Post: I herd you like tests">&laquo; I herd you like tests</a>
           
-          
-            <a class="basic-alignment right" href="/i-herd-you-like-tests/" title="Next Post: I herd you like tests">I herd you like tests &raquo;</a>
           
         </p>
       </div>
@@ -209,8 +220,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://mnapoli.github.io/giving-a-try-to-octopress-as-a-blog-engine/';
-        var disqus_url = 'http://mnapoli.github.io/giving-a-try-to-octopress-as-a-blog-engine/';
+        var disqus_identifier = 'http://mnapoli.github.io/run-composer-install-when-you-switch-branch/';
+        var disqus_url = 'http://mnapoli.github.io/run-composer-install-when-you-switch-branch/';
         var disqus_script = 'embed.js';
       
     (function () {

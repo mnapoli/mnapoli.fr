@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: git | Matthieu Napoli]]></title>
+  <link href="http://mnapoli.github.io/categories/git/atom.xml" rel="self"/>
+  <link href="http://mnapoli.github.io/"/>
+  <updated>2013-09-06T11:23:40+02:00</updated>
+  <id>http://mnapoli.github.io/</id>
+  <author>
+    <name><![CDATA[Matthieu Napoli]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Running composer install when you switch branch]]></title>
+    <link href="http://mnapoli.github.io/run-composer-install-when-you-switch-branch/"/>
+    <updated>2013-09-09T17:03:00+02:00</updated>
+    <id>http://mnapoli.github.io/run-composer-install-when-you-switch-branch</id>
+    <content type="html"><![CDATA[<p>When working with <a href="http://getcomposer.org/">Composer</a> and git branches, you will end up either:</p>
+
+<ul>
+<li>reinstalling dependencies each time you switch branch</li>
+<li>or meeting weird bugs because you didn&rsquo;t</li>
+</ul>
+
+
+<p>because <code>composer.json</code> may have changed between branches.</p>
+
+<p>To have composer automatically re-install dependencies when you switch to a branch, simply create a <code>.git/hooks/post-checkout</code> file in your project repository:</p>
+
+<p>```sh</p>
+
+<h1>!/bin/sh</h1>
+
+<p>cd $GIT_DIR/..</p>
+
+<p>composer install
+```</p>
+
+<p>This is a git post-checkout hook (as the name suggest)</p>
+]]></content>
+  </entry>
+  
+</feed>

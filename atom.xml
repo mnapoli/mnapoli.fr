@@ -4,7 +4,7 @@
   <title><![CDATA[Matthieu Napoli]]></title>
   <link href="http://mnapoli.github.io/atom.xml" rel="self"/>
   <link href="http://mnapoli.github.io/"/>
-  <updated>2013-09-05T10:28:29+02:00</updated>
+  <updated>2013-09-06T11:23:40+02:00</updated>
   <id>http://mnapoli.github.io/</id>
   <author>
     <name><![CDATA[Matthieu Napoli]]></name>
@@ -12,6 +12,157 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Running composer install when you switch branch]]></title>
+    <link href="http://mnapoli.github.io/run-composer-install-when-you-switch-branch/"/>
+    <updated>2013-09-09T17:03:00+02:00</updated>
+    <id>http://mnapoli.github.io/run-composer-install-when-you-switch-branch</id>
+    <content type="html"><![CDATA[<p>When working with <a href="http://getcomposer.org/">Composer</a> and git branches, you will end up either:</p>
+
+<ul>
+<li>reinstalling dependencies each time you switch branch</li>
+<li>or meeting weird bugs because you didn&rsquo;t</li>
+</ul>
+
+
+<p>because <code>composer.json</code> may have changed between branches.</p>
+
+<p>To have composer automatically re-install dependencies when you switch to a branch, simply create a <code>.git/hooks/post-checkout</code> file in your project repository:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c">#!/bin/sh</span>
+</span><span class='line'>
+</span><span class='line'><span class="nb">cd</span> <span class="nv">$GIT_DIR</span>/..
+</span><span class='line'>
+</span><span class='line'>composer install
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This is a git post-checkout hook (as the name suggest)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[I herd you like tests]]></title>
+    <link href="http://mnapoli.github.io/i-herd-you-like-tests/"/>
+    <updated>2013-08-22T16:17:00+02:00</updated>
+    <id>http://mnapoli.github.io/i-herd-you-like-tests</id>
+    <content type="html"><![CDATA[<p>So you chose to test your application using unit/functional tests.</p>
+
+<p><strong>How do you ensure your tests do indeed test what you expect?</strong></p>
+
+<p>Fear not! Here comes <strong>TestsTester</strong>!</p>
+
+<!-- more -->
+
+
+<h2>Use case</h2>
+
+<figure class='code'><figcaption><span>tests/MyTest.php</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="o">&lt;?</span><span class="nx">php</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">MyTest</span> <span class="k">extends</span> <span class="nx">PHPUnit_Framework_TestCase</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">public</span> <span class="k">function</span> <span class="nf">testDate</span><span class="p">()</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="nv">$entry</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Entry</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">assertNotNull</span><span class="p">(</span><span class="nv">$entry</span><span class="o">-&gt;</span><span class="na">getDate</span><span class="p">());</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Woops, I forgot to test that the date is in the past:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">assertLessThanOrEqual</span><span class="p">(</span><span class="k">new</span> <span class="nx">DateTime</span><span class="p">(),</span> <span class="nv">$entry</span><span class="o">-&gt;</span><span class="na">getDate</span><span class="p">());</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now my sofware is filled with bugs!</p>
+
+<h2>Usage</h2>
+
+<p>With <strong>TestsTester</strong>, I would have detected that:</p>
+
+<figure class='code'><figcaption><span>teststests/MyTestTest.php</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="o">&lt;?</span><span class="nx">php</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">MyTestTest</span> <span class="k">extends</span> <span class="nx">TestsTester</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">public</span> <span class="k">function</span> <span class="nf">testTestDate</span><span class="p">()</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="nv">$test</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Test</span><span class="p">(</span><span class="s1">&#39;MyTest&#39;</span><span class="p">,</span> <span class="s1">&#39;testDate&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="nv">$test</span><span class="o">-&gt;</span><span class="na">checkAssertNotNull</span><span class="p">(</span><span class="s1">&#39;$entry-&gt;getDate()&#39;</span><span class="p">);</span>
+</span><span class='line'>        <span class="nv">$test</span><span class="o">-&gt;</span><span class="na">checkAssertLessThanOrEqual</span><span class="p">(</span><span class="s1">&#39;new DateTime()&#39;</span><span class="p">,</span> <span class="s1">&#39;$entry-&gt;getDate()&#39;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You can then run the test tests:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'><span class="nv">$ </span>testtester teststests/
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Result:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='bash'><span class='line'>TestsTester 1.0.0
+</span><span class='line'>
+</span><span class='line'>F
+</span><span class='line'>
+</span><span class='line'>There was 1 failure:
+</span><span class='line'>
+</span><span class='line'>1<span class="o">)</span> MyTestTest::testTestDate
+</span><span class='line'><span class="s1">&#39;MyTest::testDate&#39;</span> <span class="k">do </span>not <span class="nb">test </span>that <span class="s1">&#39;$entry-&gt;getDate()&#39;</span> is less than or equal to <span class="s1">&#39;new DateTime()&#39;</span>.
+</span><span class='line'>
+</span><span class='line'>FAILURES!
+</span><span class='line'>Tests: 1, Assertions: 2, Failures: 1.
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Give it a try and check out all the crazy features at <a href="http://www.youtube.com/watch?v=dQw4w9WgXcQ"><strong>TestsTester.com</strong></a>.</p>
+
+<p><img src="http://mnapoli.github.io/images/posts/yo-dawg.jpg" width="300"></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Giving a try to Octopress as a blog engine]]></title>
