@@ -77,6 +77,6 @@ FAILURES!
 Tests: 1, Assertions: 2, Failures: 1.
 ```
 
-Give it a try and check out all the crazy features at [**TestsTester.com**](http://www.youtube.com/watch?v=dQw4w9WgXcQ).
+Give it a try and check out all the crazy features at [**TestsTester.com**](http://bit.ly/7JJSz8).
 
 {% img /images/posts/yo-dawg.jpg 300 %}
