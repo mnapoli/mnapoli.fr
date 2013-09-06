@@ -4,7 +4,6 @@ title: "I herd you like tests"
 date: 2013-08-22 16:17
 comments: true
 categories:
-published: false
 ---
 
 So you chose to test your application using unit/functional tests.

@@ -4,7 +4,6 @@ title: "Running composer install when you switch branch"
 date: 2013-09-09 17:03
 comments: true
 categories: git composer
-published: false
 ---
 
 When working with [Composer](http://getcomposer.org/) and git branches, you will end up either:
@@ -12,7 +11,7 @@ When working with [Composer](http://getcomposer.org/) and git branches, you will
 - reinstalling dependencies each time you switch branch
 - or meeting weird bugs because you didn't
 
-because
+because `composer.json` may have changed between branches.
 
 To have composer automatically re-install dependencies when you switch to a branch, simply create a `.git/hooks/post-checkout` file in your project repository:
 
