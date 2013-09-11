@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Matthieu Napoli]]></title>
-  <link href="http://mnapoli.github.io/atom.xml" rel="self"/>
-  <link href="http://mnapoli.github.io/"/>
-  <updated>2013-09-11T12:33:27+02:00</updated>
-  <id>http://mnapoli.github.io/</id>
+  <link href="http://mnapoli.fr/atom.xml" rel="self"/>
+  <link href="http://mnapoli.fr/"/>
+  <updated>2013-09-11T12:41:01+02:00</updated>
+  <id>http://mnapoli.fr/</id>
   <author>
     <name><![CDATA[Matthieu Napoli]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Running composer install when you switch branch]]></title>
-    <link href="http://mnapoli.github.io/run-composer-install-when-you-switch-branch/"/>
+    <link href="http://mnapoli.fr/run-composer-install-when-you-switch-branch/"/>
     <updated>2013-09-09T17:03:00+02:00</updated>
-    <id>http://mnapoli.github.io/run-composer-install-when-you-switch-branch</id>
+    <id>http://mnapoli.fr/run-composer-install-when-you-switch-branch</id>
     <content type="html"><![CDATA[<p>When working with <a href="http://getcomposer.org/">Composer</a> and git branches, you will end up either:</p>
 
 <ul>
@@ -49,9 +49,9 @@
   
   <entry>
     <title type="html"><![CDATA[I herd you like tests]]></title>
-    <link href="http://mnapoli.github.io/i-herd-you-like-tests/"/>
+    <link href="http://mnapoli.fr/i-herd-you-like-tests/"/>
     <updated>2013-08-22T16:17:00+02:00</updated>
-    <id>http://mnapoli.github.io/i-herd-you-like-tests</id>
+    <id>http://mnapoli.fr/i-herd-you-like-tests</id>
     <content type="html"><![CDATA[<p>So you chose to test your application using unit/functional tests.</p>
 
 <p><strong>How do you ensure your tests do indeed test what you expect?</strong></p>
@@ -160,15 +160,15 @@
 
 <p>Give it a try and check out all the crazy features at <a href="http://bit.ly/7JJSz8"><strong>TestsTester.com</strong></a>.</p>
 
-<p><img src="http://mnapoli.github.io/images/posts/yo-dawg.jpg" width="300"></p>
+<p><img src="http://mnapoli.fr/images/posts/yo-dawg.jpg" width="300"></p>
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[Giving a try to Octopress as a blog engine]]></title>
-    <link href="http://mnapoli.github.io/giving-a-try-to-octopress-as-a-blog-engine/"/>
+    <link href="http://mnapoli.fr/giving-a-try-to-octopress-as-a-blog-engine/"/>
     <updated>2013-08-21T16:17:00+02:00</updated>
-    <id>http://mnapoli.github.io/giving-a-try-to-octopress-as-a-blog-engine</id>
+    <id>http://mnapoli.fr/giving-a-try-to-octopress-as-a-blog-engine</id>
     <content type="html"><![CDATA[<p>This blog was running on Wordpress. And I hated it.</p>
 
 <p>Writing an article was really not funny, especially when I needed to include some code!</p>
@@ -195,9 +195,9 @@
   
   <entry>
     <title type="html"><![CDATA[Friend services?]]></title>
-    <link href="http://mnapoli.github.io/friend-services/"/>
+    <link href="http://mnapoli.fr/friend-services/"/>
     <updated>2013-08-09T17:03:00+02:00</updated>
-    <id>http://mnapoli.github.io/friend-services</id>
+    <id>http://mnapoli.fr/friend-services</id>
     <content type="html"><![CDATA[<p>Using the Domain Driven Design methodology, I sometimes end up on such a situation: a behavior in a model class is complex and involving other classes. It’s time to put that behavior in a service (or a factory if the situation applies to a constructor).</p>
 
 <p>The problem is that in my service, I am not in the context of the domain class. If I move <code>Foo::something()</code> into <code>FooService::something($foo)</code>, then <strong>I can’t access private properties of Foo</strong>, thus limiting me to the public API of Foo.</p>
@@ -266,9 +266,9 @@
   
   <entry>
     <title type="html"><![CDATA[Controllers as services?]]></title>
-    <link href="http://mnapoli.github.io/controllers-as-services/"/>
+    <link href="http://mnapoli.fr/controllers-as-services/"/>
     <updated>2013-07-01T20:00:00+02:00</updated>
-    <id>http://mnapoli.github.io/controllers-as-services</id>
+    <id>http://mnapoli.fr/controllers-as-services</id>
     <content type="html"><![CDATA[<p>This post is sort-of a response to the <a href="http://www.whitewashing.de/2013/06/27/extending_symfony2__controller_utilities.html">blog post of Benjamin Eberlei about Controllers in Symfony 2</a>.</p>
 
 <p>The subject is about Controllers and their dependencies:</p>
@@ -397,9 +397,9 @@
   
   <entry>
     <title type="html"><![CDATA[Should you really write ugly code? Spoiler: no]]></title>
-    <link href="http://mnapoli.github.io/should-you-really-write-ugly-code-no/"/>
+    <link href="http://mnapoli.fr/should-you-really-write-ugly-code-no/"/>
     <updated>2013-06-09T20:00:00+02:00</updated>
-    <id>http://mnapoli.github.io/should-you-really-write-ugly-code-no</id>
+    <id>http://mnapoli.fr/should-you-really-write-ugly-code-no</id>
     <content type="html"><![CDATA[<p>I recently stumbled upon François Zaninotto’s blog post: <a href="http://redotheweb.com/2013/06/04/you-should-write-ugly-code.html">You should write ugly code</a>. While he makes several good points, I strongly disagree with him and I feel the urge to give my opinion on the matter (what did you expect, this is a blog).</p>
 
 <p>The point that he makes is that he encourages developers to write “ugly code”, i.e. code that works and that doesn’t follow best practices or anything related to code quality.</p>
@@ -410,7 +410,7 @@
 
 <p>Well that’s true. That’s called <strong>Technical Debt</strong>. And like any debt, you’ll have to repay later.</p>
 
-<p><img src="http://mnapoli.github.io/images/posts/technical-debt.png" width="400"></p>
+<p><img src="http://mnapoli.fr/images/posts/technical-debt.png" width="400"></p>
 
 <!-- more -->
 
@@ -443,9 +443,9 @@
   
   <entry>
     <title type="html"><![CDATA[Code coverage reports with GitHub, Travis and Coveralls]]></title>
-    <link href="http://mnapoli.github.io/code-coverage-reports-with-github-travis-and/"/>
+    <link href="http://mnapoli.fr/code-coverage-reports-with-github-travis-and/"/>
     <updated>2013-06-08T20:00:00+02:00</updated>
-    <id>http://mnapoli.github.io/code-coverage-reports-with-github-travis-and</id>
+    <id>http://mnapoli.fr/code-coverage-reports-with-github-travis-and</id>
     <content type="html"><![CDATA[<p>You have a PHP project hosted on GitHub with continuous integration using Travis-CI?</p>
 
 <p>How about setting up <strong>code coverage reports</strong>?</p>
@@ -511,9 +511,9 @@
   
   <entry>
     <title type="html"><![CDATA[Overriding dependencies with Composer]]></title>
-    <link href="http://mnapoli.github.io/overriding-dependencies-with-composer/"/>
+    <link href="http://mnapoli.fr/overriding-dependencies-with-composer/"/>
     <updated>2013-04-16T20:00:00+02:00</updated>
-    <id>http://mnapoli.github.io/overriding-dependencies-with-composer</id>
+    <id>http://mnapoli.fr/overriding-dependencies-with-composer</id>
     <content type="html"><![CDATA[<p>At my company, <strong>My C-Sense</strong>, we use Doctrine amongst other PHP frameworks and libraries. When we find bugs (or need new features), we contribute to the project through our <a href="https://github.com/myclabs">open source initiative</a>.</p>
 
 <p>The problem is when we submit a pull request on Github, several months usually happen until our fix appears in a stable release.</p>
@@ -572,9 +572,9 @@
   
   <entry>
     <title type="html"><![CDATA[Programming jokes of the week end]]></title>
-    <link href="http://mnapoli.github.io/programming-jokes-of-the-week-end/"/>
+    <link href="http://mnapoli.fr/programming-jokes-of-the-week-end/"/>
     <updated>2013-04-01T20:00:00+02:00</updated>
-    <id>http://mnapoli.github.io/programming-jokes-of-the-week-end</id>
+    <id>http://mnapoli.fr/programming-jokes-of-the-week-end</id>
     <content type="html"><![CDATA[<p>Every developer knows this joke:</p>
 
 <blockquote><p>Some people, when confronted with a problem, think “I know, I’ll use regular expressions.” Now they have two problems.</p></blockquote>
@@ -587,28 +587,28 @@
 
 
 <div class='embed tweet'><blockquote class="twitter-tweet"><p>A programmer had a problem. He thought to himself, &quot;I know, I&#39;ll solve it with threads!&quot;. has Now problems. two he</p>&mdash; Davidlohr Bueso (@davidlohr) <a href="https://twitter.com/davidlohr/statuses/288786300067270656">January 8, 2013</a></blockquote>
-<script async src="http://mnapoli.github.io//platform.twitter.com/widgets.js" charset="utf-8"></script></div>
+<script async src="http://mnapoli.fr//platform.twitter.com/widgets.js" charset="utf-8"></script></div>
 
 
 
 
 <div class='embed tweet'><blockquote class="twitter-tweet"><p><a href="https://twitter.com/davidlohr">@davidlohr</a> <a href="https://twitter.com/stramit">@stramit</a> &quot;I know! I&#39;ll add some locks!&quot; Now he ha</p>&mdash; Aras Pranckevičius (@aras_p) <a href="https://twitter.com/aras_p/statuses/289026199852830720">January 9, 2013</a></blockquote>
-<script async src="http://mnapoli.github.io//platform.twitter.com/widgets.js" charset="utf-8"></script></div>
+<script async src="http://mnapoli.fr//platform.twitter.com/widgets.js" charset="utf-8"></script></div>
 
 
 
 
 <div class='embed tweet'><blockquote class="twitter-tweet"><p><a href="https://twitter.com/davidlohr">@davidlohr</a> <a href="https://twitter.com/TheZotmeister">@TheZotmeister</a> and dear lord if he was handling udp packets. Then. And dear lord if he was handling udp packets. Then he would ha</p>&mdash; Juuso (@gameproducer) <a href="https://twitter.com/gameproducer/statuses/289081742248251394">January 9, 2013</a></blockquote>
-<script async src="http://mnapoli.github.io//platform.twitter.com/widgets.js" charset="utf-8"></script></div>
+<script async src="http://mnapoli.fr//platform.twitter.com/widgets.js" charset="utf-8"></script></div>
 
 ]]></content>
   </entry>
   
   <entry>
     <title type="html"><![CDATA[The “Optional Singleton” pattern]]></title>
-    <link href="http://mnapoli.github.io/the-optional-singleton-pattern/"/>
+    <link href="http://mnapoli.fr/the-optional-singleton-pattern/"/>
     <updated>2013-03-22T20:00:00+01:00</updated>
-    <id>http://mnapoli.github.io/the-optional-singleton-pattern</id>
+    <id>http://mnapoli.fr/the-optional-singleton-pattern</id>
     <content type="html"><![CDATA[<p>The <a href="http://en.wikipedia.org/wiki/Singleton_pattern">singleton</a> is a practical design pattern, that’s the reason it is so popular amongst beginners. It is also an anti-pattern because of the problems it introduces (global state, difficult to test, …).</p>
 
 <p>While I agree with that, and the fact that Singletons should be used with (a lot of) moderation, I also like an alternative pattern which comes with the advantage of the singleton and balances out its disadvantages. This can be useful if you have to work on a codebase that has singletons.</p>
@@ -654,9 +654,9 @@
   
   <entry>
     <title type="html"><![CDATA[jQuery plugin: Confirm dialogs for HTML links and buttons]]></title>
-    <link href="http://mnapoli.github.io/confirm-dialogs-for-html-links-and-buttons/"/>
+    <link href="http://mnapoli.fr/confirm-dialogs-for-html-links-and-buttons/"/>
     <updated>2013-03-05T20:00:00+01:00</updated>
-    <id>http://mnapoli.github.io/confirm-dialogs-for-html-links-and-buttons</id>
+    <id>http://mnapoli.fr/confirm-dialogs-for-html-links-and-buttons</id>
     <content type="html"><![CDATA[<p>This is the first open source project created at my company, so I am quite proud of it even though it is not much.</p>
 
 <p>The name is <a href="http://myclabs.github.io/jquery.confirm/"><strong>jquery.confirm</strong></a>, which is pretty explicit. It lets you have confirmation dialogs for links or buttons. For example, <strong>&ldquo;Are you sure you want to delete that comment?&rdquo;</strong> kind of things.</p>
@@ -705,9 +705,9 @@
   
   <entry>
     <title type="html"><![CDATA[Be a better programmer: take a step back]]></title>
-    <link href="http://mnapoli.github.io/be-a-better-programmer-take-a-step-back/"/>
+    <link href="http://mnapoli.fr/be-a-better-programmer-take-a-step-back/"/>
     <updated>2013-02-04T20:00:00+01:00</updated>
-    <id>http://mnapoli.github.io/be-a-better-programmer-take-a-step-back</id>
+    <id>http://mnapoli.fr/be-a-better-programmer-take-a-step-back</id>
     <content type="html"><![CDATA[<p><em>Replace [client] by [boss] or anything of the kind if you prefer.</em></p>
 
 <h2>A day at work</h2>
@@ -825,9 +825,9 @@
   
   <entry>
     <title type="html"><![CDATA[Doctrine schema validation in a PHPUnit test]]></title>
-    <link href="http://mnapoli.github.io/doctrine-schema-validation-in-a-phpunit-test/"/>
+    <link href="http://mnapoli.fr/doctrine-schema-validation-in-a-phpunit-test/"/>
     <updated>2012-12-10T20:00:00+01:00</updated>
-    <id>http://mnapoli.github.io/doctrine-schema-validation-in-a-phpunit-test</id>
+    <id>http://mnapoli.fr/doctrine-schema-validation-in-a-phpunit-test</id>
     <content type="html"><![CDATA[<p>Doctrine offers a <a href="http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/tools.html#runtime-vs-development-mapping-validation">command line option to validate the schema</a> (or mapping):</p>
 
 <figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
@@ -853,9 +853,9 @@
   
   <entry>
     <title type="html"><![CDATA[Introduction to Dependency Injection with a real life example]]></title>
-    <link href="http://mnapoli.github.io/introduction-dependency-injection-with-real-life-example/"/>
+    <link href="http://mnapoli.fr/introduction-dependency-injection-with-real-life-example/"/>
     <updated>2012-12-06T20:00:00+01:00</updated>
-    <id>http://mnapoli.github.io/introduction-dependency-injection-with-real-life-example</id>
+    <id>http://mnapoli.fr/introduction-dependency-injection-with-real-life-example</id>
     <content type="html"><![CDATA[<p>This example is an introduction to the <strong>Dependency Injection</strong> concept. It is based on the PHP library <a href="http://mnapoli.github.com/PHP-DI/">PHP-DI</a>.</p>
 
 <h2>Classic implementation</h2>
@@ -992,9 +992,9 @@
   
   <entry>
     <title type="html"><![CDATA[The PHP-FIG should define PHP interfaces]]></title>
-    <link href="http://mnapoli.github.io/php-fig-should-define-php-interfaces/"/>
+    <link href="http://mnapoli.fr/php-fig-should-define-php-interfaces/"/>
     <updated>2012-11-23T20:00:00+01:00</updated>
-    <id>http://mnapoli.github.io/php-fig-should-define-php-interfaces</id>
+    <id>http://mnapoli.fr/php-fig-should-define-php-interfaces</id>
     <content type="html"><![CDATA[<p>Bouncing on the discussion initiated in the <a href="https://github.com/php-fig/fig-standards/issues/57">#52</a> ticket of the PHP-FIG project on Github: « <strong>Explain the scope of the PSR system</strong> », I’ll explain the case I’m trying to make.</p>
 
 <p>First, <a href="http://www.php-fig.org/"><strong>PHP-FIG</strong></a>, which stands for <em>Framework Interoperability Group</em>, is a gathering of major PHP frameworks and project who try to:</p>
@@ -1030,9 +1030,9 @@
   
   <entry>
     <title type="html"><![CDATA[Doctrine 2 YAML reference]]></title>
-    <link href="http://mnapoli.github.io/doctrine-2-yaml-reference/"/>
+    <link href="http://mnapoli.fr/doctrine-2-yaml-reference/"/>
     <updated>2012-10-05T20:00:00+02:00</updated>
-    <id>http://mnapoli.github.io/doctrine-2-yaml-reference</id>
+    <id>http://mnapoli.fr/doctrine-2-yaml-reference</id>
     <content type="html"><![CDATA[<p>If you are working with Doctrine 2 and its YAML configuration files for the object mapping, you may find the documentation lacking some details.</p>
 
 <p>Here is a gist of all the YAML syntax possible:</p>
@@ -1052,9 +1052,9 @@
   
   <entry>
     <title type="html"><![CDATA[Dependency Injection with PHP]]></title>
-    <link href="http://mnapoli.github.io/dependency-injection-with-php/"/>
+    <link href="http://mnapoli.fr/dependency-injection-with-php/"/>
     <updated>2012-09-20T20:00:00+02:00</updated>
-    <id>http://mnapoli.github.io/dependency-injection-with-php</id>
+    <id>http://mnapoli.fr/dependency-injection-with-php</id>
     <content type="html"><![CDATA[<p>I used to develop using Singletons, registries or even static classes. Those days are gone.</p>
 
 <p>I decided to use <strong>Dependency Injection</strong> so that:</p>

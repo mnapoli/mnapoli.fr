@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: 
 
-Sitemap: http://mnapoli.github.io/sitemap.xml 
+Sitemap: http://mnapoli.fr/sitemap.xml 

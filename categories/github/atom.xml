@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: github | Matthieu Napoli]]></title>
-  <link href="http://mnapoli.github.io/categories/github/atom.xml" rel="self"/>
-  <link href="http://mnapoli.github.io/"/>
-  <updated>2013-09-11T12:33:27+02:00</updated>
-  <id>http://mnapoli.github.io/</id>
+  <link href="http://mnapoli.fr/categories/github/atom.xml" rel="self"/>
+  <link href="http://mnapoli.fr/"/>
+  <updated>2013-09-11T12:41:01+02:00</updated>
+  <id>http://mnapoli.fr/</id>
   <author>
     <name><![CDATA[Matthieu Napoli]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Code coverage reports with GitHub, Travis and Coveralls]]></title>
-    <link href="http://mnapoli.github.io/code-coverage-reports-with-github-travis-and/"/>
+    <link href="http://mnapoli.fr/code-coverage-reports-with-github-travis-and/"/>
     <updated>2013-06-08T20:00:00+02:00</updated>
-    <id>http://mnapoli.github.io/code-coverage-reports-with-github-travis-and</id>
+    <id>http://mnapoli.fr/code-coverage-reports-with-github-travis-and</id>
     <content type="html"><![CDATA[<p>You have a PHP project hosted on GitHub with continuous integration using Travis-CI?</p>
 
 <p>How about setting up <strong>code coverage reports</strong>?</p>
@@ -66,9 +66,9 @@ language: php</p>
   
   <entry>
     <title type="html"><![CDATA[Overriding dependencies with Composer]]></title>
-    <link href="http://mnapoli.github.io/overriding-dependencies-with-composer/"/>
+    <link href="http://mnapoli.fr/overriding-dependencies-with-composer/"/>
     <updated>2013-04-16T20:00:00+02:00</updated>
-    <id>http://mnapoli.github.io/overriding-dependencies-with-composer</id>
+    <id>http://mnapoli.fr/overriding-dependencies-with-composer</id>
     <content type="html"><![CDATA[<p>At my company, <strong>My C-Sense</strong>, we use Doctrine amongst other PHP frameworks and libraries. When we find bugs (or need new features), we contribute to the project through our <a href="https://github.com/myclabs">open source initiative</a>.</p>
 
 <p>The problem is when we submit a pull request on Github, several months usually happen until our fix appears in a stable release.</p>

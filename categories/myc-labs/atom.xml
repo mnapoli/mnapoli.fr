@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: myc-labs | Matthieu Napoli]]></title>
-  <link href="http://mnapoli.github.io/categories/myc-labs/atom.xml" rel="self"/>
-  <link href="http://mnapoli.github.io/"/>
-  <updated>2013-09-11T12:33:27+02:00</updated>
-  <id>http://mnapoli.github.io/</id>
+  <link href="http://mnapoli.fr/categories/myc-labs/atom.xml" rel="self"/>
+  <link href="http://mnapoli.fr/"/>
+  <updated>2013-09-11T12:41:01+02:00</updated>
+  <id>http://mnapoli.fr/</id>
   <author>
     <name><![CDATA[Matthieu Napoli]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[jQuery plugin: Confirm dialogs for HTML links and buttons]]></title>
-    <link href="http://mnapoli.github.io/confirm-dialogs-for-html-links-and-buttons/"/>
+    <link href="http://mnapoli.fr/confirm-dialogs-for-html-links-and-buttons/"/>
     <updated>2013-03-05T20:00:00+01:00</updated>
-    <id>http://mnapoli.github.io/confirm-dialogs-for-html-links-and-buttons</id>
+    <id>http://mnapoli.fr/confirm-dialogs-for-html-links-and-buttons</id>
     <content type="html"><![CDATA[<p>This is the first open source project created at my company, so I am quite proud of it even though it is not much.</p>
 
 <p>The name is <a href="http://myclabs.github.io/jquery.confirm/"><strong>jquery.confirm</strong></a>, which is pretty explicit. It lets you have confirmation dialogs for links or buttons. For example, <strong>&ldquo;Are you sure you want to delete that comment?&rdquo;</strong> kind of things.</p>

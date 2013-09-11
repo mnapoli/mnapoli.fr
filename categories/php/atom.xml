@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: php | Matthieu Napoli]]></title>
-  <link href="http://mnapoli.github.io/categories/php/atom.xml" rel="self"/>
-  <link href="http://mnapoli.github.io/"/>
-  <updated>2013-09-11T12:33:27+02:00</updated>
-  <id>http://mnapoli.github.io/</id>
+  <link href="http://mnapoli.fr/categories/php/atom.xml" rel="self"/>
+  <link href="http://mnapoli.fr/"/>
+  <updated>2013-09-11T12:41:01+02:00</updated>
+  <id>http://mnapoli.fr/</id>
   <author>
     <name><![CDATA[Matthieu Napoli]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Friend services?]]></title>
-    <link href="http://mnapoli.github.io/friend-services/"/>
+    <link href="http://mnapoli.fr/friend-services/"/>
     <updated>2013-08-09T17:03:00+02:00</updated>
-    <id>http://mnapoli.github.io/friend-services</id>
+    <id>http://mnapoli.fr/friend-services</id>
     <content type="html"><![CDATA[<p>Using the Domain Driven Design methodology, I sometimes end up on such a situation: a behavior in a model class is complex and involving other classes. It’s time to put that behavior in a service (or a factory if the situation applies to a constructor).</p>
 
 <p>The problem is that in my service, I am not in the context of the domain class. If I move <code>Foo::something()</code> into <code>FooService::something($foo)</code>, then <strong>I can’t access private properties of Foo</strong>, thus limiting me to the public API of Foo.</p>
@@ -72,9 +72,9 @@ class Foo {</p>
   
   <entry>
     <title type="html"><![CDATA[Code coverage reports with GitHub, Travis and Coveralls]]></title>
-    <link href="http://mnapoli.github.io/code-coverage-reports-with-github-travis-and/"/>
+    <link href="http://mnapoli.fr/code-coverage-reports-with-github-travis-and/"/>
     <updated>2013-06-08T20:00:00+02:00</updated>
-    <id>http://mnapoli.github.io/code-coverage-reports-with-github-travis-and</id>
+    <id>http://mnapoli.fr/code-coverage-reports-with-github-travis-and</id>
     <content type="html"><![CDATA[<p>You have a PHP project hosted on GitHub with continuous integration using Travis-CI?</p>
 
 <p>How about setting up <strong>code coverage reports</strong>?</p>
@@ -123,9 +123,9 @@ language: php</p>
   
   <entry>
     <title type="html"><![CDATA[The “Optional Singleton” pattern]]></title>
-    <link href="http://mnapoli.github.io/the-optional-singleton-pattern/"/>
+    <link href="http://mnapoli.fr/the-optional-singleton-pattern/"/>
     <updated>2013-03-22T20:00:00+01:00</updated>
-    <id>http://mnapoli.github.io/the-optional-singleton-pattern</id>
+    <id>http://mnapoli.fr/the-optional-singleton-pattern</id>
     <content type="html"><![CDATA[<p>The <a href="http://en.wikipedia.org/wiki/Singleton_pattern">singleton</a> is a practical design pattern, that’s the reason it is so popular amongst beginners. It is also an anti-pattern because of the problems it introduces (global state, difficult to test, …).</p>
 
 <p>While I agree with that, and the fact that Singletons should be used with (a lot of) moderation, I also like an alternative pattern which comes with the advantage of the singleton and balances out its disadvantages. This can be useful if you have to work on a codebase that has singletons.</p>
@@ -171,9 +171,9 @@ language: php</p>
   
   <entry>
     <title type="html"><![CDATA[Introduction to Dependency Injection with a real life example]]></title>
-    <link href="http://mnapoli.github.io/introduction-dependency-injection-with-real-life-example/"/>
+    <link href="http://mnapoli.fr/introduction-dependency-injection-with-real-life-example/"/>
     <updated>2012-12-06T20:00:00+01:00</updated>
-    <id>http://mnapoli.github.io/introduction-dependency-injection-with-real-life-example</id>
+    <id>http://mnapoli.fr/introduction-dependency-injection-with-real-life-example</id>
     <content type="html"><![CDATA[<p>This example is an introduction to the <strong>Dependency Injection</strong> concept. It is based on the PHP library <a href="http://mnapoli.github.com/PHP-DI/">PHP-DI</a>.</p>
 
 <h2>Classic implementation</h2>
@@ -288,9 +288,9 @@ $container->set(&lsquo;GeolocationService&rsquo;)</p>
   
   <entry>
     <title type="html"><![CDATA[The PHP-FIG should define PHP interfaces]]></title>
-    <link href="http://mnapoli.github.io/php-fig-should-define-php-interfaces/"/>
+    <link href="http://mnapoli.fr/php-fig-should-define-php-interfaces/"/>
     <updated>2012-11-23T20:00:00+01:00</updated>
-    <id>http://mnapoli.github.io/php-fig-should-define-php-interfaces</id>
+    <id>http://mnapoli.fr/php-fig-should-define-php-interfaces</id>
     <content type="html"><![CDATA[<p>Bouncing on the discussion initiated in the <a href="https://github.com/php-fig/fig-standards/issues/57">#52</a> ticket of the PHP-FIG project on Github: « <strong>Explain the scope of the PSR system</strong> », I’ll explain the case I’m trying to make.</p>
 
 <p>First, <a href="http://www.php-fig.org/"><strong>PHP-FIG</strong></a>, which stands for <em>Framework Interoperability Group</em>, is a gathering of major PHP frameworks and project who try to:</p>

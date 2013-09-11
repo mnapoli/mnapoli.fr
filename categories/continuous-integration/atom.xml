@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: continuous-integration | Matthieu Napoli]]></title>
-  <link href="http://mnapoli.github.io/categories/continuous-integration/atom.xml" rel="self"/>
-  <link href="http://mnapoli.github.io/"/>
-  <updated>2013-09-11T12:33:27+02:00</updated>
-  <id>http://mnapoli.github.io/</id>
+  <link href="http://mnapoli.fr/categories/continuous-integration/atom.xml" rel="self"/>
+  <link href="http://mnapoli.fr/"/>
+  <updated>2013-09-11T12:41:01+02:00</updated>
+  <id>http://mnapoli.fr/</id>
   <author>
     <name><![CDATA[Matthieu Napoli]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Code coverage reports with GitHub, Travis and Coveralls]]></title>
-    <link href="http://mnapoli.github.io/code-coverage-reports-with-github-travis-and/"/>
+    <link href="http://mnapoli.fr/code-coverage-reports-with-github-travis-and/"/>
     <updated>2013-06-08T20:00:00+02:00</updated>
-    <id>http://mnapoli.github.io/code-coverage-reports-with-github-travis-and</id>
+    <id>http://mnapoli.fr/code-coverage-reports-with-github-travis-and</id>
     <content type="html"><![CDATA[<p>You have a PHP project hosted on GitHub with continuous integration using Travis-CI?</p>
 
 <p>How about setting up <strong>code coverage reports</strong>?</p>

@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: best-practices | Matthieu Napoli]]></title>
-  <link href="http://mnapoli.github.io/categories/best-practices/atom.xml" rel="self"/>
-  <link href="http://mnapoli.github.io/"/>
-  <updated>2013-09-11T12:33:27+02:00</updated>
-  <id>http://mnapoli.github.io/</id>
+  <link href="http://mnapoli.fr/categories/best-practices/atom.xml" rel="self"/>
+  <link href="http://mnapoli.fr/"/>
+  <updated>2013-09-11T12:41:01+02:00</updated>
+  <id>http://mnapoli.fr/</id>
   <author>
     <name><![CDATA[Matthieu Napoli]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Should you really write ugly code? Spoiler: no]]></title>
-    <link href="http://mnapoli.github.io/should-you-really-write-ugly-code-no/"/>
+    <link href="http://mnapoli.fr/should-you-really-write-ugly-code-no/"/>
     <updated>2013-06-09T20:00:00+02:00</updated>
-    <id>http://mnapoli.github.io/should-you-really-write-ugly-code-no</id>
+    <id>http://mnapoli.fr/should-you-really-write-ugly-code-no</id>
     <content type="html"><![CDATA[<p>I recently stumbled upon François Zaninotto’s blog post: <a href="http://redotheweb.com/2013/06/04/you-should-write-ugly-code.html">You should write ugly code</a>. While he makes several good points, I strongly disagree with him and I feel the urge to give my opinion on the matter (what did you expect, this is a blog).</p>
 
 <p>The point that he makes is that he encourages developers to write “ugly code”, i.e. code that works and that doesn’t follow best practices or anything related to code quality.</p>
@@ -61,9 +61,9 @@
   
   <entry>
     <title type="html"><![CDATA[Be a better programmer: take a step back]]></title>
-    <link href="http://mnapoli.github.io/be-a-better-programmer-take-a-step-back/"/>
+    <link href="http://mnapoli.fr/be-a-better-programmer-take-a-step-back/"/>
     <updated>2013-02-04T20:00:00+01:00</updated>
-    <id>http://mnapoli.github.io/be-a-better-programmer-take-a-step-back</id>
+    <id>http://mnapoli.fr/be-a-better-programmer-take-a-step-back</id>
     <content type="html"><![CDATA[<p><em>Replace [client] by [boss] or anything of the kind if you prefer.</em></p>
 
 <h2>A day at work</h2>

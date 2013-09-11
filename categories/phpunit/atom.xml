@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: phpunit | Matthieu Napoli]]></title>
-  <link href="http://mnapoli.github.io/categories/phpunit/atom.xml" rel="self"/>
-  <link href="http://mnapoli.github.io/"/>
-  <updated>2013-09-11T12:33:27+02:00</updated>
-  <id>http://mnapoli.github.io/</id>
+  <link href="http://mnapoli.fr/categories/phpunit/atom.xml" rel="self"/>
+  <link href="http://mnapoli.fr/"/>
+  <updated>2013-09-11T12:41:01+02:00</updated>
+  <id>http://mnapoli.fr/</id>
   <author>
     <name><![CDATA[Matthieu Napoli]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Doctrine schema validation in a PHPUnit test]]></title>
-    <link href="http://mnapoli.github.io/doctrine-schema-validation-in-a-phpunit-test/"/>
+    <link href="http://mnapoli.fr/doctrine-schema-validation-in-a-phpunit-test/"/>
     <updated>2012-12-10T20:00:00+01:00</updated>
-    <id>http://mnapoli.github.io/doctrine-schema-validation-in-a-phpunit-test</id>
+    <id>http://mnapoli.fr/doctrine-schema-validation-in-a-phpunit-test</id>
     <content type="html"><![CDATA[<p>Doctrine offers a <a href="http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/tools.html#runtime-vs-development-mapping-validation">command line option to validate the schema</a> (or mapping):</p>
 
 <p><code>

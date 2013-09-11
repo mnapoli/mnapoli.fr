@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: composer | Matthieu Napoli]]></title>
-  <link href="http://mnapoli.github.io/categories/composer/atom.xml" rel="self"/>
-  <link href="http://mnapoli.github.io/"/>
-  <updated>2013-09-11T12:33:27+02:00</updated>
-  <id>http://mnapoli.github.io/</id>
+  <link href="http://mnapoli.fr/categories/composer/atom.xml" rel="self"/>
+  <link href="http://mnapoli.fr/"/>
+  <updated>2013-09-11T12:41:01+02:00</updated>
+  <id>http://mnapoli.fr/</id>
   <author>
     <name><![CDATA[Matthieu Napoli]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Running composer install when you switch branch]]></title>
-    <link href="http://mnapoli.github.io/run-composer-install-when-you-switch-branch/"/>
+    <link href="http://mnapoli.fr/run-composer-install-when-you-switch-branch/"/>
     <updated>2013-09-09T17:03:00+02:00</updated>
-    <id>http://mnapoli.github.io/run-composer-install-when-you-switch-branch</id>
+    <id>http://mnapoli.fr/run-composer-install-when-you-switch-branch</id>
     <content type="html"><![CDATA[<p>When working with <a href="http://getcomposer.org/">Composer</a> and git branches, you will end up either:</p>
 
 <ul>
@@ -45,9 +45,9 @@
   
   <entry>
     <title type="html"><![CDATA[Overriding dependencies with Composer]]></title>
-    <link href="http://mnapoli.github.io/overriding-dependencies-with-composer/"/>
+    <link href="http://mnapoli.fr/overriding-dependencies-with-composer/"/>
     <updated>2013-04-16T20:00:00+02:00</updated>
-    <id>http://mnapoli.github.io/overriding-dependencies-with-composer</id>
+    <id>http://mnapoli.fr/overriding-dependencies-with-composer</id>
     <content type="html"><![CDATA[<p>At my company, <strong>My C-Sense</strong>, we use Doctrine amongst other PHP frameworks and libraries. When we find bugs (or need new features), we contribute to the project through our <a href="https://github.com/myclabs">open source initiative</a>.</p>
 
 <p>The problem is when we submit a pull request on Github, several months usually happen until our fix appears in a stable release.</p>

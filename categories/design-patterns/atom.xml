@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: design-patterns | Matthieu Napoli]]></title>
-  <link href="http://mnapoli.github.io/categories/design-patterns/atom.xml" rel="self"/>
-  <link href="http://mnapoli.github.io/"/>
-  <updated>2013-09-11T12:33:27+02:00</updated>
-  <id>http://mnapoli.github.io/</id>
+  <link href="http://mnapoli.fr/categories/design-patterns/atom.xml" rel="self"/>
+  <link href="http://mnapoli.fr/"/>
+  <updated>2013-09-11T12:41:01+02:00</updated>
+  <id>http://mnapoli.fr/</id>
   <author>
     <name><![CDATA[Matthieu Napoli]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[The “Optional Singleton” pattern]]></title>
-    <link href="http://mnapoli.github.io/the-optional-singleton-pattern/"/>
+    <link href="http://mnapoli.fr/the-optional-singleton-pattern/"/>
     <updated>2013-03-22T20:00:00+01:00</updated>
-    <id>http://mnapoli.github.io/the-optional-singleton-pattern</id>
+    <id>http://mnapoli.fr/the-optional-singleton-pattern</id>
     <content type="html"><![CDATA[<p>The <a href="http://en.wikipedia.org/wiki/Singleton_pattern">singleton</a> is a practical design pattern, that’s the reason it is so popular amongst beginners. It is also an anti-pattern because of the problems it introduces (global state, difficult to test, …).</p>
 
 <p>While I agree with that, and the fact that Singletons should be used with (a lot of) moderation, I also like an alternative pattern which comes with the advantage of the singleton and balances out its disadvantages. This can be useful if you have to work on a codebase that has singletons.</p>
