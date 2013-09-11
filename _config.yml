@@ -106,7 +106,9 @@ facebook_like: false
 navigation:
 - text: Home
   url: /
-- text: Archives
+- text: Projects
+  url: /projects/
+- text: Blog archives
   url: /archives/
 - text: About me
   url: /about-me/
