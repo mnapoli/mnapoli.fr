@@ -1,0 +1,356 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Using MetaModel and MetaConsole to debug your application - Matthieu Napoli</title>
+  <meta name="author" content="Matthieu Napoli">
+
+  
+  <meta name="description" content="Using MetaModel and MetaConsole to debug your application Sep 13th, 2013 I started working a few months ago on MetaModel, a language that enables to &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://mnapoli.fr/using-metamodel-and-metaconsole-to-debug-your-application">
+  <link href="/favicon.ico" rel="icon">
+  <link href='http://fonts.googleapis.com/css?family=Quicksand:300,400' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Matthieu Napoli" type="application/atom+xml">
+  <script src="/js/jquery.js"></script>
+  <script src="/js/bootstrap-collapse.js"></script>
+  <script src="/js/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/js/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<script src="/js/jquery.timeago.js" type="text/javascript"></script>
+<script src="/js/showoff.min.js" type="text/javascript"></script>
+<link href="/stylesheets/github.css" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-15584647-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <div class="navbar navbar-inverse navbar-static-top">
+  	<div class="navbar-inner">
+  	  <div class="container">
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+          <span class="fui-menu-24"></span>
+        </a>
+  	  	<div class="nav-collapse collapse navbar-responsive-collapse" style="height:0;">
+  	      <ul class="nav">
+    
+        <li ><a href="/">Home</a></li>
+    
+        <li ><a href="/projects/">Projects</a></li>
+    
+        <li ><a href="/archives/">Blog archives</a></li>
+    
+        <li ><a href="/about-me/">About me</a></li>
+    
+</ul>
+
+<ul class="nav pull-right">
+    
+    <li><a href="http://github.com/mnapoli" title="Github Profile"><i class="icon-github-sign social-navbar"></i></a></li>
+    
+    
+    <li><a href="http://linkedin.com/in/matthieunapoli" title="Linkedin Profile"><i class="icon-linkedin-sign social-navbar"></i></a></li>
+    
+    
+    <li><a href="http://twitter.com/matthieunapoli" title="Twitter Profile"><i class="icon-twitter-sign social-navbar"></i></a></li>
+    
+    
+    
+    
+</ul>
+
+  	    </div>
+  	  </div>
+  	</div>
+  </div>
+  <a href="https://github.com/mnapoli/mnapoli.github.io"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+  <div class="container" id="main">
+    <div class="span12">
+      <div class="row-fluid">
+        <div id="content">
+          <div>
+<article class="hentry" role="article">
+  
+
+  <header>
+  <div class="jumbotron">
+    Using MetaModel and MetaConsole to debug your application
+	<h5>
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2013-09-13T16:08:00+02:00" pubdate data-updated="true">Sep 13<span>th</span>, 2013</time></h5>
+  </div>
+</header>
+  <div class="row-fluid">
+    <div class="span12">
+      <p>I started working a few months ago on <a href="https://github.com/mnapoli/MetaModel">MetaModel</a>, a language that enables to <strong>traverse and operate your PHP model</strong>.</p>
+
+<p>Today I&rsquo;m going to show you how you can use MetaModel through the <a href="https://github.com/mnapoli/MetaConsole">MetaConsole</a> to debug your application.</p>
+
+<p><img src="/images/posts/metaconsole3.gif"></p>
+
+<!-- more -->
+
+
+<h2>Setup</h2>
+
+<p>To integrate the MetaConsole to your project, it&rsquo;s very simple using Composer:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="nt">&quot;require-dev&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nt">&quot;mnapoli/metaconsole&quot;</span><span class="p">:</span> <span class="s2">&quot;dev-master&quot;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now I create a <code>bin/meta.php</code> file (name it as you like) in my application:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="c1">#!/usr/bin/env php</span>
+</span><span class='line'><span class="o">&lt;?</span><span class="nx">php</span>
+</span><span class='line'><span class="k">use</span> <span class="nx">MetaModel\Bridge\Doctrine\EntityManagerBridge</span><span class="p">;</span>
+</span><span class='line'><span class="k">use</span> <span class="nx">MetaModel\Bridge\PHPDI\PHPDIBridge</span><span class="p">;</span>
+</span><span class='line'><span class="k">use</span> <span class="nx">MetaModel\MetaModel</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Here I set up my application (bootstrap)</span>
+</span><span class='line'><span class="k">require_once</span> <span class="nx">__DIR__</span> <span class="o">.</span> <span class="s1">&#39;/../application/init.php&#39;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">$metaModel</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">MetaModel</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Integrate with the Doctrine EntityManager</span>
+</span><span class='line'><span class="nv">$entityManager</span> <span class="o">=</span> <span class="cm">/* ... */</span><span class="p">;</span>
+</span><span class='line'><span class="nv">$metaModel</span><span class="o">-&gt;</span><span class="na">addObjectManager</span><span class="p">(</span><span class="k">new</span> <span class="nx">EntityManagerBridge</span><span class="p">(</span><span class="nv">$entityManager</span><span class="p">));</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Integrate with PHP-DI container</span>
+</span><span class='line'><span class="nv">$container</span> <span class="o">=</span> <span class="cm">/* ... */</span><span class="p">;</span>
+</span><span class='line'><span class="nv">$metaModel</span><span class="o">-&gt;</span><span class="na">addContainer</span><span class="p">(</span><span class="k">new</span> <span class="nx">PHPDIBridge</span><span class="p">(</span><span class="nv">$container</span><span class="p">));</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">$console</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">MetaConsole\Application</span><span class="p">(</span><span class="s1">&#39;MetaConsole&#39;</span><span class="p">,</span> <span class="k">null</span><span class="p">,</span> <span class="nv">$metaModel</span><span class="p">);</span>
+</span><span class='line'><span class="nv">$console</span><span class="o">-&gt;</span><span class="na">run</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>As you can see, I can integrate the console with my ORM (<a href="http://www.doctrine-project.org/">Doctrine 2</a> here) and my DI container (<a href="http://mnapoli.github.io/PHP-DI/">PHP-DI</a>). You can write bridges for other kinds of object managers or containers (and feel free to submit a Pull Request too).</p>
+
+<h2>Using</h2>
+
+<p>Last week, I had a bug in my application, and it was very difficult to debug because it involved data, and that was not the kind of bug you can reproduce and fix using unit tests because it involved a lot of objects. Without MetaConsole, I would have had to dig through the database using phpMyAdmin or MySQL Workbench, writing queries and joining dozens of tables.</p>
+
+<p>Instead, I launched MetaConsole, and I selected an object for which I had an ID (the ID was in the URL of the webpage I wanted to debug):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="nx">AF_Model_InputSet</span><span class="p">(</span><span class="mi">562</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This query will select the entity <code>AF_Model_InputSet</code> with ID 562, and dump it to the screen. To do this, MetaModel queries Doctrine, which roughly translate to this PHP code:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="nv">$entity</span> <span class="o">=</span> <span class="nv">$entityManager</span><span class="o">-&gt;</span><span class="na">find</span><span class="p">(</span><span class="s1">&#39;AF_Model_InputSet&#39;</span><span class="p">,</span> <span class="mi">562</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now that I had my object on screen, I could <strong>traverse the object graph</strong> (through associations, getters, arrays, …) with more precise queries:</p>
+
+<p><img src="/images/posts/metaconsole1.png"></p>
+
+<p>In the end, I ended up finding my bug: one component was marked as &ldquo;required&rdquo; but had a number of required fields > 0 (not normal!). I fixed the code, and now I needed to rebuild some data to have everything in sync again (after my tests). That&rsquo;s the kind of operation that can&rsquo;t be done just on a single object through the website.</p>
+
+<p>No problem, MetaModel let&rsquo;s you traverse an object graph, but also <strong>call methods on objects and on services:</strong></p>
+
+<p><img src="/images/posts/metaconsole2.png"></p>
+
+<h2>Conclusion</h2>
+
+<p>MetaModel is pretty much stable, though there are a lot of features I want to add (arguments in method calls, …).</p>
+
+<p>On the other side, MetaConsole is still in development, and I hope to provide better integration with frameworks and a more enjoyable interface. If you are interested, you can try it (it&rsquo;s a development tool, so there&rsquo;s no risk since you shouldn&rsquo;t use it in production), and you can <a href="https://github.com/mnapoli/MetaConsole">improve it</a>.</p>
+
+<p>And also, ideas are welcome!</p>
+
+    </div>
+  </div>
+
+
+
+  <footer>
+    <hr>
+    
+    <div class="row-fluid">
+      
+      <div class="span6">
+        <p class="meta">
+        
+        
+
+
+
+  <a href="/categories/metamodel/"><span class="badge">metamodel</span></a>
+
+  <a href="/categories/php/"><span class="badge">php</span></a>
+
+
+
+
+        </p>
+      </div>
+      
+      <div class="span6 social-sharing">
+        <div class="sharing">
+  <div class="addthis_toolbox addthis_default_style ">
+  
+  
+  <a class="addthis_button_tweet"></a>
+  
+  
+  <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+      </div>
+      
+      
+    </div>
+    
+    <div class="row-fluid">
+      <div class="span12">
+        <p class="meta">
+          
+            <a class="basic-alignment left" href="/run-composer-install-when-you-switch-branch/" title="Previous Post: Running composer install when you switch branch">&laquo; Running composer install when you switch branch</a>
+          
+          
+        </p>
+      </div>
+    </div>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+
+
+        </div>
+      </div>
+      <div class="row-fluid">
+        <footer class="footer-page" role="contentinfo">
+          <p>
+  Copyright &copy; 2013 - Matthieu Napoli -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span> - Theme by <a href="http://alexgaribay.com">Alex Garibay</a>
+</p>
+
+
+        </footer>
+      </div>
+    </div>
+  </div>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'mnapoli-blog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://mnapoli.fr/using-metamodel-and-metaconsole-to-debug-your-application/';
+        var disqus_url = 'http://mnapoli.fr/using-metamodel-and-metaconsole-to-debug-your-application/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
