@@ -4,7 +4,7 @@
   <title><![CDATA[Category: php | Matthieu Napoli]]></title>
   <link href="http://mnapoli.fr/categories/php/atom.xml" rel="self"/>
   <link href="http://mnapoli.fr/"/>
-  <updated>2013-09-13T16:51:24+02:00</updated>
+  <updated>2013-09-23T16:43:50+02:00</updated>
   <id>http://mnapoli.fr/</id>
   <author>
     <name><![CDATA[Matthieu Napoli]]></name>
@@ -12,6 +12,54 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Working with mails in dev environment]]></title>
+    <link href="http://mnapoli.fr/working-with-mails-in-dev-environment/"/>
+    <updated>2013-09-23T16:32:00+02:00</updated>
+    <id>http://mnapoli.fr/working-with-mails-in-dev-environment</id>
+    <content type="html"><![CDATA[<p>If your application sends emails, you probably don&rsquo;t want emails to be sent when you are developing on your machine.</p>
+
+<p>If you use nice libraries like <a href="http://swiftmailer.org/">SwiftMailer</a>, it is easy to use a mock instead of sending real emails.
+But if you don&rsquo;t, you can act on PHP&rsquo;s configuration: instead of installing and using a real SMTP server on your machine, you can fake one using a simple script.</p>
+
+<!--more-->
+
+
+<p>The fake server will be a shell script: create it as <code>/usr/local/bin/sendmail-fake</code>:</p>
+
+<p>```sh</p>
+
+<h1>!/bin/bash</h1>
+
+<p>{
+date
+echo $@
+cat
+} >> /var/log/sendmail-fake.log
+```</p>
+
+<p>Set up file permissions and check that it works:</p>
+
+<p><code>sh
+$ sudo chmod +x /usr/local/bin/sendmail-fake
+$ sudo chmod 777 /var/log/sendmail-fake.log
+$ /usr/local/bin/sendmail-fake
+</code></p>
+
+<p>Now configure PHP to use it in the <code>php.ini</code>:</p>
+
+<p><code>ini
+sendmail_path = /usr/local/bin/sendmail-fake
+</code></p>
+
+<p>(and restart Apache)</p>
+
+<p><strong>That&rsquo;s it!</strong></p>
+
+<p>You can also see the emails content in <code>/var/log/sendmail-fake.log</code>.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Using MetaModel and MetaConsole to debug your application]]></title>
@@ -261,123 +309,6 @@ language: php</p>
 <p>For example one may use the singleton pattern for services: accessing them is practical, you can access them anywhere with the singleton pattern. I’ve seen codebases with this pattern.</p>
 
 <p>Now if I come on a codebase using the singleton for services, and if I can’t rewrite everything, I’ll turn the Singletons into “Optional Singletons” so that the existing code still work, and so that I can use Dependency Injection over those services in the new code that I’ll write.</p></blockquote>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Introduction to Dependency Injection with a real life example]]></title>
-    <link href="http://mnapoli.fr/introduction-dependency-injection-with-real-life-example/"/>
-    <updated>2012-12-06T20:00:00+01:00</updated>
-    <id>http://mnapoli.fr/introduction-dependency-injection-with-real-life-example</id>
-    <content type="html"><![CDATA[<p>This example is an introduction to the <strong>Dependency Injection</strong> concept. It is based on the PHP library <a href="http://mnapoli.github.com/PHP-DI/">PHP-DI</a>.</p>
-
-<h2>Classic implementation</h2>
-
-<p>Given you have:</p>
-
-<p>```php
-class GoogleMapsService {</p>
-
-<pre><code>public function getCoordinatesFromAddress($address) {
-    // calls Google Maps webservice
-}
-</code></pre>
-
-<p>}</p>
-
-<p>class OpenStreetMapService {</p>
-
-<pre><code>public function getCoordinatesFromAddress($address) {
-    // calls OpenStreetMap webservice
-}
-</code></pre>
-
-<p>}
-```</p>
-
-<p>The classic way of doing things is:</p>
-
-<p>```php
-class StoreService {</p>
-
-<pre><code>public function getStoreCoordinates($store) {
-    $geolocationService = new GoogleMapsService();
-    // or $geolocationService = GoogleMapsService::getInstance() if you use singletons
-    return $geolocationService-&gt;getCoordinatesFromAddress($store-&gt;getAddress());
-}
-</code></pre>
-
-<p>}
-```</p>
-
-<p>Now we want to use the OpenStreetMapService instead of GoogleMapsService, how do we do? We have to change the code of StoreService, and all the other classes that use GoogleMapsService.</p>
-
-<p><strong>Without dependency injection, your classes are tightly coupled with their dependencies.</strong></p>
-
-<!-- more -->
-
-
-<h2>Dependency injection implementation</h2>
-
-<p>The StoreService now uses dependency injection:</p>
-
-<p>```php
-class StoreService {</p>
-
-<pre><code>/**
- * @Inject
- * @var GeolocationService
- */
-private $geolocationService;
-
-public function getStoreCoordinates($store) {
-    return $this-&gt;geolocationService-&gt;getCoordinatesFromAddress($store-&gt;getAddress());
-}
-</code></pre>
-
-<p>}
-```</p>
-
-<p>And the services are defined using an interface:</p>
-
-<p>```php
-interface GeolocationService {</p>
-
-<pre><code>public function getCoordinatesFromAddress($address);
-</code></pre>
-
-<p>}</p>
-
-<p>class GoogleMapsService implements GeolocationService {</p>
-
-<pre><code>public function getCoordinatesFromAddress($address) {
-    // calls Google Maps webservice
-}
-</code></pre>
-
-<p>}</p>
-
-<p>class OpenStreetMapService implements GeolocationService {</p>
-
-<pre><code>public function getCoordinatesFromAddress($address) {
-    // calls OpenStreetMap webservice
-}
-</code></pre>
-
-<p>}
-```</p>
-
-<p>If you use <a href="http://mnapoli.github.com/PHP-DI/">PHP-DI</a> (a PHP dependency injection library), you then configure which implementation will be used:</p>
-
-<p>```php
-$container->set(&lsquo;GeolocationService&rsquo;)</p>
-
-<pre><code>      -&gt;bindTo('OpenStreetMapService');
-</code></pre>
-
-<p>```</p>
-
-<p>If you change your mind, there’s just one line of configuration to change.</p>
 ]]></content>
   </entry>
   

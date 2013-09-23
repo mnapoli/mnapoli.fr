@@ -4,7 +4,7 @@
   <title><![CDATA[Matthieu Napoli]]></title>
   <link href="http://mnapoli.fr/atom.xml" rel="self"/>
   <link href="http://mnapoli.fr/"/>
-  <updated>2013-09-13T16:51:24+02:00</updated>
+  <updated>2013-09-23T16:43:50+02:00</updated>
   <id>http://mnapoli.fr/</id>
   <author>
     <name><![CDATA[Matthieu Napoli]]></name>
@@ -12,6 +12,62 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Working with mails in dev environment]]></title>
+    <link href="http://mnapoli.fr/working-with-mails-in-dev-environment/"/>
+    <updated>2013-09-23T16:32:00+02:00</updated>
+    <id>http://mnapoli.fr/working-with-mails-in-dev-environment</id>
+    <content type="html"><![CDATA[<p>If your application sends emails, you probably don&rsquo;t want emails to be sent when you are developing on your machine.</p>
+
+<p>If you use nice libraries like <a href="http://swiftmailer.org/">SwiftMailer</a>, it is easy to use a mock instead of sending real emails.
+But if you don&rsquo;t, you can act on PHP&rsquo;s configuration: instead of installing and using a real SMTP server on your machine, you can fake one using a simple script.</p>
+
+<!--more-->
+
+
+<p>The fake server will be a shell script: create it as <code>/usr/local/bin/sendmail-fake</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c">#!/bin/bash</span>
+</span><span class='line'><span class="o">{</span>
+</span><span class='line'>date
+</span><span class='line'><span class="nb">echo</span> <span class="nv">$@</span>
+</span><span class='line'>cat
+</span><span class='line'><span class="o">}</span> &gt;&gt; /var/log/sendmail-fake.log
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Set up file permissions and check that it works:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>sudo chmod +x /usr/local/bin/sendmail-fake
+</span><span class='line'><span class="nv">$ </span>sudo chmod 777 /var/log/sendmail-fake.log
+</span><span class='line'><span class="nv">$ </span>/usr/local/bin/sendmail-fake
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now configure PHP to use it in the <code>php.ini</code>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ini'><span class='line'><span class="na">sendmail_path</span> <span class="o">=</span> <span class="s">/usr/local/bin/sendmail-fake</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>(and restart Apache)</p>
+
+<p><strong>That&rsquo;s it!</strong></p>
+
+<p>You can also see the emails content in <code>/var/log/sendmail-fake.log</code>.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Using MetaModel and MetaConsole to debug your application]]></title>
