@@ -43,3 +43,5 @@ sendmail_path = /usr/local/bin/sendmail-fake
 **That's it!**
 
 You can also see the emails content in `/var/log/sendmail-fake.log`.
+
+You could even go further and edit the script to open the content of the mail into a text editor, or a browser. But that would be OS dependent, so I kept with the log file here.
