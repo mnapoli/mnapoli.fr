@@ -4,7 +4,7 @@
   <title><![CDATA[Matthieu Napoli]]></title>
   <link href="http://mnapoli.fr/atom.xml" rel="self"/>
   <link href="http://mnapoli.fr/"/>
-  <updated>2013-09-23T16:43:50+02:00</updated>
+  <updated>2013-10-30T18:43:18+01:00</updated>
   <id>http://mnapoli.fr/</id>
   <author>
     <name><![CDATA[Matthieu Napoli]]></name>
@@ -66,6 +66,8 @@ But if you don&rsquo;t, you can act on PHP&rsquo;s configuration: instead of ins
 <p><strong>That&rsquo;s it!</strong></p>
 
 <p>You can also see the emails content in <code>/var/log/sendmail-fake.log</code>.</p>
+
+<p>You could even go further and edit the script to open the content of the mail into a text editor, or a browser. But that would be OS dependent, so I kept with the log file here.</p>
 ]]></content>
   </entry>
   
