@@ -4,7 +4,7 @@
   <title><![CDATA[Category: best-practices | Matthieu Napoli]]></title>
   <link href="http://mnapoli.fr/categories/best-practices/atom.xml" rel="self"/>
   <link href="http://mnapoli.fr/"/>
-  <updated>2013-10-30T18:43:18+01:00</updated>
+  <updated>2013-12-29T18:10:16+00:00</updated>
   <id>http://mnapoli.fr/</id>
   <author>
     <name><![CDATA[Matthieu Napoli]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Should you really write ugly code? Spoiler: no]]></title>
     <link href="http://mnapoli.fr/should-you-really-write-ugly-code-no/"/>
-    <updated>2013-06-09T20:00:00+02:00</updated>
+    <updated>2013-06-09T20:00:00+01:00</updated>
     <id>http://mnapoli.fr/should-you-really-write-ugly-code-no</id>
     <content type="html"><![CDATA[<p>I recently stumbled upon François Zaninotto’s blog post: <a href="http://redotheweb.com/2013/06/04/you-should-write-ugly-code.html">You should write ugly code</a>. While he makes several good points, I strongly disagree with him and I feel the urge to give my opinion on the matter (what did you expect, this is a blog).</p>
 
@@ -62,7 +62,7 @@
   <entry>
     <title type="html"><![CDATA[Be a better programmer: take a step back]]></title>
     <link href="http://mnapoli.fr/be-a-better-programmer-take-a-step-back/"/>
-    <updated>2013-02-04T20:00:00+01:00</updated>
+    <updated>2013-02-04T20:00:00+00:00</updated>
     <id>http://mnapoli.fr/be-a-better-programmer-take-a-step-back</id>
     <content type="html"><![CDATA[<p><em>Replace [client] by [boss] or anything of the kind if you prefer.</em></p>
 
