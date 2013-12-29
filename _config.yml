@@ -112,5 +112,7 @@ navigation:
   url: /archives/
 - text: About me
   url: /about-me/
+- text: "<i class='icon-rss social-navbar'></i>"
+  url: /atom.xml
 
 linkedin_user: matthieunapoli
