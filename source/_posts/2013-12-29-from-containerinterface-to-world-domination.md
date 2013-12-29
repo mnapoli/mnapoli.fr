@@ -16,7 +16,8 @@ Ready for a stretch? This is a (probably unrealistic) idea about dependency inje
 What I mean by `ContainerInterface` is a PHP interface that has been discussed here and there (PHP-FIG, Acclimate, PHP-DI, Mouf …). The interface looks like this:
 
 ```
-interface ContainerInterface {
+interface ContainerInterface
+{
     public function get($identifier);
     public function has($identifier);
 }
@@ -41,8 +42,6 @@ The most obvious answer is simply that it let's you use *any* container. Just li
 And given containers are used both ways (set entries & read entries), and that only the "reading" part needs standardization for interoperability (as meant by the previous section), that allows a lot of liberty on the "set entries" part.
 
 For example, Symfony's container uses a YAML file to define services, whereas it's plain PHP for Zend Framework's container. PHP-DI allows configuration files, but also proposes autowiring and annotations. So there's choice.
-
-You could also write your own specialized container if you wanted to.
 
 ### Portable configurations
 
