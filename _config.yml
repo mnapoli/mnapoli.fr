@@ -108,6 +108,8 @@ navigation:
   url: /
 - text: Projects
   url: /projects/
+- text: Presentations
+  url: /presentations/
 - text: Blog archives
   url: /archives/
 - text: About me
