@@ -97,3 +97,5 @@ That's extremely seducing:
 - you could write/use small independent modules like Symfony's bundles, except that you wouldn't have to use Symfony to use them
 
 For this to work, you would have to have an entry point that dispatches a request to the correct framework (this sounds like a router). Something like this could be done using [Stack](http://stackphp.com/) and a "router" middleware for example.
+
+{% img /images/posts/container-interop.png %}
