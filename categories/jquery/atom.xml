@@ -4,7 +4,7 @@
   <title><![CDATA[Category: jquery | Matthieu Napoli]]></title>
   <link href="http://mnapoli.fr/categories/jquery/atom.xml" rel="self"/>
   <link href="http://mnapoli.fr/"/>
-  <updated>2013-12-29T18:10:16+00:00</updated>
+  <updated>2014-01-08T15:07:59+01:00</updated>
   <id>http://mnapoli.fr/</id>
   <author>
     <name><![CDATA[Matthieu Napoli]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[jQuery plugin: Confirm dialogs for HTML links and buttons]]></title>
     <link href="http://mnapoli.fr/confirm-dialogs-for-html-links-and-buttons/"/>
-    <updated>2013-03-05T20:00:00+00:00</updated>
+    <updated>2013-03-05T20:00:00+01:00</updated>
     <id>http://mnapoli.fr/confirm-dialogs-for-html-links-and-buttons</id>
     <content type="html"><![CDATA[<p>This is the first open source project created at my company, so I am quite proud of it even though it is not much.</p>
 
