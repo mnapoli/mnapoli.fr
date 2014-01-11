@@ -1,0 +1,17 @@
+<html>
+<head></head>
+<body>
+    <p>
+        The website has changed location:
+        <a href="http://php-di.org/">php-di.org</a>.
+    </p>
+    <p>
+        You are being redirected.
+    </p>
+    <script type="application/javascript">
+        var newUrl = window.location.href.replace('mnapoli.fr/PHP-DI', 'php-di.org');
+        document.writeln('<a href="' + newUrl + '">' + newUrl + '</a>');
+        window.location.replace(newUrl);
+    </script>
+</body>
+</html>
