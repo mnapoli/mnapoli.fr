@@ -1,13 +1,14 @@
 ---
 layout: post
 title: "From a ContainerInterface to world domination"
-date: 2013-12-29 18:00
+date: 2014-01-14 18:00
 comments: true
 categories: php dependency-injection
 published: false
 ---
 
-Ready for a stretch? This is a (probably unrealistic) idea about dependency injection containers and an evil plan for world domination. Well, maybe not world domination, but crazy **framework interoperability** allowing one to **use several web frameworks at the same time**.
+Ready for a stretch? This is an idea about dependency injection containers and an evil plan for world domination.
+Well, maybe not world domination, but crazy **framework interoperability** allowing one to **use several frameworks in the same application**.
 
 <!--more-->
 
@@ -55,23 +56,15 @@ The thing is that your container configuration is actually your application conf
 
 And the day you want to use Laravel instead of ZF, you may still want to use the same logger, the same DB layer, the same email services and you would still want to have your domain services configured. Having to rewrite all that configuration is a pain, and it doesn't make sense.
 
-## Application frameworks are not MVC frameworks anymore
+This is how your application should look:
 
-*needs a transition*
+{% img center /images/posts/application-structure.png %}
 
-What part of your app really depends on your framework?
+The left part is coupled to the framework, which is obvious. The right part shouldn't.
+It should use dependency injection and interfaces to abstract away from the components you use (ORM, loggers, mailers, …).
+The container is here to bind everything together, and make all this available in the controllers.
 
-Once upon a time, we had MVC frameworks. The Model was coupled with the framework because the ORM was **in** the framework. The Views and Controllers were of course strongly coupled to the framework too. Switching from one framework to another would mean rewriting almost everything.
-
-Today, modern frameworks are **application frameworks**, and they are (almost all) built on independent and reusable components.
-
-So libraries like ORMs, loggers, email services, … are components decoupled from the framework. You can use them without having to use the framework. So your model and your services shouldn't be coupled with your framework.
-
-Your views can be decoupled with the framework too. For example, you could use a templating engine like Twig, and have extensions that provide integration with other components (the router to build urls, forms, …).
-
-Your controllers could be the part the most coupled to the framework, since it takes a request and returns a response, both being defined by the framework. Of course, you could abstract these or write adapters that would decouple your controllers from the framework, but since controllers are supposed to be slim anyway (no domain logic), I'm not even sure that would be worth the effort.
-
-So the part of your app that is coupled with the framework you use is the controller and anything before it, i.e. the router. The router part is usually a configuration file
+So your container and
 
 ## Bundles are cool, interoperability is cooler
 
