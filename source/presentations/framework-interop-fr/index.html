@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>Interopérabilité cross-frameworks</title>
+
+    <meta name="author" content="Matthieu Napoli">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="css/reveal.min.css">
+    <link rel="stylesheet" href="css/theme/beige.css" id="theme">
+    <!-- <link rel="stylesheet" href="css/print/pdf.css"> -->
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+    </head>
+
+    <body>
+
+        <div class="reveal">
+            <div class="slides">
+
+                <section>
+                    <h1>Interopérabilité cross-frameworks</h1>
+                    <h3>Faire tourner Symfony avec n’importe quel autre framework dans la même application</h3>
+                    <p>
+                        <small>sfPot Lyon, Janvier 2014</small>
+                    </p>
+                </section>
+
+                <section>
+                    <h2>Bonjour</h2>
+                    <h3>Matthieu Napoli</h3>
+                    <p>My C-Sense (<a href="https://github.com/myclabs">myclabs</a>), Lyon</p>
+                    <p><a href="http://mnapoli.fr/">mnapoli.fr</a> / <a href="https://twitter.com/matthieunapoli">@matthieunapoli</a></p>
+                    <p><a href="https://github.com/mnapoli">github.com/mnapoli</a></p>
+                    <h3>Quelques projets</h3>
+                    <p>PHP-DI : Container d'injection de dépendances</p>
+                    <p>Procedure : Symfony avec des contrôleurs procéduraux</p>
+                    <p>MniPagesBundle : Symfony en mode "component-oriented"</p>
+                    <p>…</p>
+                </section>
+
+                <section>
+                    <h2>Interopérabilité cross-frameworks ?</h2>
+                </section>
+
+                <section>
+                    <h2>Interopérabilité cross-frameworks</h2>
+                    <h3>Mais pourquoi ??</h3>
+                    <ul>
+                        <li>Application legacy à migrer : sf1, ZF1, … :'(</li>
+                        <li>Changement de framework</li>
+                        <li>Découpage d'applications en modules (Apigility de ZF2, …)</li>
+                        <li>Front-end super simple avec Silex pour le webdesigner (qui pige que dalle à PHP) et back-end Symfony super mastoc</li>
+                        <li>Ne pas se fermer des portes</li>
+                        <li>Vivre pour un idéal fait de petits poneys magiques</li>
+                    </ul>
+                </section>
+
+            </div>
+        </div>
+
+        <script src="lib/js/head.min.js"></script>
+        <script src="js/reveal.min.js"></script>
+
+        <script>
+            // Full list of configuration options available here:
+            // https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                controls: true,
+                progress: true,
+                history: true,
+                center: true,
+                // width: 960,
+                // height: 700,
+
+                theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+                transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+                // Optional libraries used to extend on reveal.js
+                dependencies: [
+                { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+                { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+                { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+                { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+                ]
+            });
+        </script>
+
+    </body>
+</html>
