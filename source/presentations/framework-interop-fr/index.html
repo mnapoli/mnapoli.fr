@@ -19,6 +19,13 @@
 
     <!-- For syntax highlighting -->
     <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <style type="text/css">
+        .reveal section img.noborder {
+            border: none;
+            box-shadow: none;
+        }
+    </style>
     </head>
 
     <body>
@@ -96,13 +103,33 @@
                 <section>
                     <h2>Qu'est-ce qu'un framework ?</h2>
                     <h3>2005</h3>
-                    <img src="img/old-frameworks.png"/>
+                    <img class="noborder" src="img/old-frameworks.png"/>
+                </section>
+
+                <section>
+                    <h2>Interopérabilité cross-frameworks</h2>
+                    <img class="noborder" src="img/old-frameworks-interop.png"/>
                 </section>
 
                 <section>
                     <h2>Qu'est-ce qu'un framework ?</h2>
                     <h3>2013</h3>
-                    <img src="img/new-frameworks.png"/>
+                    <img class="noborder" src="img/new-frameworks.png"/>
+                </section>
+
+                <section>
+                    <p>Version simplifiée</p>
+                    <img class="noborder" src="img/framework-coupling.png"/>
+                </section>
+
+                <section>
+                    <h2>Interopérabilité cross-frameworks</h2>
+                    <img class="noborder" src="img/framework-interop.png"/>
+                </section>
+
+                <section>
+                    <h1>Step 1 : le router</h1>
+                    <img class="noborder" src="img/framework-interop.png"/>
                 </section>
 
                 <section>
@@ -110,6 +137,155 @@
                     <img src="img/symfony-repo.png"/>
                     <p>25 composants</p>
                     <p>1 bundle <code>FrameworkBundle</code></p>
+                </section>
+
+                <section>
+                    <pre><code data-trim>
+interface HttpKernelInterface
+{
+    /**
+     * @param Request $request
+     * @return Response
+     */
+    public function handle(Request $request, ...);
+}
+                    </code></pre>
+                </section>
+
+                <section>
+                    <img class="noborder" src="img/stack-kernel.png"/>
+                    <p><small>crédits image : StackPHP</small></p>
+                </section>
+
+                <section>
+                    <img class="noborder" src="img/router.png"/>
+                </section>
+
+                <section>
+                    <h2>Stack</h2>
+                    <img class="noborder" src="img/stack-onion.png" style="max-height: 330px"/>
+                    <blockquote>Stack is a convention for composing HttpKernelInterface middlewares.</blockquote>
+                    <p><a href="http://stackphp.com/">stackphp.com</a></p>
+                </section>
+
+                <section>
+                    <p><code>Stack\UrlMap</code></p>
+                    <pre><code data-trim>
+class UrlMap implements HttpKernelInterface
+{
+    public function __construct(HttpKernelInterface $app, $map = [])
+    // ...
+}
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h2>Front Controller</h2>
+                    <pre><code data-trim>
+$app = new FrontEndApplication();
+
+$request = Request::createFromGlobals();
+
+$response = $app->handle($request);
+$response->send();
+$app->terminate($request, $response);
+                    </code></pre>
+                </section>
+
+                <section>
+                    <pre><code data-trim>
+$frontend = new FrontEndApplication();
+$blog = new BlogApplication();
+
+$map = [
+    '/blog' => $blog,
+];
+
+$app = new Stack\UrlMap($frontend, $map);
+
+$request = Request::createFromGlobals();
+$response = $app->handle($request);
+$response->send();
+$app->terminate($request, $response);
+                    </code></pre>
+                </section>
+
+                <section>
+                    <p>Les frameworks et</p>
+                    <p><code>HttpKernelInterface</code> ?</p>
+                </section>
+
+                <section>
+                    <h2>Symfony</h2>
+                    <p><code>AppKernel implements HttpKernelInterface</code></p>
+                    <pre><code data-trim>
+$app = new AppKernel();
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h2>Silex</h2>
+                    <p><code>Silex\Application implements HttpKernelInterface</code></p>
+                    <pre><code data-trim>
+$app = new Silex\Application();
+
+$app->get('/', function() {
+    return 'Hello world!';
+});
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h2>Zend Framework 1</h2>
+                    <pre><code data-trim>
+class MyApplication implements HttpKernelInterface
+{
+    public function handle(Request $request, ...)
+    {
+        $application = new Zend_Application(
+            'development',
+            __DIR__ . '/configs/application.ini'
+        );
+        $controller = Zend_Controller_Front::getInstance();
+
+        ob_start();
+        $application->bootstrap()->run();
+        $content = ob_get_clean();
+
+        return new Response($content);
+    }
+}
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h2>Zend Framework 2</h2>
+                    <pre><code data-trim>
+class MyApplication implements HttpKernelInterface
+{
+    public function handle(Request $request, ...)
+    {
+        $config = require 'config/application.config.php';
+
+        $zfResponse = Zend\Mvc\Application::init($config)->run();
+
+        $sfResponse = ...($zfResponse);
+
+        return $sfResponse;
+    }
+}
+                    </code></pre>
+                </section>
+
+                <section>
+                    <p>etc.</p>
+                    <hr />
+                    <p><small>TODO: projet "HttpKernelInterface adapters"</small></p>
+                </section>
+
+                <section>
+                    <h1>Step 2 : le container</h1>
+                    <img class="noborder" src="img/framework-interop.png"/>
                 </section>
 
             </div>
