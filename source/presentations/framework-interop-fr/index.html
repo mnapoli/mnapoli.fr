@@ -288,6 +288,70 @@ class MyApplication implements HttpKernelInterface
                     <img class="noborder" src="img/framework-interop.png"/>
                 </section>
 
+                <section>
+                    <h2>Réutiliser le container ?</h2>
+                    <img class="noborder" src="img/framework-interop-no-container.png"/>
+                </section>
+
+                <section>
+                    <h2>Interoperabilité entre containers</h2>
+                    <img class="noborder" src="img/framework-interop.png"/>
+                </section>
+
+                <section>
+                    <h2>Interoperabilité entre containers</h2>
+                    <p><a href="https://github.com/container-interop/container-interop">Container-Interop</a></p>
+                    <p><small><a href="https://github.com/container-interop/container-interop">github.com/container-interop/container-interop</a></small></p>
+                    <pre><code data-trim>
+interface ContainerInterface
+{
+    public function get($id);
+    public function has($id);
+}
+                    </code></pre>
+                    <p>Zend Framework, Laravel, Joomla, Aura, …</p>
+                    <p>Prochaine étape : PHP-FIG</p>
+                </section>
+
+                <section>
+                    <h2>PHP-DI</h2>
+                    <p><a href="http://php-di.org/">php-di.org/</a></p>
+                    <p>Implémentera <code>ContainerInterface</code>, en attendant :</p>
+                    <ul>
+                        <li>Intégration Symfony 2</li>
+                        <li>Intégration ZF 2</li>
+                        <li>Intégration ZF 1</li>
+                        <li>…</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h1>Step 3 : on essaye ?</h1>
+                </section>
+
+                <section>
+                    <h2>Layout</h2>
+                    <pre><code data-trim>
+app/
+    frontend/
+        module.php // Silex -> retourne l'application Silex
+    blog/
+        module.php // Symfony -> retourne new AppKernel()
+    backoffice/
+        module.php // ZF1 -> retourne l'adapter qui implémente HttpKernelInterface
+src/
+    Acme/Domain/
+web/
+    index.php
+                    </code></pre>
+                </section>
+
+                <section>
+                    <h2>Démo time</h2>
+                    <img src="img/demo.gif"/>
+                    <p><small><a href="http://lesjoiesducode.fr/post/40011511492/quand-je-fais-une-demo-en-clientele">les joies du code</a></small></p>
+                </section>
+
             </div>
         </div>
 
