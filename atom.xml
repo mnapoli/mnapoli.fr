@@ -4,7 +4,7 @@
   <title><![CDATA[Matthieu Napoli]]></title>
   <link href="http://mnapoli.fr/atom.xml" rel="self"/>
   <link href="http://mnapoli.fr/"/>
-  <updated>2014-01-23T17:24:51+01:00</updated>
+  <updated>2014-03-10T16:13:13+01:00</updated>
   <id>http://mnapoli.fr/</id>
   <author>
     <name><![CDATA[Matthieu Napoli]]></name>
@@ -12,6 +12,215 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[The repository interface]]></title>
+    <link href="http://mnapoli.fr/repository-interface/"/>
+    <updated>2014-03-10T18:00:00+01:00</updated>
+    <id>http://mnapoli.fr/repository-interface</id>
+    <content type="html"><![CDATA[<p>Here is the definition of a repository for Eric Evans in his
+<a href="http://books.google.fr/books/about/Domain_driven_Design.html?id=7dlaMs0SECsC&amp;redir_esc=y">Domain Driven Design</a> book:</p>
+
+<blockquote><p>A <em>repository</em> represents all objects of a certain type as a conceptual set (usually emulated).
+<strong>It acts like a collection</strong>, except with more elaborate querying capability.
+[&hellip;]
+For each type of object that needs global access, <strong>create an object that can provide the illusion
+of an in-memory collection</strong> of all objects of that type.</p></blockquote>
+
+<p>While I love Doctrine, I really dislike
+<a href="https://github.com/doctrine/common/blob/master/lib/Doctrine/Common/Persistence/ObjectRepository.php">their repository interface</a>
+because it doesn&rsquo;t look and act like a collection.
+And that&rsquo;s too bad because Doctrine even provides a very good abstraction for collections
+through the <code>doctrine/collection</code> project. It even supports filtering with criterias over collections <strong>and</strong> repositories.</p>
+
+<p>I know that Doctrine is not targeted at Domain Driven Design only, but I think having a better repository interface
+would still benefit the project and the users.</p>
+
+<p>Here is a basic repository interface I tend to use instead:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">interface</span> <span class="nx">Repository</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">function</span> <span class="nf">add</span><span class="p">(</span><span class="nv">$entity</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">function</span> <span class="nf">remove</span><span class="p">(</span><span class="nv">$entity</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">function</span> <span class="nf">count</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="sd">/**</span>
+</span><span class='line'><span class="sd">     * @throws NotFoundException</span>
+</span><span class='line'><span class="sd">     * @return object</span>
+</span><span class='line'><span class="sd">     */</span>
+</span><span class='line'>    <span class="k">function</span> <span class="nf">get</span><span class="p">(</span><span class="nv">$id</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="sd">/**</span>
+</span><span class='line'><span class="sd">     * @return array</span>
+</span><span class='line'><span class="sd">     */</span>
+</span><span class='line'>    <span class="k">function</span> <span class="nf">find</span><span class="p">(</span><span class="nx">Criteria</span> <span class="nv">$criteria</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">function</span> <span class="nf">toArray</span><span class="p">();</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<!-- more -->
+
+
+<p>Of course, you should use this interface as a base and write your own repository interfaces for each aggregate root.</p>
+
+<h2>Collection verbs</h2>
+
+<p>Why use verbs like<code>add</code> and <code>remove</code> instead of <code>load</code>, <code>save</code>, <code>delete</code>, <code>persist</code>, …?</p>
+
+<p>Because those are persistence-related terms and have nothing to do in an interface
+that is going to be used/extended in the domain layer.</p>
+
+<h2>Get versus Find</h2>
+
+<p>I really dislike that you can only <code>find</code> in Doctrine: it will return null if no entity is found.</p>
+
+<p>Most of the time, that is not what you want. You actually don&rsquo;t want to &ldquo;search and find&rdquo; the entity,
+you just want to get it by its id and you assume it exists.</p>
+
+<p>That&rsquo;s why you need to clearly differentiate between find and get:</p>
+
+<ul>
+<li>method starting with <code>get</code> should always return an entity, or throw an exception if not found</li>
+<li>method starting with <code>find</code> should always return a collection (that could be empty)</li>
+</ul>
+
+
+<h2>Going further: the collection interface</h2>
+
+<p>I&rsquo;ve said it already, but a repository should behave like a collection.
+The interface shown above is not completely satisfying yet because it doesn&rsquo;t totally behave like a collection.
+For example you can&rsquo;t iterate it.</p>
+
+<p>So the best solution is simple: <strong>write a sensible collection interface and have the repository extend it</strong>.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">interface</span> <span class="nx">Collection</span> <span class="k">extends</span> <span class="nx">Countable</span><span class="p">,</span> <span class="nx">IteratorAggregate</span><span class="p">,</span> <span class="nx">ArrayAccess</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">function</span> <span class="nf">add</span><span class="p">(</span><span class="nv">$element</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">function</span> <span class="nf">remove</span><span class="p">(</span><span class="nv">$element</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">function</span> <span class="nf">clear</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">function</span> <span class="nf">contains</span><span class="p">(</span><span class="nv">$element</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">function</span> <span class="nf">get</span><span class="p">(</span><span class="nv">$key</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">function</span> <span class="nf">find</span><span class="p">(</span><span class="nx">Criteria</span> <span class="nv">$criteria</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">function</span> <span class="nf">toArray</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">function</span> <span class="nf">slice</span><span class="p">(</span><span class="nv">$offset</span><span class="p">,</span> <span class="nv">$length</span> <span class="o">=</span> <span class="k">null</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">interface</span> <span class="nx">Repository</span> <span class="k">extends</span> <span class="nx">Collection</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>(this is a very simple version, not exhaustive at all)</p>
+
+<p>Now this is much better.
+<strong>You can even type-hint against the collection and accept at the same time collections and repositories!</strong></p>
+
+<p>You can then iterate or filter the collection without having to care what the object really is.
+For example, you can write a <code>ProductCriteria</code> and use it both on the repository and collections of products.</p>
+
+<p>Example: let&rsquo;s say you write a controller to display a product list:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">class</span> <span class="nc">ProductListController</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="sd">/**</span>
+</span><span class='line'><span class="sd">     * @var ProductCollection</span>
+</span><span class='line'><span class="sd">     */</span>
+</span><span class='line'>    <span class="k">private</span> <span class="nv">$products</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">public</span> <span class="k">function</span> <span class="nf">__construct</span><span class="p">(</span><span class="nx">ProductCollection</span> <span class="nv">$products</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">products</span> <span class="o">=</span> <span class="nv">$products</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">public</span> <span class="k">function</span> <span class="nf">listAction</span><span class="p">()</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="k">new</span> <span class="nx">View</span><span class="p">(</span><span class="s1">&#39;product-list.twig.html&#39;</span><span class="p">,</span> <span class="p">[</span><span class="nv">$this</span><span class="o">-&gt;</span><span class="na">products</span><span class="p">]);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here your controller is completely reusable. If you give it the <code>ProductRepository</code>, it can display the whole
+product list. If you give it the list of favorite products of the user, it will work too.
+Thank you dependency injection!</p>
+
+<p>And the day PHP gets generics, that will be even nicer (<code>Collection&lt;Product&gt;</code>) but that&rsquo;s a debate for another day!</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Working with mails in dev environment]]></title>
