@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "The repository interface"
+title: "The Repository interface"
 date: 2014-03-10 18:00
 comments: true
-categories: ddd php
+categories: ddd php doctrine
 ---
 
 Here is the definition of a repository for Eric Evans in his
