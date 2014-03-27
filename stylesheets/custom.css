@@ -3,3 +3,7 @@ img.center {
     margin-left: auto;
     margin-right: auto;
 }
+
+article blockquote {
+    color: #1FA292;
+}
