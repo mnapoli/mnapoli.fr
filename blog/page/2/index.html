@@ -9,7 +9,7 @@
   <meta name="author" content="Matthieu Napoli">
 
   
-  <meta name="description" content="Hi. I&#8217;m Matthieu Napoli. These and thoughts and experiments about web development and programming. Apr 16th, 2013 Comments composer github &hellip;">
+  <meta name="description" content="Hi. I&#8217;m Matthieu Napoli. These and thoughts and experiments about web development and programming. Jun 8th, 2013 Comments continuous- &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -111,6 +111,63 @@
 
 <div class="blog-index">
   
+  
+  
+    <article>
+      
+
+  <div class="row-fluid">
+    <div class="span2">
+		<h1 class="date-time">
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2013-06-08T20:00:00+02:00" pubdate data-updated="true">Jun 8<span>th</span>, 2013</time></h5>
+          <div class="row-fluid">
+          
+          <a href="http://mnapoli.fr/code-coverage-reports-with-github-travis-and/#disqus_thread">Comments </a> <span class="fui-bubble-16"></span>
+          
+          </div>
+          
+          <div class="row-fluid">
+          
+          <a href="/categories/continuous-integration/"><span class="badge">continuous-integration</span></a>
+          
+          <a href="/categories/github/"><span class="badge">github</span></a>
+          
+          <a href="/categories/php/"><span class="badge">php</span></a>
+          
+          </div>
+          
+    </div>
+    <div class="span10">
+      <h1 class="link"><a href="/code-coverage-reports-with-github-travis-and/">Code coverage reports with GitHub, Travis and Coveralls</a></h1>
+      <p>You have a PHP project hosted on GitHub with continuous integration using Travis-CI?</p>
+
+<p>How about setting up <strong>code coverage reports</strong>?</p>
+
+<p>For example, here is the code coverage report of <a href="http://mnapoli.github.io/PHP-DI/">PHP-DI</a>: <a href="https://coveralls.io/r/mnapoli/PHP-DI?branch=master"><img src="https://coveralls.io/repos/mnapoli/PHP-DI/badge.png?branch=master" alt="Coverage Status" /></a> (click on the link to see the details).</p>
+
+
+      
+       <a href="/code-coverage-reports-with-github-travis-and/">Read on &rarr;</a> 
+    </div>
+  </div>
+
+
+
+    </article>
+    
+    <hr>
+    
   
   
     <article>
@@ -694,96 +751,10 @@
 
     </article>
     
-    <hr>
-    
-  
-  
-    <article>
-      
-
-  <div class="row-fluid">
-    <div class="span2">
-		<h1 class="date-time">
-
-
-
-
-
-
-
-
-  
-
-
-<i class="icon-calendar-empty"></i> <time datetime="2012-09-20T20:00:00+02:00" pubdate data-updated="true">Sep 20<span>th</span>, 2012</time></h5>
-          <div class="row-fluid">
-          
-          <a href="http://mnapoli.fr/dependency-injection-with-php/#disqus_thread">Comments </a> <span class="fui-bubble-16"></span>
-          
-          </div>
-          
-          <div class="row-fluid">
-          
-          <a href="/categories/dependency-injection/"><span class="badge">dependency-injection</span></a>
-          
-          <a href="/categories/php/"><span class="badge">php</span></a>
-          
-          <a href="/categories/php-di/"><span class="badge">php-di</span></a>
-          
-          </div>
-          
-    </div>
-    <div class="span10">
-      <h1 class="link"><a href="/dependency-injection-with-php/">Dependency Injection with PHP</a></h1>
-      <p>I used to develop using Singletons, registries or even static classes. Those days are gone.</p>
-
-<p>I decided to use <strong>Dependency Injection</strong> so that:</p>
-
-<ul>
-<li>my classes would be testable</li>
-<li>replacing an implementation by another would be not only doable, but easy (and so extending a library/module would too)</li>
-<li>the design of those classes wouldn’t be guided by the question of “how they will be used”</li>
-<li>my code would be cleaner, simpler</li>
-<li>and IDE auto-completion/type-hinting would always work</li>
-</ul>
-
-
-<p>I gave a try to Symfony and ZF2 DI systems, but they both seem way too complicated for just a simple need (that anyone who has worked with Spring would understand):</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">class</span> <span class="nc">MyClass</span> <span class="p">{</span>
-</span><span class='line'>    <span class="sd">/**</span>
-</span><span class='line'><span class="sd">     * @Inject</span>
-</span><span class='line'><span class="sd">     * @var MyService</span>
-</span><span class='line'><span class="sd">     */</span>
-</span><span class='line'>    <span class="k">private</span> <span class="nv">$service</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This short code means: <em>Inject, using a simple annotation, an instance of another class into a property</em>.</p>
-
-<p>I started working on a framework enabling such functionality few months ago. It is now in a mature state. It is based on the <a href="http://docs.doctrine-project.org/projects/doctrine-common/en/latest/reference/annotations.html">Annotations library of Doctrine 2</a>, and takes most of its ideas of Spring 3.</p>
-
-<p>You can check out this framework on its official website: <a href="http://mnapoli.github.com/PHP-DI/">PHP-DI</a>, and you are welcome to use it or contribute.</p>
-
-      
-      
-    </div>
-  </div>
-
-
-
-    </article>
-    
   
   <div class="pagination">
+    
+    <a class="prev" href="/blog/page/3/">&larr; Older</a>
     
 
     

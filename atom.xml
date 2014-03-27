@@ -4,7 +4,7 @@
   <title><![CDATA[Matthieu Napoli]]></title>
   <link href="http://mnapoli.fr/atom.xml" rel="self"/>
   <link href="http://mnapoli.fr/"/>
-  <updated>2014-03-10T16:13:13+01:00</updated>
+  <updated>2014-03-27T12:07:52+01:00</updated>
   <id>http://mnapoli.fr/</id>
   <author>
     <name><![CDATA[Matthieu Napoli]]></name>
@@ -14,7 +14,348 @@
 
   
   <entry>
-    <title type="html"><![CDATA[The repository interface]]></title>
+    <title type="html"><![CDATA[The Collection interface and Database abstraction]]></title>
+    <link href="http://mnapoli.fr/collection-interface-and-database-abstraction/"/>
+    <updated>2014-03-27T18:00:00+01:00</updated>
+    <id>http://mnapoli.fr/collection-interface-and-database-abstraction</id>
+    <content type="html"><![CDATA[<p>This article logically follows the previous: <a href="http://mnapoli.fr/repository-interface/">The Repository interface</a>. In there I suggested a better interface for repositories based on a Collection interface so that repositories could be manipulated like collections.</p>
+
+<p>This article goes further in that idea and presents an API to abstract database access behind collections of objects.</p>
+
+<p>But first let&rsquo;s start with Doctrine Criterias.</p>
+
+<!-- more -->
+
+
+<h2>What are Doctrine Criterias?</h2>
+
+<p>When you use Doctrine, you end up interacting with list of objects in two ways:</p>
+
+<ul>
+<li>through repositories or the entity manager</li>
+<li>through associations</li>
+</ul>
+
+
+<p>At the entity manager or repository level, you can write <strong>DQL queries</strong> (or use the query builder that will generate them for you). This is the most powerful API Doctrine provides to interact with the database.</p>
+
+<p>But inside objects you don&rsquo;t have access to the entity manager or the repository, because the model shouldn&rsquo;t know about the persistence. So what do you do when you want to <strong>filter an association without loading all the objects?</strong> And furthermore: what do you do <strong>if the association is already loaded in memory?</strong> That would be stupid to issue a DB query when you could just filter the objects in memory.</p>
+
+<p>That&rsquo;s where Doctrine introduced the concept of <strong>Criteria</strong>. It&rsquo;s an API that allows you to filter an association with an abstract &ldquo;query&rdquo; (≠ DB query) that you apply to a collection. What&rsquo;s good is:</p>
+
+<ul>
+<li>if the collection is already loaded, the filtering happens in memory with PHP</li>
+<li>if the collection is not loaded, the filtering is done in a DB query</li>
+</ul>
+
+
+<blockquote><p>The Criteria has a limited matching language that works both on the SQL and on the PHP collection level.
+This means you can use collection matching interchangeably, independent of in-memory or sql-backed collections.</p></blockquote>
+
+<p>That&rsquo;s awesome!</p>
+
+<p>Example of how to use it:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="nv">$criteria</span> <span class="o">=</span> <span class="nx">Criteria</span><span class="o">::</span><span class="na">create</span><span class="p">()</span>
+</span><span class='line'>    <span class="o">-&gt;</span><span class="na">where</span><span class="p">(</span><span class="nx">Criteria</span><span class="o">::</span><span class="na">expr</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">eq</span><span class="p">(</span><span class="s1">&#39;birthday&#39;</span><span class="p">,</span> <span class="s1">&#39;1982-02-17&#39;</span><span class="p">))</span>
+</span><span class='line'>    <span class="o">-&gt;</span><span class="na">orderBy</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="s1">&#39;username&#39;</span> <span class="o">=&gt;</span> <span class="nx">Criteria</span><span class="o">::</span><span class="na">ASC</span><span class="p">))</span>
+</span><span class='line'>    <span class="o">-&gt;</span><span class="na">setFirstResult</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span><span class='line'>    <span class="o">-&gt;</span><span class="na">setMaxResults</span><span class="p">(</span><span class="mi">20</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">$birthdayUsers</span> <span class="o">=</span> <span class="nv">$userCollection</span><span class="o">-&gt;</span><span class="na">matching</span><span class="p">(</span><span class="nv">$criteria</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The Criteria API is obviously much more limited than DQL, but <strong>it&rsquo;s completely decoupled from persistence</strong>: you can use it in your model without polluting it with persistence problems, and you can use it against collections, loaded or not.</p>
+
+<p>And the greatest thing of all: Doctrine developers didn&rsquo;t stop here, they also made the Repositories be compatible with those Criterias. Which means the same API whether it&rsquo;s a repository or not. If you read my previous article, you know how much I like that.</p>
+
+<h2>What&rsquo;s wrong then?</h2>
+
+<p>Well something has to be wrong else I wouldn&rsquo;t be writing this, and you wouldn&rsquo;t be wasting your time reading it.</p>
+
+<ul>
+<li>you cannot filter on associations of objects inside the collection, i.e. <code>JOIN</code> (which is pretty common)</li>
+<li>you cannot perform updates or deletes in bulk without loading the objects first (like set <code>published = true</code> for all articles in this collection or repository)</li>
+<li>the API uses persistence words, like &ldquo;where&rdquo;, &ldquo;order by&#8221;… It&rsquo;s not so much a biggy but still, it&rsquo;s not perfect</li>
+<li>you cannot chain criterias and have only 1 DB query: 1 Criteria = 1 query</li>
+</ul>
+
+
+<p>The last point is a bit vague so let me show you an example:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">class</span> <span class="nc">Blog</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">public</span> <span class="k">function</span> <span class="nf">getPublishedArticles</span><span class="p">()</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="nv">$criteria</span> <span class="o">=</span> <span class="nx">Criteria</span><span class="o">::</span><span class="na">create</span><span class="p">()</span>
+</span><span class='line'>            <span class="o">-&gt;</span><span class="na">where</span><span class="p">(</span><span class="nx">Criteria</span><span class="o">::</span><span class="na">expr</span><span class="p">()</span><span class="o">-&gt;</span><span class="na">eq</span><span class="p">(</span><span class="s1">&#39;published&#39;</span><span class="p">,</span> <span class="k">true</span><span class="p">));</span>
+</span><span class='line'>        <span class="k">return</span> <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">articles</span><span class="o">-&gt;</span><span class="na">matching</span><span class="p">(</span><span class="nv">$criteria</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">$articles</span> <span class="o">=</span> <span class="nx">blog</span><span class="o">-&gt;</span><span class="na">getPublishedArticles</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">$criteria</span> <span class="o">=</span> <span class="nx">Criteria</span><span class="o">::</span><span class="na">create</span><span class="p">()</span>
+</span><span class='line'>    <span class="o">-&gt;</span><span class="na">setFirstResult</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span><span class='line'>    <span class="o">-&gt;</span><span class="na">setMaxResults</span><span class="p">(</span><span class="mi">20</span><span class="p">);</span>
+</span><span class='line'><span class="nv">$articlesToDisplay</span> <span class="o">=</span> <span class="nv">$articles</span><span class="o">-&gt;</span><span class="na">matching</span><span class="p">(</span><span class="nv">$criteria</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here all the published articles will be loaded in memory, and then the first 20 results will be kept.</p>
+
+<h2>The Collection interface</h2>
+
+<p>Before diving in a better alternative to criterias, let&rsquo;s start back with an awesome Collection interface:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">interface</span> <span class="nx">Collection</span> <span class="k">extends</span> <span class="nx">Countable</span><span class="p">,</span> <span class="nx">IteratorAggregate</span><span class="p">,</span> <span class="nx">ArrayAccess</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">function</span> <span class="nf">add</span><span class="p">(</span><span class="nv">$element</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">function</span> <span class="nf">get</span><span class="p">(</span><span class="nv">$key</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">function</span> <span class="nf">contains</span><span class="p">(</span><span class="nv">$element</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">function</span> <span class="nf">remove</span><span class="p">(</span><span class="nv">$element</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">function</span> <span class="nf">clear</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">function</span> <span class="nf">toArray</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">function</span> <span class="nf">count</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">function</span> <span class="nf">filter</span><span class="p">(</span><span class="nx">Expr</span> <span class="nv">$predicate</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">function</span> <span class="nf">sort</span><span class="p">(</span><span class="nv">$field</span><span class="p">,</span> <span class="nv">$direction</span> <span class="o">=</span> <span class="s1">&#39;ASC&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">function</span> <span class="nf">slice</span><span class="p">(</span><span class="nv">$offset</span><span class="p">,</span> <span class="nv">$length</span> <span class="o">=</span> <span class="k">null</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">function</span> <span class="nf">map</span><span class="p">(</span><span class="nx">Closure</span> <span class="nv">$function</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>(let&rsquo;s also assume that the Repository interface also extends that interface :) )</p>
+
+<h2>Filtering!</h2>
+
+<p>This interface looks a lot like the Doctrine Collection interface, except that <code>filter</code> doesn&rsquo;t take a <code>Closure</code> anymore but an &ldquo;expression&rdquo;, which is where the fun begin. Because it&rsquo;s not PHP code but an expression object (like the Criteria expression object), we can apply the same filtering in memory and in database.</p>
+
+<p>Now we are get out of the scope of the interface and have a look at the implementations: <strong>what if <code>filter</code>, <code>sort</code> and <code>slice</code> where lazy?</strong></p>
+
+<p>What I mean is these methods would return a new &ldquo;lazy&rdquo; collection that would only be loaded/computed if used. That allows some pretty nice chaining!</p>
+
+<p>Example:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="nv">$results</span> <span class="o">=</span> <span class="nv">$articles</span><span class="o">-&gt;</span><span class="na">filter</span><span class="p">(</span><span class="nx">Expr</span><span class="o">::</span><span class="na">eq</span><span class="p">(</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;Hello&#39;</span><span class="p">))</span>
+</span><span class='line'>        <span class="o">-&gt;</span><span class="na">filter</span><span class="p">(</span><span class="nx">Expr</span><span class="o">::</span><span class="na">eq</span><span class="p">(</span><span class="s1">&#39;author&#39;</span><span class="p">,</span> <span class="nv">$john</span><span class="p">))</span>
+</span><span class='line'>        <span class="o">-&gt;</span><span class="na">sort</span><span class="p">(</span><span class="s1">&#39;date&#39;</span><span class="p">,</span> <span class="s1">&#39;DESC&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Perform a COUNT() query in database</span>
+</span><span class='line'><span class="k">echo</span> <span class="nb">count</span><span class="p">(</span><span class="nv">$results</span><span class="p">)</span> <span class="o">.</span> <span class="s1">&#39; results&#39;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Fetches only 10 results from the database</span>
+</span><span class='line'><span class="nv">$pageResults</span> <span class="o">=</span> <span class="nv">$results</span><span class="o">-&gt;</span><span class="na">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Executes on loaded objects, no DB query here</span>
+</span><span class='line'><span class="nv">$allAuthors</span> <span class="o">=</span> <span class="nv">$pageResults</span><span class="o">-&gt;</span><span class="na">map</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="nx">Article</span> <span class="nv">$article</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nv">$article</span><span class="o">-&gt;</span><span class="na">getAuthor</span><span class="p">();</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This code would only issue 2 queries:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="c1">-- Count the total number of articles</span>
+</span><span class='line'><span class="k">SELECT</span> <span class="k">COUNT</span><span class="p">(</span><span class="n">art</span><span class="p">.</span><span class="n">id</span><span class="p">)</span> <span class="k">FROM</span> <span class="n">Article</span> <span class="n">art</span>
+</span><span class='line'><span class="k">INNER</span> <span class="k">JOIN</span> <span class="k">User</span> <span class="k">ON</span> <span class="k">User</span><span class="p">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">art</span><span class="p">.</span><span class="n">author_id</span>
+</span><span class='line'><span class="k">WHERE</span> <span class="n">art</span><span class="p">.</span><span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Hello&#39;</span>
+</span><span class='line'><span class="k">ORDER</span> <span class="k">BY</span> <span class="n">art</span><span class="p">.</span><span class="nb">date</span> <span class="k">DESC</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">-- Fetch 10 articles for the current page</span>
+</span><span class='line'><span class="k">SELECT</span> <span class="p">...</span> <span class="k">FROM</span> <span class="n">Article</span> <span class="n">art</span>
+</span><span class='line'><span class="k">INNER</span> <span class="k">JOIN</span> <span class="k">User</span> <span class="k">ON</span> <span class="k">User</span><span class="p">.</span><span class="n">id</span> <span class="o">=</span> <span class="n">art</span><span class="p">.</span><span class="n">author_id</span>
+</span><span class='line'><span class="k">WHERE</span> <span class="n">art</span><span class="p">.</span><span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Hello&#39;</span>
+</span><span class='line'><span class="k">ORDER</span> <span class="k">BY</span> <span class="n">art</span><span class="p">.</span><span class="nb">date</span> <span class="k">DESC</span>
+</span><span class='line'><span class="k">LIMIT</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>What about updating and deleting?</h2>
+
+<p>In the same spirit, you could imagine an API to update or delete items from a collection or repository:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="c1">// Delete Bob&#39;s articles</span>
+</span><span class='line'><span class="nv">$articles</span> <span class="o">=</span> <span class="nv">$articles</span><span class="o">-&gt;</span><span class="na">filter</span><span class="p">(</span><span class="nx">Expr</span><span class="o">::</span><span class="na">eq</span><span class="p">(</span><span class="s1">&#39;author&#39;</span><span class="p">,</span> <span class="nv">$bob</span><span class="p">));</span>
+</span><span class='line'><span class="nv">$articles</span><span class="o">-&gt;</span><span class="na">clear</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Publish Alice&#39;s articles</span>
+</span><span class='line'><span class="nv">$articles</span> <span class="o">=</span> <span class="nv">$articles</span><span class="o">-&gt;</span><span class="na">filter</span><span class="p">(</span><span class="nx">Expr</span><span class="o">::</span><span class="na">eq</span><span class="p">(</span><span class="s1">&#39;author&#39;</span><span class="p">,</span> <span class="nv">$alice</span><span class="p">));</span>
+</span><span class='line'><span class="nv">$articles</span><span class="o">-&gt;</span><span class="na">apply</span><span class="p">(</span><span class="nx">Expr</span><span class="o">::</span><span class="na">set</span><span class="p">(</span><span class="s1">&#39;published&#39;</span><span class="p">,</span> <span class="k">true</span><span class="p">));</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here the delete and update queries will include the previous filtering, such that there is only 1 query executed for Bob, and 1 for Alice.</p>
+
+<p>Of course, that is if the objects are not loaded in memory. If they are, then the objects are updated.</p>
+
+<h2>Conclusion</h2>
+
+<p>This article was just an idea thrown around for discussion. There is no library available, or repository containing any code.</p>
+
+<p>To sum up all this quickly:</p>
+
+<ul>
+<li>a repository is a collection (and much more too)</li>
+<li>you can manipulate collections and chain filtering, sorting, etc&hellip; in a very readable way while knowing you don&rsquo;t trigger dozens of DB queries</li>
+<li>the API shown here could be a more powerful alternative to Criterias</li>
+<li>it can also provide a simpler alternative to DQL/Query Builder with the benefit of being persistence agnostic and usable in entities</li>
+<li>it could allow pagination and sorting in the controllers much more easily (you wouldn&rsquo;t need to add these as parameters in your repositories for example)</li>
+<li>it would allow for more optimized database access (counting the collection would just issue a COUNT query for example)</li>
+</ul>
+
+
+<h3>Drawbacks</h3>
+
+<p>I can&rsquo;t finish that article without expressing what I consider as the major drawback behind all this:
+you are a little tiny bit persistent-aware, because you don&rsquo;t filter your collections with PHP code but with
+an arbitrary expression language.</p>
+
+<p>That doesn&rsquo;t mean your code is coupled to the persistence layer though because it also completely works in memory,
+but you deliberately don&rsquo;t use PHP code because you <em>know</em> that it&rsquo;s not optimized to load all the objects from the
+database and then filter them with PHP.</p>
+
+<p>I would say <strong>that&rsquo;s an acceptable compromise</strong>, because let&rsquo;s be honest, there is no perfect solution.
+<strong>You can&rsquo;t apply PHP code to a SQL database</strong> so you have to compromise somewhere…</p>
+
+<h3>Penumbra</h3>
+
+<p>Or can you? ;)</p>
+
+<p>That&rsquo;s the bonus note on which I will finish.
+There is another approach (rather controversial) taken by a new project named <strong><a href="https://github.com/TimeToogo/Penumbra">Penumbra</a></strong>.
+Instead of playing with &ldquo;expressions&rdquo; to filter collections, it allows to filter using PHP code! It then parses that code
+to turn it into SQL code. Pretty audacious, but apparently it works (if you keep it reasonable) :)</p>
+
+<p>Example:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="nv">$MiddleAgedUsersRequest</span> <span class="o">=</span> <span class="nv">$UserRepository</span><span class="o">-&gt;</span><span class="na">Request</span><span class="p">()</span>
+</span><span class='line'>        <span class="o">-&gt;</span><span class="na">Where</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="nx">User</span> <span class="nv">$User</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="nv">$User</span><span class="o">-&gt;</span><span class="na">GetAge</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">20</span> <span class="o">&amp;&amp;</span> <span class="nv">$User</span><span class="o">-&gt;</span><span class="na">GetAge</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">50</span> <span class="p">;</span>
+</span><span class='line'>        <span class="p">})</span>
+</span><span class='line'>        <span class="o">-&gt;</span><span class="na">OrderByDescending</span><span class="p">(</span><span class="k">function</span> <span class="p">(</span><span class="nx">User</span> <span class="nv">$User</span><span class="p">)</span> <span class="p">{</span> <span class="k">return</span> <span class="nv">$User</span><span class="o">-&gt;</span><span class="na">GetLastLoginDate</span><span class="p">();</span> <span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">$SomeActiveMiddleAgedUsers</span> <span class="o">=</span> <span class="nv">$MiddleAgedUsersRequest</span><span class="o">-&gt;</span><span class="na">AsArray</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Will result in:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='sql'><span class='line'><span class="k">SELECT</span> <span class="n">Users</span><span class="p">.</span><span class="o">*</span> <span class="k">FROM</span> <span class="n">Users</span>
+</span><span class='line'><span class="k">WHERE</span> <span class="n">Users</span><span class="p">.</span><span class="n">Age</span> <span class="o">&gt;</span> <span class="mi">20</span> <span class="k">AND</span> <span class="n">Users</span><span class="p">.</span><span class="n">Age</span> <span class="o">&lt;</span> <span class="mi">50</span>
+</span><span class='line'><span class="k">ORDER</span> <span class="k">BY</span> <span class="n">Users</span><span class="p">.</span><span class="n">LastLoginDate</span> <span class="k">DESC</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I will not comment on whether this is good or not, because honestly I don&rsquo;t know.
+It seems like it&rsquo;s heavily tested and it&rsquo;s a serious project, so it&rsquo;s not just a POC or hack.
+I&rsquo;ll let you make your own mind :)</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[The Repository interface]]></title>
     <link href="http://mnapoli.fr/repository-interface/"/>
     <updated>2014-03-10T18:00:00+01:00</updated>
     <id>http://mnapoli.fr/repository-interface</id>
@@ -1432,51 +1773,6 @@ But if you don&rsquo;t, you can act on PHP&rsquo;s configuration: instead of ins
 
 
 <p>It is based on <a href="http://blog.hio.fr/2011/09/17/doctrine2-yaml-mapping-example.html">this blog article</a>, completed, and turned into a git repository (thanks to github), so anyone can fork it and improve it.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Dependency Injection with PHP]]></title>
-    <link href="http://mnapoli.fr/dependency-injection-with-php/"/>
-    <updated>2012-09-20T20:00:00+02:00</updated>
-    <id>http://mnapoli.fr/dependency-injection-with-php</id>
-    <content type="html"><![CDATA[<p>I used to develop using Singletons, registries or even static classes. Those days are gone.</p>
-
-<p>I decided to use <strong>Dependency Injection</strong> so that:</p>
-
-<ul>
-<li>my classes would be testable</li>
-<li>replacing an implementation by another would be not only doable, but easy (and so extending a library/module would too)</li>
-<li>the design of those classes wouldn’t be guided by the question of “how they will be used”</li>
-<li>my code would be cleaner, simpler</li>
-<li>and IDE auto-completion/type-hinting would always work</li>
-</ul>
-
-
-<p>I gave a try to Symfony and ZF2 DI systems, but they both seem way too complicated for just a simple need (that anyone who has worked with Spring would understand):</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">class</span> <span class="nc">MyClass</span> <span class="p">{</span>
-</span><span class='line'>    <span class="sd">/**</span>
-</span><span class='line'><span class="sd">     * @Inject</span>
-</span><span class='line'><span class="sd">     * @var MyService</span>
-</span><span class='line'><span class="sd">     */</span>
-</span><span class='line'>    <span class="k">private</span> <span class="nv">$service</span><span class="p">;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This short code means: <em>Inject, using a simple annotation, an instance of another class into a property</em>.</p>
-
-<p>I started working on a framework enabling such functionality few months ago. It is now in a mature state. It is based on the <a href="http://docs.doctrine-project.org/projects/doctrine-common/en/latest/reference/annotations.html">Annotations library of Doctrine 2</a>, and takes most of its ideas of Spring 3.</p>
-
-<p>You can check out this framework on its official website: <a href="http://mnapoli.github.com/PHP-DI/">PHP-DI</a>, and you are welcome to use it or contribute.</p>
 ]]></content>
   </entry>
   
