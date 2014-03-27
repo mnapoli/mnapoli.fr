@@ -6,4 +6,9 @@ img.center {
 
 article blockquote {
     color: #1FA292;
+    font-family: 'Open Sans', sans-serif;
+}
+
+li {
+    margin-bottom: 10px;
 }
