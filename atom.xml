@@ -4,7 +4,7 @@
   <title><![CDATA[Matthieu Napoli]]></title>
   <link href="http://mnapoli.fr/atom.xml" rel="self"/>
   <link href="http://mnapoli.fr/"/>
-  <updated>2014-03-27T12:15:57+01:00</updated>
+  <updated>2014-07-01T13:08:51+02:00</updated>
   <id>http://mnapoli.fr/</id>
   <author>
     <name><![CDATA[Matthieu Napoli]]></name>
@@ -12,6 +12,189 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[A retrospective on open sourcing projects at My C-Sense]]></title>
+    <link href="http://mnapoli.fr/retrospective-mycsense-open-source/"/>
+    <updated>2014-07-01T18:00:00+02:00</updated>
+    <id>http://mnapoli.fr/retrospective-mycsense-open-source</id>
+    <content type="html"><![CDATA[<p>Today is my last day at <a href="http://www.myc-sense.com"><strong>My C-Sense</strong></a>, after almost 2 years working on creating and modernizing existing PHP applications. This has been an incredibly rich experience in an excellent work environment, I will surely miss this job and my colleagues.</p>
+
+<p>Now is probably a good time to look back on our open source experience as a company, and as a developer. It all started when we moved all of our code to GitHub: we used a lot of open source software and libraries, and we thought we might try to contribute some day with some small internal projects too.</p>
+
+<p>So that&rsquo;s how <a href="https://github.com/myclabs"><strong>MyCLabs</strong></a> was born: let&rsquo;s keep the door open for open source because &ldquo;why not&rdquo;.</p>
+
+<!-- more -->
+
+
+<h2>jquery.confirm</h2>
+
+<p>The first project was born out of a simple need: a confirmation box on some buttons and links. We were using Bootstrap, but adding all the JS and HTML needed for such a simple thing was definitely worth a JS function. So instead of a quick and dirty solution, I turned to jQuery and learned how plugins worked, just for fun and because it wasn&rsquo;t a big investment. In no time, <a href="https://github.com/myclabs/jquery.confirm"><strong>jquery.confirm</strong></a> was born (the <a href="http://myclabs.github.io/jquery.confirm">demo is here</a>).</p>
+
+<p>The project was absolutely not ambitious, yet it&rsquo;s probably our most successful project yet. It has <em>30 forks</em>, received 10 pull requests and has 13 releases. That&rsquo;s not much, but for a simple confirmation dialog, it&rsquo;s quite nice.</p>
+
+<p>And what&rsquo;s interesting is that it&rsquo;s the perfect example of an open source &ldquo;success&rdquo; from the company&rsquo;s point of view: we receive much more contributions than we contribute to it ourselves. We get bugfixes &ldquo;for free&rdquo;, and we even got our migration to Bootstrap 3 covered for us <a href="https://github.com/myclabs/jquery.confirm/pull/10">by a contributor</a>. Which company wouldn&rsquo;t want that?</p>
+
+<h2>PHP Enum</h2>
+
+<p>The next project open sourced was a bit different. <a href="https://github.com/myclabs/php-enum"><strong>PHP Enum</strong></a> is an implementation of an Enum structure for PHP. That&rsquo;s probably not the first time you hear about something like that, so here is why we created one:</p>
+
+<ul>
+<li><a href="http://php.net/manual/en/class.splenum.php">SplEnum</a> seems like a good solution, but it is actually a separate PHP extension that needs to be installed (which makes it useless IMO)</li>
+<li>the other open source implementations were not good enough: either they were too far from SplEnum (which means most of the time they were working in a weird way), either they were a direct clone of SplEnum and there was a bit of room for improvement. If you do a search today, you&rsquo;ll find other good libraries that were different or non-existant at the time</li>
+</ul>
+
+
+<p>We ended up using it in some places in our application, and I ended up using it in <a href="http://php-di.org">PHP-DI</a>. We received a few contributions, but obviously there&rsquo;s not a lot of room for bugs or new features since it&rsquo;s very simple.</p>
+
+<p>In the end, this library has been installed <em>more than 16 000 times</em>, which is definitely a lot and that makes us happy (PHP-DI installs might represent a good share of that).</p>
+
+<h2>MyCLabs\ACL</h2>
+
+<p><a href="http://myclabs.github.io/ACL/"><strong>MyCLabs\ACL</strong></a> is the one I&rsquo;m the most proud of. We have been working on <em>the ACL problem</em> and <strong>access control</strong> for more than 4 years (I&rsquo;ve been on and off at My C-Sense), changing, improving and rewriting our solution about every year. It has been a major headache, especially since it&rsquo;s a problem that leaks everywhere: in the model, at the database level, at the routing level, in the views, … And its impact on performance was definitely one of the biggest challenge.</p>
+
+<p>We were always looking at all the existing PHP solutions, but none of them was ever <em>even close</em> to fit our need. We&rsquo;ve always been amazed about this, because we are sure many other companies have the same needs as us.</p>
+
+<p>So because of all this, our ACL system was something I definitely wanted to open source some day. But given its complexity, and the fact it was deeply coupled to our application, it was impossible. Then came Doctrine 2.4, and then 2.5, and it changed a lot of things. As the next big rewrite (again) was planned, I suggested we tried to make it open source. And that would not mean &ldquo;just publish the code online&rdquo;. That would mean make the effort on making a completely decoupled library with tests and documentation.</p>
+
+<p>It took a few weeks to build it, and the company paid for that effort. But it was greatly rewarded with a solution much more solid and powerful than we ever built.</p>
+
+<p><strong>Thinking and building our code on in a more generic way was definitely beneficial.</strong> We previously had an unstable, half-tested, undocumented, slow and unmaintainable ACL system. We wouldn&rsquo;t dare touch it in fear of breaking everything. We now have a very powerful, tested, fast and documented solution. Yes it took time, but it was definitely worth it.</p>
+
+<p>And I think this library is a perfect example of how <strong>open source was beneficial, even without any external contribution</strong>.</p>
+
+<p>And as a developer, making the library open source turned the <em>most boring problem on earth</em> (permissions!) into a fascinating one! I couldn&rsquo;t stop thinking about it out of work when I was working on it.</p>
+
+<p>My C-Sense is now working on a <a href="https://github.com/myclabs/ACL/pull/9">v2</a>, with a much more simpler configuration and usage (much less boilerplate code). That&rsquo;s so interesting that I&rsquo;ll probably be following the project and maybe helping out if I have the time ;)</p>
+
+<h2>MyCLabs\Work</h2>
+
+<p>The ACL project had been a success, so when we ended up moving away from Gearman and thus rewriting our worker system (coupling, coupling…), I suggested we tried building an open source solution for it. Here&rsquo;s <a href="http://myclabs.github.io/Work/"><strong>MyCLabs\Work</strong></a>.</p>
+
+<p>Of course, I had a look at everything that could fit the bill. But again, we needed a feature that wasn&rsquo;t provided by any open source library I could find:</p>
+
+<blockquote><p>That task is too long, it needs to run in background and the user will be notified by email when it finishes. But sometimes it can be very fast, so receiving an email is useless and looks stupid.</p>
+
+<p>So we want to run the task in background, but if it takes less than 5 seconds, we need to show the result to the user directly (in the web page) as if it didn&rsquo;t run in background. And of course, the worker shouldn&rsquo;t send any email!</p></blockquote>
+
+<p>That looks like a very simple need from a user&rsquo;s point of view. But when you realize that it means you must have a <strong>bidirectional communication</strong> between the web page and the background worker, you start going &ldquo;oh no no no&rdquo;.</p>
+
+<p>Now we just ditched Gearman (because of too many bugs and installation problems), and we didn&rsquo;t want to tie ourselves again to a different work queue. So our library was built against 2 needs:</p>
+
+<ul>
+<li>an abstraction over different queue systems (RabbitMQ, Beanstalkd, InMemory…)</li>
+<li>an abstraction over the &ldquo;run and wait if it finishes else …&rdquo;</li>
+</ul>
+
+
+<p>Of course, the <code>run and wait</code> wasn&rsquo;t possible on every queue system, so it needed to be something optional. So I ended up writing 2 interfaces:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">interface</span> <span class="nx">WorkDispatcher</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">public</span> <span class="k">function</span> <span class="nf">run</span><span class="p">(</span><span class="nx">Task</span> <span class="nv">$task</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">interface</span> <span class="nx">SynchronousWorkDispatcher</span> <span class="k">extends</span> <span class="nx">WorkDispatcher</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">public</span> <span class="k">function</span> <span class="nf">runAndWait</span><span class="p">(</span>
+</span><span class='line'>        <span class="nx">Task</span> <span class="nv">$task</span><span class="p">,</span>
+</span><span class='line'>        <span class="nv">$wait</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="c1">// time to wait, in seconds</span>
+</span><span class='line'>        <span class="nx">callable</span> <span class="nv">$completed</span> <span class="o">=</span> <span class="k">null</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">callable</span> <span class="nv">$timedout</span> <span class="o">=</span> <span class="k">null</span><span class="p">,</span>
+</span><span class='line'>        <span class="nx">callable</span> <span class="nv">$errored</span> <span class="o">=</span> <span class="k">null</span>
+</span><span class='line'>    <span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>(the details are documented <a href="http://myclabs.github.io/Work/">here</a>)</p>
+
+<p>For example, the Beanstalkd adapter doesn&rsquo;t implement <code>SynchronousWorkDispatcher</code>, whereas the RabbitMQ adapter does.</p>
+
+<p>Now where it begins to be interesting is that there is no queue system that provides out of the box bidirectional communication with a worker (at least in the one I reviewed at that time, the one with a good PHP lib and the one that can be installed). After several days of thinking and trials, I managed to implement the <code>runAndWait</code> behavior in RabbitMQ with the use of a temp queues and some sort of high level &ldquo;protocol&rdquo;. Maybe not the fastest solution on earth, but for our needs it wasn&rsquo;t a problem at all. If you are curious, you can checkout <a href="https://github.com/myclabs/Work/tree/master/src/Adapter/RabbitMQ">here</a> how it is implemented.</p>
+
+<p>In the end, this is really was this library does: it <strong>abstract</strong> 2 behaviors: simply run a task in background, and run a task and wait for its result.</p>
+
+<p>MyCLabs\Work now has adapters for RabbitMQ, Beanstalkd and &ldquo;In Memory&rdquo; (i.e. for your development machine), you are welcome to push new adapters through pull requests. It&rsquo;s very simple if you don&rsquo;t implement the <code>SynchronousWorkDispatcher</code> interface, for example <a href="https://github.com/myclabs/Work/tree/master/src/Adapter/Beanstalkd">look at the Beanstalkd adapter</a>.</p>
+
+<h2>DeepCopy</h2>
+
+<p><a href="https://github.com/myclabs/DeepCopy"><strong>DeepCopy</strong></a> is a small utility that helps you create deep copies of objects. By deep copy, I mean when you want to duplicate/clone an object <em>and it&rsquo;s sub-objects</em>.</p>
+
+<p>Imagine you need to provide the user a way to &ldquo;duplicate a folder&rdquo;. The user will expect all the files and subfolders to be duplicated too. PHP&rsquo;s <code>clone</code> will do a shallow copy, which means it will only clone the root object, the properties of the cloned object will reference the same objects as the original object.</p>
+
+<p>The &ldquo;built-in&rdquo; PHP solution would be to override <code>__clone()</code>, but that leads to quite complex code, and handling cycling dependencies is very hard.</p>
+
+<p>DeepCopy will handle all that for you. And on top of it, it&rsquo;s completely configurable: you can skip properties, force them to keep their original value, or set them to <code>null</code>. DeepCopy also supports resolving Doctrine&rsquo;s collections and proxies.</p>
+
+<h2>ArrayComparator</h2>
+
+<p><a href="https://github.com/myclabs/ArrayComparator"><strong>ArrayComparator</strong></a> is a bit like DeepCopy: it&rsquo;s a small utility for comparing arrays containing objects. It let&rsquo;s you define callbacks that will be called when items are different or missing between arrays.</p>
+
+<h2>Contributions to other open source projects</h2>
+
+<p>While we use the <a href="https://github.com/myclabs">MyCLabs</a> organization to publish open source libraries, we also use it to host forks of other libraries. That had become quite handy when we proposed a bugfix for Doctrine: let&rsquo;s install our fork instead of the original repo. By the way, <a href="http://mnapoli.fr/overriding-dependencies-with-composer/">here is how to do it with Composer</a>.</p>
+
+<p>So up to now, we contributed mostly to <a href="http://doctrine-project.org">Doctrine</a>, the <a href="https://github.com/Atlantic18/DoctrineExtensions">DoctrineExtensions</a> and <a href="https://github.com/PHPOffice/PHPExcel">PHPExcel</a>.</p>
+
+<h2>A word on documentation</h2>
+
+<p><em>This part is a bit of self-promotion :)</em></p>
+
+<p>We ended up having 2 kinds of projects:</p>
+
+<ul>
+<li>small projects where the GitHub project and a single Readme would be enough</li>
+<li>larger projects with multi-pages documentation</li>
+</ul>
+
+
+<p>For larger projects, we have been using <a href="http://mnapoli.fr/Couscous/"><strong>Couscous</strong></a> to generate the websites from the Markdown documentation.</p>
+
+<p>It is working pretty well, the local preview is useful and deploying is very simple. And with the newly implemented templates it proved to be even more useful: I have written a <a href="https://github.com/myclabs/couscous-template">Couscous template for MyCLabs projects</a>, and I use it for <a href="http://myclabs.github.io/ACL/">MyCLabs\ACL</a> and MyCLabs\Work.</p>
+
+<p>If you too want to use GitHub Pages to publish a website based on your documentation, give it a try.</p>
+
+<h2>Conclusion</h2>
+
+<p>This was a big list of most of My C-Sense&rsquo;s open source projects. There are even some more that I didn&rsquo;t mention (because the article is getting quite long), so check out <a href="https://github.com/myclabs">MyCLabs page</a>.</p>
+
+<p>To conclude on the open source experience <em>from the company&rsquo;s point of view</em> (and this is my own opinion here), I can only find it beneficial.</p>
+
+<p>Of course, don&rsquo;t expect to get contributions right away and have your software developed for you. Out of all the project we open sourced, we only got a dozen of pull requests. And you have to realize that it takes time to manage them, and the issues (which sometimes are just people asking for help). Remember than an open source project not maintained is hurting the community rather than helping it.</p>
+
+<p>That being said, there are many advantages:</p>
+
+<ul>
+<li>an open source library usually mean <strong>better quality</strong>, because that code is public. I would much more restrain from committing a dirty hack if I know the code will be online for years :p But mainly it really help the developer to take a step back and really think about what the library is supposed to do in a more generic way, and also to be more open to other implementations.</li>
+<li>a company involved in open source projects looks sexy to developers. <strong>Recruiting</strong> is (I presume) easier, and also it allows to attract and recruit good developers: they know what kind of code and quality level to expect, just like the recruiter does when he browses GitHub profiles of candidates.</li>
+<li>open sourced code get fixes and improvements… sometimes. And for free… almost (if you consider the time needed to merge/handle the tickets)</li>
+<li><strong>developers do a better work</strong>: publishing an open source project online, or contributing to one, is a great experience. You contribute for something more timeless than your job. The code you write might be used by your peers across the world for year! That&rsquo;s challenging and exciting.</li>
+</ul>
+
+
+<p>The last point is also about the developer&rsquo;s point of view: working on open source projects is an additional source of motivation and involvement. And of course it benefits everyone.</p>
+
+<p>So, companies: <em>as long as you don&rsquo;t make money over it, think about open sourcing it?</em></p>
+
+<p>Now I will finish with a very warm thank you to My C-Sense and its founders for trusting us and letting us try. Open source has had a very positive result up to now.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[The Collection interface and Database abstraction]]></title>
@@ -1751,28 +1934,6 @@ But if you don&rsquo;t, you can act on PHP&rsquo;s configuration: instead of ins
 <p>And to extend my point, have a look on the Java side (JSR), and for example <a href="http://jcp.org/aboutJava/communityprocess/jsr/cacheFS.pdf">JSR-107</a> which defines interfaces for cache API, or <a href="http://en.wikipedia.org/wiki/Java_Persistence_API">JSR-220</a> which defines JPA (specification of persistence API that Doctrine 2 has followed).</p>
 
 <p><strong>TL/DR</strong>: I think <strong>PHP-FIG should define and provide PHP interfaces</strong>. PHP-FIG defines technical specifications for interoperability between PHP projects. PHP interfaces are a form of technical specifications, they can allow PHP projects to be more compatible and work better together. PHP-FIG is the best group possible to standardize classic/mainstream API (utility classes, …). Java does it, it works, that should inspire us.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Doctrine 2 YAML reference]]></title>
-    <link href="http://mnapoli.fr/doctrine-2-yaml-reference/"/>
-    <updated>2012-10-05T20:00:00+02:00</updated>
-    <id>http://mnapoli.fr/doctrine-2-yaml-reference</id>
-    <content type="html"><![CDATA[<p>If you are working with Doctrine 2 and its YAML configuration files for the object mapping, you may find the documentation lacking some details.</p>
-
-<p>Here is a gist of all the YAML syntax possible:</p>
-
-<!-- more -->
-
-
-
-
-<div><script src='https://gist.github.com/3839501.js'></script>
-<noscript><pre><code></code></pre></noscript></div>
-
-
-<p>It is based on <a href="http://blog.hio.fr/2011/09/17/doctrine2-yaml-mapping-example.html">this blog article</a>, completed, and turned into a git repository (thanks to github), so anyone can fork it and improve it.</p>
 ]]></content>
   </entry>
   

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: myclabs | Matthieu Napoli]]></title>
-  <link href="http://mnapoli.fr/categories/myclabs/atom.xml" rel="self"/>
+  <title><![CDATA[Category: open-source | Matthieu Napoli]]></title>
+  <link href="http://mnapoli.fr/categories/open-source/atom.xml" rel="self"/>
   <link href="http://mnapoli.fr/"/>
   <updated>2014-07-01T13:08:51+02:00</updated>
   <id>http://mnapoli.fr/</id>
@@ -188,54 +188,148 @@ interface WorkDispatcher
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Overriding dependencies with Composer]]></title>
-    <link href="http://mnapoli.fr/overriding-dependencies-with-composer/"/>
-    <updated>2013-04-16T20:00:00+02:00</updated>
-    <id>http://mnapoli.fr/overriding-dependencies-with-composer</id>
-    <content type="html"><![CDATA[<p>At my company, <strong>My C-Sense</strong>, we use Doctrine amongst other PHP frameworks and libraries. When we find bugs (or need new features), we contribute to the project through our <a href="https://github.com/myclabs">open source initiative</a>.</p>
+    <title type="html"><![CDATA[Using MetaModel and MetaConsole to debug your application]]></title>
+    <link href="http://mnapoli.fr/using-metamodel-and-metaconsole-to-debug-your-application/"/>
+    <updated>2013-09-13T16:08:00+02:00</updated>
+    <id>http://mnapoli.fr/using-metamodel-and-metaconsole-to-debug-your-application</id>
+    <content type="html"><![CDATA[<p>I started working a few months ago on <a href="https://github.com/mnapoli/MetaModel">MetaModel</a>, a language that enables to <strong>traverse and operate your PHP model</strong>.</p>
 
-<p>The problem is when we submit a pull request on Github, several months usually happen until our fix appears in a stable release.</p>
+<p>Today I&rsquo;m going to show you how you can use MetaModel through the <a href="https://github.com/mnapoli/MetaConsole">MetaConsole</a> to debug your application.</p>
 
-<p>To be able to enjoy our bugfixes immediately, here is our workflow:</p>
-
-<ul>
-<li>We fork the repository of the project to <a href="https://github.com/myclabs">our organization account</a></li>
-<li>We commit and publish the bugfix in a branch of our repository</li>
-<li>We submit a Pull Request</li>
-<li>We override the dependency to the project with our version in Composer</li>
-</ul>
-
-
-<p>Overriding a dependency <a href="http://getcomposer.org/doc/04-schema.md#repositories">is quite simple</a>: just add your git repository in your <code>composer.json</code> and require you branch.</p>
-
-<p>But when we want to override, for example, <code>doctrine/common</code> which is used by <code>doctrine/orm</code>, then we have a problem: <code>doctrine/orm</code> wants a stable version of <code>doctrine/common</code>, it will conflict with your requirement to a dev branch.</p>
-
-<p>The solution is to <strong>alias your dev branch to a stable release</strong>, and that is possible through the awesome “<a href="http://getcomposer.org/doc/articles/aliases.md#require-inline-alias">inline alias</a>” functionality in Composer.</p>
+<p><img src="/images/posts/metaconsole3.gif"></p>
 
 <!-- more -->
 
 
-<p>Here is an example:</p>
+<h2>Setup</h2>
+
+<p>To integrate the MetaConsole to your project, it&rsquo;s very simple using Composer:</p>
 
 <p>```json
 {</p>
 
-<pre><code>"require": {
-    "doctrine/orm": "2.3.*",
-    "doctrine/common": "dev-ChainDriverFix as 2.3.0"
-},
-"repositories": [
-    {
-        "type": "git",
-        "url": "https://github.com/myclabs/common.git"
-    }
-]
+<pre><code>"require-dev": {
+    "mnapoli/metaconsole": "dev-master"
+}
 </code></pre>
 
 <p>}
 ```</p>
 
-<p>Here, our branch <code>ChainDriverFix</code> will override the 2.3.0 version of <code>doctrine/common</code>, which will also be compatible with <code>doctrine/orm</code>!</p>
+<p>Now I create a <code>bin/meta.php</code> file (name it as you like) in my application:</p>
+
+<p>```php</p>
+
+<h1>!/usr/bin/env php</h1>
+
+<p>&lt;?php
+use MetaModel\Bridge\Doctrine\EntityManagerBridge;
+use MetaModel\Bridge\PHPDI\PHPDIBridge;
+use MetaModel\MetaModel;</p>
+
+<p>// Here I set up my application (bootstrap)
+require_once <strong>DIR</strong> . &lsquo;/../application/init.php&rsquo;;</p>
+
+<p>$metaModel = new MetaModel();</p>
+
+<p>// Integrate with the Doctrine EntityManager
+$entityManager = /<em> &hellip; </em>/;
+$metaModel->addObjectManager(new EntityManagerBridge($entityManager));</p>
+
+<p>// Integrate with PHP-DI container
+$container = /<em> &hellip; </em>/;
+$metaModel->addContainer(new PHPDIBridge($container));</p>
+
+<p>$console = new MetaConsole\Application(&lsquo;MetaConsole&rsquo;, null, $metaModel);
+$console->run();
+```</p>
+
+<p>As you can see, I can integrate the console with my ORM (<a href="http://www.doctrine-project.org/">Doctrine 2</a> here) and my DI container (<a href="http://mnapoli.github.io/PHP-DI/">PHP-DI</a>). You can write bridges for other kinds of object managers or containers (and feel free to submit a Pull Request too).</p>
+
+<h2>Using</h2>
+
+<p>Last week, I had a bug in my application, and it was very difficult to debug because it involved data, and that was not the kind of bug you can reproduce and fix using unit tests because it involved a lot of objects. Without MetaConsole, I would have had to dig through the database using phpMyAdmin or MySQL Workbench, writing queries and joining dozens of tables.</p>
+
+<p>Instead, I launched MetaConsole, and I selected an object for which I had an ID (the ID was in the URL of the webpage I wanted to debug):</p>
+
+<p><code>
+AF_Model_InputSet(562)
+</code></p>
+
+<p>This query will select the entity <code>AF_Model_InputSet</code> with ID 562, and dump it to the screen. To do this, MetaModel queries Doctrine, which roughly translate to this PHP code:</p>
+
+<p><code>php
+$entity = $entityManager-&gt;find('AF_Model_InputSet', 562);
+</code></p>
+
+<p>Now that I had my object on screen, I could <strong>traverse the object graph</strong> (through associations, getters, arrays, …) with more precise queries:</p>
+
+<p><img src="/images/posts/metaconsole1.png"></p>
+
+<p>In the end, I ended up finding my bug: one component was marked as &ldquo;required&rdquo; but had a number of required fields > 0 (not normal!). I fixed the code, and now I needed to rebuild some data to have everything in sync again (after my tests). That&rsquo;s the kind of operation that can&rsquo;t be done just on a single object through the website.</p>
+
+<p>No problem, MetaModel let&rsquo;s you traverse an object graph, but also <strong>call methods on objects and on services:</strong></p>
+
+<p><img src="/images/posts/metaconsole2.png"></p>
+
+<h2>Conclusion</h2>
+
+<p>MetaModel is pretty much stable, though there are a lot of features I want to add (arguments in method calls, …).</p>
+
+<p>On the other side, MetaConsole is still in development, and I hope to provide better integration with frameworks and a more enjoyable interface. If you are interested, you can try it (it&rsquo;s a development tool, so there&rsquo;s no risk since you shouldn&rsquo;t use it in production), and you can <a href="https://github.com/mnapoli/MetaConsole">improve it</a>.</p>
+
+<p>And also, ideas are welcome!</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Code coverage reports with GitHub, Travis and Coveralls]]></title>
+    <link href="http://mnapoli.fr/code-coverage-reports-with-github-travis-and/"/>
+    <updated>2013-06-08T20:00:00+02:00</updated>
+    <id>http://mnapoli.fr/code-coverage-reports-with-github-travis-and</id>
+    <content type="html"><![CDATA[<p>You have a PHP project hosted on GitHub with continuous integration using Travis-CI?</p>
+
+<p>How about setting up <strong>code coverage reports</strong>?</p>
+
+<p>For example, here is the code coverage report of <a href="http://mnapoli.github.io/PHP-DI/">PHP-DI</a>: <a href="https://coveralls.io/r/mnapoli/PHP-DI?branch=master"><img src="https://coveralls.io/repos/mnapoli/PHP-DI/badge.png?branch=master" alt="Coverage Status" /></a> (click on the link to see the details).</p>
+
+<!-- more -->
+
+
+<p>To do so, you will need to create an account and enable your project at <a href="https://coveralls.io/">Coveralls</a>. Then add this to your <code>composer.json</code>:</p>
+
+<p>```json
+&ldquo;require-dev&rdquo;: {</p>
+
+<pre><code>"satooshi/php-coveralls": "dev-master"
+</code></pre>
+
+<p>}
+```</p>
+
+<p>Finally, update your <code>.travis.yml</code> configuration:</p>
+
+<p>```yaml
+language: php</p>
+
+<p>php:
+ &ndash; 5.3
+ &ndash; 5.4
+ &ndash; 5.5</p>
+
+<p>before_script:
+ &ndash; wget <a href="http://getcomposer.org/composer.phar">http://getcomposer.org/composer.phar</a>
+ &ndash; php composer.phar install &mdash;dev &mdash;no-interaction</p>
+
+<p>script:
+ &ndash; mkdir -p build/logs
+ &ndash; phpunit &mdash;coverage-clover build/logs/clover.xml</p>
+
+<p>after_script:
+ &ndash; php vendor/bin/coveralls -v
+```</p>
+
+<p>Now if you commit and push, Travis will run the tests and push the code coverage results to Coverall. Check out your project page on Coverall!</p>
 ]]></content>
   </entry>
   
@@ -283,6 +377,47 @@ $(&ldquo;.confirm&rdquo;).confirm({</p>
 <p>On your server-side code, you can check that the request is POST and refuse GET request. That can help prevent security issues like someone sending a link to delete someone else’s account for example: <a href="http://example.com/my-account/delete.">http://example.com/my-account/delete.</a> If you only accept POST request, people clicking on that link won’t see their account deleted (because the request would be a GET).</p>
 
 <p>If you want to learn more or try it, the website contains the <a href="http://myclabs.github.io/jquery.confirm/">official documentation and some demos</a>.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Dependency Injection with PHP]]></title>
+    <link href="http://mnapoli.fr/dependency-injection-with-php/"/>
+    <updated>2012-09-20T20:00:00+02:00</updated>
+    <id>http://mnapoli.fr/dependency-injection-with-php</id>
+    <content type="html"><![CDATA[<p>I used to develop using Singletons, registries or even static classes. Those days are gone.</p>
+
+<p>I decided to use <strong>Dependency Injection</strong> so that:</p>
+
+<ul>
+<li>my classes would be testable</li>
+<li>replacing an implementation by another would be not only doable, but easy (and so extending a library/module would too)</li>
+<li>the design of those classes wouldn’t be guided by the question of “how they will be used”</li>
+<li>my code would be cleaner, simpler</li>
+<li>and IDE auto-completion/type-hinting would always work</li>
+</ul>
+
+
+<p>I gave a try to Symfony and ZF2 DI systems, but they both seem way too complicated for just a simple need (that anyone who has worked with Spring would understand):</p>
+
+<p>```php
+class MyClass {</p>
+
+<pre><code>/**
+ * @Inject
+ * @var MyService
+ */
+private $service;
+</code></pre>
+
+<p>}
+```</p>
+
+<p>This short code means: <em>Inject, using a simple annotation, an instance of another class into a property</em>.</p>
+
+<p>I started working on a framework enabling such functionality few months ago. It is now in a mature state. It is based on the <a href="http://docs.doctrine-project.org/projects/doctrine-common/en/latest/reference/annotations.html">Annotations library of Doctrine 2</a>, and takes most of its ideas of Spring 3.</p>
+
+<p>You can check out this framework on its official website: <a href="http://mnapoli.github.com/PHP-DI/">PHP-DI</a>, and you are welcome to use it or contribute.</p>
 ]]></content>
   </entry>
   
