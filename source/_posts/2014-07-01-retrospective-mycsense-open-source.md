@@ -8,7 +8,7 @@ categories: open-source myclabs
 
 Today is my last day at [**My C-Sense**](http://www.myc-sense.com), after almost 2 years working on creating and modernizing existing PHP applications. This has been an incredibly rich experience in an excellent work environment, I will surely miss this job and my colleagues.
 
-So now is probably a good time to look back on our open source experience as a company, and as a developer. It all started when we moved all of our code to GitHub: we used a lot of open source software and libraries, and we thought we might try to contribute some day with some small internal projects too.
+Now is probably a good time to look back on our open source experience as a company, and as a developer. It all started when we moved all of our code to GitHub: we used a lot of open source software and libraries, and we thought we might try to contribute some day with some small internal projects too.
 
 So that's how [**MyCLabs**](https://github.com/myclabs) was born: let's keep the door open for open source because "why not".
 
@@ -94,7 +94,7 @@ For example, the Beanstalkd adapter doesn't implement `SynchronousWorkDispatcher
 
 Now where it begins to be interesting is that there is no queue system that provides out of the box bidirectional communication with a worker (at least in the one I reviewed at that time, the one with a good PHP lib and the one that can be installed). After several days of thinking and trials, I managed to implement the `runAndWait` behavior in RabbitMQ with the use of a temp queues and some sort of high level "protocol". Maybe not the fastest solution on earth, but for our needs it wasn't a problem at all. If you are curious, you can checkout [here](https://github.com/myclabs/Work/tree/master/src/Adapter/RabbitMQ) how it is implemented.
 
-So in the end, this is really was this library does: it **abstract** 2 behaviors: simply run a task in background, and run a task and wait for its result.
+In the end, this is really was this library does: it **abstract** 2 behaviors: simply run a task in background, and run a task and wait for its result.
 
 MyCLabs\Work now has adapters for RabbitMQ, Beanstalkd and "In Memory" (i.e. for your development machine), you are welcome to push new adapters through pull requests. It's very simple if you don't implement the `SynchronousWorkDispatcher` interface, for example [look at the Beanstalkd adapter](https://github.com/myclabs/Work/tree/master/src/Adapter/Beanstalkd).
 
@@ -135,11 +135,11 @@ If you too want to use GitHub Pages to publish a website based on your documenta
 
 ## Conclusion
 
-So this was a big list of most of My C-Sense's open source projects. There are even some more that I didn't mention (because the article is getting quite long), so check out [MyCLabs page](https://github.com/myclabs).
+This was a big list of most of My C-Sense's open source projects. There are even some more that I didn't mention (because the article is getting quite long), so check out [MyCLabs page](https://github.com/myclabs).
 
 To conclude on the open source experience *from the company's point of view* (and this is my own opinion here), I can only find it beneficial.
 
-Of course, don't expect to get contributions right away and have you software developed for you. Out of all the project we open sourced, we only got a dozen of pull requests. And you have to realize that it takes time to manage them, and the issues (which sometimes are just people asking for help). Remember than an open source project not maintained is hurting the community rather than helping it.
+Of course, don't expect to get contributions right away and have your software developed for you. Out of all the project we open sourced, we only got a dozen of pull requests. And you have to realize that it takes time to manage them, and the issues (which sometimes are just people asking for help). Remember than an open source project not maintained is hurting the community rather than helping it.
 
 That being said, there are many advantages:
 
