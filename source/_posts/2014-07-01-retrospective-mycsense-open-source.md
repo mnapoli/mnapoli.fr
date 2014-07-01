@@ -12,6 +12,8 @@ So now is probably a good time to look back on our open source experience as a c
 
 So that's how [**MyCLabs**](https://github.com/myclabs) was born: let's keep the door open for open source because "why not".
 
+<!-- more -->
+
 ## jquery.confirm
 
 The first project was born out of a simple need: a confirmation box on some buttons and links. We were using Bootstrap, but adding all the JS and HTML needed for such a simple thing was definitely worth a JS function. So instead of a quick and dirty solution, I turned to jQuery and learned how plugins worked, just for fun and because it wasn't a big investment. In no time, [**jquery.confirm**](https://github.com/myclabs/jquery.confirm) was born (the [demo is here](http://myclabs.github.io/jquery.confirm)).
@@ -146,7 +148,7 @@ That being said, there are many advantages:
 - open sourced code get fixes and improvements… sometimes. And for free… almost (if you consider the time needed to merge/handle the tickets)
 - **developers do a better work**: publishing an open source project online, or contributing to one, is a great experience. You contribute for something more timeless than your job. The code you write might be used by your peers across the world for year! That's challenging and exciting.
 
-The last point is also about the developer's point of view: working on open source projects is an additional source of motivation. And of course it benefits everyone.
+The last point is also about the developer's point of view: working on open source projects is an additional source of motivation and involvement. And of course it benefits everyone.
 
 So, companies: *as long as you don't make money over it, think about open sourcing it?*
 
