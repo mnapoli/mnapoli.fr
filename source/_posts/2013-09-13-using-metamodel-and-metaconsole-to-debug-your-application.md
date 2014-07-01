@@ -3,7 +3,7 @@ layout: post
 title: "Using MetaModel and MetaConsole to debug your application"
 date: 2013-09-13 16:08
 comments: true
-categories: php metamodel
+categories: php open-source metamodel
 ---
 
 I started working a few months ago on [MetaModel](https://github.com/mnapoli/MetaModel), a language that enables to **traverse and operate your PHP model**.

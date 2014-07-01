@@ -4,7 +4,7 @@ title: "Dependency Injection with PHP"
 date: 2012-09-20 20:00
 comments: true
 external-url:
-categories: php dependency-injection php-di
+categories: php open-source dependency-injection php-di
 ---
 
 I used to develop using Singletons, registries or even static classes. Those days are gone.

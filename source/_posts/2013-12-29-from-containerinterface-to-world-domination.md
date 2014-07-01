@@ -3,7 +3,7 @@ layout: post
 title: "From a ContainerInterface to world domination"
 date: 2014-01-14 18:00
 comments: true
-categories: php dependency-injection
+categories: php open-source dependency-injection
 published: false
 ---
 

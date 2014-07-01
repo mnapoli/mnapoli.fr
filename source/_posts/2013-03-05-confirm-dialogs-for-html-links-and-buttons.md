@@ -4,7 +4,7 @@ title: "jQuery plugin: Confirm dialogs for HTML links and buttons"
 date: 2013-03-05 20:00
 comments: true
 external-url:
-categories: jquery myc-labs
+categories: jquery myclabs open-source
 ---
 
 This is the first open source project created at my company, so I am quite proud of it even though it is not much.

@@ -4,7 +4,7 @@ title: "Code coverage reports with GitHub, Travis and Coveralls"
 date: 2013-06-08 20:00
 comments: true
 external-url:
-categories: php continuous-integration github
+categories: php open-source continuous-integration github
 ---
 
 You have a PHP project hosted on GitHub with continuous integration using Travis-CI?
