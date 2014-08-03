@@ -14,9 +14,9 @@ Well, maybe not world domination, but crazy **framework interoperability** allow
 
 ## ContainerInterface
 
-What I mean by `ContainerInterface` is a PHP interface that has been discussed here and there (PHP-FIG, Acclimate, PHP-DI, Mouf …). The interface looks like this:
+What I mean by `ContainerInterface` is a PHP interface that has been discussed here and there (PHP-FIG, Acclimate, PHP-DI, Mouf …) and that, after months of discussions and collective effort, has been standardized very recently thanks to the [Container Interop](https://github.com/container-interop/container-interop) project.
 
-```
+```php
 interface ContainerInterface
 {
     public function get($identifier);
@@ -29,8 +29,6 @@ This interface *tries* to standardize the basic usage of a dependency injection 
 But what I also mean by `ContainerInterface` is what it represents: **the basis for dependency injection containers interoperability**.
 
 Such an interface (or other derived interfaces) could allow to replace Framework A's container by another container. It could also allow to chain containers together, so that instead of replacing the framework's container, you could use 2, 3 or more containers at the same time.
-
-*By the way, if you are interested about all this, have a look at [container-interop](https://github.com/container-interop/container-interop). This is a group in which we are trying to propose usable versions of those container interfaces.*
 
 ## Why container interoperability?
 
