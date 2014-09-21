@@ -3,8 +3,7 @@ layout: post
 title: "Decoupling packages"
 date: 2014-09-21 23:00
 comments: true
-categories: architecture best-practices
-published: false
+categories: architecture best-practices open-source
 ---
 
 Decoupling packages is a hard thing. There are not a lot of options, and this blog post is about how some options are better than others.
@@ -75,7 +74,8 @@ interface RouterInterface {
     /**
      * @return callable The controller to use for this request
      */
-    public function route(Request $request);}
+    public function route(Request $request);
+}
 ```
 
 You'll notice that not everything is specifiable, e.g. the return types. Hopefully PHP will allow that in its next major version, but until then the only solution is to use documentation.
@@ -103,10 +103,13 @@ class HttpRouterInterfaceAdapter implements \Acme\Http\RouterInterface {
     private $router;
 
     public function __construct(\Acme\Router\Router $router) {
-        $this->router = $router;    }
+        $this->router = $router;
+    }
     
     public function route(Request $request) {
-    	  $this->router->route($request);    }}
+    	  $this->router->route($request);
+    }
+}
 ```
 
 Thanks to that adapter, the `Router` class doesn't need to implement the `RouterInterface`. So it is completely decoupled from the HTTP package.
@@ -151,18 +154,22 @@ What's really good with this is that it allows packages to define their interfac
 
 ```php
 interface FooInterface {
-    public function hello();}
+    public function hello();
+}
 
 // Foo does not implement FooInterface
 class Foo {
     // But this method makes it compatible with FooInterface
     public function hello()
     {
-        return 'Hello world';    }}
+        return 'Hello world';
+    }
+}
 
 // That pseudo-syntax tells that this is a weak-interface type-hinting
 function run(<<FooInterface>> $foo) {
-	echo $foo;}
+	echo $foo;
+}
 
 // It works because Foo is compatible with the interface
 run(new Foo);
