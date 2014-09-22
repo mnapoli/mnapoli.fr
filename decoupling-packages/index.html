@@ -297,29 +297,29 @@
 </ul>
 
 
-<p>This strategy of interfaces was recently used by <strong>Laravel</strong>. For the version 3.0 (IIRC), Laravel will publish a package named <code>laravel/contracts</code> which contains all the interfaces used by its other packages.</p>
+<p>This strategy of interfaces was recently used by <strong>Laravel</strong>. For the version 5.0 (IIRC), Laravel will publish a package named <a href="https://github.com/illuminate/contracts"><code>illuminate/contracts</code></a> which contains all the interfaces used by its other packages.</p>
 
-<p>That allows to have decoupled Laravel packages while not needing adapters to use them together: packages can implement the interfaces at the very small cost of being coupled to <code>laravel/contracts</code> (it&rsquo;s a small cost because the package is very light and contains only interfaces).</p>
+<p>That allows to have decoupled Laravel packages while not needing adapters to use them together: packages can implement the interfaces at the very small cost of being coupled to <code>illuminate/contracts</code> (it&rsquo;s a small cost because the package is very light and contains only interfaces).</p>
 
 <h2>Standardized interfaces</h2>
 
 <p>Now the last option is to go a step beyond and try to make the interfaces &ldquo;<strong>standard</strong>&rdquo;. By that I mean that the same interface would be used by many packages, and implemented by many others.</p>
 
-<p>The good example for this is obviously <strong>logging</strong>. There used to be a numerous amount of different logger libraries for PHP. Then the PHP-FIG group worked to produce PSR-3, the logger standard.</p>
+<p>The good example for this is obviously <strong>logging</strong>. There used to be a numerous amount of different logger libraries for PHP. Then the <a href="http://www.php-fig.org/">PHP-FIG</a> group worked to produce <a href="https://github.com/php-fig/log">PSR-3</a>, the logger standard.</p>
 
 <p>Today, many logging packages implement the <code>Psr\Log\LoggerInterface</code>, and most modern frameworks type-hint against that interface instead of specific implementations. That means that users can choose any PSR-3 compliant logger and have their framework use it.</p>
 
 <p>Needless to say that this is an ideal situation: <strong>no coupling, no effort</strong>! But logging was kind of an easy topic. It&rsquo;s very hard to come up with standards for all the other components that need interfaces, mainly because implementations often differ a lot.</p>
 
-<p>The PHP-FIG has been working for a few years on a Cache and an HTTP message PSR, and hopefully they will be released sometime. In the meantime, the <a href="https://github.com/container-interop/container-interop">container-interop project</a> aims at providing interfaces to standardize the usage of dependency injection containers.</p>
+<p>The <a href="http://www.php-fig.org/">PHP-FIG</a> has been working for a few years on a Cache and an HTTP message PSR, and hopefully they will be released sometime. In the meantime, the <a href="https://github.com/container-interop/container-interop">container-interop project</a> aims at providing interfaces to standardize the usage of dependency injection containers.</p>
 
 <h2>Conclusion</h2>
 
 <p>OK, there&rsquo;s not much left to add here, if you have any reaction about this I&rsquo;d be happy to hear it. If I got anything wrong, I&rsquo;d be happy to correct it.</p>
 
-<p>I would like to finish on an idea that was suggested about a year ago on the PHP internals mailing list: &ldquo;<strong>weak interfaces</strong>&rdquo;. Those are interfaces that define a behavior, but <strong>that do not need to be implemented by classes</strong>. It mixes the principle of static-typing with duck-typing:</p>
+<p>I would like to finish on an idea that was suggested about a year ago on the PHP internals mailing list: &ldquo;<strong>dynamic interface checking</strong>&rdquo;. Those are interfaces that define a behavior, but <strong>that do not need to be implemented by classes</strong>. It mixes the principle of static-typing with duck-typing:</p>
 
-<blockquote><p>If it quacks like a duck, and walks like a duck, then it&rsquo;s a duck.</p></blockquote>
+<blockquote><p>If it looks like a duck and quacks like a duck, then it&rsquo;s a duck.</p></blockquote>
 
 <p>What&rsquo;s really good with this is that it allows packages to define their interfaces, and type-hint against it, all the while not requiring dependencies to actually implement it. As long as objects are compatible with the interface, it works. It&rsquo;s a sort of <code>class X implements Y</code> evaluated at runtime. Example:</p>
 
@@ -359,7 +359,7 @@
 </span><span class='line'>    <span class="p">}</span>
 </span><span class='line'><span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'><span class="c1">// That pseudo-syntax tells that this is a weak-interface type-hinting</span>
+</span><span class='line'><span class="c1">// That pseudo-syntax tells that this is a dynamic interface checking</span>
 </span><span class='line'><span class="k">function</span> <span class="nf">run</span><span class="p">(</span><span class="o">&lt;&lt;</span><span class="nx">FooInterface</span><span class="o">&gt;&gt;</span> <span class="nv">$foo</span><span class="p">)</span> <span class="p">{</span>
 </span><span class='line'>  <span class="k">echo</span> <span class="nv">$foo</span><span class="p">;</span>
 </span><span class='line'><span class="p">}</span>
