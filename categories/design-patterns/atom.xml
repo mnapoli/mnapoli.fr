@@ -4,7 +4,7 @@
   <title><![CDATA[Category: design-patterns | Matthieu Napoli]]></title>
   <link href="http://mnapoli.fr/categories/design-patterns/atom.xml" rel="self"/>
   <link href="http://mnapoli.fr/"/>
-  <updated>2014-08-03T22:36:54+02:00</updated>
+  <updated>2014-09-22T17:17:26+12:00</updated>
   <id>http://mnapoli.fr/</id>
   <author>
     <name><![CDATA[Matthieu Napoli]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[The “Optional Singleton” pattern]]></title>
     <link href="http://mnapoli.fr/the-optional-singleton-pattern/"/>
-    <updated>2013-03-22T20:00:00+01:00</updated>
+    <updated>2013-03-22T20:00:00+13:00</updated>
     <id>http://mnapoli.fr/the-optional-singleton-pattern</id>
     <content type="html"><![CDATA[<p>The <a href="http://en.wikipedia.org/wiki/Singleton_pattern">singleton</a> is a practical design pattern, that’s the reason it is so popular amongst beginners. It is also an anti-pattern because of the problems it introduces (global state, difficult to test, …).</p>
 

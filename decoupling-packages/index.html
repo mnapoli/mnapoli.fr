@@ -1,0 +1,516 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Decoupling packages - Matthieu Napoli</title>
+  <meta name="author" content="Matthieu Napoli">
+
+  
+  <meta name="description" content="Decoupling packages Sep 21st, 2014 Decoupling packages is a hard thing. There are not a lot of options, and this blog post is about how some options &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://mnapoli.fr/decoupling-packages">
+  <link href="/favicon.ico" rel="icon">
+  <link href='http://fonts.googleapis.com/css?family=Quicksand:300,400' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Matthieu Napoli" type="application/atom+xml">
+  <script src="/js/jquery.js"></script>
+  <script src="/js/bootstrap-collapse.js"></script>
+  <script src="/js/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/js/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<script src="/js/jquery.timeago.js" type="text/javascript"></script>
+<script src="/js/showoff.min.js" type="text/javascript"></script>
+<link href="/stylesheets/github.css" rel="stylesheet" type="text/css">
+<link href="/stylesheets/custom.css" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-15584647-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <div class="navbar navbar-inverse navbar-static-top">
+  	<div class="navbar-inner">
+  	  <div class="container">
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+          <span class="fui-menu-24"></span>
+        </a>
+  	  	<div class="nav-collapse collapse navbar-responsive-collapse" style="height:0;">
+  	      <ul class="nav">
+    
+        <li ><a href="/">Home</a></li>
+    
+        <li ><a href="/projects/">Projects</a></li>
+    
+        <li ><a href="/presentations/">Presentations</a></li>
+    
+        <li ><a href="/archives/">Blog archives</a></li>
+    
+        <li ><a href="/about-me/">About me</a></li>
+    
+        <li ><a href="/atom.xml"><i class='icon-rss social-navbar'></i></a></li>
+    
+</ul>
+
+<ul class="nav pull-right">
+    
+    <li><a href="http://github.com/mnapoli" title="Github Profile"><i class="icon-github-sign social-navbar"></i></a></li>
+    
+    
+    <li><a href="http://linkedin.com/in/matthieunapoli" title="Linkedin Profile"><i class="icon-linkedin-sign social-navbar"></i></a></li>
+    
+    
+    <li><a href="http://twitter.com/matthieunapoli" title="Twitter Profile"><i class="icon-twitter-sign social-navbar"></i></a></li>
+    
+    
+    
+    
+</ul>
+
+  	    </div>
+  	  </div>
+  	</div>
+  </div>
+  <div class="container" id="main">
+    <div class="span12">
+      <div class="row-fluid">
+        <div id="content">
+          <div>
+<article class="hentry" role="article">
+  
+
+  <header>
+  <div class="jumbotron">
+    Decoupling packages
+	<h5>
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2014-09-21T23:00:00+12:00" pubdate data-updated="true">Sep 21<span>st</span>, 2014</time></h5>
+  </div>
+</header>
+  <div class="row-fluid">
+    <div class="span12">
+      <p>Decoupling packages is a hard thing. There are not a lot of options, and this blog post is about how some options are better than others.</p>
+
+<p>Let&rsquo;s say for example that you are writing a &ldquo;package&rdquo;, or library, to respond to HTTP requests (that kind of package could be considered the basis for a web framework). How do you handle routing?</p>
+
+<p>If you write your Router package as an independent package (which is good: small and specialized packages are more reusable and maintainable), you might not want to couple the HTTP package to the Router package: you want to leave users free to choose the router of their choice.</p>
+
+<p>So, what are your options to make the HTTP package and the Router package decoupled from each other?</p>
+
+<!--more-->
+
+
+<h2>Events</h2>
+
+<p>The first option is to turn to <strong>event-driven programming</strong>. By relying on an &ldquo;event manager&rdquo; library/package, you can have your package raise specific events at strategic points in your code. And you can have those events affect the code flow.</p>
+
+<p>This is the solution chosen by Symfony to solve the routing problem exposed earlier. Their HttpKernel component is decoupled form their Routing component through events.</p>
+
+<p>Here is the simplified code flow of their <code>HttpKernel</code> class/component (which is the basis for an HTTP application):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="nv">$eventDispatcher</span><span class="o">-&gt;</span><span class="na">dispatch</span><span class="p">(</span>
+</span><span class='line'>    <span class="nx">KernelEvents</span><span class="o">::</span><span class="na">REQUEST</span><span class="p">,</span>
+</span><span class='line'>    <span class="k">new</span> <span class="nx">GetResponseEvent</span><span class="p">(</span><span class="nv">$this</span><span class="p">,</span> <span class="nv">$request</span><span class="p">,</span> <span class="nv">$type</span><span class="p">)</span>
+</span><span class='line'><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">$controller</span> <span class="o">=</span> <span class="nv">$request</span><span class="o">-&gt;</span><span class="na">attributes</span><span class="o">-&gt;</span><span class="na">get</span><span class="p">(</span><span class="s1">&#39;_controller&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="o">!</span> <span class="nv">$controller</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">throw</span> <span class="k">new</span> <span class="nx">NotFoundHttpException</span><span class="p">();</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So here is what&rsquo;s happening:</p>
+
+<ul>
+<li>the <code>HttpKernel</code> raises a &ldquo;Kernel Request&rdquo; event</li>
+<li>then <strong>it expects</strong> that a listener set the controller under the &ldquo;_controller&rdquo; key in the request</li>
+</ul>
+
+
+<p>So is <code>HttpKernel</code> decoupled from the <code>Router</code> component? <strong>Yes</strong>. The listener that sets the controller could actually be anything.</p>
+
+<p>The problem is, as emphasized above, that the <code>HttpKernel</code> <strong>expects something very specific from the listeners</strong>. The whole application depends on an unknown listener being actually registered for that particular event and following an exact, <strong>unspecified</strong> behavior.</p>
+
+<p>I believe events should be used for hooking up in the main logic flow to <em>extend it</em>. <strong>But the main logic flow should be linear and not rely on the possible <em>side effects</em> of an event.</strong></p>
+
+<p>There are some other problems we can find with this solution:</p>
+
+<ul>
+<li>the package ends up coupled to the &ldquo;event manager&rdquo; package (you just replaced a dependency by another)</li>
+<li>the code is not linear: it makes it much harder for developers to put the pieces back together and contribute to the project</li>
+<li>behavior from decoupled packages <strong>are not specified by contracts</strong></li>
+</ul>
+
+
+<p>Regarding the pros:</p>
+
+<ul>
+<li>the behavior is <em>not specified</em>, which can also be a good thing: it leaves every possible option open for the future</li>
+<li>might be simpler than the other options</li>
+</ul>
+
+
+<p><code>&lt;disclaimer&gt;</code>Just to be clear, Symfony is an exceptional framework and I love it. I am sure the decision to choose this option was carefully thought through, and the important thing to remember is that <strong>it works</strong>. Symfony is probably the most popular modern PHP framework, and my blog post doesn&rsquo;t change that. I am just using it as an example here, I just want to expose alternative options and discuss the pros and cons.<code>&lt;/disclaimer&gt;</code></p>
+
+<h2>Interfaces and adapters</h2>
+
+<p>I was mentioning <em>specifying behaviors</em> with <strong>contracts</strong>. In PHP (and most OO languages), you can implement this using <strong>interfaces</strong>.</p>
+
+<p>If we take the previous example, an HTTP package could contain a <code>RouterInterface</code> to specify how a routing component should behave (this is a very basic example):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">namespace</span> <span class="nx">Acme\Http</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">interface</span> <span class="nx">RouterInterface</span> <span class="p">{</span>
+</span><span class='line'>    <span class="sd">/**</span>
+</span><span class='line'><span class="sd">     * @return callable The controller to use for this request</span>
+</span><span class='line'><span class="sd">     */</span>
+</span><span class='line'>    <span class="k">public</span> <span class="k">function</span> <span class="nf">route</span><span class="p">(</span><span class="nx">Request</span> <span class="nv">$request</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>You&rsquo;ll notice that not everything is specifiable, e.g. the return types. Hopefully PHP will allow that in its next major version, but until then the only solution is to use documentation.</p>
+
+<p>In the <code>HttpApplication</code> class, we can use it in type-hints to accept any implementation (classic dependency injection here). And here is what the code logic would look like:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="nv">$controller</span> <span class="o">=</span> <span class="nv">$router</span><span class="o">-&gt;</span><span class="na">route</span><span class="p">(</span><span class="nv">$request</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">if</span> <span class="p">(</span><span class="o">!</span> <span class="nv">$controller</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">throw</span> <span class="k">new</span> <span class="nx">NotFoundHttpException</span><span class="p">();</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p><strong>The code flow is linear and completely explicit.</strong> And the HTTP package is decoupled from any Router package!</p>
+
+<p>The only problem left: Router packages would be forced to implement <code>Acme\Http\RouterInterface</code> if they want to be used with the HTTP package. Because of that, they end up coupled to it… So how do we decouple Router packages from the HTTP package?</p>
+
+<p>A way to go around that is to use <strong>adapters</strong>:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">namespace</span> <span class="nx">\MyApplication\Adapter</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">class</span> <span class="nc">HttpRouterInterfaceAdapter</span> <span class="k">implements</span> <span class="nx">\Acme\Http\RouterInterface</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">private</span> <span class="nv">$router</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">public</span> <span class="k">function</span> <span class="nf">__construct</span><span class="p">(</span><span class="nx">\Acme\Router\Router</span> <span class="nv">$router</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">router</span> <span class="o">=</span> <span class="nv">$router</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">public</span> <span class="k">function</span> <span class="nf">route</span><span class="p">(</span><span class="nx">Request</span> <span class="nv">$request</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">router</span><span class="o">-&gt;</span><span class="na">route</span><span class="p">(</span><span class="nv">$request</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Thanks to that adapter, the <code>Router</code> class doesn&rsquo;t need to implement the <code>RouterInterface</code>. So it is completely decoupled from the HTTP package.</p>
+
+<p>However, as you can see, it requires writing an adapter each time you want to &ldquo;connect&rdquo; decoupled packages.</p>
+
+<p>Pros:</p>
+
+<ul>
+<li>linear and explicit code flow</li>
+<li>specified behavior (using interfaces)</li>
+</ul>
+
+
+<p>Cons:</p>
+
+<ul>
+<li>requires to write interfaces</li>
+<li>requires to write adapters</li>
+</ul>
+
+
+<p>This strategy of interfaces was recently used by <strong>Laravel</strong>. For the version 3.0 (IIRC), Laravel will publish a package named <code>laravel/contracts</code> which contains all the interfaces used by its other packages.</p>
+
+<p>That allows to have decoupled Laravel packages while not needing adapters to use them together: packages can implement the interfaces at the very small cost of being coupled to <code>laravel/contracts</code> (it&rsquo;s a small cost because the package is very light and contains only interfaces).</p>
+
+<h2>Standardized interfaces</h2>
+
+<p>Now the last option is to go a step beyond and try to make the interfaces &ldquo;<strong>standard</strong>&rdquo;. By that I mean that the same interface would be used by many packages, and implemented by many others.</p>
+
+<p>The good example for this is obviously <strong>logging</strong>. There used to be a numerous amount of different logger libraries for PHP. Then the PHP-FIG group worked to produce PSR-3, the logger standard.</p>
+
+<p>Today, many logging packages implement the <code>Psr\Log\LoggerInterface</code>, and most modern frameworks type-hint against that interface instead of specific implementations. That means that users can choose any PSR-3 compliant logger and have their framework use it.</p>
+
+<p>Needless to say that this is an ideal situation: <strong>no coupling, no effort</strong>! But logging was kind of an easy topic. It&rsquo;s very hard to come up with standards for all the other components that need interfaces, mainly because implementations often differ a lot.</p>
+
+<p>The PHP-FIG has been working for a few years on a Cache and an HTTP message PSR, and hopefully they will be released sometime. In the meantime, the <a href="https://github.com/container-interop/container-interop">container-interop project</a> aims at providing interfaces to standardize the usage of dependency injection containers.</p>
+
+<h2>Conclusion</h2>
+
+<p>OK, there&rsquo;s not much left to add here, if you have any reaction about this I&rsquo;d be happy to hear it. If I got anything wrong, I&rsquo;d be happy to correct it.</p>
+
+<p>I would like to finish on an idea that was suggested about a year ago on the PHP internals mailing list: &ldquo;<strong>weak interfaces</strong>&rdquo;. Those are interfaces that define a behavior, but <strong>that do not need to be implemented by classes</strong>. It mixes the principle of static-typing with duck-typing:</p>
+
+<blockquote><p>If it quacks like a duck, and walks like a duck, then it&rsquo;s a duck.</p></blockquote>
+
+<p>What&rsquo;s really good with this is that it allows packages to define their interfaces, and type-hint against it, all the while not requiring dependencies to actually implement it. As long as objects are compatible with the interface, it works. It&rsquo;s a sort of <code>class X implements Y</code> evaluated at runtime. Example:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">interface</span> <span class="nx">FooInterface</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">public</span> <span class="k">function</span> <span class="nf">hello</span><span class="p">();</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Foo does not implement FooInterface</span>
+</span><span class='line'><span class="k">class</span> <span class="nc">Foo</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// But this method makes it compatible with FooInterface</span>
+</span><span class='line'>    <span class="k">public</span> <span class="k">function</span> <span class="nf">hello</span><span class="p">()</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="s1">&#39;Hello world&#39;</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// That pseudo-syntax tells that this is a weak-interface type-hinting</span>
+</span><span class='line'><span class="k">function</span> <span class="nf">run</span><span class="p">(</span><span class="o">&lt;&lt;</span><span class="nx">FooInterface</span><span class="o">&gt;&gt;</span> <span class="nv">$foo</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">echo</span> <span class="nv">$foo</span><span class="p">;</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// It works because Foo is compatible with the interface</span>
+</span><span class='line'><span class="nx">run</span><span class="p">(</span><span class="k">new</span> <span class="nx">Foo</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Error, stdClass is not compatible with FooInterface</span>
+</span><span class='line'><span class="nx">run</span><span class="p">(</span><span class="k">new</span> <span class="k">stdClass</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This example was just for fun, but I wish such a feature would land in PHP (along with static return type). It would help a lot with package interoperability and decoupling.</p>
+
+    </div>
+  </div>
+
+
+
+  <footer>
+    <hr>
+    
+    <div class="row-fluid">
+      
+      <div class="span6">
+        <p class="meta">
+        
+        
+
+
+
+  <a href="/categories/architecture/"><span class="badge">architecture</span></a>
+
+  <a href="/categories/best-practices/"><span class="badge">best-practices</span></a>
+
+  <a href="/categories/open-source/"><span class="badge">open-source</span></a>
+
+
+
+
+        </p>
+      </div>
+      
+      <div class="span6 social-sharing">
+        <div class="sharing">
+  <div class="addthis_toolbox addthis_default_style ">
+  
+  
+  <a class="addthis_button_tweet"></a>
+  
+  
+  <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+      </div>
+      
+      
+    </div>
+    
+    <div class="row-fluid">
+      <div class="span12">
+        <p class="meta">
+          
+            <a class="basic-alignment left" href="/retrospective-mycsense-open-source/" title="Previous Post: A retrospective on open sourcing projects at My C-Sense">&laquo; A retrospective on open sourcing projects at My C-Sense</a>
+          
+          
+        </p>
+      </div>
+    </div>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+
+
+        </div>
+      </div>
+      <div class="row-fluid">
+        <footer class="footer-page" role="contentinfo">
+          <p>
+  Copyright &copy; 2014 - Matthieu Napoli -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span> - Theme by <a href="http://alexgaribay.com">Alex Garibay</a>
+</p>
+
+<!-- Piwik -->
+<script type="text/javascript">
+    var _paq = _paq || [];
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function() {
+        var u=(("https:" == document.location.protocol) ? "https" : "http") + "://piwik.mnapoli.fr/";
+        _paq.push(['setTrackerUrl', u+'piwik.php']);
+        _paq.push(['setSiteId', 1]);
+        var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; g.type='text/javascript';
+        g.defer=true; g.async=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+    })();
+</script>
+<noscript><p><img src="http://piwik.mnapoli.fr/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
+
+
+        </footer>
+      </div>
+    </div>
+  </div>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'mnapoli-blog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://mnapoli.fr/decoupling-packages/';
+        var disqus_url = 'http://mnapoli.fr/decoupling-packages/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

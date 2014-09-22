@@ -4,7 +4,7 @@
   <title><![CDATA[Category: open-source | Matthieu Napoli]]></title>
   <link href="http://mnapoli.fr/categories/open-source/atom.xml" rel="self"/>
   <link href="http://mnapoli.fr/"/>
-  <updated>2014-08-03T22:36:54+02:00</updated>
+  <updated>2014-09-22T17:17:26+12:00</updated>
   <id>http://mnapoli.fr/</id>
   <author>
     <name><![CDATA[Matthieu Napoli]]></name>
@@ -14,9 +14,230 @@
 
   
   <entry>
+    <title type="html"><![CDATA[Decoupling packages]]></title>
+    <link href="http://mnapoli.fr/decoupling-packages/"/>
+    <updated>2014-09-21T23:00:00+12:00</updated>
+    <id>http://mnapoli.fr/decoupling-packages</id>
+    <content type="html"><![CDATA[<p>Decoupling packages is a hard thing. There are not a lot of options, and this blog post is about how some options are better than others.</p>
+
+<p>Let&rsquo;s say for example that you are writing a &ldquo;package&rdquo;, or library, to respond to HTTP requests (that kind of package could be considered the basis for a web framework). How do you handle routing?</p>
+
+<p>If you write your Router package as an independent package (which is good: small and specialized packages are more reusable and maintainable), you might not want to couple the HTTP package to the Router package: you want to leave users free to choose the router of their choice.</p>
+
+<p>So, what are your options to make the HTTP package and the Router package decoupled from each other?</p>
+
+<!--more-->
+
+
+<h2>Events</h2>
+
+<p>The first option is to turn to <strong>event-driven programming</strong>. By relying on an &ldquo;event manager&rdquo; library/package, you can have your package raise specific events at strategic points in your code. And you can have those events affect the code flow.</p>
+
+<p>This is the solution chosen by Symfony to solve the routing problem exposed earlier. Their HttpKernel component is decoupled form their Routing component through events.</p>
+
+<p>Here is the simplified code flow of their <code>HttpKernel</code> class/component (which is the basis for an HTTP application):</p>
+
+<p>```php
+$eventDispatcher->dispatch(</p>
+
+<pre><code>KernelEvents::REQUEST,
+new GetResponseEvent($this, $request, $type)
+</code></pre>
+
+<p>);</p>
+
+<p>$controller = $request->attributes->get(&lsquo;_controller&rsquo;);</p>
+
+<p>if (! $controller) {</p>
+
+<pre><code>throw new NotFoundHttpException();
+</code></pre>
+
+<p>}
+```</p>
+
+<p>So here is what&rsquo;s happening:</p>
+
+<ul>
+<li>the <code>HttpKernel</code> raises a &ldquo;Kernel Request&rdquo; event</li>
+<li>then <strong>it expects</strong> that a listener set the controller under the &ldquo;_controller&rdquo; key in the request</li>
+</ul>
+
+
+<p>So is <code>HttpKernel</code> decoupled from the <code>Router</code> component? <strong>Yes</strong>. The listener that sets the controller could actually be anything.</p>
+
+<p>The problem is, as emphasized above, that the <code>HttpKernel</code> <strong>expects something very specific from the listeners</strong>. The whole application depends on an unknown listener being actually registered for that particular event and following an exact, <strong>unspecified</strong> behavior.</p>
+
+<p>I believe events should be used for hooking up in the main logic flow to <em>extend it</em>. <strong>But the main logic flow should be linear and not rely on the possible <em>side effects</em> of an event.</strong></p>
+
+<p>There are some other problems we can find with this solution:</p>
+
+<ul>
+<li>the package ends up coupled to the &ldquo;event manager&rdquo; package (you just replaced a dependency by another)</li>
+<li>the code is not linear: it makes it much harder for developers to put the pieces back together and contribute to the project</li>
+<li>behavior from decoupled packages <strong>are not specified by contracts</strong></li>
+</ul>
+
+
+<p>Regarding the pros:</p>
+
+<ul>
+<li>the behavior is <em>not specified</em>, which can also be a good thing: it leaves every possible option open for the future</li>
+<li>might be simpler than the other options</li>
+</ul>
+
+
+<p><code>&lt;disclaimer&gt;</code>Just to be clear, Symfony is an exceptional framework and I love it. I am sure the decision to choose this option was carefully thought through, and the important thing to remember is that <strong>it works</strong>. Symfony is probably the most popular modern PHP framework, and my blog post doesn&rsquo;t change that. I am just using it as an example here, I just want to expose alternative options and discuss the pros and cons.<code>&lt;/disclaimer&gt;</code></p>
+
+<h2>Interfaces and adapters</h2>
+
+<p>I was mentioning <em>specifying behaviors</em> with <strong>contracts</strong>. In PHP (and most OO languages), you can implement this using <strong>interfaces</strong>.</p>
+
+<p>If we take the previous example, an HTTP package could contain a <code>RouterInterface</code> to specify how a routing component should behave (this is a very basic example):</p>
+
+<p>```php
+namespace Acme\Http;</p>
+
+<p>interface RouterInterface {</p>
+
+<pre><code>/**
+ * @return callable The controller to use for this request
+ */
+public function route(Request $request);
+</code></pre>
+
+<p>}
+```</p>
+
+<p>You&rsquo;ll notice that not everything is specifiable, e.g. the return types. Hopefully PHP will allow that in its next major version, but until then the only solution is to use documentation.</p>
+
+<p>In the <code>HttpApplication</code> class, we can use it in type-hints to accept any implementation (classic dependency injection here). And here is what the code logic would look like:</p>
+
+<p>```php
+$controller = $router->route($request);</p>
+
+<p>if (! $controller) {</p>
+
+<pre><code>throw new NotFoundHttpException();
+</code></pre>
+
+<p>}
+```</p>
+
+<p><strong>The code flow is linear and completely explicit.</strong> And the HTTP package is decoupled from any Router package!</p>
+
+<p>The only problem left: Router packages would be forced to implement <code>Acme\Http\RouterInterface</code> if they want to be used with the HTTP package. Because of that, they end up coupled to it… So how do we decouple Router packages from the HTTP package?</p>
+
+<p>A way to go around that is to use <strong>adapters</strong>:</p>
+
+<p>```php
+namespace \MyApplication\Adapter;</p>
+
+<p>class HttpRouterInterfaceAdapter implements \Acme\Http\RouterInterface {</p>
+
+<pre><code>private $router;
+
+public function __construct(\Acme\Router\Router $router) {
+    $this-&gt;router = $router;
+}
+
+public function route(Request $request) {
+      $this-&gt;router-&gt;route($request);
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<p>Thanks to that adapter, the <code>Router</code> class doesn&rsquo;t need to implement the <code>RouterInterface</code>. So it is completely decoupled from the HTTP package.</p>
+
+<p>However, as you can see, it requires writing an adapter each time you want to &ldquo;connect&rdquo; decoupled packages.</p>
+
+<p>Pros:</p>
+
+<ul>
+<li>linear and explicit code flow</li>
+<li>specified behavior (using interfaces)</li>
+</ul>
+
+
+<p>Cons:</p>
+
+<ul>
+<li>requires to write interfaces</li>
+<li>requires to write adapters</li>
+</ul>
+
+
+<p>This strategy of interfaces was recently used by <strong>Laravel</strong>. For the version 3.0 (IIRC), Laravel will publish a package named <code>laravel/contracts</code> which contains all the interfaces used by its other packages.</p>
+
+<p>That allows to have decoupled Laravel packages while not needing adapters to use them together: packages can implement the interfaces at the very small cost of being coupled to <code>laravel/contracts</code> (it&rsquo;s a small cost because the package is very light and contains only interfaces).</p>
+
+<h2>Standardized interfaces</h2>
+
+<p>Now the last option is to go a step beyond and try to make the interfaces &ldquo;<strong>standard</strong>&rdquo;. By that I mean that the same interface would be used by many packages, and implemented by many others.</p>
+
+<p>The good example for this is obviously <strong>logging</strong>. There used to be a numerous amount of different logger libraries for PHP. Then the PHP-FIG group worked to produce PSR-3, the logger standard.</p>
+
+<p>Today, many logging packages implement the <code>Psr\Log\LoggerInterface</code>, and most modern frameworks type-hint against that interface instead of specific implementations. That means that users can choose any PSR-3 compliant logger and have their framework use it.</p>
+
+<p>Needless to say that this is an ideal situation: <strong>no coupling, no effort</strong>! But logging was kind of an easy topic. It&rsquo;s very hard to come up with standards for all the other components that need interfaces, mainly because implementations often differ a lot.</p>
+
+<p>The PHP-FIG has been working for a few years on a Cache and an HTTP message PSR, and hopefully they will be released sometime. In the meantime, the <a href="https://github.com/container-interop/container-interop">container-interop project</a> aims at providing interfaces to standardize the usage of dependency injection containers.</p>
+
+<h2>Conclusion</h2>
+
+<p>OK, there&rsquo;s not much left to add here, if you have any reaction about this I&rsquo;d be happy to hear it. If I got anything wrong, I&rsquo;d be happy to correct it.</p>
+
+<p>I would like to finish on an idea that was suggested about a year ago on the PHP internals mailing list: &ldquo;<strong>weak interfaces</strong>&rdquo;. Those are interfaces that define a behavior, but <strong>that do not need to be implemented by classes</strong>. It mixes the principle of static-typing with duck-typing:</p>
+
+<blockquote><p>If it quacks like a duck, and walks like a duck, then it&rsquo;s a duck.</p></blockquote>
+
+<p>What&rsquo;s really good with this is that it allows packages to define their interfaces, and type-hint against it, all the while not requiring dependencies to actually implement it. As long as objects are compatible with the interface, it works. It&rsquo;s a sort of <code>class X implements Y</code> evaluated at runtime. Example:</p>
+
+<p>```php
+interface FooInterface {</p>
+
+<pre><code>public function hello();
+</code></pre>
+
+<p>}</p>
+
+<p>// Foo does not implement FooInterface
+class Foo {</p>
+
+<pre><code>// But this method makes it compatible with FooInterface
+public function hello()
+{
+    return 'Hello world';
+}
+</code></pre>
+
+<p>}</p>
+
+<p>// That pseudo-syntax tells that this is a weak-interface type-hinting
+function run(&lt;<FooInterface>> $foo) {</p>
+
+<pre><code>echo $foo;
+</code></pre>
+
+<p>}</p>
+
+<p>// It works because Foo is compatible with the interface
+run(new Foo);</p>
+
+<p>// Error, stdClass is not compatible with FooInterface
+run(new stdClass);
+```</p>
+
+<p>This example was just for fun, but I wish such a feature would land in PHP (along with static return type). It would help a lot with package interoperability and decoupling.</p>
+]]></content>
+  </entry>
+  
+  <entry>
     <title type="html"><![CDATA[A retrospective on open sourcing projects at My C-Sense]]></title>
     <link href="http://mnapoli.fr/retrospective-mycsense-open-source/"/>
-    <updated>2014-07-01T18:00:00+02:00</updated>
+    <updated>2014-07-01T18:00:00+12:00</updated>
     <id>http://mnapoli.fr/retrospective-mycsense-open-source</id>
     <content type="html"><![CDATA[<p>Today is my last day at <a href="http://www.myc-sense.com"><strong>My C-Sense</strong></a>, after almost 2 years working on creating and modernizing existing PHP applications. This has been an incredibly rich experience in an excellent work environment, I will surely miss this job and my colleagues.</p>
 
@@ -190,7 +411,7 @@ interface WorkDispatcher
   <entry>
     <title type="html"><![CDATA[Using MetaModel and MetaConsole to debug your application]]></title>
     <link href="http://mnapoli.fr/using-metamodel-and-metaconsole-to-debug-your-application/"/>
-    <updated>2013-09-13T16:08:00+02:00</updated>
+    <updated>2013-09-13T16:08:00+12:00</updated>
     <id>http://mnapoli.fr/using-metamodel-and-metaconsole-to-debug-your-application</id>
     <content type="html"><![CDATA[<p>I started working a few months ago on <a href="https://github.com/mnapoli/MetaModel">MetaModel</a>, a language that enables to <strong>traverse and operate your PHP model</strong>.</p>
 
@@ -285,7 +506,7 @@ $entity = $entityManager-&gt;find('AF_Model_InputSet', 562);
   <entry>
     <title type="html"><![CDATA[Code coverage reports with GitHub, Travis and Coveralls]]></title>
     <link href="http://mnapoli.fr/code-coverage-reports-with-github-travis-and/"/>
-    <updated>2013-06-08T20:00:00+02:00</updated>
+    <updated>2013-06-08T20:00:00+12:00</updated>
     <id>http://mnapoli.fr/code-coverage-reports-with-github-travis-and</id>
     <content type="html"><![CDATA[<p>You have a PHP project hosted on GitHub with continuous integration using Travis-CI?</p>
 
@@ -336,7 +557,7 @@ language: php</p>
   <entry>
     <title type="html"><![CDATA[jQuery plugin: Confirm dialogs for HTML links and buttons]]></title>
     <link href="http://mnapoli.fr/confirm-dialogs-for-html-links-and-buttons/"/>
-    <updated>2013-03-05T20:00:00+01:00</updated>
+    <updated>2013-03-05T20:00:00+13:00</updated>
     <id>http://mnapoli.fr/confirm-dialogs-for-html-links-and-buttons</id>
     <content type="html"><![CDATA[<p>This is the first open source project created at my company, so I am quite proud of it even though it is not much.</p>
 
@@ -377,47 +598,6 @@ $(&ldquo;.confirm&rdquo;).confirm({</p>
 <p>On your server-side code, you can check that the request is POST and refuse GET request. That can help prevent security issues like someone sending a link to delete someone else’s account for example: <a href="http://example.com/my-account/delete.">http://example.com/my-account/delete.</a> If you only accept POST request, people clicking on that link won’t see their account deleted (because the request would be a GET).</p>
 
 <p>If you want to learn more or try it, the website contains the <a href="http://myclabs.github.io/jquery.confirm/">official documentation and some demos</a>.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Dependency Injection with PHP]]></title>
-    <link href="http://mnapoli.fr/dependency-injection-with-php/"/>
-    <updated>2012-09-20T20:00:00+02:00</updated>
-    <id>http://mnapoli.fr/dependency-injection-with-php</id>
-    <content type="html"><![CDATA[<p>I used to develop using Singletons, registries or even static classes. Those days are gone.</p>
-
-<p>I decided to use <strong>Dependency Injection</strong> so that:</p>
-
-<ul>
-<li>my classes would be testable</li>
-<li>replacing an implementation by another would be not only doable, but easy (and so extending a library/module would too)</li>
-<li>the design of those classes wouldn’t be guided by the question of “how they will be used”</li>
-<li>my code would be cleaner, simpler</li>
-<li>and IDE auto-completion/type-hinting would always work</li>
-</ul>
-
-
-<p>I gave a try to Symfony and ZF2 DI systems, but they both seem way too complicated for just a simple need (that anyone who has worked with Spring would understand):</p>
-
-<p>```php
-class MyClass {</p>
-
-<pre><code>/**
- * @Inject
- * @var MyService
- */
-private $service;
-</code></pre>
-
-<p>}
-```</p>
-
-<p>This short code means: <em>Inject, using a simple annotation, an instance of another class into a property</em>.</p>
-
-<p>I started working on a framework enabling such functionality few months ago. It is now in a mature state. It is based on the <a href="http://docs.doctrine-project.org/projects/doctrine-common/en/latest/reference/annotations.html">Annotations library of Doctrine 2</a>, and takes most of its ideas of Spring 3.</p>
-
-<p>You can check out this framework on its official website: <a href="http://mnapoli.github.com/PHP-DI/">PHP-DI</a>, and you are welcome to use it or contribute.</p>
 ]]></content>
   </entry>
   

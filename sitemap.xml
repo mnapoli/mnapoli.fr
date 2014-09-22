@@ -2,114 +2,118 @@
 <urlset xmlns='http://www.sitemaps.org/schemas/sitemap/0.9'>
     <url>
         <loc>http://mnapoli.fr/dependency-injection-with-php/</loc>
-        <lastmod>2014-08-03T21:49:52+02:00</lastmod>
+        <lastmod>2014-08-04T07:49:52+12:00</lastmod>
     </url>
     <url>
         <loc>http://mnapoli.fr/doctrine-2-yaml-reference/</loc>
-        <lastmod>2014-01-11T23:37:02+01:00</lastmod>
+        <lastmod>2014-01-12T11:37:02+13:00</lastmod>
     </url>
     <url>
         <loc>http://mnapoli.fr/php-fig-should-define-php-interfaces/</loc>
-        <lastmod>2014-01-11T23:37:02+01:00</lastmod>
+        <lastmod>2014-01-12T11:37:02+13:00</lastmod>
     </url>
     <url>
         <loc>http://mnapoli.fr/introduction-dependency-injection-with-real-life-example/</loc>
-        <lastmod>2014-01-11T23:37:02+01:00</lastmod>
+        <lastmod>2014-01-12T11:37:02+13:00</lastmod>
     </url>
     <url>
         <loc>http://mnapoli.fr/doctrine-schema-validation-in-a-phpunit-test/</loc>
-        <lastmod>2014-01-11T23:37:02+01:00</lastmod>
+        <lastmod>2014-01-12T11:37:02+13:00</lastmod>
     </url>
     <url>
         <loc>http://mnapoli.fr/be-a-better-programmer-take-a-step-back/</loc>
-        <lastmod>2014-01-11T23:37:02+01:00</lastmod>
+        <lastmod>2014-01-12T11:37:02+13:00</lastmod>
     </url>
     <url>
         <loc>http://mnapoli.fr/confirm-dialogs-for-html-links-and-buttons/</loc>
-        <lastmod>2014-08-03T21:49:52+02:00</lastmod>
+        <lastmod>2014-08-04T07:49:52+12:00</lastmod>
     </url>
     <url>
         <loc>http://mnapoli.fr/the-optional-singleton-pattern/</loc>
-        <lastmod>2014-01-11T23:37:02+01:00</lastmod>
+        <lastmod>2014-01-12T11:37:02+13:00</lastmod>
     </url>
     <url>
         <loc>http://mnapoli.fr/programming-jokes-of-the-week-end/</loc>
-        <lastmod>2014-01-11T23:37:02+01:00</lastmod>
+        <lastmod>2014-01-12T11:37:02+13:00</lastmod>
     </url>
     <url>
         <loc>http://mnapoli.fr/overriding-dependencies-with-composer/</loc>
-        <lastmod>2014-01-11T23:37:02+01:00</lastmod>
+        <lastmod>2014-01-12T11:37:02+13:00</lastmod>
     </url>
     <url>
         <loc>http://mnapoli.fr/code-coverage-reports-with-github-travis-and/</loc>
-        <lastmod>2014-08-03T21:49:52+02:00</lastmod>
+        <lastmod>2014-08-04T07:49:52+12:00</lastmod>
     </url>
     <url>
         <loc>http://mnapoli.fr/should-you-really-write-ugly-code-no/</loc>
-        <lastmod>2014-01-11T23:37:02+01:00</lastmod>
+        <lastmod>2014-01-12T11:37:02+13:00</lastmod>
     </url>
     <url>
         <loc>http://mnapoli.fr/controllers-as-services/</loc>
-        <lastmod>2014-01-11T23:37:02+01:00</lastmod>
+        <lastmod>2014-01-12T11:37:02+13:00</lastmod>
     </url>
     <url>
         <loc>http://mnapoli.fr/friend-services/</loc>
-        <lastmod>2014-01-11T23:37:02+01:00</lastmod>
+        <lastmod>2014-01-12T11:37:02+13:00</lastmod>
     </url>
     <url>
         <loc>http://mnapoli.fr/giving-a-try-to-octopress-as-a-blog-engine/</loc>
-        <lastmod>2014-01-11T23:37:02+01:00</lastmod>
+        <lastmod>2014-01-12T11:37:02+13:00</lastmod>
     </url>
     <url>
         <loc>http://mnapoli.fr/i-herd-you-like-tests/</loc>
-        <lastmod>2014-01-11T23:37:02+01:00</lastmod>
+        <lastmod>2014-01-12T11:37:02+13:00</lastmod>
     </url>
     <url>
         <loc>http://mnapoli.fr/run-composer-install-when-you-switch-branch/</loc>
-        <lastmod>2014-01-11T23:37:02+01:00</lastmod>
+        <lastmod>2014-01-12T11:37:02+13:00</lastmod>
     </url>
     <url>
         <loc>http://mnapoli.fr/using-metamodel-and-metaconsole-to-debug-your-application/</loc>
-        <lastmod>2014-08-03T21:49:52+02:00</lastmod>
+        <lastmod>2014-08-04T07:49:52+12:00</lastmod>
     </url>
     <url>
         <loc>http://mnapoli.fr/working-with-mails-in-dev-environment/</loc>
-        <lastmod>2014-01-11T23:37:02+01:00</lastmod>
+        <lastmod>2014-01-12T11:37:02+13:00</lastmod>
     </url>
     <url>
         <loc>http://mnapoli.fr/repository-interface/</loc>
-        <lastmod>2014-04-21T11:46:46+02:00</lastmod>
+        <lastmod>2014-04-21T21:46:46+12:00</lastmod>
     </url>
     <url>
         <loc>http://mnapoli.fr/collection-interface-and-database-abstraction/</loc>
-        <lastmod>2014-04-21T11:46:46+02:00</lastmod>
+        <lastmod>2014-04-21T21:46:46+12:00</lastmod>
     </url>
     <url>
         <loc>http://mnapoli.fr/retrospective-mycsense-open-source/</loc>
-        <lastmod>2014-08-03T21:49:52+02:00</lastmod>
+        <lastmod>2014-08-27T22:25:22+12:00</lastmod>
+    </url>
+    <url>
+        <loc>http://mnapoli.fr/decoupling-packages/</loc>
+        <lastmod>2014-09-21T23:02:29+12:00</lastmod>
     </url>
     <url>
         <loc>http://mnapoli.fr/about-me/</loc>
-        <lastmod>2014-01-11T23:37:02+01:00</lastmod>
+        <lastmod>2014-01-12T11:37:02+13:00</lastmod>
     </url>
     <url>
         <loc>http://mnapoli.fr/archives/</loc>
-        <lastmod>2014-08-03T21:49:52+02:00</lastmod>
+        <lastmod>2014-09-21T23:02:29+12:00</lastmod>
     </url>
     <url>
         <loc>http://mnapoli.fr/</loc>
-        <lastmod>2014-08-03T21:49:52+02:00</lastmod>
+        <lastmod>2014-09-21T23:02:29+12:00</lastmod>
     </url>
     <url>
         <loc>http://mnapoli.fr/presentations/</loc>
-        <lastmod>2014-08-03T21:49:52+02:00</lastmod>
+        <lastmod>2014-09-21T23:02:29+12:00</lastmod>
     </url>
     <url>
         <loc>http://mnapoli.fr/projects/</loc>
-        <lastmod>2014-08-03T21:49:52+02:00</lastmod>
+        <lastmod>2014-09-21T23:02:29+12:00</lastmod>
     </url>
     <url>
         <loc>http://mnapoli.fr/robots.txt</loc>
-        <lastmod>2013-09-04T22:10:44+02:00</lastmod>
+        <lastmod>2013-09-05T08:10:44+12:00</lastmod>
     </url>
 </urlset>
