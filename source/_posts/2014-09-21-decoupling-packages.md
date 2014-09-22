@@ -146,7 +146,7 @@ The [PHP-FIG](http://www.php-fig.org/) has been working for a few years on a Cac
 
 OK, there's not much left to add here, if you have any reaction about this I'd be happy to hear it. If I got anything wrong, I'd be happy to correct it.
 
-I would like to finish on an idea that was suggested about a year ago on the PHP internals mailing list: "**dynamic interface checking**". Those are interfaces that define a behavior, but **that do not need to be implemented by classes**. It mixes the principle of static-typing with duck-typing:
+I would like to finish on an idea that was suggested about a year ago on the PHP internals mailing list: "**weak interfaces**". Those are interfaces that define a behavior, but **that do not need to be implemented by classes**. It mixes the principle of static-typing with duck-typing:
 
 > If it looks like a duck and quacks like a duck, then it's a duck.
 
@@ -166,7 +166,7 @@ class Foo {
     }
 }
 
-// That pseudo-syntax tells that this is a dynamic interface checking
+// That pseudo-syntax tells that this is a weak-interface type-hinting
 function run(<<FooInterface>> $foo) {
 	echo $foo;
 }
