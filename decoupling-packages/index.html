@@ -317,7 +317,7 @@
 
 <p>OK, there&rsquo;s not much left to add here, if you have any reaction about this I&rsquo;d be happy to hear it. If I got anything wrong, I&rsquo;d be happy to correct it.</p>
 
-<p>I would like to finish on an idea that was suggested about a year ago on the PHP internals mailing list: &ldquo;<strong>dynamic interface checking</strong>&rdquo;. Those are interfaces that define a behavior, but <strong>that do not need to be implemented by classes</strong>. It mixes the principle of static-typing with duck-typing:</p>
+<p>I would like to finish on an idea that was suggested about a year ago on the PHP internals mailing list: &ldquo;<strong>weak interfaces</strong>&rdquo;. Those are interfaces that define a behavior, but <strong>that do not need to be implemented by classes</strong>. It mixes the principle of static-typing with duck-typing:</p>
 
 <blockquote><p>If it looks like a duck and quacks like a duck, then it&rsquo;s a duck.</p></blockquote>
 
@@ -359,7 +359,7 @@
 </span><span class='line'>    <span class="p">}</span>
 </span><span class='line'><span class="p">}</span>
 </span><span class='line'>
-</span><span class='line'><span class="c1">// That pseudo-syntax tells that this is a dynamic interface checking</span>
+</span><span class='line'><span class="c1">// That pseudo-syntax tells that this is a weak-interface type-hinting</span>
 </span><span class='line'><span class="k">function</span> <span class="nf">run</span><span class="p">(</span><span class="o">&lt;&lt;</span><span class="nx">FooInterface</span><span class="o">&gt;&gt;</span> <span class="nv">$foo</span><span class="p">)</span> <span class="p">{</span>
 </span><span class='line'>  <span class="k">echo</span> <span class="nv">$foo</span><span class="p">;</span>
 </span><span class='line'><span class="p">}</span>

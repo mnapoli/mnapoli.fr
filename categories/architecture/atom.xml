@@ -4,7 +4,7 @@
   <title><![CDATA[Category: architecture | Matthieu Napoli]]></title>
   <link href="http://mnapoli.fr/categories/architecture/atom.xml" rel="self"/>
   <link href="http://mnapoli.fr/"/>
-  <updated>2014-09-23T09:28:11+12:00</updated>
+  <updated>2014-09-23T09:31:14+12:00</updated>
   <id>http://mnapoli.fr/</id>
   <author>
     <name><![CDATA[Matthieu Napoli]]></name>
@@ -189,7 +189,7 @@ public function route(Request $request) {
 
 <p>OK, there&rsquo;s not much left to add here, if you have any reaction about this I&rsquo;d be happy to hear it. If I got anything wrong, I&rsquo;d be happy to correct it.</p>
 
-<p>I would like to finish on an idea that was suggested about a year ago on the PHP internals mailing list: &ldquo;<strong>dynamic interface checking</strong>&rdquo;. Those are interfaces that define a behavior, but <strong>that do not need to be implemented by classes</strong>. It mixes the principle of static-typing with duck-typing:</p>
+<p>I would like to finish on an idea that was suggested about a year ago on the PHP internals mailing list: &ldquo;<strong>weak interfaces</strong>&rdquo;. Those are interfaces that define a behavior, but <strong>that do not need to be implemented by classes</strong>. It mixes the principle of static-typing with duck-typing:</p>
 
 <blockquote><p>If it looks like a duck and quacks like a duck, then it&rsquo;s a duck.</p></blockquote>
 
@@ -215,7 +215,7 @@ public function hello()
 
 <p>}</p>
 
-<p>// That pseudo-syntax tells that this is a dynamic interface checking
+<p>// That pseudo-syntax tells that this is a weak-interface type-hinting
 function run(&lt;<FooInterface>> $foo) {</p>
 
 <pre><code>echo $foo;
