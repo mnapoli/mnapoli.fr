@@ -148,7 +148,7 @@ OK, there's not much left to add here, if you have any reaction about this I'd b
 
 I would like to finish on an idea that was suggested about a year ago on the PHP internals mailing list: "**dynamic interface checking**". Those are interfaces that define a behavior, but **that do not need to be implemented by classes**. It mixes the principle of static-typing with duck-typing:
 
-> If it quacks like a duck, and walks like a duck, then it's a duck.
+> If it looks like a duck and quacks like a duck, then it's a duck.
 
 What's really good with this is that it allows packages to define their interfaces, and type-hint against it, all the while not requiring dependencies to actually implement it. As long as objects are compatible with the interface, it works. It's a sort of `class X implements Y` evaluated at runtime. Example:
 
