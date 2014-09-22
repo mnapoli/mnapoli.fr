@@ -134,19 +134,19 @@ That allows to have decoupled Laravel packages while not needing adapters to use
 
 Now the last option is to go a step beyond and try to make the interfaces "**standard**". By that I mean that the same interface would be used by many packages, and implemented by many others.
 
-The good example for this is obviously **logging**. There used to be a numerous amount of different logger libraries for PHP. Then the PHP-FIG group worked to produce PSR-3, the logger standard.
+The good example for this is obviously **logging**. There used to be a numerous amount of different logger libraries for PHP. Then the [PHP-FIG](http://www.php-fig.org/) group worked to produce [PSR-3](https://github.com/php-fig/log), the logger standard.
 
 Today, many logging packages implement the `Psr\Log\LoggerInterface`, and most modern frameworks type-hint against that interface instead of specific implementations. That means that users can choose any PSR-3 compliant logger and have their framework use it.
 
 Needless to say that this is an ideal situation: **no coupling, no effort**! But logging was kind of an easy topic. It's very hard to come up with standards for all the other components that need interfaces, mainly because implementations often differ a lot.
 
-The PHP-FIG has been working for a few years on a Cache and an HTTP message PSR, and hopefully they will be released sometime. In the meantime, the [container-interop project](https://github.com/container-interop/container-interop) aims at providing interfaces to standardize the usage of dependency injection containers.
+The [PHP-FIG](http://www.php-fig.org/) has been working for a few years on a Cache and an HTTP message PSR, and hopefully they will be released sometime. In the meantime, the [container-interop project](https://github.com/container-interop/container-interop) aims at providing interfaces to standardize the usage of dependency injection containers.
 
 ## Conclusion
 
 OK, there's not much left to add here, if you have any reaction about this I'd be happy to hear it. If I got anything wrong, I'd be happy to correct it.
 
-I would like to finish on an idea that was suggested about a year ago on the PHP internals mailing list: "**weak interfaces**". Those are interfaces that define a behavior, but **that do not need to be implemented by classes**. It mixes the principle of static-typing with duck-typing:
+I would like to finish on an idea that was suggested about a year ago on the PHP internals mailing list: "**dynamic interface checking**". Those are interfaces that define a behavior, but **that do not need to be implemented by classes**. It mixes the principle of static-typing with duck-typing:
 
 > If it quacks like a duck, and walks like a duck, then it's a duck.
 
@@ -166,7 +166,7 @@ class Foo {
     }
 }
 
-// That pseudo-syntax tells that this is a weak-interface type-hinting
+// That pseudo-syntax tells that this is a dynamic interface checking
 function run(<<FooInterface>> $foo) {
 	echo $foo;
 }
