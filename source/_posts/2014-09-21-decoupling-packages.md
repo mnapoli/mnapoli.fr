@@ -126,9 +126,9 @@ Cons:
 - requires to write interfaces
 - requires to write adapters
 
-This strategy of interfaces was recently used by **Laravel**. For the version 3.0 (IIRC), Laravel will publish a package named `laravel/contracts` which contains all the interfaces used by its other packages.
+This strategy of interfaces was recently used by **Laravel**. For the version 5.0 (IIRC), Laravel will publish a package named [`illuminate/contracts`](https://github.com/illuminate/contracts) which contains all the interfaces used by its other packages.
 
-That allows to have decoupled Laravel packages while not needing adapters to use them together: packages can implement the interfaces at the very small cost of being coupled to `laravel/contracts` (it's a small cost because the package is very light and contains only interfaces).
+That allows to have decoupled Laravel packages while not needing adapters to use them together: packages can implement the interfaces at the very small cost of being coupled to `illuminate/contracts` (it's a small cost because the package is very light and contains only interfaces).
 
 ## Standardized interfaces
 
