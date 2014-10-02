@@ -179,3 +179,7 @@ run(new stdClass);
 ```
 
 This example was just for fun, but I wish such a feature would land in PHP (along with static return type). It would help a lot with package interoperability and decoupling.
+
+**Update:** the original RFC about what I called *weak interfaces* has been linked to me by its author, Anthony Ferrara. Here it is: [PHP RFC: Structural Type Hinting](https://wiki.php.net/rfc/protocol_type_hinting). As you can see, it was named *Structural type hinting* instead of *weak interface*.
+
+It has also been pointed to me in the comments that the same Anthony Ferrara wrote a userland implementation of this: [ProtocolLib](https://github.com/ircmaxell/Protocol-Lib).
