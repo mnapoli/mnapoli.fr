@@ -4,3 +4,6 @@
 .reveal img.no-border {
     border: none;
 }
+.reveal pre {
+    /*font-size: 0.7em;*/
+}
