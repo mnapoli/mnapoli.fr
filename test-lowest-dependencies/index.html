@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Code coverage reports with GitHub, Travis and Coveralls - Matthieu Napoli</title>
+  <title>Test against the lowest Composer dependencies on Travis - Matthieu Napoli</title>
   <meta name="author" content="Matthieu Napoli">
 
   
-  <meta name="description" content="Code coverage reports with GitHub, Travis and Coveralls Jun 8th, 2013 You have a PHP project hosted on GitHub with continuous integration using &hellip;">
+  <meta name="description" content="Test against the lowest Composer dependencies on Travis Dec 17th, 2014 Composer just got a latest awesome addition: prefer the lowest versions of &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://mnapoli.fr/code-coverage-reports-with-github-travis-and">
+  <link rel="canonical" href="http://mnapoli.fr/test-lowest-dependencies">
   <link href="/favicon.ico" rel="icon">
   <link href='http://fonts.googleapis.com/css?family=Quicksand:300,400' rel='stylesheet' type='text/css'>
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
@@ -107,7 +107,7 @@
 
   <header>
   <div class="jumbotron">
-    Code coverage reports with GitHub, Travis and Coveralls
+    Test against the lowest Composer dependencies on Travis
 	<h5>
 
 
@@ -120,32 +120,57 @@
   
 
 
-<i class="icon-calendar-empty"></i> <time datetime="2013-06-08T20:00:00+12:00" pubdate data-updated="true">Jun 8<span>th</span>, 2013</time></h5>
+<i class="icon-calendar-empty"></i> <time datetime="2014-12-17T18:00:00+13:00" pubdate data-updated="true">Dec 17<span>th</span>, 2014</time></h5>
   </div>
 </header>
   <div class="row-fluid">
     <div class="span12">
-      <p>You have a PHP project hosted on GitHub with continuous integration using Travis-CI?</p>
+      <p>Composer just got a latest awesome addition: prefer the lowest versions of your dependencies.</p>
 
-<p>How about setting up <strong>code coverage reports</strong>?</p>
-
-<p>For example, here is the code coverage report of <a href="http://mnapoli.github.io/PHP-DI/">PHP-DI</a>: <a href="https://coveralls.io/r/mnapoli/PHP-DI?branch=master"><img src="https://coveralls.io/repos/mnapoli/PHP-DI/badge.png?branch=master" alt="Coverage Status" /></a> (click on the link to see the details).</p>
-
-<!-- more -->
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>composer update --prefer-lowest</span></code></pre></td></tr></table></div></figure>
 
 
-<p>To do so, you will need to create an account and enable your project at <a href="https://coveralls.io/">Coveralls</a>. Then add this to your <code>composer.json</code>:</p>
+<p>This amazing option will install the lowest versions possible for all your dependencies.</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='json'><span class='line'><span class="s2">&quot;require-dev&quot;</span><span class="err">:</span> <span class="p">{</span>
-</span><span class='line'>    <span class="nt">&quot;satooshi/php-coveralls&quot;</span><span class="p">:</span> <span class="s2">&quot;dev-master&quot;</span>
-</span><span class='line'><span class="p">}</span>
-</span></code></pre></td></tr></table></div></figure>
+<p>What for? <strong>Tests</strong> of course!</p>
+
+<!--more-->
 
 
-<p>Finally, update your <code>.travis.yml</code> configuration:</p>
+<h2>Update Composer</h2>
+
+<p>OK before we get started, don&rsquo;t forget to update Composer right now if you want to use the new option:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo composer self-update</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>Testing against lowest dependencies</h2>
+
+<p>It might not make a lot of sense to test an <strong>application</strong> against its lowest dependencies, because unless something is done wrong it will be installed with controlled versions.</p>
+
+<p>However, for <strong>libraries</strong> (or <em>components</em>…) it&rsquo;s a very good thing.</p>
+
+<p>To give you an example, I wanted to give it a try and ran <code>composer update --prefer-lowest</code> in <a href="http://php-di.org">PHP-DI</a>&rsquo;s directory: all hell broke loose… PHPUnit wouldn&rsquo;t even start.</p>
+
+<p>The reason for this were multiples, but they all boiled down to:</p>
+
+<ul>
+<li>I used a feature that didn&rsquo;t yet exist in version X of dependency Y</li>
+<li>or dependency Y had a bug in version X</li>
+</ul>
+
+
+<p><strong>and I allowed installing that problematic version X in <code>composer.json</code></strong>.</p>
+
+<p>In the end, I was distributing a library that <em>could</em> not work at all (if people had insane version constraints).</p>
+
+<h2>Setting up tests on Travis</h2>
+
+<p>Let&rsquo;s be proactive and use continuous integration to prevent that from happening again.</p>
+
+<p>Here is an example of a <code>.travis.yml</code> configuration that would run the tests using the lowest dependencies with PHP 5.3.3:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -164,27 +189,39 @@
 <span class='line-number'>15</span>
 <span class='line-number'>16</span>
 <span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
 </pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">language</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">php</span>
 </span><span class='line'>
 </span><span class='line'><span class="l-Scalar-Plain">php</span><span class="p-Indicator">:</span>
-</span><span class='line'> <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">5.3</span>
-</span><span class='line'> <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">5.4</span>
-</span><span class='line'> <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">5.5</span>
+</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">5.3.3</span>
+</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">5.4</span>
+</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">5.5</span>
+</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">5.6</span>
+</span><span class='line'>
+</span><span class='line'><span class="l-Scalar-Plain">matrix</span><span class="p-Indicator">:</span>
+</span><span class='line'>  <span class="l-Scalar-Plain">include</span><span class="p-Indicator">:</span>
+</span><span class='line'>    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">php</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">5.3.3</span>
+</span><span class='line'>      <span class="l-Scalar-Plain">env</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">dependencies=lowest</span>
 </span><span class='line'>
 </span><span class='line'><span class="l-Scalar-Plain">before_script</span><span class="p-Indicator">:</span>
-</span><span class='line'> <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">wget http://getcomposer.org/composer.phar</span>
-</span><span class='line'> <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">php composer.phar install --dev --no-interaction</span>
+</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">composer self-update</span>
+</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">composer install -n</span>
+</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">if [ &quot;$dependencies&quot; = &quot;lowest&quot; ]; then composer update --prefer-lowest --prefer-stable -n; fi;</span>
 </span><span class='line'>
 </span><span class='line'><span class="l-Scalar-Plain">script</span><span class="p-Indicator">:</span>
-</span><span class='line'> <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">mkdir -p build/logs</span>
-</span><span class='line'> <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">phpunit --coverage-clover build/logs/clover.xml</span>
-</span><span class='line'>
-</span><span class='line'><span class="l-Scalar-Plain">after_script</span><span class="p-Indicator">:</span>
-</span><span class='line'> <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">php vendor/bin/coveralls -v</span>
+</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">phpunit</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Now if you commit and push, Travis will run the tests and push the code coverage results to Coverall. Check out your project page on Coverall!</p>
+<p>You&rsquo;ll notice that we have to run <code>composer self-update</code> because Travis hasn&rsquo;t picked up the latest Composer version yet.</p>
+
+<p>Here was the result on Travis:</p>
+
+<p><img src="/images/posts/composer-lowest-dependencies.png"></p>
+
+<p>A new job was added to the build matrix, and this job ran on PHP 5.3.3 with the lowest dependency versions.</p>
 
     </div>
   </div>
@@ -203,13 +240,11 @@
 
 
 
+  <a href="/categories/composer/"><span class="badge">composer</span></a>
+
   <a href="/categories/continuous-integration/"><span class="badge">continuous-integration</span></a>
 
-  <a href="/categories/github/"><span class="badge">github</span></a>
-
   <a href="/categories/open-source/"><span class="badge">open-source</span></a>
-
-  <a href="/categories/php/"><span class="badge">php</span></a>
 
   <a href="/categories/tests/"><span class="badge">tests</span></a>
 
@@ -241,10 +276,8 @@
       <div class="span12">
         <p class="meta">
           
-            <a class="basic-alignment left" href="/overriding-dependencies-with-composer/" title="Previous Post: Overriding dependencies with Composer">&laquo; Overriding dependencies with Composer</a>
+            <a class="basic-alignment left" href="/decoupling-packages/" title="Previous Post: Decoupling packages">&laquo; Decoupling packages</a>
           
-          
-            <a class="basic-alignment right" href="/should-you-really-write-ugly-code-no/" title="Next Post: Should you really write ugly code? Spoiler: no">Should you really write ugly code? Spoiler: no &raquo;</a>
           
         </p>
       </div>
@@ -299,8 +332,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://mnapoli.fr/code-coverage-reports-with-github-travis-and/';
-        var disqus_url = 'http://mnapoli.fr/code-coverage-reports-with-github-travis-and/';
+        var disqus_identifier = 'http://mnapoli.fr/test-lowest-dependencies/';
+        var disqus_url = 'http://mnapoli.fr/test-lowest-dependencies/';
         var disqus_script = 'embed.js';
       
     (function () {
