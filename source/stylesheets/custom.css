@@ -18,3 +18,8 @@ p code, li code {
     vertical-align: middle;
     color: #2c3e50;
 }
+
+h2 {
+    font-size: 30px;
+    margin: 20px 0;
+}
