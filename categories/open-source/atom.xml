@@ -4,7 +4,7 @@
   <title><![CDATA[Category: open-source | Matthieu Napoli]]></title>
   <link href="http://mnapoli.fr/categories/open-source/atom.xml" rel="self"/>
   <link href="http://mnapoli.fr/"/>
-  <updated>2014-12-18T00:00:20+13:00</updated>
+  <updated>2015-04-12T12:52:58+12:00</updated>
   <id>http://mnapoli.fr/</id>
   <author>
     <name><![CDATA[Matthieu Napoli]]></name>
@@ -12,6 +12,45 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[What is wrong with Symfony Bundles]]></title>
+    <link href="http://mnapoli.fr/whats-wrong-with-symfony-bundles/"/>
+    <updated>2015-01-03T18:00:00+13:00</updated>
+    <id>http://mnapoli.fr/whats-wrong-with-symfony-bundles</id>
+    <content type="html"><![CDATA[<p><em>I want to start with a bit of a warning: I&rsquo;m a huge fan of Symfony and the whole ecosystem around it. This article is meant as constructive criticism and hopefully to open a discussion.</em></p>
+
+<p>That being said, is there something wrong with Symfony Bundles? I mean the open source-reusable ones. <a href="http://knpbundles.com/">KnpBundles</a> references 2500 bundles as of today: that&rsquo;s huge! When I look at them, I tend to categorize them in 3 categories:</p>
+
+<ul>
+<li><p><strong>application modules</strong></p>
+
+<p>  For example <em>FOSUserBundle</em>, <em>SonataAdminBundle</em>, … By &ldquo;application modules&rdquo;, I mean those bundles come with model classes, or controller and views, and they provide end-user features.</p></li>
+<li><p><strong>framework extensions/helpers</strong></p>
+
+<p>  For example <em>FOSRestBundle</em>, <em>FOSJsRoutingBundle</em>, <em>SensioGeneratorBundle</em>, …</p></li>
+<li><p><strong>library integrations</strong></p>
+
+<p>  For example <em>MonologBundle</em>, <em>StofDoctrineExtensionsBundle</em>, <em>LiipImagineBundle</em>, <em>KnpMenuBundle</em>, …</p></li>
+</ul>
+
+
+<p>Of course, those categories sometimes overlap, and there are always exceptions. But they are usually a good indicator of the intent of the bundle: provide application features, provide tools for working with Symfony or integrate a 3rd party library.</p>
+
+<p>And my problem is with the last category: <strong>bundles integrating libraries</strong>.</p>
+
+<!--more-->
+
+
+<h2>Bundles integrating 3rd party libraries</h2>
+
+<p>There are 2500 bundles on <a href="http://knpbundles.com/">KnpBundles</a> and I estimated roughly <strong>40% of them are &ldquo;integration bundles&rdquo;</strong> (I spotted 39 of them in the first 10 pages).</p>
+
+<p>Just as an example, there are <a href="http://knpbundles.com/search?q=gearman">9 bundles</a> for integrating Gearman, <a href="http://knpbundles.com/search?q=cache">47 bundles</a> for using caches and <a href="http://knpbundles.com/search?q=markdown">9 bundles</a> for using Markdown libraries!</p>
+
+<p>Why 9 bundles for rendering Markdown? Actually, <strong>why do I need a bundle at all?</strong></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Test against the lowest Composer dependencies on Travis]]></title>
@@ -70,9 +109,11 @@ language: php</p>
 
 <p>php:
   &ndash; 5.3.3
+  &ndash; 5.3
   &ndash; 5.4
   &ndash; 5.5
-  &ndash; 5.6</p>
+  &ndash; 5.6
+  &ndash; hhvm</p>
 
 <p>matrix:
   include:</p>
@@ -593,57 +634,6 @@ $entity = $entityManager-&gt;find('AF_Model_InputSet', 562);
 <p>On the other side, MetaConsole is still in development, and I hope to provide better integration with frameworks and a more enjoyable interface. If you are interested, you can try it (it&rsquo;s a development tool, so there&rsquo;s no risk since you shouldn&rsquo;t use it in production), and you can <a href="https://github.com/mnapoli/MetaConsole">improve it</a>.</p>
 
 <p>And also, ideas are welcome!</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Code coverage reports with GitHub, Travis and Coveralls]]></title>
-    <link href="http://mnapoli.fr/code-coverage-reports-with-github-travis-and/"/>
-    <updated>2013-06-08T20:00:00+12:00</updated>
-    <id>http://mnapoli.fr/code-coverage-reports-with-github-travis-and</id>
-    <content type="html"><![CDATA[<p>You have a PHP project hosted on GitHub with continuous integration using Travis-CI?</p>
-
-<p>How about setting up <strong>code coverage reports</strong>?</p>
-
-<p>For example, here is the code coverage report of <a href="http://mnapoli.github.io/PHP-DI/">PHP-DI</a>: <a href="https://coveralls.io/r/mnapoli/PHP-DI?branch=master"><img src="https://coveralls.io/repos/mnapoli/PHP-DI/badge.png?branch=master" alt="Coverage Status" /></a> (click on the link to see the details).</p>
-
-<!-- more -->
-
-
-<p>To do so, you will need to create an account and enable your project at <a href="https://coveralls.io/">Coveralls</a>. Then add this to your <code>composer.json</code>:</p>
-
-<p>```json
-&ldquo;require-dev&rdquo;: {</p>
-
-<pre><code>"satooshi/php-coveralls": "dev-master"
-</code></pre>
-
-<p>}
-```</p>
-
-<p>Finally, update your <code>.travis.yml</code> configuration:</p>
-
-<p>```yaml
-language: php</p>
-
-<p>php:
- &ndash; 5.3
- &ndash; 5.4
- &ndash; 5.5</p>
-
-<p>before_script:
- &ndash; wget <a href="http://getcomposer.org/composer.phar">http://getcomposer.org/composer.phar</a>
- &ndash; php composer.phar install &mdash;dev &mdash;no-interaction</p>
-
-<p>script:
- &ndash; mkdir -p build/logs
- &ndash; phpunit &mdash;coverage-clover build/logs/clover.xml</p>
-
-<p>after_script:
- &ndash; php vendor/bin/coveralls -v
-```</p>
-
-<p>Now if you commit and push, Travis will run the tests and push the code coverage results to Coverall. Check out your project page on Coverall!</p>
 ]]></content>
   </entry>
   

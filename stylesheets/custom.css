@@ -12,3 +12,14 @@ article blockquote {
 li {
     margin-bottom: 10px;
 }
+
+p code, li code {
+    font-size: 0.8em;
+    vertical-align: middle;
+    color: #2c3e50;
+}
+
+h2 {
+    font-size: 30px;
+    margin: 20px 0;
+}

@@ -1,0 +1,541 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Silly CLI 1.1 comes with dependency injection - Matthieu Napoli</title>
+  <meta name="author" content="Matthieu Napoli">
+
+  
+  <meta name="description" content="Silly CLI 1.1 comes with dependency injection Apr 12th, 2015 I have just released Silly CLI 1.1 and I think it&rsquo;s awesome, here&rsquo;s why. &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://mnapoli.fr/silly-cli">
+  <link href="/favicon.ico" rel="icon">
+  <link href='http://fonts.googleapis.com/css?family=Quicksand:300,400' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Matthieu Napoli" type="application/atom+xml">
+  <script src="/js/jquery.js"></script>
+  <script src="/js/bootstrap-collapse.js"></script>
+  <script src="/js/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/js/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<script src="/js/jquery.timeago.js" type="text/javascript"></script>
+<script src="/js/showoff.min.js" type="text/javascript"></script>
+<link href="/stylesheets/github.css" rel="stylesheet" type="text/css">
+<link href="/stylesheets/custom.css" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-15584647-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <div class="navbar navbar-inverse navbar-static-top">
+  	<div class="navbar-inner">
+  	  <div class="container">
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+          <span class="fui-menu-24"></span>
+        </a>
+  	  	<div class="nav-collapse collapse navbar-responsive-collapse" style="height:0;">
+  	      <ul class="nav">
+    
+        <li ><a href="/">Home</a></li>
+    
+        <li ><a href="/projects/">Projects</a></li>
+    
+        <li ><a href="/presentations/">Presentations</a></li>
+    
+        <li ><a href="/archives/">Blog archives</a></li>
+    
+        <li ><a href="/about-me/">About me</a></li>
+    
+        <li ><a href="/atom.xml"><i class='icon-rss social-navbar'></i></a></li>
+    
+</ul>
+
+<ul class="nav pull-right">
+    
+    <li><a href="http://github.com/mnapoli" title="Github Profile"><i class="icon-github-sign social-navbar"></i></a></li>
+    
+    
+    <li><a href="http://linkedin.com/in/matthieunapoli" title="Linkedin Profile"><i class="icon-linkedin-sign social-navbar"></i></a></li>
+    
+    
+    <li><a href="http://twitter.com/matthieunapoli" title="Twitter Profile"><i class="icon-twitter-sign social-navbar"></i></a></li>
+    
+    
+    
+    
+</ul>
+
+  	    </div>
+  	  </div>
+  	</div>
+  </div>
+  <div class="container" id="main">
+    <div class="">
+      <div id="content">
+        <div>
+<article class="hentry" role="article">
+  
+
+  <header>
+  <div class="jumbotron">
+    Silly CLI 1.1 comes with dependency injection
+	<h5>
+
+
+
+
+
+
+
+
+  
+
+
+<i class="icon-calendar-empty"></i> <time datetime="2015-04-12T18:00:00+12:00" pubdate data-updated="true">Apr 12<span>th</span>, 2015</time></h5>
+  </div>
+</header>
+  <div class="row-fluid">
+    <div class="span12">
+      <p>I have just released <a href="http://mnapoli.fr/silly/">Silly CLI</a> 1.1 and I think it&rsquo;s awesome, here&rsquo;s why.</p>
+
+<h2>What is Silly?</h2>
+
+<p>If you missed it, <a href="http://mnapoli.fr/silly/">Silly</a> is a small project I started a month ago. The idea is simple: <em>it is a CLI micro-framework</em>.</p>
+
+<p>Much like Silex or Slim let you create a web application in a single file using closures as controllers, Silly let you create a CLI application in a single file using closures as commands:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="nv">$app</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Silly\Application</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">$app</span><span class="o">-&gt;</span><span class="na">command</span><span class="p">(</span><span class="s1">&#39;greet [name] [--yell]&#39;</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nv">$name</span><span class="p">,</span> <span class="nv">$yell</span><span class="p">,</span> <span class="nv">$output</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nv">$text</span> <span class="o">=</span> <span class="nv">$name</span> <span class="o">?</span> <span class="s1">&#39;Hello &#39;</span><span class="o">.</span><span class="nv">$name</span> <span class="o">:</span> <span class="s1">&#39;Hello&#39;</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="nv">$yell</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nv">$text</span> <span class="o">=</span> <span class="nx">strtoupper</span><span class="p">(</span><span class="nv">$text</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nv">$output</span><span class="o">-&gt;</span><span class="na">writeln</span><span class="p">(</span><span class="nv">$text</span><span class="p">);</span>
+</span><span class='line'><span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">$app</span><span class="o">-&gt;</span><span class="na">run</span><span class="p">();</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<!-- more -->
+
+
+<p>As you can see, no need for classes. Also, commands are defined using a syntax inspired from help and man pages which is short and reads nicely.</p>
+
+<p>Running the application:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="err">$</span> <span class="nx">php</span> <span class="nx">app</span><span class="o">.</span><span class="nx">php</span> <span class="nx">greet</span>
+</span><span class='line'><span class="nx">Hello</span>
+</span><span class='line'><span class="err">$</span> <span class="nx">php</span> <span class="nx">app</span><span class="o">.</span><span class="nx">php</span> <span class="nx">greet</span> <span class="nx">john</span> <span class="o">--</span><span class="nx">yell</span>
+</span><span class='line'><span class="nx">HELLO</span> <span class="nx">JOHN</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Of course I didn&rsquo;t reinvent anything. All this is based on <a href="http://symfony.com/fr/doc/current/components/console/introduction.html">Symfony Console</a>, which is great because:</p>
+
+<ul>
+<li>I&rsquo;m lazy</li>
+<li>everybody knows the Symfony Console</li>
+</ul>
+
+
+<p>This was Silly CLI 1.0, and it was good.</p>
+
+<h2>Scaling up</h2>
+
+<p>I like micro-frameworks because they allow us to start very simply and very quickly. They also generally don&rsquo;t force us into a specific architecture or organization which, sometimes, is good.</p>
+
+<p>But the value of a micro-framework is even greater when it allows you to <strong>scale up</strong>. By that I don&rsquo;t mean &ldquo;mongodb web-scale&rdquo;, I mean &ldquo;my single script file is too big, I want to organize everything more properly and start doing complex stuff&rdquo;.</p>
+
+<h3>Callables</h3>
+
+<p>This is where a immensely useful concept of PHP comes into play: <strong>callables</strong>.</p>
+
+<p>Most examples of micro-frameworks show you the &ldquo;closure&rdquo; example of callables because it&rsquo;s the most obvious one for a simple app:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="nv">$app</span><span class="o">-&gt;</span><span class="na">command</span><span class="p">(</span><span class="s1">&#39;greet [name]&#39;</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nv">$name</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// ...</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>But as you probably know, closures are not the only kind of <em>callables</em> in PHP. Here is a list of valid PHP callables:</p>
+
+<ul>
+<li>a closure: <code>function () {}</code></li>
+<li>a function name: <code>'strlen'</code></li>
+<li>an object method: <code>[$object, 'theMethod']</code></li>
+<li>a class static method: <code>['TheClass', 'theMethod']</code></li>
+<li>invokable object: <code>$object</code> (an object that has an <code>__invoke()</code> method)</li>
+</ul>
+
+
+<p>All that means is we can replace our closure with classes. Our simple example can then become:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">class</span> <span class="nc">GreetCommand</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">public</span> <span class="k">function</span> <span class="nf">execute</span><span class="p">(</span><span class="nv">$name</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="c1">// ...</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'><span class="nv">$app</span><span class="o">-&gt;</span><span class="na">command</span><span class="p">(</span><span class="s1">&#39;greet [name]&#39;</span><span class="p">,</span> <span class="p">[</span><span class="k">new</span> <span class="nx">GreetCommand</span><span class="p">,</span> <span class="s1">&#39;execute&#39;</span><span class="p">]);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That&rsquo;s a nice first step to organize our growing application. Each command can be put in its own class and file.</p>
+
+<h2>Silly 1.1: Dependency injection</h2>
+
+<p>Putting our commands in separate files is a good start. But everyone knows that a growing application is not just about organizing code: it&rsquo;s also about managing dependencies.</p>
+
+<p>Instead of turning towards singletons or global functions/static methods, Silly 1.1 helps you into using dependency injection. More specifically, it comes with <strong>dependency injection container support</strong>.</p>
+
+<h3>Choose your container</h3>
+
+<p>Silex, Slim, Cilex, … all force you into using a specific container (often Pimple). While this is practical at first, it&rsquo;s usually not so good for <em>scaling up</em>: the more classes or dependencies you have, the more configuration you will write.</p>
+
+<p>Instead of forcing you into using a <em>supposedly</em> better DI container, Silly goes <a href="https://github.com/container-interop/container-interop">the interoperability route</a>: <strong>use whichever container you want!</strong></p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="nv">$app</span><span class="o">-&gt;</span><span class="na">useContainer</span><span class="p">(</span><span class="nv">$container</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The container you provide has to be compliant with the <a href="https://github.com/container-interop/container-interop">container-interop</a> standard. If it isn&rsquo;t you can use <a href="https://github.com/jeremeamia/acclimate-container">Acclimate</a>.</p>
+
+<h3>Callables in the container</h3>
+
+<p>By simply registering a container with <code>-&gt;useContainer()</code>, Silly will retrieve commands from the container when they are not PHP callables:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="c1">// Valid PHP callables: doesn&#39;t use the container</span>
+</span><span class='line'><span class="nv">$app</span><span class="o">-&gt;</span><span class="na">command</span><span class="p">(</span><span class="s1">&#39;greet [name]&#39;</span><span class="p">,</span> <span class="k">function</span> <span class="p">()</span> <span class="p">{</span> <span class="cm">/* ... */</span> <span class="p">});</span>
+</span><span class='line'><span class="nv">$app</span><span class="o">-&gt;</span><span class="na">command</span><span class="p">(</span><span class="s1">&#39;greet [name]&#39;</span><span class="p">,</span> <span class="p">[</span><span class="k">new</span> <span class="nx">GreetCommand</span><span class="p">,</span> <span class="s1">&#39;execute&#39;</span><span class="p">]);</span>
+</span><span class='line'><span class="nv">$app</span><span class="o">-&gt;</span><span class="na">command</span><span class="p">(</span><span class="s1">&#39;greet [name]&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;SomeClass&#39;</span><span class="p">,</span> <span class="s1">&#39;someStaticMethod&#39;</span><span class="p">]);</span>
+</span><span class='line'><span class="nv">$app</span><span class="o">-&gt;</span><span class="na">command</span><span class="p">(</span><span class="s1">&#39;greet [name]&#39;</span><span class="p">,</span> <span class="k">new</span> <span class="nx">InvokableClassCommand</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// Use the container</span>
+</span><span class='line'><span class="nv">$app</span><span class="o">-&gt;</span><span class="na">command</span><span class="p">(</span><span class="s1">&#39;greet [name]&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;GreetCommand&#39;</span><span class="p">,</span> <span class="s1">&#39;execute&#39;</span><span class="p">]);</span> <span class="c1">// execute is not a static method</span>
+</span><span class='line'><span class="nv">$app</span><span class="o">-&gt;</span><span class="na">command</span><span class="p">(</span><span class="s1">&#39;greet [name]&#39;</span><span class="p">,</span> <span class="s1">&#39;InvokableClassCommand&#39;</span><span class="p">);</span>     <span class="c1">// implements __invoke()</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In the 2 last examples above, the container will be called to instantiate <code>GreetCommand</code> and <code>InvokableClassCommand</code>.</p>
+
+<p>That means that you can configure those classes in your container and benefit from the dependency injection features of your container. For example:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">class</span> <span class="nc">GreetCommand</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">private</span> <span class="nv">$entityManager</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">public</span> <span class="k">function</span> <span class="nf">__construct</span><span class="p">(</span><span class="nx">EntityManager</span> <span class="nv">$entityManager</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="nv">$this</span><span class="o">-&gt;</span><span class="na">entityManager</span> <span class="o">=</span> <span class="nv">$entityManager</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="k">public</span> <span class="k">function</span> <span class="nf">execute</span><span class="p">(</span><span class="nv">$name</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="c1">// ...</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Note that our class could also be an invokable class (i.e. one that <a href="http://php.net/manual/en/language.oop5.magic.php#object.invoke">implements <code>__invoke()</code></a>).</p>
+
+<h3>Dependency injection in parameters</h3>
+
+<p>Dependency injection as shown above only works when you write commands in classes. However you can&rsquo;t use it with closures!</p>
+
+<p>To solve that problem, let&rsquo;s have a look at how dependency injection is performed in AngularJS:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='js'><span class='line'><span class="nx">angular</span><span class="p">.</span><span class="nx">controller</span><span class="p">(</span><span class="s1">&#39;MyController&#39;</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">myService</span><span class="p">,</span> <span class="nx">myOtherService</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="c1">// ...</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Silly supports the same mechanism of dependency injection through the callable parameters. For example:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">use</span> <span class="nx">Psr\Logger\LoggerInterface</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1">// the order of parameters doesn&#39;t matter:</span>
+</span><span class='line'><span class="nv">$app</span><span class="o">-&gt;</span><span class="na">command</span><span class="p">(</span><span class="s1">&#39;process [directory]&#39;</span><span class="p">,</span> <span class="k">function</span> <span class="p">(</span><span class="nx">LoggerInterface</span> <span class="nv">$logger</span><span class="p">,</span> <span class="nv">$directory</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nv">$logger</span><span class="o">-&gt;</span><span class="na">info</span><span class="p">(</span><span class="s1">&#39;Processing directory &#39;</span> <span class="o">.</span> <span class="nv">$directory</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// ...</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Silly can inject services and values into parameters by looking into the container using:</p>
+
+<ul>
+<li>the <strong>type-hint</strong> (i.e. the interface/class name): <code>Psr\Logger\LoggerInterface</code></li>
+<li>the <strong>parameter&rsquo;s name</strong>: <code>logger</code></li>
+</ul>
+
+
+<p>Depending on how you declare your container entries you might want to enable one or the other way, or both.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="nv">$app</span><span class="o">-&gt;</span><span class="na">useContainer</span><span class="p">(</span><span class="nv">$container</span><span class="p">,</span> <span class="nv">$injectByTypeHint</span> <span class="o">=</span> <span class="k">true</span><span class="p">,</span> <span class="nv">$injectByParameterName</span> <span class="o">=</span> <span class="k">true</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you set both to <code>true</code>, it will first look using the type-hint, then using the parameter name.</p>
+
+<h2>The PHP-DI and Pimple edition</h2>
+
+<p>Being able to use any container is nice, but sometimes you don&rsquo;t really care and just want to get started. You are covered!</p>
+
+<p>I have created two packages that provide you Silly pre-configured with either <a href="http://php-di.org">PHP-DI</a> or <a href="http://pimple.sensiolabs.org/">Pimple</a>.</p>
+
+<ul>
+<li>read more about <a href="http://mnapoli.fr/silly/docs/php-di.html">the PHP-DI edition</a></li>
+<li>read more about <a href="http://mnapoli.fr/silly/docs/pimple.html">the Pimple edition</a></li>
+</ul>
+
+
+<p>Those wanting the benefit of autowiring might like the former, while those familiar with Silex might feel more at ease with the latter.</p>
+
+<h2>Beyond Silly</h2>
+
+<p>I hope this example will show how a framework can be built without coupling to a dependency injection container. This was rather easy because it is a micro-framework, but I hope it will give others some ideas.</p>
+
+<p>For those interested to learn more about these topics, everything explained here was actually implemented in a library called <a href="https://github.com/mnapoli/Invoker">Invoker</a>. Feel free to have a look at it and maybe use it in your projects. The same principles shown here could be applied to any framework dispatching to PHP callables. Hopefully it will catch on!</p>
+
+    </div>
+  </div>
+
+
+
+  <footer>
+    <hr>
+    
+    <div class="row-fluid">
+      
+      <div class="span6">
+        <p class="meta">
+        
+        
+
+
+
+  <a href="/categories/container-interop/"><span class="badge">container-interop</span></a>
+
+  <a href="/categories/silly/"><span class="badge">silly</span></a>
+
+
+
+
+        </p>
+      </div>
+      
+      <div class="span6 social-sharing">
+        <div class="sharing">
+  <div class="addthis_toolbox addthis_default_style ">
+  
+  
+  <a class="addthis_button_tweet"></a>
+  
+  
+  <a class="addthis_counter addthis_pill_style"></a>
+  </div>
+  <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid="></script>
+</div>
+
+      </div>
+      
+      
+    </div>
+    
+    <div class="row-fluid">
+      <div class="span12">
+        <p class="meta">
+          
+            <a class="basic-alignment left" href="/whats-wrong-with-symfony-bundles/" title="Previous Post: What is wrong with Symfony Bundles">&laquo; What is wrong with Symfony Bundles</a>
+          
+          
+        </p>
+      </div>
+    </div>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+
+
+      </div>
+    </div>
+    <div class="">
+      <footer class="footer-page" role="contentinfo">
+        <p>
+  Copyright &copy; 2015 - Matthieu Napoli -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span> - Theme by <a href="http://alexgaribay.com">Alex Garibay</a>
+</p>
+
+<!-- Piwik -->
+<script type="text/javascript">
+    var _paq = _paq || [];
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function() {
+        var u=(("https:" == document.location.protocol) ? "https" : "http") + "://piwik.mnapoli.fr/";
+        _paq.push(['setTrackerUrl', u+'piwik.php']);
+        _paq.push(['setSiteId', 1]);
+        var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0]; g.type='text/javascript';
+        g.defer=true; g.async=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+    })();
+</script>
+<noscript><p><img src="http://piwik.mnapoli.fr/piwik.php?idsite=1" style="border:0;" alt="" /></p></noscript>
+<!-- End Piwik Code -->
+
+
+      </footer>
+    </div>
+  </div>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'mnapoli-blog';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://mnapoli.fr/silly-cli/';
+        var disqus_url = 'http://mnapoli.fr/silly-cli/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = 'http://' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

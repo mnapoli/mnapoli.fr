@@ -4,7 +4,7 @@
   <title><![CDATA[Category: tests | Matthieu Napoli]]></title>
   <link href="http://mnapoli.fr/categories/tests/atom.xml" rel="self"/>
   <link href="http://mnapoli.fr/"/>
-  <updated>2014-12-18T00:00:20+13:00</updated>
+  <updated>2015-04-12T12:52:58+12:00</updated>
   <id>http://mnapoli.fr/</id>
   <author>
     <name><![CDATA[Matthieu Napoli]]></name>
@@ -70,9 +70,11 @@ language: php</p>
 
 <p>php:
   &ndash; 5.3.3
+  &ndash; 5.3
   &ndash; 5.4
   &ndash; 5.5
-  &ndash; 5.6</p>
+  &ndash; 5.6
+  &ndash; hhvm</p>
 
 <p>matrix:
   include:</p>

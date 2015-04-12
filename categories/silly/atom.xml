@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: silly | Matthieu Napoli]]></title>
+  <link href="http://mnapoli.fr/categories/silly/atom.xml" rel="self"/>
+  <link href="http://mnapoli.fr/"/>
+  <updated>2015-04-12T12:52:58+12:00</updated>
+  <id>http://mnapoli.fr/</id>
+  <author>
+    <name><![CDATA[Matthieu Napoli]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Silly CLI 1.1 comes with dependency injection]]></title>
+    <link href="http://mnapoli.fr/silly-cli/"/>
+    <updated>2015-04-12T18:00:00+12:00</updated>
+    <id>http://mnapoli.fr/silly-cli</id>
+    <content type="html"><![CDATA[<p>I have just released <a href="http://mnapoli.fr/silly/">Silly CLI</a> 1.1 and I think it&rsquo;s awesome, here&rsquo;s why.</p>
+
+<h2>What is Silly?</h2>
+
+<p>If you missed it, <a href="http://mnapoli.fr/silly/">Silly</a> is a small project I started a month ago. The idea is simple: <em>it is a CLI micro-framework</em>.</p>
+
+<p>Much like Silex or Slim let you create a web application in a single file using closures as controllers, Silly let you create a CLI application in a single file using closures as commands:</p>
+
+<p>```php
+$app = new Silly\Application();</p>
+
+<p>$app->command(&lsquo;greet [name] [&mdash;yell]&rsquo;, function ($name, $yell, $output) {</p>
+
+<pre><code>$text = $name ? 'Hello '.$name : 'Hello';
+
+if ($yell) {
+    $text = strtoupper($text);
+}
+
+$output-&gt;writeln($text);
+</code></pre>
+
+<p>});</p>
+
+<p>$app->run();
+```</p>
+
+<!-- more -->
+
+
+<p>As you can see, no need for classes. Also, commands are defined using a syntax inspired from help and man pages which is short and reads nicely.</p>
+
+<p>Running the application:</p>
+
+<p><code>
+$ php app.php greet
+Hello
+$ php app.php greet john --yell
+HELLO JOHN
+</code></p>
+
+<p>Of course I didn&rsquo;t reinvent anything. All this is based on <a href="http://symfony.com/fr/doc/current/components/console/introduction.html">Symfony Console</a>, which is great because:</p>
+
+<ul>
+<li>I&rsquo;m lazy</li>
+<li>everybody knows the Symfony Console</li>
+</ul>
+
+
+<p>This was Silly CLI 1.0, and it was good.</p>
+
+<h2>Scaling up</h2>
+
+<p>I like micro-frameworks because they allow us to start very simply and very quickly. They also generally don&rsquo;t force us into a specific architecture or organization which, sometimes, is good.</p>
+
+<p>But the value of a micro-framework is even greater when it allows you to <strong>scale up</strong>. By that I don&rsquo;t mean &ldquo;mongodb web-scale&rdquo;, I mean &ldquo;my single script file is too big, I want to organize everything more properly and start doing complex stuff&rdquo;.</p>
+
+<h3>Callables</h3>
+
+<p>This is where a immensely useful concept of PHP comes into play: <strong>callables</strong>.</p>
+
+<p>Most examples of micro-frameworks show you the &ldquo;closure&rdquo; example of callables because it&rsquo;s the most obvious one for a simple app:</p>
+
+<p>```php
+$app->command(&lsquo;greet [name]&rsquo;, function ($name) {</p>
+
+<pre><code>// ...
+</code></pre>
+
+<p>});
+```</p>
+
+<p>But as you probably know, closures are not the only kind of <em>callables</em> in PHP. Here is a list of valid PHP callables:</p>
+
+<ul>
+<li>a closure: <code>function () {}</code></li>
+<li>a function name: <code>'strlen'</code></li>
+<li>an object method: <code>[$object, 'theMethod']</code></li>
+<li>a class static method: <code>['TheClass', 'theMethod']</code></li>
+<li>invokable object: <code>$object</code> (an object that has an <code>__invoke()</code> method)</li>
+</ul>
+
+
+<p>All that means is we can replace our closure with classes. Our simple example can then become:</p>
+
+<p>```php
+class GreetCommand
+{</p>
+
+<pre><code>public function execute($name)
+{
+    // ...
+}
+</code></pre>
+
+<p>}</p>
+
+<p>$app->command(&lsquo;greet [name]&rsquo;, [new GreetCommand, &lsquo;execute&rsquo;]);
+```</p>
+
+<p>That&rsquo;s a nice first step to organize our growing application. Each command can be put in its own class and file.</p>
+
+<h2>Silly 1.1: Dependency injection</h2>
+
+<p>Putting our commands in separate files is a good start. But everyone knows that a growing application is not just about organizing code: it&rsquo;s also about managing dependencies.</p>
+
+<p>Instead of turning towards singletons or global functions/static methods, Silly 1.1 helps you into using dependency injection. More specifically, it comes with <strong>dependency injection container support</strong>.</p>
+
+<h3>Choose your container</h3>
+
+<p>Silex, Slim, Cilex, … all force you into using a specific container (often Pimple). While this is practical at first, it&rsquo;s usually not so good for <em>scaling up</em>: the more classes or dependencies you have, the more configuration you will write.</p>
+
+<p>Instead of forcing you into using a <em>supposedly</em> better DI container, Silly goes <a href="https://github.com/container-interop/container-interop">the interoperability route</a>: <strong>use whichever container you want!</strong></p>
+
+<p><code>php
+$app-&gt;useContainer($container);
+</code></p>
+
+<p>The container you provide has to be compliant with the <a href="https://github.com/container-interop/container-interop">container-interop</a> standard. If it isn&rsquo;t you can use <a href="https://github.com/jeremeamia/acclimate-container">Acclimate</a>.</p>
+
+<h3>Callables in the container</h3>
+
+<p>By simply registering a container with <code>-&gt;useContainer()</code>, Silly will retrieve commands from the container when they are not PHP callables:</p>
+
+<p>```php
+// Valid PHP callables: doesn&rsquo;t use the container
+$app->command(&lsquo;greet [name]&rsquo;, function () { /<em> &hellip; </em>/ });
+$app->command(&lsquo;greet [name]&rsquo;, [new GreetCommand, &lsquo;execute&rsquo;]);
+$app->command(&lsquo;greet [name]&rsquo;, [&lsquo;SomeClass&rsquo;, &lsquo;someStaticMethod&rsquo;]);
+$app->command(&lsquo;greet [name]&rsquo;, new InvokableClassCommand);</p>
+
+<p>// Use the container
+$app->command(&lsquo;greet [name]&rsquo;, [&lsquo;GreetCommand&rsquo;, &lsquo;execute&rsquo;]); // execute is not a static method
+$app->command(&lsquo;greet [name]&rsquo;, &lsquo;InvokableClassCommand&rsquo;);     // implements __invoke()
+```</p>
+
+<p>In the 2 last examples above, the container will be called to instantiate <code>GreetCommand</code> and <code>InvokableClassCommand</code>.</p>
+
+<p>That means that you can configure those classes in your container and benefit from the dependency injection features of your container. For example:</p>
+
+<p>```php
+class GreetCommand
+{</p>
+
+<pre><code>private $entityManager;
+
+public function __construct(EntityManager $entityManager)
+{
+    $this-&gt;entityManager = $entityManager;
+}
+
+public function execute($name)
+{
+    // ...
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<p>Note that our class could also be an invokable class (i.e. one that <a href="http://php.net/manual/en/language.oop5.magic.php#object.invoke">implements <code>__invoke()</code></a>).</p>
+
+<h3>Dependency injection in parameters</h3>
+
+<p>Dependency injection as shown above only works when you write commands in classes. However you can&rsquo;t use it with closures!</p>
+
+<p>To solve that problem, let&rsquo;s have a look at how dependency injection is performed in AngularJS:</p>
+
+<p><code>js
+angular.controller('MyController', function (myService, myOtherService) {
+  // ...
+});
+</code></p>
+
+<p>Silly supports the same mechanism of dependency injection through the callable parameters. For example:</p>
+
+<p>```php
+use Psr\Logger\LoggerInterface;</p>
+
+<p>// the order of parameters doesn&rsquo;t matter:
+$app->command(&lsquo;process [directory]&rsquo;, function (LoggerInterface $logger, $directory) {</p>
+
+<pre><code>$logger-&gt;info('Processing directory ' . $directory);
+
+// ...
+</code></pre>
+
+<p>});
+```</p>
+
+<p>Silly can inject services and values into parameters by looking into the container using:</p>
+
+<ul>
+<li>the <strong>type-hint</strong> (i.e. the interface/class name): <code>Psr\Logger\LoggerInterface</code></li>
+<li>the <strong>parameter&rsquo;s name</strong>: <code>logger</code></li>
+</ul>
+
+
+<p>Depending on how you declare your container entries you might want to enable one or the other way, or both.</p>
+
+<p><code>php
+$app-&gt;useContainer($container, $injectByTypeHint = true, $injectByParameterName = true);
+</code></p>
+
+<p>If you set both to <code>true</code>, it will first look using the type-hint, then using the parameter name.</p>
+
+<h2>The PHP-DI and Pimple edition</h2>
+
+<p>Being able to use any container is nice, but sometimes you don&rsquo;t really care and just want to get started. You are covered!</p>
+
+<p>I have created two packages that provide you Silly pre-configured with either <a href="http://php-di.org">PHP-DI</a> or <a href="http://pimple.sensiolabs.org/">Pimple</a>.</p>
+
+<ul>
+<li>read more about <a href="http://mnapoli.fr/silly/docs/php-di.html">the PHP-DI edition</a></li>
+<li>read more about <a href="http://mnapoli.fr/silly/docs/pimple.html">the Pimple edition</a></li>
+</ul>
+
+
+<p>Those wanting the benefit of autowiring might like the former, while those familiar with Silex might feel more at ease with the latter.</p>
+
+<h2>Beyond Silly</h2>
+
+<p>I hope this example will show how a framework can be built without coupling to a dependency injection container. This was rather easy because it is a micro-framework, but I hope it will give others some ideas.</p>
+
+<p>For those interested to learn more about these topics, everything explained here was actually implemented in a library called <a href="https://github.com/mnapoli/Invoker">Invoker</a>. Feel free to have a look at it and maybe use it in your projects. The same principles shown here could be applied to any framework dispatching to PHP callables. Hopefully it will catch on!</p>
+]]></content>
+  </entry>
+  
+</feed>
