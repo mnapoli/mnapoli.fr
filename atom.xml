@@ -4,7 +4,7 @@
   <title><![CDATA[Matthieu Napoli]]></title>
   <link href="http://mnapoli.fr/atom.xml" rel="self"/>
   <link href="http://mnapoli.fr/"/>
-  <updated>2015-04-12T12:55:35+12:00</updated>
+  <updated>2015-04-12T12:59:31+12:00</updated>
   <id>http://mnapoli.fr/</id>
   <author>
     <name><![CDATA[Matthieu Napoli]]></name>
@@ -295,6 +295,8 @@
 <p>I hope this example will show how a framework can be built without coupling to a dependency injection container. This was rather easy because it is a micro-framework, but I hope it will give others some ideas.</p>
 
 <p>For those interested to learn more about these topics, everything explained here was actually implemented in a library called <a href="https://github.com/mnapoli/Invoker">Invoker</a>. Feel free to have a look at it and maybe use it in your projects. The same principles shown here could be applied to any framework dispatching to PHP callables. Hopefully it will catch on!</p>
+
+<p><em>Thanks for <a href="https://twitter.com/Darhazer">@Darhazer</a> and <a href="https://twitter.com/najidev">@najidev</a> for reviewing this article.</em></p>
 ]]></content>
   </entry>
   
