@@ -1,10 +1,7 @@
-#githubRepositories {
-	line-height: 1.1em;
-	font-family: Helvetica, arial, freesans, clean, sans-serif;
+.repo {
+	margin-bottom: 10px;
 }
-#githubRepositories .repo {
-	border-radius: 5px;
-}
-#githubRepositories .repo .description {
-	font-size: 14px;
+.gt-usr-dt, .gt-usr-txt {
+	display: block;
+	font-size: 12px;
 }
