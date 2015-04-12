@@ -9,7 +9,7 @@
   <meta name="author" content="Matthieu Napoli">
 
   
-  <meta name="description" content="Projects Here are some projects of mine on GitHub: $(function() { SHOWOFF.load( 'githubRepositories', { 'mnapoli': [ 'PHP-DI', 'phpBeanstalkdAdmin &hellip;">
+  <meta name="description" content="Projects Here are some projects of mine on GitHub: $(function() { $('.repo').each(function () { Github.repoProfile({ username: $(this).data('user &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -34,9 +34,12 @@
 <link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 <script src="/js/jquery.timeago.js" type="text/javascript"></script>
-<script src="/js/showoff.min.js" type="text/javascript"></script>
 <link href="/stylesheets/github.css" rel="stylesheet" type="text/css">
 <link href="/stylesheets/custom.css" rel="stylesheet" type="text/css">
+
+<script src="/js/underscore.min.js" type="text/javascript"></script>
+<script src="/js/github-showcase/github.min.js" type="text/javascript"></script>
+<link href="/js/github-showcase/github.min.css" rel="stylesheet" type="text/css">
 
   
   <script type="text/javascript">
@@ -113,30 +116,40 @@
     Here are some projects of mine on GitHub:
 </p>
 
-<div id="githubRepositories"></div>
+<div class="row">
+    <div class="span6 repo" data-user="mnapoli" id="PHP-DI"></div>
+    <div class="span6 repo" data-user="mnapoli" id="silly"></div>
+</div>
+<div class="row">
+    <div class="span6 repo" data-user="CouscousPHP" id="Couscous"></div>
+    <div class="span6 repo" data-user="mnapoli" id="FrontYaml"></div>
+</div>
+<div class="row">
+    <div class="span6 repo" data-user="mnapoli" id="Invoker"></div>
+    <div class="span6 repo" data-user="myclabs" id="php-enum"></div>
+</div>
+<div class="row">
+    <div class="span6 repo" data-user="myclabs" id="ACL"></div>
+    <div class="span6 repo" data-user="myclabs" id="Work"></div>
+</div>
+<div class="row">
+    <div class="span6 repo" data-user="myclabs" id="DeepCopy"></div>
+    <div class="span6 repo" data-user="myclabs" id="ArrayComparator"></div>
+</div>
+<div class="row">
+    <div class="span6 repo" data-user="mnapoli" id="IsItMaintained"></div>
+    <div class="span6 repo" data-user="piwik" id="ci-status"></div>
+</div>
 
 <script>
     $(function() {
-        SHOWOFF.load(
-            'githubRepositories',
-            {
-                'mnapoli': [
-                    'PHP-DI',
-                    'phpBeanstalkdAdmin',
-                    'NumberTwo',
-                    'gh-pages-compiler',
-                    'MniPagesBundle'
-                ],
-                'myclabs': [
-                    'php-enum',
-                    'Xport',
-                    'ArrayComparator'
-                ],
-                'wikt': [
-                    'wikt'
-                ]
-            }
-        );
+        $('.repo').each(function () {
+            Github.repoProfile({
+                username: $(this).data('user'),
+                reponame: $(this).attr('id'),
+                selector: '#' + $(this).attr('id')
+            });
+        });
     });
 </script>
 
