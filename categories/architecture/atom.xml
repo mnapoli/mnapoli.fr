@@ -4,7 +4,7 @@
   <title><![CDATA[Category: architecture | Matthieu Napoli]]></title>
   <link href="http://mnapoli.fr/categories/architecture/atom.xml" rel="self"/>
   <link href="http://mnapoli.fr/"/>
-  <updated>2015-04-12T14:22:10+12:00</updated>
+  <updated>2015-07-27T16:21:38+02:00</updated>
   <id>http://mnapoli.fr/</id>
   <author>
     <name><![CDATA[Matthieu Napoli]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Decoupling packages]]></title>
     <link href="http://mnapoli.fr/decoupling-packages/"/>
-    <updated>2014-09-21T23:00:00+12:00</updated>
+    <updated>2014-09-21T23:00:00+02:00</updated>
     <id>http://mnapoli.fr/decoupling-packages</id>
     <content type="html"><![CDATA[<p>Decoupling packages is a hard thing. There are not a lot of options, and this blog post is about how some options are better than others.</p>
 

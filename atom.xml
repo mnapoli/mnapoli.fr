@@ -4,7 +4,7 @@
   <title><![CDATA[Matthieu Napoli]]></title>
   <link href="http://mnapoli.fr/atom.xml" rel="self"/>
   <link href="http://mnapoli.fr/"/>
-  <updated>2015-04-12T14:22:10+12:00</updated>
+  <updated>2015-07-27T16:21:38+02:00</updated>
   <id>http://mnapoli.fr/</id>
   <author>
     <name><![CDATA[Matthieu Napoli]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Silly CLI 1.1 comes with dependency injection]]></title>
     <link href="http://mnapoli.fr/silly-cli/"/>
-    <updated>2015-04-12T18:00:00+12:00</updated>
+    <updated>2015-04-12T18:00:00+02:00</updated>
     <id>http://mnapoli.fr/silly-cli</id>
     <content type="html"><![CDATA[<p>I have just released <a href="http://mnapoli.fr/silly/">Silly CLI</a> 1.1 and I think it&rsquo;s awesome, here&rsquo;s why.</p>
 
@@ -303,7 +303,7 @@
   <entry>
     <title type="html"><![CDATA[Test against the lowest Composer dependencies on Travis]]></title>
     <link href="http://mnapoli.fr/test-lowest-dependencies/"/>
-    <updated>2014-12-17T18:00:00+13:00</updated>
+    <updated>2014-12-17T18:00:00+01:00</updated>
     <id>http://mnapoli.fr/test-lowest-dependencies</id>
     <content type="html"><![CDATA[<p>Composer just got a <a href="https://github.com/composer/composer/pull/3450">new awesome addition</a> thanks to <a href="https://twitter.com/nicolasgrekas">Nicolas Grekas</a>: prefer the lowest versions of your dependencies.</p>
 
@@ -414,7 +414,7 @@
   <entry>
     <title type="html"><![CDATA[Decoupling packages]]></title>
     <link href="http://mnapoli.fr/decoupling-packages/"/>
-    <updated>2014-09-21T23:00:00+12:00</updated>
+    <updated>2014-09-21T23:00:00+02:00</updated>
     <id>http://mnapoli.fr/decoupling-packages</id>
     <content type="html"><![CDATA[<p>Decoupling packages is a hard thing. There are not a lot of options, and this blog post is about how some options are better than others.</p>
 
@@ -674,7 +674,7 @@
   <entry>
     <title type="html"><![CDATA[A retrospective on open sourcing projects at My C-Sense]]></title>
     <link href="http://mnapoli.fr/retrospective-mycsense-open-source/"/>
-    <updated>2014-07-01T18:00:00+12:00</updated>
+    <updated>2014-07-01T18:00:00+02:00</updated>
     <id>http://mnapoli.fr/retrospective-mycsense-open-source</id>
     <content type="html"><![CDATA[<p>Today is my last day at <a href="http://www.myc-sense.com"><strong>My C-Sense</strong></a>, after almost 2 years working on creating and modernizing existing PHP applications. This has been an incredibly rich experience in an excellent work environment, I will surely miss this job and my colleagues.</p>
 
@@ -857,7 +857,7 @@
   <entry>
     <title type="html"><![CDATA[The Collection interface and Database abstraction]]></title>
     <link href="http://mnapoli.fr/collection-interface-and-database-abstraction/"/>
-    <updated>2014-03-27T18:00:00+13:00</updated>
+    <updated>2014-03-27T18:00:00+01:00</updated>
     <id>http://mnapoli.fr/collection-interface-and-database-abstraction</id>
     <content type="html"><![CDATA[<p>This article logically follows the previous: <a href="http://mnapoli.fr/repository-interface/">The Repository interface</a>. In there I suggested a better interface for repositories based on a Collection interface so that repositories could be manipulated like collections.</p>
 
@@ -1198,7 +1198,7 @@ I&rsquo;ll let you make your own mind :)</p>
   <entry>
     <title type="html"><![CDATA[The Repository interface]]></title>
     <link href="http://mnapoli.fr/repository-interface/"/>
-    <updated>2014-03-10T18:00:00+13:00</updated>
+    <updated>2014-03-10T18:00:00+01:00</updated>
     <id>http://mnapoli.fr/repository-interface</id>
     <content type="html"><![CDATA[<p>Here is the definition of a repository for Eric Evans in his
 <a href="http://books.google.fr/books/about/Domain_driven_Design.html?id=7dlaMs0SECsC&amp;redir_esc=y">Domain Driven Design</a> book:</p>
@@ -1407,7 +1407,7 @@ Thank you dependency injection!</p>
   <entry>
     <title type="html"><![CDATA[Working with mails in dev environment]]></title>
     <link href="http://mnapoli.fr/working-with-mails-in-dev-environment/"/>
-    <updated>2013-09-23T16:32:00+12:00</updated>
+    <updated>2013-09-23T16:32:00+02:00</updated>
     <id>http://mnapoli.fr/working-with-mails-in-dev-environment</id>
     <content type="html"><![CDATA[<p>If your application sends emails, you probably don&rsquo;t want emails to be sent when you are developing on your machine.</p>
 
@@ -1465,7 +1465,7 @@ But if you don&rsquo;t, you can act on PHP&rsquo;s configuration: instead of ins
   <entry>
     <title type="html"><![CDATA[Using MetaModel and MetaConsole to debug your application]]></title>
     <link href="http://mnapoli.fr/using-metamodel-and-metaconsole-to-debug-your-application/"/>
-    <updated>2013-09-13T16:08:00+12:00</updated>
+    <updated>2013-09-13T16:08:00+02:00</updated>
     <id>http://mnapoli.fr/using-metamodel-and-metaconsole-to-debug-your-application</id>
     <content type="html"><![CDATA[<p>I started working a few months ago on <a href="https://github.com/mnapoli/MetaModel">MetaModel</a>, a language that enables to <strong>traverse and operate your PHP model</strong>.</p>
 
@@ -1583,7 +1583,7 @@ But if you don&rsquo;t, you can act on PHP&rsquo;s configuration: instead of ins
   <entry>
     <title type="html"><![CDATA[Running composer install when you switch branch]]></title>
     <link href="http://mnapoli.fr/run-composer-install-when-you-switch-branch/"/>
-    <updated>2013-09-09T17:03:00+12:00</updated>
+    <updated>2013-09-09T17:03:00+02:00</updated>
     <id>http://mnapoli.fr/run-composer-install-when-you-switch-branch</id>
     <content type="html"><![CDATA[<p>When working with <a href="http://getcomposer.org/">Composer</a> and git branches, you will end up either:</p>
 
@@ -1617,7 +1617,7 @@ But if you don&rsquo;t, you can act on PHP&rsquo;s configuration: instead of ins
   <entry>
     <title type="html"><![CDATA[I herd you like tests]]></title>
     <link href="http://mnapoli.fr/i-herd-you-like-tests/"/>
-    <updated>2013-08-22T16:17:00+12:00</updated>
+    <updated>2013-08-22T16:17:00+02:00</updated>
     <id>http://mnapoli.fr/i-herd-you-like-tests</id>
     <content type="html"><![CDATA[<p>So you chose to test your application using unit/functional tests.</p>
 
@@ -1734,7 +1734,7 @@ But if you don&rsquo;t, you can act on PHP&rsquo;s configuration: instead of ins
   <entry>
     <title type="html"><![CDATA[Giving a try to Octopress as a blog engine]]></title>
     <link href="http://mnapoli.fr/giving-a-try-to-octopress-as-a-blog-engine/"/>
-    <updated>2013-08-21T16:17:00+12:00</updated>
+    <updated>2013-08-21T16:17:00+02:00</updated>
     <id>http://mnapoli.fr/giving-a-try-to-octopress-as-a-blog-engine</id>
     <content type="html"><![CDATA[<p>This blog was running on Wordpress. And I hated it.</p>
 
@@ -1763,7 +1763,7 @@ But if you don&rsquo;t, you can act on PHP&rsquo;s configuration: instead of ins
   <entry>
     <title type="html"><![CDATA[Friend services?]]></title>
     <link href="http://mnapoli.fr/friend-services/"/>
-    <updated>2013-08-09T17:03:00+12:00</updated>
+    <updated>2013-08-09T17:03:00+02:00</updated>
     <id>http://mnapoli.fr/friend-services</id>
     <content type="html"><![CDATA[<p>Using the Domain Driven Design methodology, I sometimes end up on such a situation: a behavior in a model class is complex and involving other classes. It’s time to put that behavior in a service (or a factory if the situation applies to a constructor).</p>
 
@@ -1834,7 +1834,7 @@ But if you don&rsquo;t, you can act on PHP&rsquo;s configuration: instead of ins
   <entry>
     <title type="html"><![CDATA[Controllers as services?]]></title>
     <link href="http://mnapoli.fr/controllers-as-services/"/>
-    <updated>2013-07-01T20:00:00+12:00</updated>
+    <updated>2013-07-01T20:00:00+02:00</updated>
     <id>http://mnapoli.fr/controllers-as-services</id>
     <content type="html"><![CDATA[<p>This post is sort-of a response to the <a href="http://www.whitewashing.de/2013/06/27/extending_symfony2__controller_utilities.html">blog post of Benjamin Eberlei about Controllers in Symfony 2</a>.</p>
 
@@ -1965,7 +1965,7 @@ But if you don&rsquo;t, you can act on PHP&rsquo;s configuration: instead of ins
   <entry>
     <title type="html"><![CDATA[Should you really write ugly code? Spoiler: no]]></title>
     <link href="http://mnapoli.fr/should-you-really-write-ugly-code-no/"/>
-    <updated>2013-06-09T20:00:00+12:00</updated>
+    <updated>2013-06-09T20:00:00+02:00</updated>
     <id>http://mnapoli.fr/should-you-really-write-ugly-code-no</id>
     <content type="html"><![CDATA[<p>I recently stumbled upon François Zaninotto’s blog post: <a href="http://redotheweb.com/2013/06/04/you-should-write-ugly-code.html">You should write ugly code</a>. While he makes several good points, I strongly disagree with him and I feel the urge to give my opinion on the matter (what did you expect, this is a blog).</p>
 
@@ -2011,7 +2011,7 @@ But if you don&rsquo;t, you can act on PHP&rsquo;s configuration: instead of ins
   <entry>
     <title type="html"><![CDATA[Code coverage reports with GitHub, Travis and Coveralls]]></title>
     <link href="http://mnapoli.fr/code-coverage-reports-with-github-travis-and/"/>
-    <updated>2013-06-08T20:00:00+12:00</updated>
+    <updated>2013-06-08T20:00:00+02:00</updated>
     <id>http://mnapoli.fr/code-coverage-reports-with-github-travis-and</id>
     <content type="html"><![CDATA[<p>You have a PHP project hosted on GitHub with continuous integration using Travis-CI?</p>
 
@@ -2079,7 +2079,7 @@ But if you don&rsquo;t, you can act on PHP&rsquo;s configuration: instead of ins
   <entry>
     <title type="html"><![CDATA[Overriding dependencies with Composer]]></title>
     <link href="http://mnapoli.fr/overriding-dependencies-with-composer/"/>
-    <updated>2013-04-16T20:00:00+12:00</updated>
+    <updated>2013-04-16T20:00:00+02:00</updated>
     <id>http://mnapoli.fr/overriding-dependencies-with-composer</id>
     <content type="html"><![CDATA[<p>At my company, <strong>My C-Sense</strong>, we use Doctrine amongst other PHP frameworks and libraries. When we find bugs (or need new features), we contribute to the project through our <a href="https://github.com/myclabs">open source initiative</a>.</p>
 
@@ -2140,7 +2140,7 @@ But if you don&rsquo;t, you can act on PHP&rsquo;s configuration: instead of ins
   <entry>
     <title type="html"><![CDATA[Programming jokes of the week end]]></title>
     <link href="http://mnapoli.fr/programming-jokes-of-the-week-end/"/>
-    <updated>2013-04-01T20:00:00+13:00</updated>
+    <updated>2013-04-01T20:00:00+02:00</updated>
     <id>http://mnapoli.fr/programming-jokes-of-the-week-end</id>
     <content type="html"><![CDATA[<p>Every developer knows this joke:</p>
 
@@ -2174,7 +2174,7 @@ But if you don&rsquo;t, you can act on PHP&rsquo;s configuration: instead of ins
   <entry>
     <title type="html"><![CDATA[The “Optional Singleton” pattern]]></title>
     <link href="http://mnapoli.fr/the-optional-singleton-pattern/"/>
-    <updated>2013-03-22T20:00:00+13:00</updated>
+    <updated>2013-03-22T20:00:00+01:00</updated>
     <id>http://mnapoli.fr/the-optional-singleton-pattern</id>
     <content type="html"><![CDATA[<p>The <a href="http://en.wikipedia.org/wiki/Singleton_pattern">singleton</a> is a practical design pattern, that’s the reason it is so popular amongst beginners. It is also an anti-pattern because of the problems it introduces (global state, difficult to test, …).</p>
 
@@ -2222,7 +2222,7 @@ But if you don&rsquo;t, you can act on PHP&rsquo;s configuration: instead of ins
   <entry>
     <title type="html"><![CDATA[jQuery plugin: Confirm dialogs for HTML links and buttons]]></title>
     <link href="http://mnapoli.fr/confirm-dialogs-for-html-links-and-buttons/"/>
-    <updated>2013-03-05T20:00:00+13:00</updated>
+    <updated>2013-03-05T20:00:00+01:00</updated>
     <id>http://mnapoli.fr/confirm-dialogs-for-html-links-and-buttons</id>
     <content type="html"><![CDATA[<p>This is the first open source project created at my company, so I am quite proud of it even though it is not much.</p>
 
@@ -2273,7 +2273,7 @@ But if you don&rsquo;t, you can act on PHP&rsquo;s configuration: instead of ins
   <entry>
     <title type="html"><![CDATA[Be a better programmer: take a step back]]></title>
     <link href="http://mnapoli.fr/be-a-better-programmer-take-a-step-back/"/>
-    <updated>2013-02-04T20:00:00+13:00</updated>
+    <updated>2013-02-04T20:00:00+01:00</updated>
     <id>http://mnapoli.fr/be-a-better-programmer-take-a-step-back</id>
     <content type="html"><![CDATA[<p><em>Replace [client] by [boss] or anything of the kind if you prefer.</em></p>
 

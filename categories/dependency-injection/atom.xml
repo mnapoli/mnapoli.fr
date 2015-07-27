@@ -4,7 +4,7 @@
   <title><![CDATA[Category: dependency-injection | Matthieu Napoli]]></title>
   <link href="http://mnapoli.fr/categories/dependency-injection/atom.xml" rel="self"/>
   <link href="http://mnapoli.fr/"/>
-  <updated>2015-04-12T14:22:10+12:00</updated>
+  <updated>2015-07-27T16:21:38+02:00</updated>
   <id>http://mnapoli.fr/</id>
   <author>
     <name><![CDATA[Matthieu Napoli]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Controllers as services?]]></title>
     <link href="http://mnapoli.fr/controllers-as-services/"/>
-    <updated>2013-07-01T20:00:00+12:00</updated>
+    <updated>2013-07-01T20:00:00+02:00</updated>
     <id>http://mnapoli.fr/controllers-as-services</id>
     <content type="html"><![CDATA[<p>This post is sort-of a response to the <a href="http://www.whitewashing.de/2013/06/27/extending_symfony2__controller_utilities.html">blog post of Benjamin Eberlei about Controllers in Symfony 2</a>.</p>
 
@@ -128,7 +128,7 @@ public function createForm($type, $data, $options)
   <entry>
     <title type="html"><![CDATA[Introduction to Dependency Injection with a real life example]]></title>
     <link href="http://mnapoli.fr/introduction-dependency-injection-with-real-life-example/"/>
-    <updated>2012-12-06T20:00:00+13:00</updated>
+    <updated>2012-12-06T20:00:00+01:00</updated>
     <id>http://mnapoli.fr/introduction-dependency-injection-with-real-life-example</id>
     <content type="html"><![CDATA[<p>This example is an introduction to the <strong>Dependency Injection</strong> concept. It is based on the PHP library <a href="http://mnapoli.github.com/PHP-DI/">PHP-DI</a>.</p>
 
@@ -245,7 +245,7 @@ $container->set(&lsquo;GeolocationService&rsquo;)</p>
   <entry>
     <title type="html"><![CDATA[Dependency Injection with PHP]]></title>
     <link href="http://mnapoli.fr/dependency-injection-with-php/"/>
-    <updated>2012-09-20T20:00:00+12:00</updated>
+    <updated>2012-09-20T20:00:00+02:00</updated>
     <id>http://mnapoli.fr/dependency-injection-with-php</id>
     <content type="html"><![CDATA[<p>I used to develop using Singletons, registries or even static classes. Those days are gone.</p>
 

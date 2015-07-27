@@ -4,7 +4,7 @@
   <title><![CDATA[Category: doctrine | Matthieu Napoli]]></title>
   <link href="http://mnapoli.fr/categories/doctrine/atom.xml" rel="self"/>
   <link href="http://mnapoli.fr/"/>
-  <updated>2015-04-12T14:22:10+12:00</updated>
+  <updated>2015-07-27T16:21:38+02:00</updated>
   <id>http://mnapoli.fr/</id>
   <author>
     <name><![CDATA[Matthieu Napoli]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[The Collection interface and Database abstraction]]></title>
     <link href="http://mnapoli.fr/collection-interface-and-database-abstraction/"/>
-    <updated>2014-03-27T18:00:00+13:00</updated>
+    <updated>2014-03-27T18:00:00+01:00</updated>
     <id>http://mnapoli.fr/collection-interface-and-database-abstraction</id>
     <content type="html"><![CDATA[<p>This article logically follows the previous: <a href="/repository-interface/">The Repository interface</a>. In there I suggested a better interface for repositories based on a Collection interface so that repositories could be manipulated like collections.</p>
 
@@ -285,7 +285,7 @@ I&rsquo;ll let you make your own mind :)</p>
   <entry>
     <title type="html"><![CDATA[The Repository interface]]></title>
     <link href="http://mnapoli.fr/repository-interface/"/>
-    <updated>2014-03-10T18:00:00+13:00</updated>
+    <updated>2014-03-10T18:00:00+01:00</updated>
     <id>http://mnapoli.fr/repository-interface</id>
     <content type="html"><![CDATA[<p>Here is the definition of a repository for Eric Evans in his
 <a href="http://books.google.fr/books/about/Domain_driven_Design.html?id=7dlaMs0SECsC&amp;redir_esc=y">Domain Driven Design</a> book:</p>
@@ -441,7 +441,7 @@ Thank you dependency injection!</p>
   <entry>
     <title type="html"><![CDATA[Doctrine schema validation in a PHPUnit test]]></title>
     <link href="http://mnapoli.fr/doctrine-schema-validation-in-a-phpunit-test/"/>
-    <updated>2012-12-10T20:00:00+13:00</updated>
+    <updated>2012-12-10T20:00:00+01:00</updated>
     <id>http://mnapoli.fr/doctrine-schema-validation-in-a-phpunit-test</id>
     <content type="html"><![CDATA[<p>Doctrine offers a <a href="http://docs.doctrine-project.org/projects/doctrine-orm/en/latest/reference/tools.html#runtime-vs-development-mapping-validation">command line option to validate the schema</a> (or mapping):</p>
 
@@ -467,7 +467,7 @@ Thank you dependency injection!</p>
   <entry>
     <title type="html"><![CDATA[Doctrine 2 YAML reference]]></title>
     <link href="http://mnapoli.fr/doctrine-2-yaml-reference/"/>
-    <updated>2012-10-05T20:00:00+13:00</updated>
+    <updated>2012-10-05T20:00:00+02:00</updated>
     <id>http://mnapoli.fr/doctrine-2-yaml-reference</id>
     <content type="html"><![CDATA[<p>If you are working with Doctrine 2 and its YAML configuration files for the object mapping, you may find the documentation lacking some details.</p>
 

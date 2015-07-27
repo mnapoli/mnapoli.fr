@@ -4,7 +4,7 @@
   <title><![CDATA[Category: container-interop | Matthieu Napoli]]></title>
   <link href="http://mnapoli.fr/categories/container-interop/atom.xml" rel="self"/>
   <link href="http://mnapoli.fr/"/>
-  <updated>2015-04-12T14:22:10+12:00</updated>
+  <updated>2015-07-27T16:21:38+02:00</updated>
   <id>http://mnapoli.fr/</id>
   <author>
     <name><![CDATA[Matthieu Napoli]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Silly CLI 1.1 comes with dependency injection]]></title>
     <link href="http://mnapoli.fr/silly-cli/"/>
-    <updated>2015-04-12T18:00:00+12:00</updated>
+    <updated>2015-04-12T18:00:00+02:00</updated>
     <id>http://mnapoli.fr/silly-cli</id>
     <content type="html"><![CDATA[<p>I have just released <a href="http://mnapoli.fr/silly/">Silly CLI</a> 1.1 and I think it&rsquo;s awesome, here&rsquo;s why.</p>
 

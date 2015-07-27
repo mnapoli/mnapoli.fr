@@ -4,7 +4,7 @@
   <title><![CDATA[Category: ddd | Matthieu Napoli]]></title>
   <link href="http://mnapoli.fr/categories/ddd/atom.xml" rel="self"/>
   <link href="http://mnapoli.fr/"/>
-  <updated>2015-04-12T14:22:10+12:00</updated>
+  <updated>2015-07-27T16:21:38+02:00</updated>
   <id>http://mnapoli.fr/</id>
   <author>
     <name><![CDATA[Matthieu Napoli]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[The Repository interface]]></title>
     <link href="http://mnapoli.fr/repository-interface/"/>
-    <updated>2014-03-10T18:00:00+13:00</updated>
+    <updated>2014-03-10T18:00:00+01:00</updated>
     <id>http://mnapoli.fr/repository-interface</id>
     <content type="html"><![CDATA[<p>Here is the definition of a repository for Eric Evans in his
 <a href="http://books.google.fr/books/about/Domain_driven_Design.html?id=7dlaMs0SECsC&amp;redir_esc=y">Domain Driven Design</a> book:</p>
@@ -172,7 +172,7 @@ Thank you dependency injection!</p>
   <entry>
     <title type="html"><![CDATA[Friend services?]]></title>
     <link href="http://mnapoli.fr/friend-services/"/>
-    <updated>2013-08-09T17:03:00+12:00</updated>
+    <updated>2013-08-09T17:03:00+02:00</updated>
     <id>http://mnapoli.fr/friend-services</id>
     <content type="html"><![CDATA[<p>Using the Domain Driven Design methodology, I sometimes end up on such a situation: a behavior in a model class is complex and involving other classes. It’s time to put that behavior in a service (or a factory if the situation applies to a constructor).</p>
 
