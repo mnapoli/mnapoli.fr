@@ -223,7 +223,7 @@ Conclusion: **use docblocks only to add information.**
 
 ## The "Interface" suffix
 
-This is a topic that has [already](http://verraes.net/2013/09/sensible-interfaces/) [been](http://phpixie.com/blog/naming-interfaces-in-php/) [debated](https://groups.google.com/forum/#!topic/php-fig/aBUPKfTwyHo) (the first link is the best by the way) so let's get right to the point: **in most cases, there is no need to have `Interface` in the name of an interface**.
+This is a topic that has [already](http://verraes.net/2013/09/sensible-interfaces/) [been](http://phpixie.com/blog/naming-interfaces-in-php.html) [debated](https://groups.google.com/forum/#!topic/php-fig/aBUPKfTwyHo) (the first link is the best by the way) so let's get right to the point: **in most cases, there is no need to have `Interface` in the name of an interface**.
 
 Let's take that example:
 
