@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Working with mails in dev environment - Matthieu Napoli</title>
+  <title>What is wrong with Symfony Bundles - Matthieu Napoli</title>
   <meta name="author" content="Matthieu Napoli">
 
   
-  <meta name="description" content="Working with mails in dev environment Sep 23rd, 2013 If your application sends emails, you probably don&rsquo;t want emails to be sent when you are &hellip;">
+  <meta name="description" content="What is wrong with Symfony Bundles Jan 3rd, 2015 I want to start with a bit of a warning: I&rsquo;m a huge fan of Symfony and the whole ecosystem &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://mnapoli.fr/working-with-mails-in-dev-environment">
+  <link rel="canonical" href="http://mnapoli.fr/whats-wrong-with-symfony-bundles">
   <link href="/favicon.ico" rel="icon">
   <link href='http://fonts.googleapis.com/css?family=Quicksand:300,400' rel='stylesheet' type='text/css'>
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
@@ -109,7 +109,7 @@
 
   <header>
   <div class="jumbotron">
-    Working with mails in dev environment
+    What is wrong with Symfony Bundles
 	<h5>
 
 
@@ -122,61 +122,42 @@
   
 
 
-<i class="icon-calendar-empty"></i> <time datetime="2013-09-23T16:32:00+02:00" pubdate data-updated="true">Sep 23<span>rd</span>, 2013</time></h5>
+<i class="icon-calendar-empty"></i> <time datetime="2015-01-03T18:00:00+01:00" pubdate data-updated="true">Jan 3<span>rd</span>, 2015</time></h5>
   </div>
 </header>
   <div class="row-fluid">
     <div class="span12">
-      <p>If your application sends emails, you probably don&rsquo;t want emails to be sent when you are developing on your machine.</p>
+      <p><em>I want to start with a bit of a warning: I&rsquo;m a huge fan of Symfony and the whole ecosystem around it. This article is meant as constructive criticism and hopefully to open a discussion.</em></p>
 
-<p>If you use nice libraries like <a href="http://swiftmailer.org/">SwiftMailer</a>, it is easy to use a mock instead of sending real emails.
-But if you don&rsquo;t, you can act on PHP&rsquo;s configuration: instead of installing and using a real SMTP server on your machine, you can fake one using a simple script.</p>
+<p>That being said, is there something wrong with Symfony Bundles? I mean the open source-reusable ones. <a href="http://knpbundles.com/">KnpBundles</a> references 2500 bundles as of today: that&rsquo;s huge! When I look at them, I tend to categorize them in 3 categories:</p>
+
+<ul>
+<li><p><strong>application modules</strong></p>
+
+<p>  For example <em>FOSUserBundle</em>, <em>SonataAdminBundle</em>, … By &ldquo;application modules&rdquo;, I mean those bundles come with model classes, or controller and views, and they provide end-user features.</p></li>
+<li><p><strong>framework extensions/helpers</strong></p>
+
+<p>  For example <em>FOSRestBundle</em>, <em>FOSJsRoutingBundle</em>, <em>SensioGeneratorBundle</em>, …</p></li>
+<li><p><strong>library integrations</strong></p>
+
+<p>  For example <em>MonologBundle</em>, <em>StofDoctrineExtensionsBundle</em>, <em>LiipImagineBundle</em>, <em>KnpMenuBundle</em>, …</p></li>
+</ul>
+
+
+<p>Of course, those categories sometimes overlap, and there are always exceptions. But they are usually a good indicator of the intent of the bundle: provide application features, provide tools for working with Symfony or integrate a 3rd party library.</p>
+
+<p>And my problem is with the last category: <strong>bundles integrating libraries</strong>.</p>
 
 <!--more-->
 
 
-<p>The fake server will be a shell script: create it as <code>/usr/local/bin/sendmail-fake</code>:</p>
+<h2>Bundles integrating 3rd party libraries</h2>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="c">#!/bin/bash</span>
-</span><span class='line'><span class="o">{</span>
-</span><span class='line'>date
-</span><span class='line'><span class="nb">echo</span> <span class="nv">$@</span>
-</span><span class='line'>cat
-</span><span class='line'><span class="o">}</span> &gt;&gt; /var/log/sendmail-fake.log
-</span></code></pre></td></tr></table></div></figure>
+<p>There are 2500 bundles on <a href="http://knpbundles.com/">KnpBundles</a> and I estimated roughly <strong>40% of them are &ldquo;integration bundles&rdquo;</strong> (I spotted 39 of them in the first 10 pages).</p>
 
+<p>Just as an example, there are <a href="http://knpbundles.com/search?q=gearman">9 bundles</a> for integrating Gearman, <a href="http://knpbundles.com/search?q=cache">47 bundles</a> for using caches and <a href="http://knpbundles.com/search?q=markdown">9 bundles</a> for using Markdown libraries!</p>
 
-<p>Set up file permissions and check that it works:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='sh'><span class='line'><span class="nv">$ </span>sudo chmod +x /usr/local/bin/sendmail-fake
-</span><span class='line'><span class="nv">$ </span>sudo chmod 777 /var/log/sendmail-fake.log
-</span><span class='line'><span class="nv">$ </span>/usr/local/bin/sendmail-fake
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Now configure PHP to use it in the <code>php.ini</code>:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='ini'><span class='line'><span class="na">sendmail_path</span> <span class="o">=</span> <span class="s">/usr/local/bin/sendmail-fake</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>(and restart Apache)</p>
-
-<p><strong>That&rsquo;s it!</strong></p>
-
-<p>You can also see the emails content in <code>/var/log/sendmail-fake.log</code>.</p>
-
-<p>You could even go further and edit the script to open the content of the mail into a text editor, or a browser. But that would be OS dependent, so I kept with the log file here.</p>
+<p>Why 9 bundles for rendering Markdown? Actually, <strong>why do I need a bundle at all?</strong></p>
 
     </div>
   </div>
@@ -195,7 +176,11 @@ But if you don&rsquo;t, you can act on PHP&rsquo;s configuration: instead of ins
 
 
 
+  <a href="/categories/open-source/"><span class="badge">open-source</span></a>
+
   <a href="/categories/php/"><span class="badge">php</span></a>
+
+  <a href="/categories/symfony/"><span class="badge">symfony</span></a>
 
 
 
@@ -225,10 +210,10 @@ But if you don&rsquo;t, you can act on PHP&rsquo;s configuration: instead of ins
       <div class="span12">
         <p class="meta">
           
-            <a class="basic-alignment left" href="/using-metamodel-and-metaconsole-to-debug-your-application/" title="Previous Post: Using MetaModel and MetaConsole to debug your application">&laquo; Using MetaModel and MetaConsole to debug your application</a>
+            <a class="basic-alignment left" href="/test-lowest-dependencies/" title="Previous Post: Test against the lowest Composer dependencies on Travis">&laquo; Test against the lowest Composer dependencies on Travis</a>
           
           
-            <a class="basic-alignment right" href="/from-containerinterface-to-world-domination/" title="Next Post: From a ContainerInterface to world domination">From a ContainerInterface to world domination &raquo;</a>
+            <a class="basic-alignment right" href="/silly-cli/" title="Next Post: Silly CLI 1.1 comes with dependency injection">Silly CLI 1.1 comes with dependency injection &raquo;</a>
           
         </p>
       </div>
@@ -282,8 +267,8 @@ But if you don&rsquo;t, you can act on PHP&rsquo;s configuration: instead of ins
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://mnapoli.fr/working-with-mails-in-dev-environment/';
-        var disqus_url = 'http://mnapoli.fr/working-with-mails-in-dev-environment/';
+        var disqus_identifier = 'http://mnapoli.fr/whats-wrong-with-symfony-bundles/';
+        var disqus_url = 'http://mnapoli.fr/whats-wrong-with-symfony-bundles/';
         var disqus_script = 'embed.js';
       
     (function () {

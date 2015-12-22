@@ -4,7 +4,7 @@
   <title><![CDATA[Category: best-practices | Matthieu Napoli]]></title>
   <link href="http://mnapoli.fr/categories/best-practices/atom.xml" rel="self"/>
   <link href="http://mnapoli.fr/"/>
-  <updated>2015-12-23T00:12:40+01:00</updated>
+  <updated>2015-12-23T00:14:59+01:00</updated>
   <id>http://mnapoli.fr/</id>
   <author>
     <name><![CDATA[Matthieu Napoli]]></name>
@@ -20,7 +20,7 @@
     <id>http://mnapoli.fr/approaching-coding-style-rationally</id>
     <content type="html"><![CDATA[<p>Let&rsquo;s talk about how to format code and name things.</p>
 
-<p><img src="/images/posts/pitchforks.jpg" width="300"></p>
+<p>{% img /images/posts/pitchforks.jpg 300 %}</p>
 
 <p>I remember when PSR-1 and PSR-2 became a thing. Jeez that &ldquo;use only spaces&rdquo; thing was just ridiculous, I <em>knew</em> that tabs where better (right?). And those crazy formatting rules were the opposite of what I was used to. Nonsense! One day I did the jump and after a few weeks, I just didn&rsquo;t care anymore. I was over it, just like everyone else did, and <a href="http://www.php-fig.org/psr/psr-2/">PSR-2</a> was my new religion.</p>
 
@@ -613,7 +613,7 @@ run(new stdClass);
 
 <p>Well that’s true. That’s called <strong>Technical Debt</strong>. And like any debt, you’ll have to repay later.</p>
 
-<p><img src="/images/posts/technical-debt.png" width="400"></p>
+<p>{% img /images/posts/technical-debt.png 400 %}</p>
 
 <!-- more -->
 

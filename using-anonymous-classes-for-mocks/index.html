@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Test against the lowest Composer dependencies on Travis - Matthieu Napoli</title>
+  <title>Using anonymous classes for mocks - Matthieu Napoli</title>
   <meta name="author" content="Matthieu Napoli">
 
   
-  <meta name="description" content="Test against the lowest Composer dependencies on Travis Dec 17th, 2014 Composer just got a new awesome addition thanks to Nicolas Grekas: prefer the &hellip;">
+  <meta name="description" content="Using anonymous classes for mocks Dec 7th, 2015 PHP 7 was released last week and it ships with an awesome feature: anonymous classes. Just like &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://mnapoli.fr/test-lowest-dependencies">
+  <link rel="canonical" href="http://mnapoli.fr/using-anonymous-classes-for-mocks">
   <link href="/favicon.ico" rel="icon">
   <link href='http://fonts.googleapis.com/css?family=Quicksand:300,400' rel='stylesheet' type='text/css'>
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
@@ -109,7 +109,7 @@
 
   <header>
   <div class="jumbotron">
-    Test against the lowest Composer dependencies on Travis
+    Using anonymous classes for mocks
 	<h5>
 
 
@@ -122,57 +122,34 @@
   
 
 
-<i class="icon-calendar-empty"></i> <time datetime="2014-12-17T18:00:00+01:00" pubdate data-updated="true">Dec 17<span>th</span>, 2014</time></h5>
+<i class="icon-calendar-empty"></i> <time datetime="2015-12-07T18:00:00+01:00" pubdate data-updated="true">Dec 7<span>th</span>, 2015</time></h5>
   </div>
 </header>
   <div class="row-fluid">
     <div class="span12">
-      <p>Composer just got a <a href="https://github.com/composer/composer/pull/3450">new awesome addition</a> thanks to <a href="https://twitter.com/nicolasgrekas">Nicolas Grekas</a>: prefer the lowest versions of your dependencies.</p>
+      <p>PHP 7 was released last week and it ships with an awesome feature: <strong>anonymous classes</strong>. Just like <em>anonymous functions</em>, that allows to define a class on the fly, without naming it.</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>composer update --prefer-lowest</span></code></pre></td></tr></table></div></figure>
-
-
-<p>This amazing option will install the lowest versions possible for all your dependencies.</p>
-
-<p>What for? <strong>Tests</strong> of course!</p>
+<p>When I see this feature being discussed, I&rsquo;m always surprised to see people ignoring one major use case for it: <strong>writing mocks in tests</strong>.</p>
 
 <!--more-->
 
 
-<h2>Update Composer</h2>
+<h2>Example</h2>
 
-<p>OK before we get started, don&rsquo;t forget to update Composer right now if you want to use the new option:</p>
+<p>Imagine you have the following interface:</p>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo composer self-update</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>Testing against lowest dependencies</h2>
-
-<p>It might not make a lot of sense to test an <strong>application</strong> against its lowest dependencies, because unless something is done wrong it will be installed with controlled versions.</p>
-
-<p>However, for <strong>libraries</strong> (or <em>components</em>…) it&rsquo;s a very good thing.</p>
-
-<p>To give you an example, I wanted to give it a try and ran <code>composer update --prefer-lowest</code> in <a href="http://php-di.org">PHP-DI</a>&rsquo;s directory: all hell broke loose… PHPUnit wouldn&rsquo;t even start.</p>
-
-<p>The reason for this were multiples, but they all boiled down to:</p>
-
-<ul>
-<li>I used a feature that didn&rsquo;t yet exist in version X of dependency Y</li>
-<li>or dependency Y had a bug in version X</li>
-</ul>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">interface</span> <span class="nx">UrlGenerator</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">public</span> <span class="k">function</span> <span class="nf">generateUrl</span><span class="p">(</span><span class="nv">$route</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
 
-<p><strong>and I allowed installing that problematic version X in <code>composer.json</code></strong>.</p>
-
-<p>In the end, I was distributing a library that <em>could</em> not work at all (if people had insane version constraints).</p>
-
-<h2>Setting up tests on Travis</h2>
-
-<p>Let&rsquo;s be proactive and use continuous integration to prevent that from happening again.</p>
-
-<p>Here is an example of a <code>.travis.yml</code> configuration that would run the tests using the lowest dependencies with PHP 5.3.3:</p>
+<p>If you are testing a class that depends on a <code>UrlGenerator</code> implementation, you can write an anonymous class to implement this on the fly:</p>
 
 <figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
@@ -190,46 +167,57 @@
 <span class='line-number'>14</span>
 <span class='line-number'>15</span>
 <span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-</pre></td><td class='code'><pre><code class='yaml'><span class='line'><span class="l-Scalar-Plain">language</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">php</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">class</span> <span class="nc">FooTest</span> <span class="k">extends</span> <span class="nx">\PHPUnit_Framework_TestCase</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">public</span> <span class="k">function</span> <span class="nf">test</span><span class="p">()</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="nv">$urlGenerator</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">class</span><span class="p">()</span> <span class="k">implements</span> <span class="nx">UrlGenerator</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">public</span> <span class="k">function</span> <span class="nf">generateUrl</span><span class="p">(</span><span class="nv">$route</span><span class="p">)</span>
+</span><span class='line'>            <span class="p">{</span>
+</span><span class='line'>                <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">};</span>
 </span><span class='line'>
-</span><span class='line'><span class="l-Scalar-Plain">php</span><span class="p-Indicator">:</span>
-</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">5.3.3</span>
-</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">5.3</span>
-</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">5.4</span>
-</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">5.5</span>
-</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">5.6</span>
-</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">hhvm</span>
+</span><span class='line'>        <span class="nv">$foo</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Foo</span><span class="p">(</span><span class="nv">$urlGenerator</span><span class="p">);</span>
 </span><span class='line'>
-</span><span class='line'><span class="l-Scalar-Plain">matrix</span><span class="p-Indicator">:</span>
-</span><span class='line'>  <span class="l-Scalar-Plain">include</span><span class="p-Indicator">:</span>
-</span><span class='line'>    <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">php</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">5.3.3</span>
-</span><span class='line'>      <span class="l-Scalar-Plain">env</span><span class="p-Indicator">:</span> <span class="l-Scalar-Plain">dependencies=lowest</span>
-</span><span class='line'>
-</span><span class='line'><span class="l-Scalar-Plain">before_script</span><span class="p-Indicator">:</span>
-</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">composer self-update</span>
-</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">composer install -n</span>
-</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">if [ &quot;$dependencies&quot; = &quot;lowest&quot; ]; then composer update --prefer-lowest --prefer-stable -n; fi;</span>
-</span><span class='line'>
-</span><span class='line'><span class="l-Scalar-Plain">script</span><span class="p-Indicator">:</span>
-</span><span class='line'>  <span class="p-Indicator">-</span> <span class="l-Scalar-Plain">phpunit</span>
+</span><span class='line'>        <span class="c1">// ...</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>You&rsquo;ll notice that we have to run <code>composer self-update</code> because Travis hasn&rsquo;t picked up the latest Composer version yet.</p>
+<p>In the example above we have written a very dumb implementation. That&rsquo;s often useful when the mock will not be used or its behavior isn&rsquo;t important for the use case we are testing.</p>
 
-<p>Here was the result on Travis:</p>
+<p>If we wanted to <em>spy</em> on its invocations, it&rsquo;s just as trivial:</p>
 
-<p><img src="/images/posts/composer-lowest-dependencies.png"></p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">public</span> <span class="k">function</span> <span class="nf">test</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="nv">$urlGenerator</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">class</span><span class="p">()</span> <span class="k">implements</span> <span class="nx">UrlGenerator</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">public</span> <span class="k">function</span> <span class="nf">generateUrl</span><span class="p">(</span><span class="nv">$route</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nv">$foo</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Foo</span><span class="p">(</span><span class="nv">$urlGenerator</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// ...</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
 
-<p>A new job was added to the build matrix, and this job ran on PHP 5.3.3 with the lowest dependency versions.</p>
-
-<p>If you are interested, have a look at <a href="https://github.com/mnapoli/PHP-DI/pull/219">the pull request</a>.</p>
 
     </div>
   </div>
@@ -248,13 +236,7 @@
 
 
 
-  <a href="/categories/composer/"><span class="badge">composer</span></a>
-
-  <a href="/categories/continuous-integration/"><span class="badge">continuous-integration</span></a>
-
-  <a href="/categories/open-source/"><span class="badge">open-source</span></a>
-
-  <a href="/categories/tests/"><span class="badge">tests</span></a>
+  <a href="/categories/php/"><span class="badge">php</span></a>
 
 
 
@@ -284,10 +266,8 @@
       <div class="span12">
         <p class="meta">
           
-            <a class="basic-alignment left" href="/decoupling-packages/" title="Previous Post: Decoupling packages">&laquo; Decoupling packages</a>
+            <a class="basic-alignment left" href="/approaching-coding-style-rationally/" title="Previous Post: Approaching coding style rationally">&laquo; Approaching coding style rationally</a>
           
-          
-            <a class="basic-alignment right" href="/whats-wrong-with-symfony-bundles/" title="Next Post: What is wrong with Symfony Bundles">What is wrong with Symfony Bundles &raquo;</a>
           
         </p>
       </div>
@@ -341,8 +321,8 @@
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://mnapoli.fr/test-lowest-dependencies/';
-        var disqus_url = 'http://mnapoli.fr/test-lowest-dependencies/';
+        var disqus_identifier = 'http://mnapoli.fr/using-anonymous-classes-for-mocks/';
+        var disqus_url = 'http://mnapoli.fr/using-anonymous-classes-for-mocks/';
         var disqus_script = 'embed.js';
       
     (function () {
