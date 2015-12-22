@@ -23,3 +23,8 @@ h2 {
     font-size: 30px;
     margin: 20px 0;
 }
+
+.jumbotron {
+    font-size: 40px;
+    line-height: 50px;
+}
