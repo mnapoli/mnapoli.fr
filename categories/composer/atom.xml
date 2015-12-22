@@ -4,7 +4,7 @@
   <title><![CDATA[Category: composer | Matthieu Napoli]]></title>
   <link href="http://mnapoli.fr/categories/composer/atom.xml" rel="self"/>
   <link href="http://mnapoli.fr/"/>
-  <updated>2015-12-23T00:14:59+01:00</updated>
+  <updated>2015-12-23T00:28:50+01:00</updated>
   <id>http://mnapoli.fr/</id>
   <author>
     <name><![CDATA[Matthieu Napoli]]></name>
@@ -96,7 +96,7 @@ language: php</p>
 
 <p>Here was the result on Travis:</p>
 
-<p>{% img /images/posts/composer-lowest-dependencies.png %}</p>
+<p><img src="/images/posts/composer-lowest-dependencies.png"></p>
 
 <p>A new job was added to the build matrix, and this job ran on PHP 5.3.3 with the lowest dependency versions.</p>
 

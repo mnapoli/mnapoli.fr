@@ -4,7 +4,7 @@
   <title><![CDATA[Category: dependency-injection | Matthieu Napoli]]></title>
   <link href="http://mnapoli.fr/categories/dependency-injection/atom.xml" rel="self"/>
   <link href="http://mnapoli.fr/"/>
-  <updated>2015-12-23T00:14:59+01:00</updated>
+  <updated>2015-12-23T00:28:50+01:00</updated>
   <id>http://mnapoli.fr/</id>
   <author>
     <name><![CDATA[Matthieu Napoli]]></name>
@@ -12,104 +12,6 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
-  
-  <entry>
-    <title type="html"><![CDATA[From a ContainerInterface to world domination]]></title>
-    <link href="http://mnapoli.fr/from-containerinterface-to-world-domination/"/>
-    <updated>2014-01-14T18:00:00+01:00</updated>
-    <id>http://mnapoli.fr/from-containerinterface-to-world-domination</id>
-    <content type="html"><![CDATA[<p>Ready for a stretch? This is an idea about dependency injection containers and an evil plan for world domination.
-Well, maybe not world domination, but crazy <strong>framework interoperability</strong> allowing one to <strong>use several frameworks in the same application</strong>.</p>
-
-<!--more-->
-
-
-<h2>ContainerInterface</h2>
-
-<p>What I mean by <code>ContainerInterface</code> is a PHP interface that has been discussed here and there (PHP-FIG, Acclimate, PHP-DI, Mouf …) and that, after months of discussions and collective effort, has been standardized very recently thanks to the <a href="https://github.com/container-interop/container-interop">Container Interop</a> project.</p>
-
-<p>```php
-interface ContainerInterface
-{</p>
-
-<pre><code>public function get($identifier);
-public function has($identifier);
-</code></pre>
-
-<p>}
-```</p>
-
-<p>This interface <em>tries</em> to standardize the basic usage of a dependency injection container, or at least the usage made by a framework: reading entries from the container.</p>
-
-<p>But what I also mean by <code>ContainerInterface</code> is what it represents: <strong>the basis for dependency injection containers interoperability</strong>.</p>
-
-<p>Such an interface (or other derived interfaces) could allow to replace Framework A&rsquo;s container by another container. It could also allow to chain containers together, so that instead of replacing the framework&rsquo;s container, you could use 2, 3 or more containers at the same time.</p>
-
-<h2>Why container interoperability?</h2>
-
-<p>So, why should anyone care about <code>ContainerInterface</code> and all those abstract ideas?</p>
-
-<h3>Choose your container</h3>
-
-<p>The most obvious answer is simply that it let&rsquo;s you use <em>any</em> container. Just like <a href="https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-3-logger-interface.md">PSR-3</a> allowed you to choose your own logger, such an interface would allow you to look at all containers and choose the own you want based on their features.</p>
-
-<p>And given containers are used both ways (set entries &amp; read entries), and that only the &ldquo;reading&rdquo; part needs standardization for interoperability (as meant by the previous section), that allows a lot of liberty on the &ldquo;set entries&rdquo; part.</p>
-
-<p>For example, Symfony&rsquo;s container uses a YAML file to define services, whereas it&rsquo;s plain PHP for Zend Framework&rsquo;s container. PHP-DI allows configuration files, but also proposes autowiring and annotations. So there&rsquo;s choice.</p>
-
-<h3>Portable configurations</h3>
-
-<p>Allowing one to use <em>any</em> container in <em>any</em> framework is a very cool idea.</p>
-
-<p>But the coolest thing IMO is most certainly that you can write <em>portable</em> configurations. Maybe the term is not right, but what I mean is that the container configuration you wrote for your Symfony app is also readable by your ZF app.</p>
-
-<h2>The container at the center of your application</h2>
-
-<p>The thing is that your container configuration is actually your application configuration. Configuring your logger, you DB layer, your email services, your domain services, … All of this can be done through a container.</p>
-
-<p>And the day you want to use Laravel instead of ZF, you may still want to use the same logger, the same DB layer, the same email services and you would still want to have your domain services configured. Having to rewrite all that configuration is a pain, and it doesn&rsquo;t make sense.</p>
-
-<p>This is how your application should look:</p>
-
-<p>{% img center /images/posts/application-structure.png %}</p>
-
-<p>The left part is coupled to the framework, which is obvious. The right part shouldn&rsquo;t.
-It should use dependency injection and interfaces to abstract away from the components you use (ORM, loggers, mailers, …).
-The container is here to bind everything together, and make all this available in the controllers.</p>
-
-<p>So your container and</p>
-
-<h2>Bundles are cool, interoperability is cooler</h2>
-
-<p>Symfony offers the concept of <em>bundles</em>, which is basically a way to distribute an application module (admin back-end, user login/logout pages, …). You can then integrate this module to your application in a few seconds. And this is awesome.</p>
-
-<p>But I find it too bad that to take advantage of these bundles, you have to write you application using Symfony. Same if you want to write bundles: you have to use Symfony.</p>
-
-<p>Wouldn&rsquo;t it be great if anybody could write application modules in their framework of choice, and have them usable with any other framework? The &ldquo;bundle&rdquo; or module would only have its routing/controller layer coupled with the underlying framework. It could provide framework-agnostic models or services for you to use in your other modules.</p>
-
-<p>To make these models and services available throughout the application, the module would come with its container and its configuration. The module&rsquo;s container could be chained to the application&rsquo;s container for example (and we are back on container interoperability).</p>
-
-<h2>World domination</h2>
-
-<p>So, to conclude, what do I mean by <em>world domination</em>? Of course, not actual world domination, but some sort of holy grail of a state where:</p>
-
-<blockquote><p>you can divide your application in modules using different frameworks</p></blockquote>
-
-<p>That&rsquo;s extremely seducing:</p>
-
-<ul>
-<li>different teams could write different modules with their own preferred technologies. For example, a micro-framework for the front-end, a full-stack framework for the backend</li>
-<li>in the same vein, you could integrate in one application modules developed by different teams/companies (outsourcing?) that used different frameworks</li>
-<li>you could upgrade/migrate to another framework bit by bit instead of rewriting your application in one big step (or instead of never doing it because it&rsquo;s too much work)</li>
-<li>you could write/use small independent modules like Symfony&rsquo;s bundles, except that you wouldn&rsquo;t have to use Symfony to use them</li>
-</ul>
-
-
-<p>For this to work, you would have to have an entry point that dispatches a request to the correct framework (this sounds like a router). Something like this could be done using <a href="http://stackphp.com/">Stack</a> and a &ldquo;router&rdquo; middleware for example.</p>
-
-<p>{% img /images/posts/container-interop.png %}</p>
-]]></content>
-  </entry>
   
   <entry>
     <title type="html"><![CDATA[Controllers as services?]]></title>

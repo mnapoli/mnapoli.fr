@@ -4,7 +4,7 @@
   <title><![CDATA[Category: doctrine | Matthieu Napoli]]></title>
   <link href="http://mnapoli.fr/categories/doctrine/atom.xml" rel="self"/>
   <link href="http://mnapoli.fr/"/>
-  <updated>2015-12-23T00:14:59+01:00</updated>
+  <updated>2015-12-23T00:28:50+01:00</updated>
   <id>http://mnapoli.fr/</id>
   <author>
     <name><![CDATA[Matthieu Napoli]]></name>
@@ -458,7 +458,9 @@ Thank you dependency injection!</p>
 
 <p>So here is my implementation of a PHPUnit test failing when Doctrine validation find errors:</p>
 
-<p>{% gist 4249675 %}</p>
+<p><div><script src='https://gist.github.com/4249675.js'></script>
+<noscript><pre><code></code></pre></noscript></div>
+</p>
 ]]></content>
   </entry>
   
@@ -474,7 +476,9 @@ Thank you dependency injection!</p>
 <!-- more -->
 
 
-<p>{% gist 3839501 %}</p>
+<p><div><script src='https://gist.github.com/3839501.js'></script>
+<noscript><pre><code></code></pre></noscript></div>
+</p>
 
 <p>It is based on <a href="http://blog.hio.fr/2011/09/17/doctrine2-yaml-mapping-example.html">this blog article</a>, completed, and turned into a git repository (thanks to github), so anyone can fork it and improve it.</p>
 ]]></content>

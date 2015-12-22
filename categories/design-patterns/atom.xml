@@ -4,7 +4,7 @@
   <title><![CDATA[Category: design-patterns | Matthieu Napoli]]></title>
   <link href="http://mnapoli.fr/categories/design-patterns/atom.xml" rel="self"/>
   <link href="http://mnapoli.fr/"/>
-  <updated>2015-12-23T00:14:59+01:00</updated>
+  <updated>2015-12-23T00:28:50+01:00</updated>
   <id>http://mnapoli.fr/</id>
   <author>
     <name><![CDATA[Matthieu Napoli]]></name>
@@ -37,7 +37,9 @@
 
 <p>There is nothing revolutionary about it, see for yourself:</p>
 
-<p>{% gist 5221664 %}</p>
+<p><div><script src='https://gist.github.com/5221664.js'></script>
+<noscript><pre><code></code></pre></noscript></div>
+</p>
 
 <p>Of course, this is a pattern that has to be used where it makes sense. Singletons, as cool as they can be, will never do better than dependency injection.</p>
 
