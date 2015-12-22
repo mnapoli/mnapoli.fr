@@ -4,7 +4,7 @@
   <title><![CDATA[Matthieu Napoli]]></title>
   <link href="http://mnapoli.fr/atom.xml" rel="self"/>
   <link href="http://mnapoli.fr/"/>
-  <updated>2015-11-12T22:32:00+01:00</updated>
+  <updated>2015-12-22T18:26:22+01:00</updated>
   <id>http://mnapoli.fr/</id>
   <author>
     <name><![CDATA[Matthieu Napoli]]></name>
@@ -12,6 +12,105 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Using anonymous classes for mocks]]></title>
+    <link href="http://mnapoli.fr/using-anonymous-classes-for-mocks/"/>
+    <updated>2015-12-07T18:00:00+01:00</updated>
+    <id>http://mnapoli.fr/using-anonymous-classes-for-mocks</id>
+    <content type="html"><![CDATA[<p>PHP 7 was released last week and it ships with an awesome feature: <strong>anonymous classes</strong>. Just like <em>anonymous functions</em>, that allows to define a class on the fly, without naming it.</p>
+
+<p>When I see this feature being discussed, I&rsquo;m always surprised to see people ignoring one major use case for it: <strong>writing mocks in tests</strong>.</p>
+
+<!--more-->
+
+
+<h2>Example</h2>
+
+<p>Imagine you have the following interface:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">interface</span> <span class="nx">UrlGenerator</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">public</span> <span class="k">function</span> <span class="nf">generateUrl</span><span class="p">(</span><span class="nv">$route</span><span class="p">);</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you are testing a class that depends on a <code>UrlGenerator</code> implementation, you can write an anonymous class to implement this on the fly:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">class</span> <span class="nc">FooTest</span> <span class="k">extends</span> <span class="nx">\PHPUnit_Framework_TestCase</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="k">public</span> <span class="k">function</span> <span class="nf">test</span><span class="p">()</span>
+</span><span class='line'>    <span class="p">{</span>
+</span><span class='line'>        <span class="nv">$urlGenerator</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">class</span><span class="p">()</span> <span class="k">implements</span> <span class="nx">UrlGenerator</span> <span class="p">{</span>
+</span><span class='line'>            <span class="k">public</span> <span class="k">function</span> <span class="nf">generateUrl</span><span class="p">(</span><span class="nv">$route</span><span class="p">)</span>
+</span><span class='line'>            <span class="p">{</span>
+</span><span class='line'>                <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+</span><span class='line'>            <span class="p">}</span>
+</span><span class='line'>        <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="nv">$foo</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Foo</span><span class="p">(</span><span class="nv">$urlGenerator</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>        <span class="c1">// ...</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>In the example above we have written a very dumb implementation. That&rsquo;s often useful when the mock will not be used or its behavior isn&rsquo;t important for the use case we are testing.</p>
+
+<p>If we wanted to <em>spy</em> on its invocations, it&rsquo;s just as trivial:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='php'><span class='line'><span class="k">public</span> <span class="k">function</span> <span class="nf">test</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>    <span class="nv">$urlGenerator</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">class</span><span class="p">()</span> <span class="k">implements</span> <span class="nx">UrlGenerator</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">public</span> <span class="k">function</span> <span class="nf">generateUrl</span><span class="p">(</span><span class="nv">$route</span><span class="p">)</span>
+</span><span class='line'>        <span class="p">{</span>
+</span><span class='line'>            <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">}</span>
+</span><span class='line'>    <span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nv">$foo</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Foo</span><span class="p">(</span><span class="nv">$urlGenerator</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="c1">// ...</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Approaching coding style rationally]]></title>
@@ -332,7 +431,7 @@
 
 <h2>The &ldquo;Interface&rdquo; suffix</h2>
 
-<p>This is a topic that has <a href="http://verraes.net/2013/09/sensible-interfaces/">already</a> <a href="http://phpixie.com/blog/naming-interfaces-in-php/">been</a> <a href="https://groups.google.com/forum/#!topic/php-fig/aBUPKfTwyHo">debated</a> (the first link is the best by the way) so let&rsquo;s get right to the point: <strong>in most cases, there is no need to have <code>Interface</code> in the name of an interface</strong>.</p>
+<p>This is a topic that has <a href="http://verraes.net/2013/09/sensible-interfaces/">already</a> <a href="http://phpixie.com/blog/naming-interfaces-in-php.html">been</a> <a href="https://groups.google.com/forum/#!topic/php-fig/aBUPKfTwyHo">debated</a> (the first link is the best by the way) so let&rsquo;s get right to the point: <strong>in most cases, there is no need to have <code>Interface</code> in the name of an interface</strong>.</p>
 
 <p>Let&rsquo;s take that example:</p>
 
@@ -2659,57 +2758,6 @@ But if you don&rsquo;t, you can act on PHP&rsquo;s configuration: instead of ins
 <p>For example one may use the singleton pattern for services: accessing them is practical, you can access them anywhere with the singleton pattern. I’ve seen codebases with this pattern.</p>
 
 <p>Now if I come on a codebase using the singleton for services, and if I can’t rewrite everything, I’ll turn the Singletons into “Optional Singletons” so that the existing code still work, and so that I can use Dependency Injection over those services in the new code that I’ll write.</p></blockquote>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[jQuery plugin: Confirm dialogs for HTML links and buttons]]></title>
-    <link href="http://mnapoli.fr/confirm-dialogs-for-html-links-and-buttons/"/>
-    <updated>2013-03-05T20:00:00+01:00</updated>
-    <id>http://mnapoli.fr/confirm-dialogs-for-html-links-and-buttons</id>
-    <content type="html"><![CDATA[<p>This is the first open source project created at my company, so I am quite proud of it even though it is not much.</p>
-
-<p>The name is <a href="http://myclabs.github.io/jquery.confirm/"><strong>jquery.confirm</strong></a>, which is pretty explicit. It lets you have confirmation dialogs for links or buttons. For example, <strong>&ldquo;Are you sure you want to delete that comment?&rdquo;</strong> kind of things.</p>
-
-<p>I am going to present its basic usage and options here.</p>
-
-<p>The idea is to write <a href="http://en.wikipedia.org/wiki/Unobtrusive_JavaScript">unobtrusive Javascript</a> by letting the user write clean HTML:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">&quot;home&quot;</span> <span class="na">class=</span><span class="s">&quot;confirm&quot;</span><span class="nt">&gt;</span>Go to home<span class="nt">&lt;/a&gt;</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>To enable confirmation on this link, simply:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.confirm&quot;</span><span class="p">).</span><span class="nx">confirm</span><span class="p">();</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-
-
-<!-- more -->
-
-
-<p>That will show a confirmation dialog each time the user clicks the link. If the user confirms, the plugin will then redirect him to the link.</p>
-
-<p>You can configure the texts and labels through the options. You can also change the actions that are executed when the user confirms (follow the link) or cancels (do nothing), so you can perform AJAX requests for example.</p>
-
-<p>One interesting option is to force the link to be called with a POST request instead of a GET:</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.confirm&quot;</span><span class="p">).</span><span class="nx">confirm</span><span class="p">({</span>
-</span><span class='line'>    <span class="nx">post</span><span class="o">:</span> <span class="kc">true</span>
-</span><span class='line'><span class="p">});</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>On your server-side code, you can check that the request is POST and refuse GET request. That can help prevent security issues like someone sending a link to delete someone else’s account for example: <a href="http://example.com/my-account/delete.">http://example.com/my-account/delete.</a> If you only accept POST request, people clicking on that link won’t see their account deleted (because the request would be a GET).</p>
-
-<p>If you want to learn more or try it, the website contains the <a href="http://myclabs.github.io/jquery.confirm/">official documentation and some demos</a>.</p>
 ]]></content>
   </entry>
   

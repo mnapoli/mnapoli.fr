@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PSR 0 to 12</title>
+    <meta charset="utf-8">
+    <style>
+        @import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+        @import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+        @import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+        body { font-family: 'Droid Serif'; }
+        h1, h2, h3 {
+            font-family: 'Yanone Kaffeesatz';
+            font-weight: normal;
+        }
+        .remark-code, .remark-inline-code {
+            font-family: 'Ubuntu Mono';
+        }
+        .remark-inline-code {
+            background: #f0f0f0;
+            padding: 2px;
+        }
+        img {
+            max-width: 100%;
+        }
+        .drama {
+            background-image: url("img/drama.png");
+            background-position: top right;
+        }
+    </style>
+</head>
+<body>
+    <script src="https://gnab.github.io/remark/downloads/remark-latest.min.js">
+    </script>
+    <script>
+        var slideshow = remark.create({
+            sourceUrl: 'source.md'
+        });
+    </script>
+</body>
+</html>

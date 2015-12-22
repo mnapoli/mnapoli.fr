@@ -4,7 +4,7 @@
   <title><![CDATA[Category: php | Matthieu Napoli]]></title>
   <link href="http://mnapoli.fr/categories/php/atom.xml" rel="self"/>
   <link href="http://mnapoli.fr/"/>
-  <updated>2015-11-12T22:32:00+01:00</updated>
+  <updated>2015-12-22T18:26:22+01:00</updated>
   <id>http://mnapoli.fr/</id>
   <author>
     <name><![CDATA[Matthieu Napoli]]></name>
@@ -12,6 +12,81 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Using anonymous classes for mocks]]></title>
+    <link href="http://mnapoli.fr/using-anonymous-classes-for-mocks/"/>
+    <updated>2015-12-07T18:00:00+01:00</updated>
+    <id>http://mnapoli.fr/using-anonymous-classes-for-mocks</id>
+    <content type="html"><![CDATA[<p>PHP 7 was released last week and it ships with an awesome feature: <strong>anonymous classes</strong>. Just like <em>anonymous functions</em>, that allows to define a class on the fly, without naming it.</p>
+
+<p>When I see this feature being discussed, I&rsquo;m always surprised to see people ignoring one major use case for it: <strong>writing mocks in tests</strong>.</p>
+
+<!--more-->
+
+
+<h2>Example</h2>
+
+<p>Imagine you have the following interface:</p>
+
+<p>```php
+interface UrlGenerator
+{</p>
+
+<pre><code>public function generateUrl($route);
+</code></pre>
+
+<p>}
+```</p>
+
+<p>If you are testing a class that depends on a <code>UrlGenerator</code> implementation, you can write an anonymous class to implement this on the fly:</p>
+
+<p>```php
+class FooTest extends \PHPUnit_Framework_TestCase
+{</p>
+
+<pre><code>public function test()
+{
+    $urlGenerator = new class() implements UrlGenerator {
+        public function generateUrl($route)
+        {
+            return '';
+        }
+    };
+
+    $foo = new Foo($urlGenerator);
+
+    // ...
+}
+</code></pre>
+
+<p>}
+```</p>
+
+<p>In the example above we have written a very dumb implementation. That&rsquo;s often useful when the mock will not be used or its behavior isn&rsquo;t important for the use case we are testing.</p>
+
+<p>If we wanted to <em>spy</em> on its invocations, it&rsquo;s just as trivial:</p>
+
+<p>```php</p>
+
+<pre><code>public function test()
+{
+    $urlGenerator = new class() implements UrlGenerator {
+        public function generateUrl($route)
+        {
+            return '';
+        }
+    };
+
+    $foo = new Foo($urlGenerator);
+
+    // ...
+}
+</code></pre>
+
+<p>```</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[The Collection interface and Database abstraction]]></title>
@@ -580,63 +655,6 @@ $entity = $entityManager-&gt;find('AF_Model_InputSet', 562);
 <p>On the other side, MetaConsole is still in development, and I hope to provide better integration with frameworks and a more enjoyable interface. If you are interested, you can try it (it&rsquo;s a development tool, so there&rsquo;s no risk since you shouldn&rsquo;t use it in production), and you can <a href="https://github.com/mnapoli/MetaConsole">improve it</a>.</p>
 
 <p>And also, ideas are welcome!</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Friend services?]]></title>
-    <link href="http://mnapoli.fr/friend-services/"/>
-    <updated>2013-08-09T17:03:00+02:00</updated>
-    <id>http://mnapoli.fr/friend-services</id>
-    <content type="html"><![CDATA[<p>Using the Domain Driven Design methodology, I sometimes end up on such a situation: a behavior in a model class is complex and involving other classes. It’s time to put that behavior in a service (or a factory if the situation applies to a constructor).</p>
-
-<p>The problem is that in my service, I am not in the context of the domain class. If I move <code>Foo::something()</code> into <code>FooService::something($foo)</code>, then <strong>I can’t access private properties of Foo</strong>, thus limiting me to the public API of Foo.</p>
-
-<p>Now I end up adding accessors, thus breaking encapsulation and complexifying everything where all I wanted was improving the code.</p>
-
-<p>VB.Net has a concept of “Friend” visibility, i.e. if A is friend with B, then A can access private properties of B (or something like that it’s been a long time :p). PHP doesn’t have such a concept natively, but here is a tryout to apply it with workarounds.</p>
-
-<!-- more -->
-
-
-<p><em>Disclaimer</em>: the code is not pretty and is not for production. This is just an idea thrown around.</p>
-
-<p>```php
-&lt;?php
-class Foo {</p>
-
-<pre><code>private $bar = 'hello world';
-</code></pre>
-
-<p>}</p>
-
-<p>class FriendOfFoo {</p>
-
-<pre><code>public function doSomething($foo) {
-    return function() use ($foo) {
-        echo $foo-&gt;bar;
-    };
-}
-</code></pre>
-
-<p>}</p>
-
-<p>$foo = new Foo();</p>
-
-<p>$service = new FriendOfFoo();</p>
-
-<p>$closure = $service->doSomething($foo)&ndash;>bindTo(null, $foo);</p>
-
-<p>$closure();
-```</p>
-
-<p>See it in action on <a href="http://3v4l.org/e9RNO">3v4l.org</a>.</p>
-
-<p>Here, FriendOfFoo is a service that has access to Foo’s private and protected properties.</p>
-
-<p>We achieve that by writing the methods of the service into closures. We can then <a href="http://php.net/manual/en/closure.bindto.php">bind those closures to the context of Foo</a>, and voilà!</p>
-
-<p>If you see a better way of achieving this, I am interested.</p>
 ]]></content>
   </entry>
   

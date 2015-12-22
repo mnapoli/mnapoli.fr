@@ -4,7 +4,7 @@
   <title><![CDATA[Category: best-practices | Matthieu Napoli]]></title>
   <link href="http://mnapoli.fr/categories/best-practices/atom.xml" rel="self"/>
   <link href="http://mnapoli.fr/"/>
-  <updated>2015-11-12T22:32:00+01:00</updated>
+  <updated>2015-12-22T18:26:22+01:00</updated>
   <id>http://mnapoli.fr/</id>
   <author>
     <name><![CDATA[Matthieu Napoli]]></name>
@@ -251,7 +251,7 @@ public function getName() : string;
 
 <h2>The &ldquo;Interface&rdquo; suffix</h2>
 
-<p>This is a topic that has <a href="http://verraes.net/2013/09/sensible-interfaces/">already</a> <a href="http://phpixie.com/blog/naming-interfaces-in-php/">been</a> <a href="https://groups.google.com/forum/#!topic/php-fig/aBUPKfTwyHo">debated</a> (the first link is the best by the way) so let&rsquo;s get right to the point: <strong>in most cases, there is no need to have <code>Interface</code> in the name of an interface</strong>.</p>
+<p>This is a topic that has <a href="http://verraes.net/2013/09/sensible-interfaces/">already</a> <a href="http://phpixie.com/blog/naming-interfaces-in-php.html">been</a> <a href="https://groups.google.com/forum/#!topic/php-fig/aBUPKfTwyHo">debated</a> (the first link is the best by the way) so let&rsquo;s get right to the point: <strong>in most cases, there is no need to have <code>Interface</code> in the name of an interface</strong>.</p>
 
 <p>Let&rsquo;s take that example:</p>
 
