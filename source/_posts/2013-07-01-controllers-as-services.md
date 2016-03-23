@@ -95,4 +95,4 @@ By the way, some Java developers may find this pattern of code familiar, it’s 
 
 > You are injecting services that may not be used
 
-[PHP-DI](http://mnapoli.github.io/PHP-DI/) and [Symfony DIC](http://symfony.com/doc/current/components/dependency_injection/index.html) both support lazy injection, i.e. injecting a proxy that will load the target service only when it is used.
+[PHP-DI](http://php-di.org/) and [Symfony DIC](http://symfony.com/doc/current/components/dependency_injection/index.html) both support lazy injection, i.e. injecting a proxy that will load the target service only when it is used.
