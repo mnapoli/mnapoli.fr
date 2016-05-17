@@ -33,7 +33,7 @@ class: title
 
 ---
 
-Packagist.org 96 293 packages
+[Packagist.org](http://packagist.org) : 96 293 packages
 
 ---
 
@@ -85,7 +85,7 @@ composer.json
 
 ---
 
-## MIT License [choosealicense.com](http://choosealicense.com/)
+## License MIT [choosealicense.com](http://choosealicense.com/)
 
 ---
 
@@ -137,10 +137,6 @@ class: title
 
 ---
 
-![](img/tweet-1.png)
-
----
-
 ![](img/tweet-3.png)
 
 ---
@@ -148,6 +144,7 @@ class: title
 ![](img/tweet-2.png)
 
 ---
+class: big
 
 > Don’t try to be everything to everyone.
 
@@ -155,33 +152,56 @@ class: title
 
 ---
 
-![](img/thank-you.png)
+## À quoi s'attendre ?
+
+- Code : ?
+- Documentation : ?
+- Support : ?
+- Gestion de projet : ?
+
+.footer[ Alexander Makarov (Yii), Jordi Boggiano (Composer), Josh Lockhart (Slim), William Durand, Marco Pivetta (Doctrine, Zend Framework), Matthew Weier O'Phinney (Zend Framework), Paul Dragoonis (PPI), Taylor Otwell (Laravel) ]
 
 ---
 
-## What to expect?
+## À quoi s'attendre ?
 
-- Alexander Makarov - Yii
-- Jordi Boggiano - Composer
-- Josh Lockhart - Slim
-- William Durand
-- Marco Pivetta - Doctrine, Zend Framework
-- Matthew Weier O'Phinney - Zend Framework
-- Paul Dragoonis - PPI
-- Taylor Otwell - Laravel
+- Code : 30%
+- Documentation : 15%
+- Support : 5%
+- Gestion de projet : 50%
+
+.footer[ Alexander Makarov (Yii), Jordi Boggiano (Composer), Josh Lockhart (Slim), William Durand, Marco Pivetta (Doctrine, Zend Framework), Matthew Weier O'Phinney (Zend Framework), Paul Dragoonis (PPI), Taylor Otwell (Laravel) ]
 
 ---
 
-## What to expect?
-
-- Coding: 30%
-- Documentation: 15%
-- User support: 5%
-- Project management: 50%
+![](img/burnout.png)
 
 ---
+
+> I have to stop working on Open Source projects for a while. […] if you are interested in taking the lead on one of my projects…
+
+- [Burnout](http://williamdurand.fr/2013/02/20/burnout/) - William Durand
+
+> As of today I am quitting all maintenance roles/responsibilities of any open source project I am involved in. I am now looking for maintainers…
+
+- [Open source work](http://ryanbigg.com/2015/11/open-source-work/) - Ryan Bigg
+
+---
+
+![](img/maintainers.png)
+
+---
+
+![](img/success.png)
+
+---
+class: big
 
 > Have fun!
+
+<br><br>
+
+![](img/tweet-4.png)
 
 ???
 
