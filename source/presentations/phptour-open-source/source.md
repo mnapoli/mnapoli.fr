@@ -5,6 +5,7 @@ class: title
 
 
 ---
+class: profile
 
 .profile-picture[
     ![](img/profile.jpeg)
@@ -14,7 +15,7 @@ class: title
 
 ## Matthieu Napoli
 
-[github.com/mnapoli](https://github.com/mnapoli)
+.small[ [github.com/mnapoli](https://github.com/mnapoli) ]
 
 <div class="clear"></div>
 
@@ -27,13 +28,30 @@ class: title
 
 ---
 
-# Open source ?
+## Open source ?
 
 ![](img/public-code.png)
 
 ---
 
 # 2 problèmes de l'open source
+
+---
+class: full-image
+
+[![](img/desert.jpg)](https://www.flickr.com/photos/aigle_dore/5951683083/in/photostream/)
+
+# 1. Mon projet marche pas...
+
+---
+
+# 2. Mon projet marche...
+
+---
+
+## 0. Démarrer son projet
+## 1. Trouver des utilisateurs et contributeurs
+## 2. Gérer les utilisateurs et contributeurs
 
 ---
 
