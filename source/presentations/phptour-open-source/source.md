@@ -22,7 +22,7 @@ class: profile
 ![](img/github-activity.png)
 
 - [PHP-DI](http://php-di.org/) - 725★ - 295 000⬇ - 2012
-- [Couscous](http://couscous.io) - 399★
+- [Couscous](http://couscous.io) - 400★
 - [Silly](https://github.com/mnapoli/silly) - 274★ - 5 500⬇
 - …
 
@@ -54,10 +54,76 @@ class: full-image
 ## 2. Gérer les utilisateurs et contributeurs
 
 ---
+class: title
 
-[Packagist.org](http://packagist.org) : 96 293 packages
+# 0. Démarrer son projet
 
 ---
+
+- `<?php`
+
+--
+- Tests
+
+--
+- Git
+
+--
+- [GitHub](https://github.com)
+
+--
+- README.md
+
+--
+- [Composer](http://getcomposer.org)
+
+--
+- [Packagist](http://packagist.org)
+
+--
+- [Travis CI](http://travis-ci.org), [Scrutinizer](https://scrutinizer-ci.com), [StyleCI](https://styleci.io)
+
+--
+- IRC, [Gitter](https://gitter.im)
+
+---
+
+## License [choosealicense.com](http://choosealicense.com/)
+
+.pull-right[ [![](img/license-stats.png)](https://twitter.com/seldaek/status/691741624607600640) ]
+
+- 55% sans fichier LICENSE
+- 15% sans license dans Composer/Packagist
+
+.footer[ [@seldaek](https://twitter.com/seldaek) ]
+
+---
+class: title
+
+[github.com/mnapoli/project-template](https://github.com/mnapoli/project-template)
+
+---
+class: title
+
+# 1. Trouver des utilisateurs et contributeurs
+
+---
+class: big
+
+> If You Build It They Will Come.
+
+Field of dreams
+
+.small[ Jusqu'au bout du rêve ]
+
+---
+class: full-image
+
+![](img/faux.jpg)
+
+---
+
+## Packagist
 
 ![](img/packagist-stats.png)
 
@@ -68,13 +134,14 @@ class: full-image
 
 ---
 
-# Pourquoi un projet open source "marche" ?
+# Être différent
 
 ---
 
-# Conteneurs
+## Conteneurs
 
-- Symfony DI: "The DIC is the biggest contributor to the speed and extensibility of Symfony"
+--
+- Symfony DI: "biggest contributor to the speed and extensibility of Symfony"
 --
 
 - Pimple: "A simple DIC"
@@ -94,7 +161,15 @@ class: full-image
 
 ---
 
-## Standards & Conventions
+# Ne pas être "trop" différent
+
+---
+
+## Conventions et standards
+
+- PSR-4
+- PSR-1 & PSR-2
+- [SemVer](http://semver.org/) : `major.minor.patch` / `1.0.0`
 
 ```
 src/
@@ -102,20 +177,13 @@ tests/
 composer.json
 ```
 
-- PSR-4
-- PSR-1 & PSR-2
-
 ---
 
-## License MIT [choosealicense.com](http://choosealicense.com/)
+# Communiquer
 
 ---
 
 <img src="img/readme.png" style="height: 600px">
-
----
-
-![](img/ci.png)
 
 ---
 
@@ -129,29 +197,19 @@ composer.json
 
 ---
 
-## Semantic Versioning [semver.org](http://semver.org/)
-
-`MAJOR.MINOR.PATCH`
-
-- 0.1.0
-- 0.2.0
-- 1.0.0
-
----
-class: title
-
-[github.com/mnapoli/project-template](https://github.com/mnapoli/project-template)
-
----
-
-.full-image[ [![](img/desert.jpg)](https://www.flickr.com/photos/aigle_dore/5951683083/in/photostream/) ]
-
----
-
 | Twitter | Reddit [/r/php](http://fr.reddit.com/r/php) |
 | --- | --- |
 | Traffic | ! Traffic |
 | Favs + Retweets | Criticism + Trolls |
+
+---
+
+![](img/installs-graph.png)
+
+---
+class: title
+
+# 2. Gérer les utilisateurs et contributeurs
 
 ---
 
