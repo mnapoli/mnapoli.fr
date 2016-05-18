@@ -10,6 +10,8 @@ class: title
     ![](img/profile.jpeg)
 ]
 
+.company-logo[ [![](img/wizaplace.png)](https://wizaplace.com) ]
+
 ## Matthieu Napoli
 
 [github.com/mnapoli](https://github.com/mnapoli)
@@ -17,8 +19,6 @@ class: title
 <div class="clear"></div>
 
 ![](img/github-activity.png)
-
-<hr>
 
 - [PHP-DI](http://php-di.org/) - 725★ - 295 000⬇ - 2012
 - [Couscous](http://couscous.io) - 399★
@@ -33,11 +33,11 @@ class: title
 
 ---
 
-[Packagist.org](http://packagist.org) : 96 293 packages
+# 2 problèmes de l'open source
 
 ---
 
-# Pourquoi un projet open source "marche" ?
+[Packagist.org](http://packagist.org) : 96 293 packages
 
 ---
 
@@ -47,6 +47,10 @@ class: title
 
 ![](img/packagist-router.png)
 ![](img/packagist-router-2.png)
+
+---
+
+# Pourquoi un projet open source "marche" ?
 
 ---
 
