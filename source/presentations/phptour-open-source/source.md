@@ -3,6 +3,9 @@ class: title
 # Lancez-vous dans l'open source !
 
 
+---
+
+Y'a-t-il des contributeurs dans la salle ?
 
 ---
 class: profile
@@ -11,26 +14,20 @@ class: profile
     ![](img/profile.jpeg)
 ]
 
+## Matthieu Napoli [github.com/mnapoli](https://github.com/mnapoli)
+
 .company-logo[ [![](img/wizaplace.png)](https://wizaplace.com) ]
-
-## Matthieu Napoli
-
-.small[ [github.com/mnapoli](https://github.com/mnapoli) ]
 
 <div class="clear"></div>
 
-![](img/github-activity.png)
+.opacity[ ![](img/github-activity.png) ]
+
+.pull-right[ .small[ [Piwik](http://piwik.org) - 5500★ - 1,3% ] ]
 
 - [PHP-DI](http://php-di.org/) - 725★ - 295 000⬇ - 2012
 - [Couscous](http://couscous.io) - 400★
 - [Silly](https://github.com/mnapoli/silly) - 274★ - 5 500⬇
 - …
-
----
-
-## Open source ?
-
-![](img/public-code.png)
 
 ---
 
@@ -57,6 +54,10 @@ class: full-image
 class: title
 
 # 0. Démarrer son projet
+
+???
+
+# 4 minutes
 
 ---
 
@@ -93,7 +94,7 @@ class: title
 .pull-right[ [![](img/license-stats.png)](https://twitter.com/seldaek/status/691741624607600640) ]
 
 - 55% sans fichier LICENSE
-- 15% sans license dans Composer/Packagist
+- 15% sans license dans Composer
 
 .footer[ [@seldaek](https://twitter.com/seldaek) ]
 
@@ -106,6 +107,10 @@ class: title
 class: title
 
 # 1. Trouver des utilisateurs et contributeurs
+
+???
+
+# 8 minutes
 
 ---
 class: big
@@ -197,10 +202,8 @@ composer.json
 
 ---
 
-| Twitter | Reddit [/r/php](http://fr.reddit.com/r/php) |
-| --- | --- |
-| Traffic | ! Traffic |
-| Favs + Retweets | Criticism + Trolls |
+- Twitter
+- Reddit [/r/php](http://fr.reddit.com/r/php)
 
 ---
 
@@ -211,28 +214,15 @@ class: title
 
 # 2. Gérer les utilisateurs et contributeurs
 
----
+???
 
-.center[ <img src="img/notifications.png" style="height: 30px; margin: auto"> ]
-
----
-
-![](img/tweet-3.png)
+# 18 minutes
 
 ---
 
-![](img/tweet-2.png)
+# À quoi s'attendre ?
 
 ---
-class: big
-
-> Don’t try to be everything to everyone.
-
-[Robby Russell](https://medium.freecodecamp.com/d-oh-my-zsh-af99ca54212c) (Oh My Zsh)
-
----
-
-## À quoi s'attendre ?
 
 - Code : ?
 - Documentation : ?
@@ -243,14 +233,22 @@ class: big
 
 ---
 
-## À quoi s'attendre ?
-
 - Code : 30%
 - Documentation : 15%
 - Support : 5%
-- Gestion de projet : 50%
+- Gestion de projet : **50%**
 
 .footer[ Alexander Makarov (Yii), Jordi Boggiano (Composer), Josh Lockhart (Slim), William Durand, Marco Pivetta (Doctrine, Zend Framework), Matthew Weier O'Phinney (Zend Framework), Paul Dragoonis (PPI), Taylor Otwell (Laravel) ]
+
+---
+
+.center[ <img src="img/notifications.png" style="height: 30px; margin: auto"> ]
+
+---
+
+- CONTRIBUTING.md
+- [Templates de pull requests](https://help.github.com/articles/creating-a-pull-request-template-for-your-repository/)
+- [StyleCI](https://styleci.io/)
 
 ---
 
@@ -272,20 +270,40 @@ class: big
 
 ---
 
-![](img/success.png)
+![](img/hydre.png)
+
+.footer[ [Ssire](https://commons.wikimedia.org/wiki/File:Heraldique_meuble_Hydre.svg) ]
+
+---
+
+![](img/tweet-3.png)
+
+---
+
+![](img/tweet-2.png)
 
 ---
 class: big
 
-> Have fun!
+> Don’t try to be everything to everyone.
 
-<br><br>
+[Robby Russell](https://medium.freecodecamp.com/d-oh-my-zsh-af99ca54212c) (Oh My Zsh)
+
+---
+
+# Pourquoi ?
+
+---
+
+![](img/success2.png)
+
+---
 
 ![](img/tweet-4.png)
 
-???
+---
+class: title
 
-- emails
-- notifications
-- unhappy users
-- haters
+# Have fun!
+
+.footer[ [mnapoli.fr/presentations/](http://mnapoli.fr/presentations/) ]
