@@ -263,6 +263,7 @@ class: title
 - [Templates de pull requests](https://help.github.com/articles/creating-a-pull-request-template-for-your-repository/)
 - [StyleCI](https://styleci.io/)
 - Label ![](img/easy-pick.png)
+- Désactiver les issues ?
 
 ---
 
