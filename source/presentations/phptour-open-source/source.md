@@ -26,17 +26,17 @@ class: profile
 
 - [PHP-DI](http://php-di.org/) - 725★ - 295 000⬇ - 2012
 - [Couscous](http://couscous.io) - 400★
-- [Silly](https://github.com/mnapoli/silly) - 274★ - 5 500⬇
-- …
+- [php-enum](https://github.com/myclabs/php-enum) - 240★ - 300 000⬇
+- [DeepCopy](https://github.com/myclabs/DeepCopy) - 1 470 000⬇ *(utilisé par PHPUnit)*
+
+.small[ *+ 80 autres ratés comme BlackBox, Stratify, NumberTwo, Transform, ACL, Aspect-PHP, MetaModel, MetaConsole, procedure... :'(* ]
 
 ---
+class: title
 
-# 2 problèmes de l'open source
+# 2 problèmes de l'open&nbsp;source
 
 ---
-class: full-image
-
-[![](img/desert.jpg)](https://www.flickr.com/photos/aigle_dore/5951683083/in/photostream/)
 
 # 1. Mon projet marche pas...
 
@@ -117,10 +117,6 @@ class: big
 
 > If You Build It They Will Come.
 
-Field of dreams
-
-.small[ Jusqu'au bout du rêve ]
-
 ---
 class: full-image
 
@@ -166,7 +162,7 @@ class: full-image
 
 ---
 
-# Ne pas être "trop" différent
+# Pas *trop* différent
 
 ---
 
@@ -195,8 +191,8 @@ composer.json
 ## Documentation
 
 - README
-- ~~GitHub wiki~~
-- GitHub repository
+- ~~wiki~~
+- Avec le code
 - [Read the Docs](https://readthedocs.org/)
 - [Couscous](http://couscous.io)
 
@@ -246,13 +242,14 @@ class: title
 
 ---
 
-- CONTRIBUTING.md
+- [CONTRIBUTING.md](https://help.github.com/articles/setting-guidelines-for-repository-contributors/)
 - [Templates de pull requests](https://help.github.com/articles/creating-a-pull-request-template-for-your-repository/)
 - [StyleCI](https://styleci.io/)
+- Label ![](img/easy-pick.png)
 
 ---
 
-![](img/burnout.png)
+[![](img/burnout.png)](https://twitter.com/kizmarh/status/553141889541877760)
 
 ---
 
@@ -291,15 +288,7 @@ class: big
 
 ---
 
-# Pourquoi ?
-
----
-
 ![](img/success2.png)
-
----
-
-![](img/tweet-4.png)
 
 ---
 class: title
