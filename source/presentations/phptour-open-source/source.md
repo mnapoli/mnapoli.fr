@@ -180,11 +180,12 @@ composer.json
 
 ---
 
-# Communiquer
+# Le code est explicite
 
 ---
+class: full-image
 
-<img src="img/readme.png" style="height: 600px">
+![](img/faux.jpg)
 
 ---
 
@@ -195,6 +196,22 @@ composer.json
 - Avec le code
 - [Read the Docs](https://readthedocs.org/)
 - [Couscous](http://couscous.io)
+
+---
+
+## Documentation
+
+- Cohérente
+- Simple
+- Concrète
+
+---
+
+# Communiquer
+
+---
+
+<img src="img/readme.png" style="height: 600px">
 
 ---
 
@@ -238,7 +255,7 @@ class: title
 
 ---
 
-.center[ <img src="img/notifications.png" style="height: 30px; margin: auto"> ]
+.center[ <img src="img/notifications.png" style="margin: auto"> ]
 
 ---
 
