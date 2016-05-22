@@ -22,14 +22,14 @@ class: profile
 
 .opacity[ ![](img/github-activity.png) ]
 
-.pull-right[ .small[ [Piwik](http://piwik.org) - 5500★ - 1,3% ] ]
+.pull-right[ .small[ [Piwik](http://piwik.org) - 5500★ - 1,3% du web ] ]
 
 - [PHP-DI](http://php-di.org/) - 725★ - 295 000⬇ - 2012
 - [Couscous](http://couscous.io) - 400★
 - [php-enum](https://github.com/myclabs/php-enum) - 240★ - 300 000⬇
-- [DeepCopy](https://github.com/myclabs/DeepCopy) - 1 470 000⬇ *(utilisé par PHPUnit)*
+- [DeepCopy](https://github.com/myclabs/DeepCopy) - 1 400 000⬇ *(utilisé par PHPUnit)*
 
-.small[ *+ 80 autres ratés comme BlackBox, Stratify, NumberTwo, Transform, ACL, Aspect-PHP, MetaModel, MetaConsole, procedure... :'(* ]
+.small[ *+ 80 autres dont des ratés comme BlackBox, Stratify, NumberTwo, Transform, ACL, Aspect-PHP, MetaModel, MetaConsole, procedure... :'(* ]
 
 ---
 class: title
@@ -191,19 +191,19 @@ class: full-image
 
 ## Documentation
 
-- README
-- ~~wiki~~
-- Avec le code
-- [Read the Docs](https://readthedocs.org/)
-- [Couscous](http://couscous.io)
+- Cohérente
+- Simple
+- Concrète
 
 ---
 
 ## Documentation
 
-- Cohérente
-- Simple
-- Concrète
+- README
+- ~~wiki~~
+- Avec le code
+- [Read the Docs](https://readthedocs.org/)
+- [Couscous](http://couscous.io)
 
 ---
 
@@ -271,16 +271,6 @@ class: title
 
 ---
 
-> I have to stop working on Open Source projects for a while. […] if you are interested in taking the lead on one of my projects…
-
-- [Burnout](http://williamdurand.fr/2013/02/20/burnout/) - William Durand
-
-> As of today I am quitting all maintenance roles/responsibilities of any open source project I am involved in. I am now looking for maintainers…
-
-- [Open source work](http://ryanbigg.com/2015/11/open-source-work/) - Ryan Bigg
-
----
-
 ![](img/maintainers.png)
 
 ---
@@ -312,5 +302,3 @@ class: big
 class: title
 
 # Have fun!
-
-.footer[ [mnapoli.fr/presentations/](http://mnapoli.fr/presentations/) ]
