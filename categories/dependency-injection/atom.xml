@@ -4,7 +4,7 @@
   <title><![CDATA[Category: dependency-injection | Matthieu Napoli]]></title>
   <link href="http://mnapoli.fr/categories/dependency-injection/atom.xml" rel="self"/>
   <link href="http://mnapoli.fr/"/>
-  <updated>2016-02-21T15:11:49+01:00</updated>
+  <updated>2016-05-24T21:29:59+02:00</updated>
   <id>http://mnapoli.fr/</id>
   <author>
     <name><![CDATA[Matthieu Napoli]]></name>
@@ -121,7 +121,7 @@ public function createForm($type, $data, $options)
 
 <blockquote><p>You are injecting services that may not be used</p></blockquote>
 
-<p><a href="http://mnapoli.github.io/PHP-DI/">PHP-DI</a> and <a href="http://symfony.com/doc/current/components/dependency_injection/index.html">Symfony DIC</a> both support lazy injection, i.e. injecting a proxy that will load the target service only when it is used.</p>
+<p><a href="http://php-di.org/">PHP-DI</a> and <a href="http://symfony.com/doc/current/components/dependency_injection/index.html">Symfony DIC</a> both support lazy injection, i.e. injecting a proxy that will load the target service only when it is used.</p>
 ]]></content>
   </entry>
   
