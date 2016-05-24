@@ -302,3 +302,5 @@ class: big
 class: title
 
 # Have fun!
+
+.footer[ [joind.in/talk/937b6](https://joind.in/talk/937b6) ]
