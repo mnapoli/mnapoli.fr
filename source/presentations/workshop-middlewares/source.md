@@ -152,3 +152,42 @@ $application = new Pipe([
 
 ]);
 ```
+
+---
+
+```php
+class ErrorHandler implements Middleware
+{
+    public function __invoke(Request $request, callable $next)
+    {
+        try {
+            return $next($request);
+        } catch (\Exception $e) {
+            $whoops = $this->createWhoops();
+            $output = $whoops->handleException($e);
+            return new HtmlResponse($output, 500);
+        }
+    }
+
+    private function createWhoops()
+    {
+        return ...;
+    }
+}
+```
+---
+class: title
+
+# Step 4
+
+## split the flow with a router
+
+---
+
+# TODO: intro
+
+---
+
+## Step 4: split the flow with a router
+
+Use the router to map URLs to handlers (aka controllers).
