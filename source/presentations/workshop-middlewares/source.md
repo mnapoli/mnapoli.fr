@@ -165,7 +165,7 @@ $ cat /var/log/apache2/access.log \
 Assemble multiple middlewares with a `Pipe`.
 
 ```php
-$pipe = new Pipe([
+$application = new Pipe([
     function (...) { ... },
     function (...) { ... },
 ]);
