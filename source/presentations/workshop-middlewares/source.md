@@ -8,6 +8,10 @@ Les middle-what ?
 
 ---
 
+.center[ ![](img/middleware.png) ]
+
+---
+
 ```php
 $response = middleware($request);
 ```
@@ -63,6 +67,10 @@ class: title
 
 ---
 
+.center[ ![](img/step-1.png) ]
+
+---
+
 ## Step 1: write and run a middleware
 
 Write your first middleware.
@@ -71,8 +79,12 @@ The web application (in `index.php`) should show "Hello world!" at [http://local
 
 ---
 
-```
+```php
+use Zend\Diactoros\Response\TextResponse;
 
+$application = function (ServerRequestInterface $request) {
+    return new TextResponse('Hello world!');
+};
 ```
 
 ---
@@ -94,8 +106,14 @@ Use the request so that [http://localhost:8000/?name=Bob](http://localhost:8000/
 
 ---
 
-```
-
+```php
+$application = function (ServerRequestInterface $request) {
+    $queryParams = $request->getQueryParams();
+    
+    $name = $queryParams['name'] ?? 'world';
+    
+    return new TextResponse('Hello ' . $name . '!');
+};
 ```
 
 ---
@@ -104,6 +122,31 @@ class: title
 # Step 3
 
 ## compose middlewares to handle errors nicely
+
+---
+
+```
+$ cat /var/log/apache2/access.log \
+        | grep 404 \
+        | awk '{ print $7 }' \
+        | sort \
+        | uniq -c \
+        | sort
+
+   1 /blog/wp-content/uploads/2012/12/favicon.ico
+   1 /favicon.ico
+   1 /login?code=auie&state=auie
+  10 /dreams/wp-content/uploads/2016/03/header-bg.png
+  33 /description.xml
+```
+
+---
+
+.center[ ![](img/step-1.png) ]
+
+---
+
+.center[ ![](img/step-3.png) ]
 
 ---
 
@@ -137,6 +180,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 $application = new Pipe([
 
+    // Error handler
     function (Request $request, callable $next) {
         try {
             return $next($request);
@@ -146,6 +190,7 @@ $application = new Pipe([
         }
     },
 
+    // Application
     function (Request $request, callable $next) {
         throw new Exception('Test');
     },
@@ -175,6 +220,7 @@ class ErrorHandler implements Middleware
     }
 }
 ```
+
 ---
 class: title
 
@@ -188,6 +234,43 @@ class: title
 
 ---
 
+![](img/fastroute.png)
+
+---
+
 ## Step 4: split the flow with a router
 
 Use the router to map URLs to handlers (aka controllers).
+
+```php
+$router = new Router([
+    '/' => function () { ... },
+    '/blog/' => function () { ... },
+    '/article/{name}' => function () { ... },
+]);
+```
+
+---
+
+```php
+$application = new Pipe([
+  new ErrorHandler(),
+  new Router([
+  
+    '/' => function () use ($container) {
+        $articles = $container->articleRepository()->getArticles();
+        $html = $container->twig()->render('home.html.twig', [
+            'articles' => $articles,
+        ]);
+        return new HtmlResponse($html);
+    },
+    
+    '/about' => function () use ($container) {
+        return new HtmlResponse(
+            $container->twig()->render('about.html.twig')
+        );
+    },
+      
+  ]),
+]);
+```
