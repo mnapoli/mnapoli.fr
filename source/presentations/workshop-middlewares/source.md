@@ -363,3 +363,110 @@ Run tests with: `composer tests`
 .small[
 *Bonus: use the middleware in your application to prevent access to the whole website.*
 ]
+
+---
+
+```php
+$header = $request->getHeaderLine('Authorization');
+if (strpos($header, 'Basic') !== 0) {
+    // No authentication found
+    return new EmptyResponse(401, [
+        'WWW-Authenticate' => 'Basic realm="Superpress"',
+    ]);
+}
+
+// [...]
+
+if (/* $username and $password are valid */) {
+    return $next($request);
+}
+
+// Authentication failed
+return new EmptyResponse(403);
+```
+
+---
+
+```php
+$application = new Pipe([
+    new ErrorHandler(),
+    new HttpBasicAuthentication([
+        'user' => 'password',
+    ]),
+    new Router([
+        ...
+    ]),
+]);
+```
+
+---
+class: title
+
+# Step 6
+
+## nesting middlewares
+
+---
+
+## Step 6: nesting middlewares
+
+Add an API to your application (JSON responses):
+
+- `/api/articles` should return the list of articles
+- `/api/time` should return the current `time()`
+
+The API must require authentication (HTTP basic auth), but the website must be publicly accessible (no authentication anymore).
+
+Remember the router or the middleware pipe are like any other middleware: you can nest them and use them several times.
+
+---
+
+```php
+$application = new Pipe([
+    new ErrorHandler(),
+    
+    new Router([
+        '/' => function () { ... },
+        '/about' => function () { ... },
+        
+        '/api/{path:.*}' => new Pipe([
+            new HttpBasicAuthentication(['user' => 'password']),
+            
+            new Router([
+                '/api/articles' => function () {
+                    return new JsonResponse(...);
+                },
+                '/api/time' => function () {
+                    return new JsonResponse(time());
+                },
+            ]),
+        ]),
+    ]),
+]);
+```
+
+---
+
+```php
+$application = new Pipe([
+    new ErrorHandler(),
+    
+    new Router([
+        '/' => function () { ... },
+        '/about' => function () { ... },
+    ]),
+    
+    new Pipe([
+        new HttpBasicAuthentication(['user' => 'password']),
+        
+        new Router([
+            '/api/articles' => function () {
+                return new JsonResponse(...);
+            },
+            '/api/time' => function () {
+                return new JsonResponse(time());
+            },
+        ]),
+    ]),
+]);
+```
