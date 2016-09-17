@@ -8,6 +8,10 @@ Les middle-what ?
 
 ---
 
+Framework vs Library
+
+---
+
 .center[ ![](img/middleware.png) ]
 
 ---
@@ -234,6 +238,31 @@ class: title
 
 ---
 
+.center[ ![](img/step-3.png) ]
+
+---
+
+.center[ ![](img/step-4.png) ]
+
+---
+
+```php
+function (ServerRequestInterface $request, callable $next) {
+
+    $url = $request->getUri()->getPath();
+    
+    if ($url === '/login') {
+        return /* login page */;
+    } elseif ($url === '/dashboard') {
+        return /* dashboard page */;
+    }
+    
+    return $next($request);
+}
+```
+
+---
+
 ![](img/fastroute.png)
 
 ---
@@ -274,3 +303,63 @@ $application = new Pipe([
   ]),
 ]);
 ```
+
+---
+
+# Controller == Middleware
+
+---
+class: title
+
+# Step 5
+
+## Authentication middleware
+
+---
+
+.center[ ![](img/step-5.png) 
+
+---
+
+## HTTP Basic authentication
+
+```
+Authorization: Basic QWxhZGRpbjpPcGVuU2VzYW1l
+```
+
+---
+
+```php
+$header = $request->getHeaderLine('Authorization');
+if (strpos($header, 'Basic') !== 0) {
+    // No authentication found: 401
+    ...
+}
+
+// Decode the username and password from the HTTP header
+$header = explode(':', base64_decode(substr($header, 6)), 2);
+$username = $header[0];
+$password = isset($header[1]) ? $header[1] : null;
+
+if (/* $username and $password are valid */) {
+    // Authenticated
+    ...
+}
+
+// Authentication failed: 403
+...
+```
+
+---
+
+## Step 5: authentication middleware
+
+Write a middleware that checks for a valid HTTP "Basic" authentication before calling the next middleware.
+
+Complete the existing `HttpBasicAuthentication` class.
+
+Run tests with: `composer tests`
+
+.small[
+*Bonus: use the middleware in your application to prevent access to the whole website.*
+]
