@@ -470,3 +470,104 @@ $application = new Pipe([
     ]),
 ]);
 ```
+
+---
+
+## Middlewares
+
+Architecture:
+
+- pipe
+- router
+- prefix router
+
+---
+
+## Middlewares
+
+Request/response pre/post-processors:
+
+- authentication
+- firewall/authorization
+- HTTP cache headers
+- response cache
+- content/language negotiation
+- logging
+- CRSF protection
+- rate limiting for APIs
+- exception handler/error page
+- force HTTPS, redirect to www., add trailing /, ...
+- robots (X-Robots-Tag)
+- IP restriction
+
+---
+
+## Middlewares
+
+Applications or part of applications:
+
+- maintenance page
+- debug toolbar & pages
+- assets & medias ([Glide](http://glide.thephpleague.com/))
+- modules…
+
+---
+
+## Slim
+
+```php
+$app = new \Slim\App();
+
+// Global middleware
+$app->add(function ($request, $response, $next) {
+	// ...
+});
+
+// Route middleware
+$app->get('/', function ($request, $response, $args) {
+	// controller
+})->add(function ($request, $response, $next) {
+    // middleware
+});
+```
+
+---
+
+## Zend Expressive/ZF3
+
+```php
+$app->pipe('/', function ($req, $res, $next) {
+    // ...
+});
+```
+
+---
+
+## Silex
+
+```php
+$app->before(function (Request $request, Application $app) {
+    // ...
+});
+
+$app->after(function (Request $request, Response $response) {
+    // ...
+});
+```
+
+---
+
+## Laravel
+
+```php
+class MyMiddleware
+{
+    public function handle(Request $request, Closure $next)
+    {
+        // ...
+
+        return $next($request);
+    }
+
+}
+```
