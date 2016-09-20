@@ -154,9 +154,63 @@ $ cat /var/log/apache2/access.log \
 
 ---
 
-# TODO: intro to layers
+```php
+function (ServerRequestInterface $request, callable $next) {
+    return new TextResponse('Hello world!');
+};
+```
 
-![](img/layers.png)
+---
+
+```php
+function (ServerRequestInterface $request, $next) {
+    // do something with $request
+    return $next($request);
+};
+
+function (ServerRequestInterface $request, $next) {
+    $response = $next($request);
+    // do something with $response
+    return $response;
+};
+```
+
+---
+
+```php
+$wrappedMiddleware = function ($request, $next) {
+    return new TextResponse('Hello world!');
+};
+
+$loggerMiddleware = function ($request, $next) {
+    file_put_contents('access.log', 'New request!', FILE_APPEND);
+    return $next($request);
+};
+
+$response = $loggerMiddleware($request, $wrappedMiddleware);
+```
+
+.center[?]
+
+---
+
+```php
+$wrappedMiddleware = function ($request, $next) {
+    return new TextResponse('Hello world!');
+};
+
+$loggerMiddleware = function ($request, $next) {
+    file_put_contents('access.log', 'New request!', FILE_APPEND);
+    return $next($request);
+};
+
+$next = function ($request) use ($wrappedMiddleware) {
+    return $wrappedMiddleware($request, function () {
+        return new TextResponse('Not Found', 404);
+    });
+};
+$response = $loggerMiddleware($request, $next);
+```
 
 ---
 
@@ -473,18 +527,28 @@ $application = new Pipe([
 
 ---
 
-## Middlewares
-
+.left-block[
 Architecture:
 
 - pipe
 - router
 - prefix router
 
----
+Request data:
 
-## Middlewares
+- session
 
+Applications or modules:
+
+- maintenance page
+- debug toolbar & pages
+- assets & medias ([Glide](http://glide.thephpleague.com/))
+- "bit.ly"
+- login/register pages
+- back-office
+]
+
+.right-block[
 Request/response pre/post-processors:
 
 - authentication
@@ -499,17 +563,7 @@ Request/response pre/post-processors:
 - force HTTPS, redirect to www., add trailing /, ...
 - robots (X-Robots-Tag)
 - IP restriction
-
----
-
-## Middlewares
-
-Applications or part of applications:
-
-- maintenance page
-- debug toolbar & pages
-- assets & medias ([Glide](http://glide.thephpleague.com/))
-- modules…
+]
 
 ---
 
