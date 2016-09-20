@@ -567,6 +567,14 @@ Request/response pre/post-processors:
 
 ---
 
+## TODO
+
+- exemples d'implémentations
+- exemple + limitations request attributes
+- injection de dépendances
+
+---
+
 ## Slim
 
 ```php
