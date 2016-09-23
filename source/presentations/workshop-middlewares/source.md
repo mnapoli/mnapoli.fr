@@ -47,6 +47,8 @@ composer require psr/http-message
 - `ResponseInterface`
 - ...
 
+## TODO: immutability
+
 ---
 
 ```php
@@ -482,8 +484,8 @@ $application = new Pipe([
     new Router([
         '/' => function () { ... },
         '/about' => function () { ... },
-        
-        '/api/{path:.*}' => new Pipe([
+
+        '/api/{path}' => new Pipe([
             new HttpBasicAuthentication(['user' => 'password']),
             
             new Router([
@@ -526,13 +528,51 @@ $application = new Pipe([
 ```
 
 ---
+class: title
+
+# Step 7
+
+## request attributes
+
+---
+
+## Step 7: request attributes
+
+Add an API endpoint (`/api/whoami`) that returns the user name.
+
+You can pass the user name from the authentication middleware to the controller using request attributes.
+
+---
+
+```php
+if (isset($this->users[$username]) && ($this->users[$username] === $password)) {
+    // Authenticated
+
+    // Store the username as a request attribute
+    $request = $request->withAttribute('user', $username);
+
+    // Call the next middleware
+    return $next($request);
+}
+```
+
+```php
+new Router([
+    ...
+    '/api/whoami' => function ($request) {
+        return new JsonResponse($request->getAttribute('user'));
+    },
+]),
+```
+
+---
 
 .left-block[
 Architecture:
 
 - pipe
 - router
-- prefix router
+- **prefix router**
 
 Request data:
 
@@ -540,7 +580,7 @@ Request data:
 
 Applications or modules:
 
-- maintenance page
+- **maintenance page**
 - debug toolbar & pages
 - assets & medias ([Glide](http://glide.thephpleague.com/))
 - "bit.ly"
@@ -556,7 +596,7 @@ Request/response pre/post-processors:
 - HTTP cache headers
 - response cache
 - content/language negotiation
-- logging
+- **logging**
 - CRSF protection
 - rate limiting for APIs
 - exception handler/error page
@@ -567,11 +607,86 @@ Request/response pre/post-processors:
 
 ---
 
-## TODO
+.small[
+```php
+class PrefixRouter implements Middleware
+{
+    public function __construct(array $routes)
+    {
+        $this->routes = $routes;
+    }
 
-- exemples d'implémentations
-- exemple + limitations request attributes
-- injection de dépendances
+    public function __invoke($request, $next)
+    {
+        $path = $request->getUri()->getPath();
+
+        foreach ($this->routes as $prefix => $middleware) {
+            if (strpos($path, $prefix) === 0) {
+                return $middleware($request, $next);
+            }
+        }
+
+        return $next($request);
+    }
+}
+
+$router = new PrefixRouter([
+    '/api/' => function () { ... },
+    '/admin/' => function () { ... },
+]);
+```
+]
+
+---
+
+```php
+class MaintenancePage implements Middleware
+{
+    public function __construct($inMaintenance)
+    {
+        $this->inMaintenance = $inMaintenance;
+    }
+
+    public function __invoke($request, $next)
+    {
+        if ($this->inMaintenance) {
+            return new TextResponse(
+                'Please come back later',
+                501
+            );
+        }
+
+        return $next($request);
+    }
+}
+```
+
+---
+
+```php
+class LoggerMiddleware implements Middleware
+{
+    public function __invoke($request, $next)
+    {
+        $before = microtime(true);
+
+        $response = $next($request);
+        
+        $log = sprintf(
+            'Request processed in %d seconds',
+            microtime(true)-$before
+        );
+        file_put_contents('logs/access.log', $log, FILE_APPEND);
+
+        return $response;
+    }
+}
+```
+
+---
+class: title
+
+# Frameworks
 
 ---
 
@@ -651,12 +766,14 @@ class MyMiddleware
 $app = pipe([
     ErrorHandlerMiddleware::class,
     MaintenanceMiddleware::class,
+    
     router([
         '/'                                => [HomeController::class, 'home'],
         '/check/{user}/{repository}'       => [ProjectController::class, 'check'],
         '/project/{user}/{repository}'     => [ProjectController::class, 'project'],
         '/badge/{badge}/{user}/{repo}.svg' => [BadgeController::class, 'badge'],
     ]),
+    
     // If no route matched
     Error404Middleware::class,
 ]);
@@ -673,7 +790,7 @@ $app = pipe([
 
 ---
 
-.scroll[
+.small.scroll[
 ```php
 Pipe([
     ErrorHandler
