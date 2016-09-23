@@ -385,7 +385,7 @@ class: title
 
 ---
 
-.center[ ![](img/step-5.png) 
+.center[ ![](img/step-5.png) ]
 
 ---
 
@@ -619,38 +619,6 @@ Request/response pre/post-processors:
 
 ---
 
-.small[
-```php
-class PrefixRouter implements Middleware
-{
-    public function __construct(array $routes)
-    {
-        $this->routes = $routes;
-    }
-
-    public function __invoke($request, $next)
-    {
-        $path = $request->getUri()->getPath();
-
-        foreach ($this->routes as $prefix => $middleware) {
-            if (strpos($path, $prefix) === 0) {
-                return $middleware($request, $next);
-            }
-        }
-
-        return $next($request);
-    }
-}
-
-$router = new PrefixRouter([
-    '/api/' => function () { ... },
-    '/admin/' => function () { ... },
-]);
-```
-]
-
----
-
 ```php
 class MaintenancePage implements Middleware
 {
@@ -694,6 +662,38 @@ class LoggerMiddleware implements Middleware
     }
 }
 ```
+
+---
+
+.small[
+```php
+class PrefixRouter implements Middleware
+{
+    public function __construct(array $routes)
+    {
+        $this->routes = $routes;
+    }
+
+    public function __invoke($request, $next)
+    {
+        $path = $request->getUri()->getPath();
+
+        foreach ($this->routes as $prefix => $middleware) {
+            if (strpos($path, $prefix) === 0) {
+                return $middleware($request, $next);
+            }
+        }
+
+        return $next($request);
+    }
+}
+
+$router = new PrefixRouter([
+    '/api/' => function () { ... },
+    '/admin/' => function () { ... },
+]);
+```
+]
 
 ---
 class: title
