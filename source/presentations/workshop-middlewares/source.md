@@ -633,3 +633,123 @@ class MyMiddleware
 
 }
 ```
+
+---
+
+## Stratify
+
+[github.com/stratifyphp](https://github.com/stratifyphp)
+
+---
+
+## [isitmaintained.com](https://isitmaintained.com/)
+
+[index.php](https://github.com/mnapoli/IsItMaintained/blob/master/web/index.php)
+
+.small[
+```php
+$app = pipe([
+    ErrorHandlerMiddleware::class,
+    MaintenanceMiddleware::class,
+    router([
+        '/'                                => [HomeController::class, 'home'],
+        '/check/{user}/{repository}'       => [ProjectController::class, 'check'],
+        '/project/{user}/{repository}'     => [ProjectController::class, 'project'],
+        '/badge/{badge}/{user}/{repo}.svg' => [BadgeController::class, 'badge'],
+    ]),
+    // If no route matched
+    Error404Middleware::class,
+]);
+```
+]
+
+---
+
+## [externals.io](http://externals.io)
+
+[http.php](https://github.com/mnapoli/externals/blob/master/res/http.php)
+
+![](img/externals.png)
+
+---
+
+.scroll[
+```php
+Pipe([
+    ErrorHandler
+    Logger
+    ForceHttps
+    RobotsTxt
+
+    // API
+    Prefix('/api/v1/', Pipe([
+        ApiErrorHandler // JSON responses
+        Router([
+            '/api/v1/user/authenticate' => Pipe([
+                HttpBasicAuthentication
+                AuthenticationController
+            ])
+        ])
+        Router([
+            // public APIs
+        ])
+        TokenAuthentication
+        Router([
+            // restricted APIs
+        ])
+    ])
+
+    Session
+    CRSF
+    DebugBar
+
+    PrefixRouter([
+
+        '/admin/' => Pipe([
+            NewRelic
+            AdminAuthentication
+            Router([
+                // admin back-office routes
+            ])
+        ])
+
+        '/vendor/' => Pipe([
+            NewRelic
+            VendorAuthentication
+            Router([
+                // vendor back-office routes
+            ])
+        ])
+
+        '/' => Pipe([
+            NewRelic
+            Router([
+                // front-office routes
+            ])
+        ])
+    ])
+
+])
+```
+]
+
+---
+
+## PSR-15
+
+```php
+interface ServerMiddlewareInterface
+{
+    public function process(
+        ServerRequestInterface $request,
+        DelegateInterface $frame
+    );
+}
+```
+
+```php
+interface DelegateInterface
+{
+    public function next(RequestInterface $request);
+}
+```
