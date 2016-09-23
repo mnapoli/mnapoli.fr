@@ -47,7 +47,23 @@ composer require psr/http-message
 - `ResponseInterface`
 - ...
 
-## TODO: immutability
+---
+
+## PSR-7: immutability
+
+```php
+$request = $request->withQueryParams([
+    'foo' => 'bar'
+]);
+```
+
+```php
+$response = $response->withHeader('Content-Length', 123);
+```
+
+```php
+$response->getBody()->write('Hello');
+```
 
 ---
 
@@ -287,10 +303,6 @@ class: title
 # Step 4
 
 ## split the flow with a router
-
----
-
-# TODO: intro
 
 ---
 
