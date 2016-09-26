@@ -342,7 +342,7 @@ Use the router to map URLs to handlers (aka controllers).
 ```php
 $router = new Router([
     '/' => function () { ... },
-    '/blog/' => function () { ... },
+    '/about' => function () { ... },
     '/article/{name}' => function () { ... },
 ]);
 ```
