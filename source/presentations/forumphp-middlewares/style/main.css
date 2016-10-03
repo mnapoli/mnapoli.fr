@@ -1,0 +1,69 @@
+/* Main Primary color */
+/* Main Secondary color (1) */
+/* Main Secondary color (2) */
+pre {
+  border: solid 1px #E2E2E2;
+  background: #F0F0F0;
+  padding: 20px;
+  line-height: 27px;
+}
+.remark-code,
+.remark-inline-code {
+  font-family: 'Ubuntu Mono', monospace;
+}
+.remark-inline-code {
+  background: #f0f0f0;
+  padding: 2px;
+}
+.remark-code {
+  font-size: 20px;
+}
+h1,
+h2,
+h3 {
+  font-family: 'Yanone Kaffeesatz';
+  font-weight: normal;
+}
+h2 img {
+  height: 35px;
+}
+h2 a:last-child {
+  float: right;
+  font-size: 30px;
+  line-height: 65px;
+  text-decoration: none;
+}
+.remark-slide > .user {
+  background: #FFF7D4;
+}
+.remark-slide > .user h2 {
+  color: #BAA22F;
+}
+.remark-slide > .framework {
+  background: #FFE7D4;
+}
+.remark-slide > .framework h2 {
+  color: #BA6D2F;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  font-family: 'Droid Serif';
+}
+p img,
+li img {
+  vertical-align: top;
+}
+hr {
+  border: none;
+  border-top: solid 1px lightgray;
+}
+a {
+  color: #29447C;
+}
+.remark-slide > .big p {
+  text-align: center;
+  font-size: 2.5em;
+  line-height: 1.5em;
+}
