@@ -1,0 +1,55 @@
+/* Main Primary color */
+/* Main Secondary color (1) */
+/* Main Secondary color (2) */
+.remark-slide-content {
+  padding: 1em 6em 1em 6em;
+}
+.remark-slide > .title {
+  vertical-align: middle;
+  text-align: center;
+  background: #272727;
+  color: white;
+}
+.remark-slide > .title h1 {
+  font-size: 100px;
+  color: #f3f3f3;
+}
+.remark-slide > .title a {
+  color: white;
+}
+.remark-slide > .main-title {
+  vertical-align: middle;
+  text-align: center;
+  background: #272727;
+  color: white;
+}
+.remark-slide > .main-title h1 {
+  font-size: 70px;
+  color: #f3f3f3;
+}
+.remark-slide > .main-title h3 {
+  color: lightgray;
+}
+.remark-slide > .main-title em {
+  font-style: normal;
+  color: #C4D0E7;
+}
+.remark-slide > .main-title .remark-slide-number {
+  visibility: hidden;
+}
+.remark-slide > .full-image {
+  color: white;
+}
+.remark-slide > .full-image img:first-of-type {
+  position: fixed;
+  left: 0;
+  top: 0;
+  min-width: 100%;
+  min-height: 100%;
+}
+.remark-slide > .full-image h1 {
+  position: relative;
+}
+.remark-slide > .full-image .remark-slide-number {
+  visibility: hidden;
+}

@@ -1,10 +1,8 @@
-class: title
+class: main-title
 
-# Les middlewares en PHP
+### Conclusion :
 
----
-
-Les middle-what ?
+# Un *middleware* est quelque chose qui prend une *requête* et retourne une *réponse*.
 
 ---
 class: profile
@@ -17,66 +15,24 @@ class: profile
 
 .company-logo[ [![](img/wizaplace.png)](https://wizaplace.com) ]
 
-<div class="clear"></div>
-
-.pull-right[ .small[ [Piwik](http://piwik.org) - 5500★ - 1,3% du web ] ]
-
-- [PHP-DI](http://php-di.org/) - 725★ - 295 000⬇ - 2012
-- [Couscous](http://couscous.io) - 400★
-- [php-enum](https://github.com/myclabs/php-enum) - 240★ - 300 000⬇
-- [DeepCopy](https://github.com/myclabs/DeepCopy) - 1 400 000⬇ *(utilisé par PHPUnit)*
-
-.small[ *+ 80 autres dont des ratés comme BlackBox, Stratify, NumberTwo, Transform, ACL, Aspect-PHP, MetaModel, MetaConsole, procedure... :'(* ]
-
 ---
 
-```php
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
-
-function (ServerRequestInterface $request) : ResponseInterface {
-    return new Response();
-}
-```
+# middle-what ?
 
 ---
-class: user big
+class: main-title
 
-Bob développe des applications web
-
----
-class: user big
-
-Bob utilise un framework
+# Un *middleware* est quelque chose qui prend une *requête* et retourne une *réponse*.
 
 ---
-class: user big
+class: full-image
 
-Bob est heureux
-
----
-class: framework big
-
-Alice développe des frameworks web
+![](img/space.jpg)
 
 ---
-class: framework big
+class: main-title
 
-Alice est heureuse
-
----
-class: user big
-
-Mais sur certains projets, Bob est limité
-
----
-class: framework big
-
-Middlewares
-
----
-
-.center[ ![](img/middleware.png) ]
+# Un *middleware* est quelque chose qui prend une *requête* et retourne une *réponse*.
 
 ---
 
@@ -89,6 +45,67 @@ function middleware($request) {
     return new Response('Hello');
 }
 ```
+
+---
+
+```php
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+
+function middleware(ServerRequestInterface $request) : ResponseInterface {
+    return new Response();
+}
+```
+
+---
+
+## Zend Diactoros [github.com/zendframework/zend-diactoros](https://github.com/zendframework/zend-diactoros)
+
+![](img/diactoros.png)
+
+---
+
+## Request
+
+```php
+$request = new ServerRequest(
+    $_SERVER,
+    $_FILES,
+    new Uri(...),
+    $_SERVER['REQUEST_METHOD'],
+    'php://input',
+    $headers,
+    $_COOKIE,
+    $_GET,
+    $_POST,
+    $_SERVER['SERVER_PROTOCOL']
+);
+```
+
+```php
+$request = ServerRequestFactory::fromGlobals();
+```
+
+---
+
+## Response
+
+```php
+foreach ($response->getHeaders() as $header => $values) {
+    foreach ($values as $value) {
+        header("$header: $value");
+    }
+}
+echo $response->getBody();
+```
+
+```php
+(new SapiEmitter)->emit($response);
+```
+
+---
+
+.center[ ![](img/middleware.png) ]
 
 ---
 
@@ -128,6 +145,10 @@ $application = function (ServerRequestInterface $request) {
 $response = $application(ServerRequestFactory::fromGlobals());
 (new SapiEmitter)->emit($response);
 ```
+
+---
+
+.browser-mockup[ Hello world! ]
 
 ---
 
@@ -191,4 +212,21 @@ $application = new Pipe([
 
 $response = $application(ServerRequestFactory::fromGlobals());
 (new SapiEmitter)->emit($response);
+```
+
+---
+
+```php
+function (ServerRequestInterface $request, callable $next) {
+
+    $url = $request->getUri()->getPath();
+    
+    if ($url === '/login') {
+        return /* login page */;
+    } elseif ($url === '/dashboard') {
+        return /* dashboard page */;
+    }
+    
+    return $next($request);
+}
 ```

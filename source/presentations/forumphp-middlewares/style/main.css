@@ -45,6 +45,104 @@ h2 a:last-child {
 .remark-slide > .framework h2 {
   color: #BA6D2F;
 }
+.remark-slide-content {
+  padding: 1em 6em 1em 6em;
+}
+.remark-slide > .title {
+  vertical-align: middle;
+  text-align: center;
+  background: #272727;
+  color: white;
+}
+.remark-slide > .title h1 {
+  font-size: 100px;
+  color: #f3f3f3;
+}
+.remark-slide > .title a {
+  color: white;
+}
+.remark-slide > .main-title {
+  vertical-align: middle;
+  text-align: center;
+  background: #272727;
+  color: white;
+}
+.remark-slide > .main-title h1 {
+  font-size: 70px;
+  color: #f3f3f3;
+}
+.remark-slide > .main-title h3 {
+  color: lightgray;
+}
+.remark-slide > .main-title em {
+  font-style: normal;
+  color: #C4D0E7;
+}
+.remark-slide > .main-title .remark-slide-number {
+  visibility: hidden;
+}
+.remark-slide > .full-image {
+  color: white;
+}
+.remark-slide > .full-image img:first-of-type {
+  position: fixed;
+  left: 0;
+  top: 0;
+  min-width: 100%;
+  min-height: 100%;
+}
+.remark-slide > .full-image h1 {
+  position: relative;
+}
+.remark-slide > .full-image .remark-slide-number {
+  visibility: hidden;
+}
+.browser-mockup {
+  border-top: 2em solid rgba(230, 230, 230, 0.7);
+  box-shadow: 0 0.1em 1em 0 rgba(0, 0, 0, 0.4);
+  position: relative;
+  border-radius: 3px 3px 0 0;
+  display: block;
+  padding: 100px 80px;
+}
+.browser-mockup:before {
+  display: block;
+  position: absolute;
+  content: '';
+  top: -1.25em;
+  left: 1em;
+  width: 0.5em;
+  height: 0.5em;
+  border-radius: 50%;
+  background-color: #f44;
+  box-shadow: 0 0 0 2px #f44, 1.5em 0 0 2px #9b3, 3em 0 0 2px #fb5;
+}
+.browser-mockup.with-tab:after {
+  display: block;
+  position: absolute;
+  content: '';
+  top: -2em;
+  left: 5.5em;
+  width: 20%;
+  height: 0em;
+  border-bottom: 2em solid white;
+  border-left: 0.8em solid transparent;
+  border-right: 0.8em solid transparent;
+}
+.browser-mockup.with-url:after {
+  display: block;
+  position: absolute;
+  content: '';
+  top: -1.6em;
+  left: 5.5em;
+  width: calc(94%);
+  height: 1.2em;
+  border-radius: 2px;
+  background-color: white;
+}
+.browser-mockup > * {
+  display: block;
+}
 * {
   box-sizing: border-box;
 }
