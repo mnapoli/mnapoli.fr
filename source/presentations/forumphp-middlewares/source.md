@@ -152,6 +152,59 @@ $response = $application(ServerRequestFactory::fromGlobals());
 
 ---
 
+```php
+$application = function (ServerRequestInterface $request) {
+    try {
+        return new TextResponse('Hello world!');
+    } catch (\Throwable $e) {
+        return new EmptyResponse('Oops!', 500);
+    }
+};
+
+$response = $application(ServerRequestFactory::fromGlobals());
+(new SapiEmitter)->emit($response);
+```
+
+---
+
+```php
+$application = function (ServerRequestInterface $request) {
+    return new TextResponse('Hello world!');
+};
+
+$errorHandler = function (ServerRequestInterface $request) use ($application) {
+    try {
+        return $application($request);
+    } catch (\Throwable $e) {
+        return new EmptyResponse('Oops!', 500);
+    }
+};
+
+$response = $errorHandler(ServerRequestFactory::fromGlobals());
+(new SapiEmitter)->emit($response);
+```
+
+---
+
+```php
+$application = function (ServerRequestInterface $request) {
+    return new TextResponse('Hello world!');
+};
+
+$errorHandler = function (ServerRequestInterface $request, callable $next) {
+    try {
+        return $next($request);
+    } catch (\Throwable $e) {
+        return new EmptyResponse('Oops!', 500);
+    }
+};
+
+$response = $errorHandler(ServerRequestFactory::fromGlobals(), $application);
+(new SapiEmitter)->emit($response);
+```
+
+---
+
 ```ruby
 $ cat /var/log/apache2/access.log \
         | grep 404 \
@@ -169,14 +222,23 @@ $ cat /var/log/apache2/access.log \
 
 ---
 
-.center[ ![](img/step-1.png) ]
+## Unix philosophy
+
+- Write programs that do one thing and do it well.
+- Write programs to work together.
+- Write programs to handle text streams, because that is a universal interface.
+
+.small[ Peter H. Salus ]
 
 ---
 
-.center[ ![](img/step-3.png) ]
+```ruby
+$ cat access.log | grep 404 | awk '{ print $7 }' | sort
+```
 
 ---
 
+.left-block[
 ```php
 $pipe = new Pipe([
     function ($request, $next) {
@@ -190,6 +252,75 @@ $pipe = new Pipe([
     },
 ]);
 ```
+]
+
+--
+
+.right-block[
+```php
+$pipe = new Pipe();
+
+$pipe->pipe(function ($request, $next) {
+    ...
+});
+$pipe->pipe(function ($request, $next) {
+    ...
+});
+$pipe->pipe(function ($request, $next) {
+    ...
+});
+```
+]
+
+---
+
+```php
+class Pipe
+{
+    private $middlewares;
+
+    public function __construct(array $middlewares)
+    {
+        $this->middlewares = $middlewares;
+    }
+
+    public function __invoke(ServerRequestInterface $request, callable $next)
+    {
+        foreach (array_reverse($this->middlewares) as $middleware) {
+            $next = function ($request) use ($middleware, $next) {
+                return $middleware($request, $next);
+            };
+        }
+
+        return $next($request);
+    }
+}
+```
+
+---
+
+```php
+$pipe = new Pipe([
+
+    function ($request, $next) {
+        try {
+            return $next($request);
+        } catch (\Exception $e) {
+            return new TextResponse('Oops!', 500);
+        }
+    },
+    
+    function ($request, $next) {
+        return new TextResponse('Hello world!');
+    },
+    
+]);
+```
+
+---
+class: main-title
+
+# Un *middleware* est quelque chose qui prend une *requête* et retourne une *réponse*.
 
 ---
 
@@ -210,7 +341,10 @@ $application = new Pipe([
     
 ]);
 
-$response = $application(ServerRequestFactory::fromGlobals());
+$next = function () {
+    throw new Exception('No middleware handled the response');
+};
+$response = $application(ServerRequestFactory::fromGlobals(), $next);
 (new SapiEmitter)->emit($response);
 ```
 

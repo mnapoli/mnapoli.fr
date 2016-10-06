@@ -32,7 +32,7 @@
 }
 .remark-slide > .main-title em {
   font-style: normal;
-  color: #C4D0E7;
+  color: #92A4CC;
 }
 .remark-slide > .main-title .remark-slide-number {
   visibility: hidden;
@@ -52,4 +52,18 @@
 }
 .remark-slide > .full-image .remark-slide-number {
   visibility: hidden;
+}
+.left-block,
+.right-block {
+  width: 48%;
+}
+.left-block .remark-code,
+.right-block .remark-code {
+  font-size: 0.75em;
+}
+.left-block {
+  float: left;
+}
+.right-block {
+  float: right;
 }
