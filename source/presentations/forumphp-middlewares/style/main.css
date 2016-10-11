@@ -119,6 +119,9 @@ h2 a:last-child {
   display: block;
   padding: 100px 80px;
 }
+.browser-mockup.error {
+  border-top-color: rgba(218, 138, 138, 0.7);
+}
 .browser-mockup:before {
   display: block;
   position: absolute;

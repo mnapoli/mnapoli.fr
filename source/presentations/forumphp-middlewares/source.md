@@ -35,6 +35,11 @@ class: main-title
 # Un *middleware* est quelque chose qui prend une *requête* et retourne une *réponse*.
 
 ---
+class: title
+
+# Concrètement
+
+---
 
 ```php
 $response = middleware($request);
@@ -104,8 +109,14 @@ echo $response->getBody();
 ```
 
 ---
+class: title
 
-.center[ ![](img/middleware.png) ]
+# Application
+
+---
+class: main-title
+
+# Un *middleware* est quelque chose qui prend une *requête* et retourne une *réponse*.
 
 ---
 
@@ -113,7 +124,7 @@ echo $response->getBody();
 // index.php
 
 $application = function (ServerRequestInterface $request) {
-    return new TextResponse('Hello world!');
+    return new TextResponse('The date is ' . date('d M Y'));
 };
 
 $response = $application(…);
@@ -126,7 +137,7 @@ $response = $application(…);
 // index.php
 
 $application = function (ServerRequestInterface $request) {
-    return new TextResponse('Hello world!');
+    return new TextResponse('The date is ' . date('d M Y'));
 };
 
 $response = $application(ServerRequestFactory::fromGlobals());
@@ -139,7 +150,7 @@ $response = $application(ServerRequestFactory::fromGlobals());
 // index.php
 
 $application = function (ServerRequestInterface $request) {
-    return new TextResponse('Hello world!');
+    return new TextResponse('The date is ' . date('d M Y'));
 };
 
 $response = $application(ServerRequestFactory::fromGlobals());
@@ -148,14 +159,19 @@ $response = $application(ServerRequestFactory::fromGlobals());
 
 ---
 
-.browser-mockup[ Hello world! ]
+.browser-mockup[ The date is 28 Oct 2016 ]
+
+---
+class: title
+
+# Error handling
 
 ---
 
 ```php
 $application = function (ServerRequestInterface $request) {
     try {
-        return new TextResponse('Hello world!');
+        return new TextResponse('The date is ' . date('d M Y'));
     } catch (\Throwable $e) {
         return new EmptyResponse('Oops!', 500);
     }
@@ -169,7 +185,7 @@ $response = $application(ServerRequestFactory::fromGlobals());
 
 ```php
 $application = function (ServerRequestInterface $request) {
-    return new TextResponse('Hello world!');
+    return new TextResponse('The date is ' . date('d M Y'));
 };
 
 $errorHandler = function (ServerRequestInterface $request) use ($application) {
@@ -188,7 +204,7 @@ $response = $errorHandler(ServerRequestFactory::fromGlobals());
 
 ```php
 $application = function (ServerRequestInterface $request) {
-    return new TextResponse('Hello world!');
+    return new TextResponse('The date is ' . date('d M Y'));
 };
 
 $errorHandler = function (ServerRequestInterface $request, callable $next) {
@@ -202,6 +218,52 @@ $errorHandler = function (ServerRequestInterface $request, callable $next) {
 $response = $errorHandler(ServerRequestFactory::fromGlobals(), $application);
 (new SapiEmitter)->emit($response);
 ```
+
+---
+
+.browser-mockup.error[ Oops! ]
+
+---
+class: title
+
+# Force HTTPS
+
+---
+
+```php
+$forceHttps = function (ServerRequestInterface $request, callable $next) {
+    $uri = $request->getUri();
+    if (strtolower($uri->getScheme()) !== 'https') {
+        $uri = $uri->withScheme('https')->withPort(443);
+        return new RedirectResponse($uri);
+    }
+    return $next($request);
+};
+```
+
+---
+
+```php
+$errorHandler = function (ServerRequestInterface $request, callable $next) {
+    ...
+};
+
+$forceHttps = function (ServerRequestInterface $request, callable $next) {
+    ...
+};
+
+$application = function (ServerRequestInterface $request) {
+    return new TextResponse('The date is ' . date('d M Y'));
+};
+
+$response = $errorHandler(ServerRequestFactory::fromGlobals(), $forceHttps);
+(new SapiEmitter)->emit($response);
+```
+
+---
+class: title
+
+# Pipe
 
 ---
 
@@ -225,10 +287,16 @@ $ cat /var/log/apache2/access.log \
 ## Unix philosophy
 
 - Write programs that do one thing and do it well.
-- Write programs to work together.
 - Write programs to handle text streams, because that is a universal interface.
+- Write programs to work together.
 
 .small[ Peter H. Salus ]
+
+---
+
+- Write **middlewares** that do one thing and do it well.
+- Write **middlewares** to handle **PSR-7 objects** because that is a universal interface.
+- Write **middlewares** to work together.
 
 ---
 
@@ -299,19 +367,37 @@ class Pipe
 
 ---
 
+## Invokable class
+
+```php
+class Pipe
+{
+    public function __invoke(...) { ... }
+}
+
+$pipe = new Pipe(...);
+
+$response = $pipe($request);
+$response = $pipe->__invoke($request);
+```
+
+[PHP callables](http://php.net/manual/en/language.types.callable.php)
+
+---
+
 ```php
 $pipe = new Pipe([
 
     function ($request, $next) {
-        try {
-            return $next($request);
-        } catch (\Exception $e) {
-            return new TextResponse('Oops!', 500);
-        }
+        // error handler
     },
     
     function ($request, $next) {
-        return new TextResponse('Hello world!');
+        // force https
+    },
+    
+    function ($request, $next) {
+        return new TextResponse('The date is ' . date('d M Y'));
     },
     
 ]);
@@ -326,19 +412,7 @@ class: main-title
 
 ```php
 $application = new Pipe([
-
-    function ($request, $next) {
-        try {
-            return $next($request);
-        } catch (\Exception $e) {
-            return new TextResponse('Oops!', 500);
-        }
-    },
-    
-    function ($request, $next) {
-        return new TextResponse('Hello world!');
-    },
-    
+    ...
 ]);
 
 $next = function () {
@@ -349,18 +423,282 @@ $response = $application(ServerRequestFactory::fromGlobals(), $next);
 ```
 
 ---
+class: title
+
+# Routing
+
+---
 
 ```php
-function (ServerRequestInterface $request, callable $next) {
+$router = new Router();
+$router->addRoute('/', function () {
+    return new TextResponse('The date is ' . date('d M Y'));
+});
+$router->addRoute('/about', function () {
+    return new TextResponse('This super website is sponsored by AFUP!');
+});
+```
+---
 
-    $url = $request->getUri()->getPath();
-    
-    if ($url === '/login') {
-        return /* login page */;
-    } elseif ($url === '/dashboard') {
-        return /* dashboard page */;
+```php
+$router = new Router(...
+
+$application = new Pipe([
+    function (...) { /* error handler */ },
+    function (...) { /* force https */ },
+]);
+
+$next = function () { throw new ... };
+$response = $application(ServerRequestFactory::fromGlobals(), $next);
+(new SapiEmitter)->emit($response);
+```
+
+---
+class: main-title
+
+# Un *middleware* est quelque chose qui prend une *requête* et retourne une *réponse*.
+
+---
+
+```php
+$router = new Router(...
+
+$application = new Pipe([
+    function (...) { /* error handler */ },
+    function (...) { /* force https */ },
+    $router,
+]);
+
+$next = function () { throw new ... };
+$response = $application(ServerRequestFactory::fromGlobals(), $next);
+(new SapiEmitter)->emit($response);
+```
+
+---
+
+```php
+$application = new Pipe([
+    function (...) { /* error handler */ },
+    function (...) { /* force https */ },
+    new Router([
+        '/' => function (...) {
+            ...
+        },
+        '/about' => function (...) {
+            ...
+        },
+    ]),
+]);
+
+$next = function () { throw new ... };
+$response = $application(ServerRequestFactory::fromGlobals(), $next);
+(new SapiEmitter)->emit($response);
+```
+
+---
+class: title
+
+# Authentification
+
+---
+
+```php
+$application = new Pipe([
+    function (...) { /* error handler */ },
+    function (...) { /* force https */ },
+    function (...) { /* authentification */ },
+    new Router([
+        '/' => function (...) { ... },
+        '/about' => function (...) { ... },
+    ]),
+]);
+```
+
+---
+
+```php
+$application = new Pipe([
+    function (...) { /* error handler */ },
+    function (...) { /* force https */ },
+    function (...) { /* authentification */ },
+    new Router([
+        '/' => function (...) { ... },
+        '/about' => function (...) { ... },
+        '/api/date' => function (...) { ... },
+        '/api/time' => function (...) { ... },
+    ]),
+]);
+```
+
+---
+
+```php
+$application = new Pipe([
+    function (...) { /* error handler */ },
+    function (...) { /* force https */ },
+    new Router([
+        '/' => function (...) { ... },
+        '/about' => function (...) { ... },
+        
+        '/api/*' => new Pipe([
+            function (...) { /* authentification */ },
+            new Router([
+                '/api/date' => function (...) { ... },
+                '/api/time' => function (...) { ... },
+            ]),
+        ]),
+    ]),
+]);
+```
+
+---
+class: title
+
+# Lisibilité
+
+---
+
+```php
+$application = new Pipe([
+    new ErrorHandler,
+    new ForceHttps,
+    new Router([
+        '/' => [new HomeController, 'home'],
+        '/about' => [new HomeController, 'about'],
+        
+        '/api/*' => new Pipe([
+            new AuthenticationMiddleware,
+            new Router([
+                '/api/date' => [new ApiController, 'date'],
+                '/api/time' => [new ApiController, 'time'],
+            ]),
+        ]),
+    ]),
+]);
+```
+
+---
+
+```php
+$application = new Pipe([
+    new ErrorHandler,
+    new ForceHttps,
+    new Router([
+        require 'routes-website.php',
+        
+        '/api/*' => new Pipe([
+            new AuthenticationMiddleware,
+            new Router([
+                require 'routes-api.php',
+            ]),
+        ]),
+    ]),
+]);
+```
+
+---
+class: title
+
+# Architecture
+
+---
+
+```php
+$application = new Pipe([
+    new ErrorHandler,
+    new ForceHttps,
+    new PrefixRouter([
+        '/api/' => new Pipe([
+            new AuthenticationMiddleware,
+            new ContentNegociationMiddleware,
+            new Router([
+                require 'routes-api.php',
+            ]),
+        ]),
+        
+        '/' => new Pipe([
+            new CacheMiddleware,
+            new Router([
+                require 'routes-website.php',
+            ]),
+        ]),
+    ]),
+]);
+```
+
+---
+class: title
+
+# Frameworks
+
+---
+
+## Slim
+
+```php
+$app = new \Slim\App();
+
+// Global middleware
+$app->add(function ($request, $response, $next) {
+	// ...
+});
+
+// Route middleware
+$app->get('/', function ($request, $response, $args) {
+	// controller
+})->add(function ($request, $response, $next) {
+    // middleware
+});
+```
+
+---
+
+## Zend Expressive/ZF3
+
+```php
+$app->pipe('/', function ($req, $res, $next) {
+    // ...
+});
+```
+
+---
+
+## Silex
+
+```php
+$app->before(function (Request $request, Application $app) {
+    // ...
+});
+
+$app->after(function (Request $request, Response $response) {
+    // ...
+});
+```
+
+---
+
+## Laravel
+
+```php
+class MyMiddleware
+{
+    public function handle(Request $request, Closure $next)
+    {
+        // ...
+
+        return $next($request);
     }
-    
-    return $next($request);
+
 }
 ```
+
+---
+
+# TODO :
+
+- avantages
+- inconvénients
+- attributes
+- frameworks
+- PSR-15
+- middlewares PSR-7
