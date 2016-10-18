@@ -39,6 +39,16 @@ class: main-title
 # Un *middleware* est quelque chose qui prend une *requête* et retourne une *réponse*.
 
 ---
+
+## 1. Les middlewares **dans** les frameworks
+## 2. Les middlewares **sans** les frameworks
+
+---
+class: section
+
+# 1. Les middlewares **dans** les frameworks
+
+---
 class: title
 
 # Symfony
@@ -66,30 +76,11 @@ $this->dispatcher->dispatch(KernelEvents::TERMINATE, new Event(...));
 
 ---
 
-# Events (hooks ?)
+# Events
 
 ---
 
-- authentification/firewall
-- logging
-- cache
-- headers de cache HTTP
-- session
-- page de maintenance
-- assets/medias
-- rate limiting
-- forcer HTTPS
-- restricton par IP
-- content negotiation
-- language negotiation
-- ...
-
----
-class: title
-
-# Stack
-
-## 2013
+# Hooks ?
 
 ---
 
@@ -163,17 +154,21 @@ $response->send();
 
 ---
 
-# Middlewares vs Events
+.left-block[
+## Events
 
----
-
+- architecture figée
 - spécifique Symfony
---
+- dans l'application
+- utilisation facile
+]
+.right-block[
+## Middlewares Stack
 
+- architecture libre
+- spécifique Symfony
 - hors de l'application
---
-
-- utilisation complexe :
+- utilisation complexe
 
 ```php
 $kernel = new HttpCache(
@@ -185,13 +180,18 @@ $kernel = new HttpCache(
     new Storage(...)
 );
 ```
+]
+
+---
+
+- spécifique Symfony
+- hors de l'application
+- utilisation complexe
 
 ---
 class: title
 
 # PSR-7
-
-## Mai 2015
 
 ---
 
@@ -425,11 +425,6 @@ class Kernel extends HttpKernel
 ---
 class: title
 
-# PSR-15
-
----
-class: title
-
 # Conclusion
 
 ---
@@ -441,14 +436,23 @@ class: section
 
 - application
 - pipe
-- middlewares (authentification, logging, etc.)
 - routeur
 - controleur
+
+---
+class: full-image
+
+![](img/space.jpg)
 
 ---
 class: main-title
 
 # Un *middleware* est quelque chose qui prend une *requête* et retourne une *réponse*.
+
+---
+class: title
+
+# Concrètement
 
 ---
 

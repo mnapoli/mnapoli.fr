@@ -29,14 +29,225 @@ class: main-title
 # Un *singleton* est une classe qui a *une seule instance*.
 
 ---
+
+> Accéder à d'autre composants (dépendances).
+
+- singleton
+- variables globales
+- service locator/registry
+- proxy statique ("facades" Laravel)
+- injection de dépendances
+
+---
 class: main-title
 
 # Un *middleware* est quelque chose qui prend une *requête* et retourne une *réponse*.
 
 ---
+class: main-title
+
+# Architecture d'applications HTTP
+
+## « quand, comment et quoi est appelé ? »
+
+---
+
+- **routing**
+
+--
+- authentification/firewall
+- logging
+- cache
+- headers de cache HTTP
+- session
+- page de maintenance
+- assets/medias
+- rate limiting
+- forcer HTTPS
+- restriction par IP
+- content negotiation
+- language negotiation
+- ...
+
+---
+
+- framework "classique"/maison
+- Symfony
+
+---
+
+```php
+$request = /* create request object */;
+
+try {
+    // create session
+    // log request
+    // check authentication
+    // ...
+
+    $controller = $router->route($request);
+
+    $response = $controller($request);
+} catch (\Exception $e) {
+    $response = /* generate error response (error page) */;
+}
+
+$response->send();
+```
+
+---
+
+## Symfony
+
+```php
+$request = Request::createFromGlobals();
+
+try {
+    $event = new Event($request, ...);
+    $this->dispatcher->dispatch(KernelEvents::REQUEST, $event);
+    if ($event->hasResponse()) { /* send response */ }
+
+    $controller = $request->attributes->get('_controller');
+    $controllerArguments = $this->resolver->getArguments($request, $controller);
+
+    $response = call_user_func_array($controller, $controllerArguments);
+} catch (\Exception $e) {
+    $response = /* generate error response (error page) */;
+}
+
+$response->send();
+```
+
+---
+
+## Architecture d'applications HTTP
+
+- à la main
+- events/hooks
+--
+
+- middlewares
+
+---
 class: title
 
-# Concrètement
+# Stack
+
+## 2013
+
+---
+
+```php
+$kernel = new AppKernel();
+
+$request = Request::createFromGlobals();
+
+$response = $kernel->handle($request);
+
+$response->send();
+```
+
+---
+class: main-title
+
+# Un *middleware* est quelque chose qui prend une *requête* et retourne une *réponse*.
+
+---
+
+```php
+interface HttpKernelInterface
+{
+    /**
+     * @return Response
+     */
+    public function handle(Request $request, ...);
+}
+```
+
+---
+
+## Stack [stackphp.com](http://stackphp.com/)
+
+![](img/stack-conventions.png)
+
+---
+
+```php
+class LoggerMiddleware implements HttpKernelInterface
+{
+    public function __construct(HttpKernelInterface $next)
+    {
+        $this->next = $next;
+    }
+
+    public function handle(Request $request, …)
+    {
+        $response = $this->next->handle($request, …);
+        
+        // write to log
+        
+        return $response;
+    }
+}
+```
+
+---
+
+```php
+$kernel = new LoggerMiddleware(
+    new AppKernel()
+);
+
+$request = Request::createFromGlobals();
+
+$response = $kernel->handle($request);
+
+$response->send();
+```
+
+---
+
+```php
+$kernel = new HttpCache(
+    new CorsMiddleware(
+        new LoggerMiddleware(
+            new AppKernel()
+        ),
+    ),
+    new Storage(...)
+);
+```
+
+---
+
+- utilisation complexe
+- hors de l'application
+- spécifique Symfony
+
+---
+class: title
+
+# PSR-7
+
+## Mai 2015
+
+---
+
+## PSR-7
+
+```
+composer require psr/http-message
+```
+
+- `RequestInterface`
+- `ServerRequestInterface`
+- `ResponseInterface`
+- ...
+
+---
+class: title
+
+# Callable
 
 ---
 
@@ -63,6 +274,21 @@ $response = $middleware($request);
 ```php
 class Middleware
 {
+    public function handle($request) {
+        return new Response('Hello');
+    }
+}
+
+$middleware = [new Middleware(), 'handle'];
+
+$response = $middleware($request);
+```
+
+---
+
+```php
+class Middleware
+{
     public function __invoke($request) {
         return new Response('Hello');
     }
@@ -75,11 +301,6 @@ $response = $middleware->__invoke($request);
 ```
 
 [PHP callables](http://php.net/manual/en/language.types.callable.php)
-
----
-class: title
-
-# PSR-7
 
 ---
 
@@ -99,54 +320,28 @@ function middleware(ServerRequestInterface $request) : ResponseInterface {
 ![](img/diactoros.png)
 
 ---
+class: title
 
-## Request
+# Architecture "middlewares"
 
-```php
-$request = new ServerRequest(
-    $_SERVER,
-    $_FILES,
-    new Uri(...),
-    $_SERVER['REQUEST_METHOD'],
-    'php://input',
-    $headers,
-    $_COOKIE,
-    $_GET,
-    $_POST,
-    $_SERVER['SERVER_PROTOCOL']
-);
-```
+---
 
 ```php
 $request = ServerRequestFactory::fromGlobals();
-```
 
----
+$router = new Router([
+    '/' => function ($request) {
+        return new TextResponse('Hello world!');
+    },
+    '/about' => function ($request) {
+        return new TextResponse('This super website is sponsored by AFUP!');
+    },
+]);
 
-## Response
+$response = $router->route($request);
 
-```php
-foreach ($response->getHeaders() as $header => $values) {
-    foreach ($values as $value) {
-        header("$header: $value");
-    }
-}
-echo $response->getBody();
-```
-
-```php
 (new SapiEmitter)->emit($response);
 ```
-
----
-class: title
-
-# Application
-
----
-class: main-title
-
-# Un *middleware* est quelque chose qui prend une *requête* et retourne une *réponse*.
 
 ---
 
@@ -546,6 +741,85 @@ $application = new Pipe([
 ---
 
 ```php
+$website = new Pipe([
+    new ErrorHandler(),
+    new ForceHttps(),
+    new MaintenanceMode(),
+    new SessionMiddleware(),
+    new DebugBar(),
+    new Router([
+        '/' => function () { ... },
+        '/article/{id}' => function () { ... },
+    ]),
+]);
+$api = new Pipe([
+    new ErrorHandler(),
+    new ForceHttps(),
+    new Authentication(),
+    new Router([
+        '/api/articles' => function () { ... },
+        '/api/articles/{id}' => function () { ... },
+    ]),
+]);
+```
+
+---
+
+```php
+$application = new Router([
+    '/api/{.*}' => new Pipe([
+        new ErrorHandler(),
+        new ForceHttps(),
+        new Authentication(),
+        new Router([
+            '/api/articles' => function () { ... },
+            '/api/articles/{id}' => function () { ... },
+        ]),
+    ]),
+    '/{.*}' => new Pipe([
+        new ErrorHandler(),
+        new ForceHttps(),
+        new MaintenanceMode(),
+        new SessionMiddleware(),
+        new DebugBar(),
+        new Router([
+            '/' => function () { ... },
+            '/article/{id}' => function () { ... },
+        ]),
+    ]),
+]);
+```
+
+---
+
+```php
+$application = new PrefixRouter([
+    '/api/' => new Pipe([
+        new ErrorHandler(),
+        new ForceHttps(),
+        new Authentication(),
+        new Router([
+            '/api/articles' => function () { ... },
+            '/api/articles/{id}' => function () { ... },
+        ]),
+    ]),
+    '/' => new Pipe([
+        new ErrorHandler(),
+        new ForceHttps(),
+        new MaintenanceMode(),
+        new SessionMiddleware(),
+        new DebugBar(),
+        new Router([
+            '/' => function () { ... },
+            '/article/{id}' => function () { ... },
+        ]),
+    ]),
+]);
+```
+
+---
+
+```php
 $application = new Pipe([
     new ErrorHandler(),
     new ForceHttps(),
@@ -580,3 +854,15 @@ $application = new Pipe([
 - frameworks
 - PSR-15
 - middlewares PSR-7
+
+---
+class: main-title
+
+### Conclusion :
+
+# Un *middleware* est quelque chose qui prend une *requête* et retourne une *réponse*.
+
+---
+class: main-title
+
+# Les *middlewares* permettent de mieux controler l'architecture des applications HTTP.

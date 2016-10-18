@@ -78,8 +78,21 @@ h2 a:last-child {
   font-style: normal;
   color: #92A4CC;
 }
+.remark-slide > .main-title strong {
+  color: #DA9156;
+}
 .remark-slide > .main-title .remark-slide-number {
   visibility: hidden;
+}
+.remark-slide > .section {
+  vertical-align: middle;
+  text-align: center;
+  background: #435C92;
+  color: white;
+}
+.remark-slide > .section h1 {
+  font-size: 100px;
+  color: #f3f3f3;
 }
 .remark-slide > .full-image {
   color: white;
