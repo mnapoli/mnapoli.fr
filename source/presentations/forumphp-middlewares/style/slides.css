@@ -80,3 +80,9 @@
 .right-block {
   float: right;
 }
+.remark-slide > .center-image {
+  text-align: center;
+}
+.remark-slide > .center-image img:first-of-type {
+  max-height: 570px;
+}

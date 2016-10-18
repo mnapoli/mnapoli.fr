@@ -124,6 +124,12 @@ h2 a:last-child {
 .right-block {
   float: right;
 }
+.remark-slide > .center-image {
+  text-align: center;
+}
+.remark-slide > .center-image img:first-of-type {
+  max-height: 570px;
+}
 .browser-mockup {
   border-top: 2em solid rgba(230, 230, 230, 0.7);
   box-shadow: 0 0.1em 1em 0 rgba(0, 0, 0, 0.4);

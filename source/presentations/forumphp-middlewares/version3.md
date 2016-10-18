@@ -129,6 +129,22 @@ $response->send();
 - middlewares
 
 ---
+
+## Unix philosophy
+
+- Write programs that do one thing and do it well.
+- Write programs to handle text streams, because that is a universal interface.
+- Write programs to work together.
+
+.small[ Peter H. Salus ]
+
+---
+
+- Write **middlewares** that do one thing and do it well.
+- Write **middlewares** to handle **PSR-7 objects** because that is a universal interface.
+- Write **middlewares** to work together.
+
+---
 class: title
 
 # Stack
@@ -305,165 +321,76 @@ $response = $middleware->__invoke($request);
 ---
 
 ```php
-use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
-function middleware(ServerRequestInterface $request) : ResponseInterface {
-    return new Response();
+class LoggerMiddleware
+{
+    public function __construct(callable $next)
+    {
+        $this->next = $next;
+    }
+
+    public function __invoke(ServerRequestInterface $request)
+    {
+        $next = $this->next;
+        $response = $next($request);
+        
+        // write to log
+        
+        return $response;
+    }
 }
 ```
 
 ---
 
-## Zend Diactoros [github.com/zendframework/zend-diactoros](https://github.com/zendframework/zend-diactoros)
-
-![](img/diactoros.png)
-
----
-class: title
-
-# Architecture "middlewares"
-
----
-
 ```php
-$request = ServerRequestFactory::fromGlobals();
-
-$router = new Router([
-    '/' => function ($request) {
-        return new TextResponse('Hello world!');
-    },
-    '/about' => function ($request) {
-        return new TextResponse('This super website is sponsored by AFUP!');
-    },
-]);
-
-$response = $router->route($request);
-
-(new SapiEmitter)->emit($response);
+class LoggerMiddleware
+{
+    public function __invoke(ServerRequestInterface $request, callable $next)
+    {
+        $response = $next($request);
+        
+        // write to log
+        
+        return $response;
+    }
+}
 ```
 
 ---
 
 ```php
-// index.php
-
-$application = function (ServerRequestInterface $request) {
-    return new TextResponse('The date is ' . date('d M Y'));
-};
-
-$response = $application(…);
-…
+$middleware = function (ServerRequestInterface $request, callable $next) {
+    $response = $next($request);
+    
+    // write to log
+    
+    return $response;
+}
 ```
 
 ---
 
 ```php
-// index.php
+$logger = function (ServerRequestInterface $request, callable $next) {
+    $response = $next($request);
+    
+    // write to log
+    
+    return $response;
+}
 
-$application = function (ServerRequestInterface $request) {
-    return new TextResponse('The date is ' . date('d M Y'));
-};
-
-$response = $application(ServerRequestFactory::fromGlobals());
-…
-```
-
----
-
-```php
-// index.php
-
-$application = function (ServerRequestInterface $request) {
-    return new TextResponse('The date is ' . date('d M Y'));
-};
-
-$response = $application(ServerRequestFactory::fromGlobals());
-(new SapiEmitter)->emit($response);
-```
-
----
-
-.browser-mockup[ The date is 28 Oct 2016 ]
-
----
-class: title
-
-# Error handling
-
----
-
-```php
-$application = function (ServerRequestInterface $request) {
+$errorHandler = function (ServerRequestInterface $request, callable $next) {
     try {
-        return new TextResponse('The date is ' . date('d M Y'));
+        return $next($request);
     } catch (\Throwable $e) {
-        return new EmptyResponse('Oops!', 500);
+        return new TextResponse('Oops!', 500);
     }
-};
+}
 
-$response = $application(ServerRequestFactory::fromGlobals());
-(new SapiEmitter)->emit($response);
-```
-
----
-
-```php
-$application = function (ServerRequestInterface $request) {
-    return new TextResponse('The date is ' . date('d M Y'));
-};
-
-$errorHandler = function (ServerRequestInterface $request) use ($application) {
-    try {
-        return $application($request);
-    } catch (\Throwable $e) {
-        return new EmptyResponse('Oops!', 500);
-    }
-};
-
-$response = $errorHandler(ServerRequestFactory::fromGlobals());
-(new SapiEmitter)->emit($response);
-```
-
----
-
-.browser-mockup.error[ Oops! ]
-
----
-class: title
-
-# Force HTTPS
-
----
-
-```php
-$forceHttps = function (ServerRequestInterface $request) use ($application) {
-    $uri = $request->getUri();
-    if (strtolower($uri->getScheme()) !== 'https') {
-        $uri = $uri->withScheme('https')->withPort(443);
-        return new RedirectResponse($uri);
-    }
-    return $application($request);
-};
-```
-
----
-
-```php
-$application = function (ServerRequestInterface $request) {
-    return new TextResponse('The date is ' . date('d M Y'));
-};
-
-$forceHttps = function (ServerRequestInterface $request) use ($application) {
-    ...
-};
-
-$errorHandler = function (ServerRequestInterface $request) use ($forceHttps) {
-    ...
-};
-
-$response = $errorHandler(ServerRequestFactory::fromGlobals());
-(new SapiEmitter)->emit($response);
+// ?
 ```
 
 ---
@@ -474,41 +401,13 @@ class: title
 ---
 
 ```ruby
-$ cat /var/log/apache2/access.log \
-        | grep 404 \
-        | awk '{ print $7 }' \
-        | sort \
-        | uniq -c \
-        | sort
-
-   1 /blog/wp-content/uploads/2012/12/favicon.ico
-   1 /favicon.ico
-   1 /login?code=auie&state=auie
-  10 /dreams/wp-content/uploads/2016/03/header-bg.png
-  33 /description.xml
+$ cat access.log | grep 404 | awk '{ print $7 }' | sort | uniq -c | sort
 ```
 
 ---
+class: center-image
 
-## Unix philosophy
-
-- Write programs that do one thing and do it well.
-- Write programs to handle text streams, because that is a universal interface.
-- Write programs to work together.
-
-.small[ Peter H. Salus ]
-
----
-
-- Write **middlewares** that do one thing and do it well.
-- Write **middlewares** to handle **PSR-7 objects** because that is a universal interface.
-- Write **middlewares** to work together.
-
----
-
-```ruby
-$ cat access.log | grep 404 | awk '{ print $7 }' | sort
-```
+![](img/pipe.png)
 
 ---
 
@@ -547,43 +446,6 @@ $pipe->pipe(function ($request, $next) {
 ]
 
 ---
-
-```php
-$pipe = new Pipe([
-
-    function ($request, $next) {
-        try {
-            return $next($request);
-        } catch (\Throwable $e) {
-            return new EmptyResponse('Oops!', 500);
-        }
-    },
-    
-    function ($request, $next) {
-        // force https
-        // ...
-    },
-    
-    function ($request, $next) {
-        return new TextResponse('The date is ' . date('d M Y'));
-    },
-    
-]);
-```
-
----
-
-```php
-$pipe = new Pipe([
-    new ErrorHandler(),
-    new ForceHttps(),
-    function ($request, $next) {
-        return new TextResponse('The date is ' . date('d M Y'));
-    },
-]);
-```
-
----
 class: main-title
 
 # Un *middleware* est quelque chose qui prend une *requête* **(et $next)** et retourne une *réponse*.
@@ -591,42 +453,48 @@ class: main-title
 ---
 
 ```php
-$application = new Pipe([
-    ...
+$pipe = new Pipe([
+
+    function ($request, $next) { // error handler
+        try {
+            return $next($request);
+        } catch (\Throwable $e) {
+            return new TextResponse('Oops!', 500);
+        }
+    },
+    
+    function ($request, $next) { // logger
+        $response = $next($request);
+        
+        // write to log
+        
+        return $response;
+    },
+    
 ]);
-
-$next = function () {
-    throw new Exception('No middleware handled the response');
-};
-$response = $application(ServerRequestFactory::fromGlobals(), $next);
-(new SapiEmitter)->emit($response);
 ```
-
----
-class: title
-
-# Routing
 
 ---
 
 ```php
-$router = new Router();
-$router->addRoute('/', function () {
-    return new TextResponse('The date is ' . date('d M Y'));
-});
-$router->addRoute('/about', function () {
-    return new TextResponse('This super website is sponsored by AFUP!');
-});
-```
----
-
-```php
-$router = new Router(...
-
-$application = new Pipe([
+$pipe = new Pipe([
     new ErrorHandler(),
-    new ForceHttps(),
+    new Logger(),
 ]);
+```
+
+---
+
+```php
+$router = new Router([
+    '/' => function () {
+        return new TextResponse('Hello world!');
+    },
+    '/about' => function () {
+        return new TextResponse('This super website is sponsored by AFUP!');
+    },
+]);
+$response = $router->route($request);
 ```
 
 ---
@@ -635,14 +503,24 @@ class: main-title
 # Un *middleware* est quelque chose qui prend une *requête* et retourne une *réponse*.
 
 ---
+class: center-image
+
+![](img/router.png)
+
+---
 
 ```php
-$router = new Router(...
-
-$application = new Pipe([
+$pipe = new Pipe([
     new ErrorHandler(),
-    new ForceHttps(),
-    $router,
+    new Logger(),
+    new Router([
+        '/' => function () {
+            return new TextResponse('Hello world!');
+        },
+        '/about' => function () {
+            return new TextResponse('This super website is sponsored by AFUP!');
+        },
+    ]),
 ]);
 ```
 
@@ -716,7 +594,12 @@ class Kernel extends HttpKernel
 ---
 class: title
 
-# Frameworks et Architecture
+# Architecture
+
+---
+class: center-image
+
+![](img/route-middleware.png)
 
 ---
 
@@ -851,7 +734,6 @@ $application = new Pipe([
 - avantages
 - inconvénients
 - attributes
-- frameworks
 - PSR-15
 - middlewares PSR-7
 
