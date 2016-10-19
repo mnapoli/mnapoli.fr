@@ -1,8 +1,12 @@
-class: main-title
+class: section
 
-### Conclusion :
+## Write programs that do one thing and do it well.
 
-# Un *middleware* est quelque chose qui prend une *requête* et retourne une *réponse*.
+## Write programs to handle text streams, because that is a universal interface.
+
+## Write programs to work together.
+
+.small[ *Unix philosophy* ]
 
 ---
 class: profile
@@ -15,9 +19,19 @@ class: profile
 
 .company-logo[ [![](img/wizaplace.png)](https://wizaplace.com) ]
 
+- [externals.io](http://externals.io/)
+- [isitmaintained.com](https://isitmaintained.com/)
+- [github.com/stratifyphp](https://github.com/stratifyphp)
+
 ---
 
 # middle-what ?
+
+---
+
+class: main-title
+
+# Un *middleware* est quelque chose qui prend une *requête* et retourne une *réponse*.
 
 ---
 
@@ -70,42 +84,19 @@ class: main-title
 - ...
 
 ---
+class: title
 
-- framework "classique"/maison
-- Symfony
+# Symfony
 
 ---
 
 ```php
-$request = /* create request object */;
-
-try {
-    // create session
-    // log request
-    // check authentication
-    // ...
-
-    $controller = $router->route($request);
-
-    $response = $controller($request);
-} catch (\Exception $e) {
-    $response = /* generate error response (error page) */;
-}
-
-$response->send();
-```
-
----
-
-## Symfony
-
-```php
-$request = Request::createFromGlobals();
-
 try {
     $event = new Event($request, ...);
     $this->dispatcher->dispatch(KernelEvents::REQUEST, $event);
-    if ($event->hasResponse()) { /* send response */ }
+    if ($event->hasResponse()) {
+        return $event->getResponse();
+    }
 
     $controller = $request->attributes->get('_controller');
     $controllerArguments = $this->resolver->getArguments($request, $controller);
@@ -114,35 +105,12 @@ try {
 } catch (\Exception $e) {
     $response = /* generate error response (error page) */;
 }
-
-$response->send();
 ```
 
 ---
+class: title
 
-## Architecture d'applications HTTP
-
-- à la main
-- events/hooks
---
-
-- middlewares
-
----
-
-## Unix philosophy
-
-- Write programs that do one thing and do it well.
-- Write programs to handle text streams, because that is a universal interface.
-- Write programs to work together.
-
-.small[ Peter H. Salus ]
-
----
-
-- Write **middlewares** that do one thing and do it well.
-- Write **middlewares** to handle **PSR-7 objects** because that is a universal interface.
-- Write **middlewares** to work together.
+# Events
 
 ---
 class: title
@@ -728,23 +696,38 @@ $application = new Pipe([
 ```
 
 ---
+class: title
 
-# TODO :
-
-- avantages
-- inconvénients
-- attributes
-- PSR-15
-- middlewares PSR-7
+# Conclusion
 
 ---
 class: main-title
-
-### Conclusion :
 
 # Un *middleware* est quelque chose qui prend une *requête* et retourne une *réponse*.
 
 ---
 class: main-title
 
-# Les *middlewares* permettent de mieux controler l'architecture des applications HTTP.
+# Les *middlewares* permettent de mieux controler *l'architecture* des applications HTTP.
+
+---
+class: center-image
+
+![](img/middlewares-vs-events.png)
+
+---
+class: section
+
+## Write middlewares that do one thing and do it well.
+
+## Write middlewares to handle PSR-7 objects, because that is a universal interface.
+
+## Write middlewares to work together.
+
+---
+
+# TODO :
+
+- attributes
+- PSR-15
+- middlewares PSR-7
