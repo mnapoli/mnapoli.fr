@@ -1,12 +1,8 @@
-class: section
+class: main-title
 
-## Write programs that do one thing and do it well.
+### Conclusion :
 
-## Write programs to handle text streams, because that is a universal interface.
-
-## Write programs to work together.
-
-.small[ *Unix philosophy* ]
+# Un *middleware* est quelque chose qui prend une *requête* et retourne une *réponse*.
 
 ---
 class: profile
@@ -157,6 +153,33 @@ interface HttpKernelInterface
 ---
 
 ```php
+class Middleware implements HttpKernelInterface
+{
+    public function __construct(HttpKernelInterface $next)
+    {
+        $this->next = $next;
+    }
+
+    public function handle(Request $request, …)
+    {
+        // do something before
+        
+        if (/* I want to */) {
+            $response = $this->next->handle($request, …);
+        } else {
+            $response = new Response('Youpida');
+        }
+        
+        // do something after
+        
+        return $response;
+    }
+}
+```
+
+---
+
+```php
 class LoggerMiddleware implements HttpKernelInterface
 {
     public function __construct(HttpKernelInterface $next)
@@ -188,6 +211,15 @@ $response = $kernel->handle($request);
 
 $response->send();
 ```
+
+---
+class: center-image
+
+## Onion style
+
+![](img/onion.png)
+
+.small[ [stackphp.com](http://stackphp.com/) ]
 
 ---
 
@@ -227,6 +259,20 @@ composer require psr/http-message
 - `ServerRequestInterface`
 - `ResponseInterface`
 - ...
+
+---
+
+## PSR-7: immutabilité
+
+```php
+$request = $request->withQueryParams([
+    'foo' => 'bar'
+]);
+```
+
+```php
+$response = $response->withHeader('Content-Length', 123);
+```
 
 ---
 class: title
@@ -341,6 +387,32 @@ $middleware = function (ServerRequestInterface $request, callable $next) {
 
 ---
 
+## "Middleware PSR-7"
+
+```php
+$middleware = function ($request, $response, callable $next) {
+    $response = $next($request, $response);
+    
+    // write to log
+    
+    return $response;
+}
+```
+
+---
+
+```php
+$middleware = function (ServerRequestInterface $request, callable $next) {
+    $response = $next($request);
+    
+    // write to log
+    
+    return $response;
+}
+```
+
+---
+
 ```php
 $logger = function (ServerRequestInterface $request, callable $next) {
     $response = $next($request);
@@ -393,6 +465,8 @@ $pipe = new Pipe([
     },
 ]);
 ```
+
+.small[ [Pipe.php](https://github.com/mnapoli/workshop-middlewares/blob/step-8/src/Middleware/Pipe.php) ]
 ]
 
 --
@@ -537,6 +611,11 @@ $app->get('/', function () {
 ```
 
 ---
+class: center-image
+
+![](img/route-middleware.png)
+
+---
 
 ## Laravel
 
@@ -562,12 +641,19 @@ class Kernel extends HttpKernel
 ---
 class: title
 
-# Architecture
+# Middlewares
 
 ---
 class: center-image
 
-![](img/route-middleware.png)
+[![](img/oscarotero-middlewares.png)](https://github.com/oscarotero/psr7-middlewares)
+
+[github.com/oscarotero/psr7-middlewares](https://github.com/oscarotero/psr7-middlewares)
+
+---
+class: title
+
+# Architecture
 
 ---
 
@@ -696,19 +782,31 @@ $application = new Pipe([
 ```
 
 ---
+
+```php
+$expressive = Zend\Expressive\AppFactory::create();
+$expressive->...
+
+$slim = new Slim\App();
+$slim->...
+
+$application = new PrefixRouter([
+    '/dashboard/' => $slim,
+    '/api/' => $expressive,
+    '/admin/' => function () {
+        $legacy = LegacyApplication::init();
+        ob_start();
+        $legacy->run();
+        $html = ob_get_clean();
+        return new HtmlResponse($html);
+    },
+]);
+```
+
+---
 class: title
 
 # Conclusion
-
----
-class: main-title
-
-# Un *middleware* est quelque chose qui prend une *requête* et retourne une *réponse*.
-
----
-class: main-title
-
-# Les *middlewares* permettent de mieux controler *l'architecture* des applications HTTP.
 
 ---
 class: center-image
@@ -716,13 +814,16 @@ class: center-image
 ![](img/middlewares-vs-events.png)
 
 ---
-class: section
+class: main-title
 
-## Write middlewares that do one thing and do it well.
+### Conclusion :
 
-## Write middlewares to handle PSR-7 objects, because that is a universal interface.
+# Un *middleware* est quelque chose qui prend une *requête* et retourne une *réponse*.
 
-## Write middlewares to work together.
+---
+class: main-title
+
+# Les *middlewares* permettent de mieux controler *l'architecture* des applications HTTP.
 
 ---
 
