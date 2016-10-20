@@ -261,76 +261,50 @@ composer require psr/http-message
 - ...
 
 ---
-
-## PSR-7: immutabilité
-
-```php
-$request = $request->withQueryParams([
-    'foo' => 'bar'
-]);
-```
-
-```php
-$response = $response->withHeader('Content-Length', 123);
-```
-
----
 class: title
 
 # Callable
 
 ---
 
-```php
-function middleware($request) {
-    return new Response('Hello');
-}
-
-$response = middleware($request);
-```
-
----
-
-```php
-$middleware = function ($request) {
-    return new Response('Hello');
-}
-
-$response = $middleware($request);
-```
-
----
-
-```php
-class Middleware
-{
-    public function handle($request) {
-        return new Response('Hello');
-    }
-}
-
-$middleware = [new Middleware(), 'handle'];
-
-$response = $middleware($request);
-```
-
----
-
-```php
-class Middleware
-{
-    public function __invoke($request) {
-        return new Response('Hello');
-    }
-}
-
-$middleware = new Middleware();
-
-$response = $middleware($request);
-$response = $middleware->__invoke($request);
-```
-
 [PHP callables](http://php.net/manual/en/language.types.callable.php)
+
+.left-block[
+```php
+function foo() { ... }
+
+function () { ... }
+
+class Foo
+{
+    public function bar() { ... }
+}
+
+class Foo
+{
+    public function __invoke() { ... }
+}
+```
+]
+.right-block[
+```php
+$callable = 'foo';
+
+$callable = function () { ... }
+
+
+
+
+$callable = [new Foo(), 'bar'];
+
+
+
+
+$callable = new Foo();
+
+$callable();
+```
+]
 
 ---
 
@@ -806,7 +780,24 @@ $application = new PrefixRouter([
 ---
 class: title
 
-# Conclusion
+# Et maintenant ?
+
+---
+
+## PSR-15
+
+- [PSR-15](https://github.com/php-fig/fig-standards/blob/master/proposed/http-middleware/middleware.md)
+- [http-interop/http-middleware](https://github.com/http-interop/http-middleware)
+
+```php
+class MyMiddleware implements MiddlewareInterface
+{
+    public function process(RequestInterface $request, DelegateInterface $delegate)
+    {
+        return $delegate->next($request);
+    }
+}
+```
 
 ---
 class: center-image
