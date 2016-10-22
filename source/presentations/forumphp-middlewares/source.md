@@ -15,11 +15,16 @@ class: profile
 
 .company-logo[ [![](img/wizaplace.png)](https://wizaplace.com) ]
 
+- [externals.io](http://externals.io/)
+- [isitmaintained.com](https://isitmaintained.com/)
+- [github.com/stratifyphp](https://github.com/stratifyphp)
+
 ---
 
 # middle-what ?
 
 ---
+
 class: main-title
 
 # Un *middleware* est quelque chose qui prend une *requête* et retourne une *réponse*.
@@ -34,42 +39,32 @@ class: main-title
 # Un *singleton* est une classe qui a *une seule instance*.
 
 ---
+
+> Accéder à d'autre composants (dépendances).
+
+- singleton
+- variables globales
+- service locator/registry
+- proxy statique ("facades" Laravel)
+- injection de dépendances
+
+---
 class: main-title
 
 # Un *middleware* est quelque chose qui prend une *requête* et retourne une *réponse*.
 
 ---
-class: title
+class: main-title
 
-# Symfony
+# Architecture d'applications HTTP
 
----
-
-```php
-$request = Request::createFromGlobals();
-
-try {
-    $this->dispatcher->dispatch(KernelEvents::REQUEST, new Event(...));
-    if ($event->hasResponse()) { ... }
-
-    $controller = $request->attributes->get('_controller');
-    $controllerArguments = $this->resolver->getArguments($request, $controller);
-
-    $response = call_user_func_array($controller, $controllerArguments);
-} catch (\Exception $e) {
-    $response = $this->handleException($e, $request);
-}
-
-$response->send();
-$this->dispatcher->dispatch(KernelEvents::TERMINATE, new Event(...));
-```
+## « quand, comment et quoi est appelé ? »
 
 ---
 
-# Events (hooks ?)
+- **routing**
 
----
-
+--
 - authentification/firewall
 - logging
 - cache
@@ -79,10 +74,39 @@ $this->dispatcher->dispatch(KernelEvents::TERMINATE, new Event(...));
 - assets/medias
 - rate limiting
 - forcer HTTPS
-- restricton par IP
+- restriction par IP
 - content negotiation
 - language negotiation
 - ...
+
+---
+class: title
+
+# Symfony
+
+---
+
+```php
+try {
+    $event = new Event($request, ...);
+    $this->dispatcher->dispatch(KernelEvents::REQUEST, $event);
+    if ($event->hasResponse()) {
+        return $event->getResponse();
+    }
+
+    $controller = $request->attributes->get('_controller');
+    $controllerArguments = $this->resolver->getArguments($request, $controller);
+
+    $response = call_user_func_array($controller, $controllerArguments);
+} catch (\Exception $e) {
+    $response = /* generate error response (error page) */;
+}
+```
+
+---
+class: title
+
+# Events
 
 ---
 class: title
@@ -129,6 +153,33 @@ interface HttpKernelInterface
 ---
 
 ```php
+class Middleware implements HttpKernelInterface
+{
+    public function __construct(HttpKernelInterface $next)
+    {
+        $this->next = $next;
+    }
+
+    public function handle(Request $request, …)
+    {
+        // do something before
+        
+        if (/* I want to */) {
+            $response = $this->next->handle($request, …);
+        } else {
+            $response = new Response('Youpida');
+        }
+        
+        // do something after
+        
+        return $response;
+    }
+}
+```
+
+---
+
+```php
 class LoggerMiddleware implements HttpKernelInterface
 {
     public function __construct(HttpKernelInterface $next)
@@ -162,18 +213,15 @@ $response->send();
 ```
 
 ---
+class: center-image
 
-# Middlewares vs Events
+## Onion style
+
+![](img/onion.png)
+
+.small[ [stackphp.com](http://stackphp.com/) ]
 
 ---
-
-- spécifique Symfony
---
-
-- hors de l'application
---
-
-- utilisation complexe :
 
 ```php
 $kernel = new HttpCache(
@@ -185,6 +233,12 @@ $kernel = new HttpCache(
     new Storage(...)
 );
 ```
+
+---
+
+- utilisation complexe
+- hors de l'application
+- spécifique Symfony
 
 ---
 class: title
@@ -207,468 +261,150 @@ composer require psr/http-message
 - ...
 
 ---
-
-TODO : à supprimer ?
-
-## PSR-7: immutabilité
-
-```php
-$request = $request->withQueryParams([
-    'foo' => 'bar'
-]);
-```
-
-```php
-$response = $response->withHeader('Content-Length', 123);
-```
-
----
-
-TODO : à supprimer ?
-
-Immutabilité => ~~events~~
-
----
 class: title
 
-# Pipe
+# Callable
 
 ---
 
-TODO : graphique pipe
-
----
-
-```php
-class LoggerMiddleware
-{
-    public function __construct($next)
-    {
-        $this->next = $next;
-    }
-
-    public function handle(RequestInterface $request)
-    {
-        $response = $this->next->handle($request);
-        
-        // write to log
-        
-        return $response;
-    }
-}
-```
-
----
-
-```php
-class LoggerMiddleware
-{
-    public function handle(RequestInterface $request, $next)
-    {
-        $response = $next->handle($request);
-        
-        // write to log
-        
-        return $response;
-    }
-}
-```
-
----
-
-```php
-$middleware = function (RequestInterface $request, callable $next) {
-    $response = $next($request);
-    
-    // write to log
-    
-    return $response;
-}
-```
-
----
-
-/!\
-
-```php
-$middleware = function ($request, $response, $next) {
-    $response = $next($request, $response);
-    
-    // write to log
-    
-    return $response;
-}
-```
-
----
-
-```php
-$middleware = function (RequestInterface $request, callable $next) {
-    $response = $next($request);
-    
-    // write to log
-    
-    return $response;
-}
-```
-
----
+[PHP callables](http://php.net/manual/en/language.types.callable.php)
 
 .left-block[
 ```php
-$pipe = new Pipe([
-    function ($request, $next) {
-        ...
-    },
-    function ($request, $next) {
-        ...
-    },
-    function ($request, $next) {
-        ...
-    },
-]);
+function foo() { ... }
+
+function () { ... }
+
+class Foo
+{
+    public function bar() { ... }
+}
+
+class Foo
+{
+    public function __invoke() { ... }
+}
 ```
 ]
 .right-block[
 ```php
-$pipe = new Pipe();
+$callable = 'foo';
 
-$pipe->pipe(function ($request, $next) {
-    ...
-});
-$pipe->pipe(function ($request, $next) {
-    ...
-});
-$pipe->pipe(function ($request, $next) {
-    ...
-});
+$callable = function () { ... }
+
+
+
+
+$callable = [new Foo(), 'bar'];
+
+
+
+
+$callable = new Foo();
+
+$callable();
 ```
 ]
 
 ---
-class: title
-
-# Zend Expressive/ZF3
-
----
 
 ```php
-$app = Zend\Expressive\AppFactory::create();
-
-$app->get('/', function ($request, $response, $next) {
-    $response->getBody()->write('Hello, world!');
-    return $response;
-});
-
-$app->pipe(function ($request, $response, $next) {
-    $response = $next($request, $response);
-    // write to log
-    return $response;
-});
-$app->pipe('nom-de-service');
-
-// ...
-$app->run();
-```
-
----
-class: title
-
-# Slim
-
----
-
-```php
-$app = new \Slim\App();
-
-$app->add(function ($request, $response, $next) {
-	// ...
-});
-
-// Route middleware
-$app->get('/', function ($request, $response, $args) {
-	// controller
-})->add(function ($request, $response, $next) {
-    // middleware
-});
-```
-
----
-class: title
-
-# Laravel
-
----
-
-```php
-class MyMiddleware
-{
-    public function handle(Request $request, Closure $next)
-    {
-        // ...
-
-        return $next($request);
-    }
-}
-```
-
-```php
-class Kernel extends HttpKernel
-{
-    protected $middleware = [
-        CheckForMaintenanceMode::class,
-    ];
-    
-    ...
-```
-
----
-class: title
-
-# PSR-15
-
----
-class: title
-
-# Conclusion
-
----
-class: section
-
-# 2. Les middlewares **sans** les frameworks
-
----
-
-- application
-- pipe
-- middlewares (authentification, logging, etc.)
-- routeur
-- controleur
-
----
-class: main-title
-
-# Un *middleware* est quelque chose qui prend une *requête* et retourne une *réponse*.
-
----
-
-```php
-$response = middleware($request);
-```
-
-```php
-function middleware($request) {
-    return new Response('Hello');
-}
-```
-
----
-
-```php
-use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
 
-function middleware(ServerRequestInterface $request) : ResponseInterface {
-    return new Response();
+class LoggerMiddleware
+{
+    public function __construct(callable $next)
+    {
+        $this->next = $next;
+    }
+
+    public function __invoke(ServerRequestInterface $request)
+    {
+        $next = $this->next;
+        $response = $next($request);
+        
+        // write to log
+        
+        return $response;
+    }
+}
+```
+
+---
+
+```php
+class LoggerMiddleware
+{
+    public function __invoke(ServerRequestInterface $request, callable $next)
+    {
+        $response = $next($request);
+        
+        // write to log
+        
+        return $response;
+    }
 }
 ```
 
 ---
 
-## Zend Diactoros [github.com/zendframework/zend-diactoros](https://github.com/zendframework/zend-diactoros)
-
-![](img/diactoros.png)
-
----
-
-## Request
-
 ```php
-$request = new ServerRequest(
-    $_SERVER,
-    $_FILES,
-    new Uri(...),
-    $_SERVER['REQUEST_METHOD'],
-    'php://input',
-    $headers,
-    $_COOKIE,
-    $_GET,
-    $_POST,
-    $_SERVER['SERVER_PROTOCOL']
-);
-```
-
-```php
-$request = ServerRequestFactory::fromGlobals();
-```
-
----
-
-## Response
-
-```php
-foreach ($response->getHeaders() as $header => $values) {
-    foreach ($values as $value) {
-        header("$header: $value");
-    }
+$middleware = function (ServerRequestInterface $request, callable $next) {
+    $response = $next($request);
+    
+    // write to log
+    
+    return $response;
 }
-echo $response->getBody();
-```
-
-```php
-(new SapiEmitter)->emit($response);
 ```
 
 ---
-class: title
 
-# Application
-
----
-class: main-title
-
-# Un *middleware* est quelque chose qui prend une *requête* et retourne une *réponse*.
-
----
+## "Middleware PSR-7"
 
 ```php
-// index.php
-
-$application = function (ServerRequestInterface $request) {
-    return new TextResponse('The date is ' . date('d M Y'));
-};
-
-$response = $application(…);
-…
+$middleware = function ($request, $response, callable $next) {
+    $response = $next($request, $response);
+    
+    // write to log
+    
+    return $response;
+}
 ```
 
 ---
 
 ```php
-// index.php
-
-$application = function (ServerRequestInterface $request) {
-    return new TextResponse('The date is ' . date('d M Y'));
-};
-
-$response = $application(ServerRequestFactory::fromGlobals());
-…
+$middleware = function (ServerRequestInterface $request, callable $next) {
+    $response = $next($request);
+    
+    // write to log
+    
+    return $response;
+}
 ```
 
 ---
 
 ```php
-// index.php
-
-$application = function (ServerRequestInterface $request) {
-    return new TextResponse('The date is ' . date('d M Y'));
-};
-
-$response = $application(ServerRequestFactory::fromGlobals());
-(new SapiEmitter)->emit($response);
-```
-
----
-
-.browser-mockup[ The date is 28 Oct 2016 ]
-
----
-class: title
-
-# Error handling
-
----
-
-```php
-$application = function (ServerRequestInterface $request) {
-    try {
-        return new TextResponse('The date is ' . date('d M Y'));
-    } catch (\Throwable $e) {
-        return new EmptyResponse('Oops!', 500);
-    }
-};
-
-$response = $application(ServerRequestFactory::fromGlobals());
-(new SapiEmitter)->emit($response);
-```
-
----
-
-```php
-$application = function (ServerRequestInterface $request) {
-    return new TextResponse('The date is ' . date('d M Y'));
-};
-
-$errorHandler = function (ServerRequestInterface $request) use ($application) {
-    try {
-        return $application($request);
-    } catch (\Throwable $e) {
-        return new EmptyResponse('Oops!', 500);
-    }
-};
-
-$response = $errorHandler(ServerRequestFactory::fromGlobals());
-(new SapiEmitter)->emit($response);
-```
-
----
-
-```php
-$application = function (ServerRequestInterface $request) {
-    return new TextResponse('The date is ' . date('d M Y'));
-};
+$logger = function (ServerRequestInterface $request, callable $next) {
+    $response = $next($request);
+    
+    // write to log
+    
+    return $response;
+}
 
 $errorHandler = function (ServerRequestInterface $request, callable $next) {
     try {
         return $next($request);
     } catch (\Throwable $e) {
-        return new EmptyResponse('Oops!', 500);
+        return new TextResponse('Oops!', 500);
     }
-};
+}
 
-$response = $errorHandler(ServerRequestFactory::fromGlobals(), $application);
-(new SapiEmitter)->emit($response);
-```
-
----
-
-.browser-mockup.error[ Oops! ]
-
----
-class: title
-
-# Force HTTPS
-
----
-
-```php
-$forceHttps = function (ServerRequestInterface $request, callable $next) {
-    $uri = $request->getUri();
-    if (strtolower($uri->getScheme()) !== 'https') {
-        $uri = $uri->withScheme('https')->withPort(443);
-        return new RedirectResponse($uri);
-    }
-    return $next($request);
-};
-```
-
----
-
-```php
-$errorHandler = function (ServerRequestInterface $request, callable $next) {
-    ...
-};
-
-$forceHttps = function (ServerRequestInterface $request, callable $next) {
-    ...
-};
-
-$application = function (ServerRequestInterface $request) {
-    return new TextResponse('The date is ' . date('d M Y'));
-};
-
-$response = $errorHandler(ServerRequestFactory::fromGlobals(), $forceHttps);
-(new SapiEmitter)->emit($response);
+// ?
 ```
 
 ---
@@ -679,41 +415,13 @@ class: title
 ---
 
 ```ruby
-$ cat /var/log/apache2/access.log \
-        | grep 404 \
-        | awk '{ print $7 }' \
-        | sort \
-        | uniq -c \
-        | sort
-
-   1 /blog/wp-content/uploads/2012/12/favicon.ico
-   1 /favicon.ico
-   1 /login?code=auie&state=auie
-  10 /dreams/wp-content/uploads/2016/03/header-bg.png
-  33 /description.xml
+$ cat access.log | grep 404 | awk '{ print $7 }' | sort | uniq -c | sort
 ```
 
 ---
+class: center-image
 
-## Unix philosophy
-
-- Write programs that do one thing and do it well.
-- Write programs to handle text streams, because that is a universal interface.
-- Write programs to work together.
-
-.small[ Peter H. Salus ]
-
----
-
-- Write **middlewares** that do one thing and do it well.
-- Write **middlewares** to handle **PSR-7 objects** because that is a universal interface.
-- Write **middlewares** to work together.
-
----
-
-```ruby
-$ cat access.log | grep 404 | awk '{ print $7 }' | sort
-```
+![](img/pipe.png)
 
 ---
 
@@ -731,6 +439,8 @@ $pipe = new Pipe([
     },
 ]);
 ```
+
+.small[ [Pipe.php](https://github.com/mnapoli/workshop-middlewares/blob/step-8/src/Middleware/Pipe.php) ]
 ]
 
 --
@@ -752,66 +462,55 @@ $pipe->pipe(function ($request, $next) {
 ]
 
 ---
+class: main-title
 
-```php
-class Pipe
-{
-    private $middlewares;
-
-    public function __construct(array $middlewares)
-    {
-        $this->middlewares = $middlewares;
-    }
-
-    public function __invoke(ServerRequestInterface $request, callable $next)
-    {
-        foreach (array_reverse($this->middlewares) as $middleware) {
-            $next = function ($request) use ($middleware, $next) {
-                return $middleware($request, $next);
-            };
-        }
-
-        return $next($request);
-    }
-}
-```
-
----
-
-## Invokable class
-
-```php
-class Pipe
-{
-    public function __invoke(...) { ... }
-}
-
-$pipe = new Pipe(...);
-
-$response = $pipe($request);
-$response = $pipe->__invoke($request);
-```
-
-[PHP callables](http://php.net/manual/en/language.types.callable.php)
+# Un *middleware* est quelque chose qui prend une *requête* **(et $next)** et retourne une *réponse*.
 
 ---
 
 ```php
 $pipe = new Pipe([
 
-    function ($request, $next) {
-        // error handler
+    function ($request, $next) { // error handler
+        try {
+            return $next($request);
+        } catch (\Throwable $e) {
+            return new TextResponse('Oops!', 500);
+        }
     },
     
-    function ($request, $next) {
-        // force https
-    },
-    
-    function ($request, $next) {
-        return new TextResponse('The date is ' . date('d M Y'));
+    function ($request, $next) { // logger
+        $response = $next($request);
+        
+        // write to log
+        
+        return $response;
     },
     
 ]);
+```
+
+---
+
+```php
+$pipe = new Pipe([
+    new ErrorHandler(),
+    new Logger(),
+]);
+```
+
+---
+
+```php
+$router = new Router([
+    '/' => function () {
+        return new TextResponse('Hello world!');
+    },
+    '/about' => function () {
+        return new TextResponse('This super website is sponsored by AFUP!');
+    },
+]);
+$response = $router->route($request);
 ```
 
 ---
@@ -820,192 +519,110 @@ class: main-title
 # Un *middleware* est quelque chose qui prend une *requête* et retourne une *réponse*.
 
 ---
+class: center-image
+
+![](img/router.png)
+
+---
 
 ```php
-$application = new Pipe([
+$pipe = new Pipe([
+    new ErrorHandler(),
+    new Logger(),
+    new Router([
+        '/' => function () {
+            return new TextResponse('Hello world!');
+        },
+        '/about' => function () {
+            return new TextResponse('This super website is sponsored by AFUP!');
+        },
+    ]),
+]);
+```
+
+---
+class: title
+
+# Frameworks
+
+---
+
+## Zend Expressive/ZF3
+
+```php
+$app = Zend\Expressive\AppFactory::create();
+
+$app->pipe(function (...) {
+    // middleware
+});
+$app->pipe(new MyMiddleware());
+$app->pipe('nom-de-service');
+
+$app->get('/', function () {
+    // controller
+});
+
+// ...
+$app->run();
+```
+
+---
+
+## Slim
+
+```php
+$app = new Slim\App();
+
+$app->add(function (...) {
+	// middleware
+});
+
+$app->get('/', function () {
+	// controller
+})->add(function (...) {
+    // route middleware
+});
+```
+
+---
+class: center-image
+
+![](img/route-middleware.png)
+
+---
+
+## Laravel
+
+```php
+class MyMiddleware
+{
+    public function handle(Request $request, $next)
+    {
+        // ...
+    }
+}
+
+class Kernel extends HttpKernel
+{
+    protected $middleware = [
+        MyMiddleware::class,
+    ];
+    
     ...
-]);
-
-$next = function () {
-    throw new Exception('No middleware handled the response');
-};
-$response = $application(ServerRequestFactory::fromGlobals(), $next);
-(new SapiEmitter)->emit($response);
+}
 ```
 
 ---
 class: title
 
-# Routing
+# Middlewares
 
 ---
+class: center-image
 
-```php
-$router = new Router();
-$router->addRoute('/', function () {
-    return new TextResponse('The date is ' . date('d M Y'));
-});
-$router->addRoute('/about', function () {
-    return new TextResponse('This super website is sponsored by AFUP!');
-});
-```
----
+[![](img/oscarotero-middlewares.png)](https://github.com/oscarotero/psr7-middlewares)
 
-```php
-$router = new Router(...
-
-$application = new Pipe([
-    function (...) { /* error handler */ },
-    function (...) { /* force https */ },
-]);
-
-$next = function () { throw new ... };
-$response = $application(ServerRequestFactory::fromGlobals(), $next);
-(new SapiEmitter)->emit($response);
-```
-
----
-class: main-title
-
-# Un *middleware* est quelque chose qui prend une *requête* et retourne une *réponse*.
-
----
-
-```php
-$router = new Router(...
-
-$application = new Pipe([
-    function (...) { /* error handler */ },
-    function (...) { /* force https */ },
-    $router,
-]);
-
-$next = function () { throw new ... };
-$response = $application(ServerRequestFactory::fromGlobals(), $next);
-(new SapiEmitter)->emit($response);
-```
-
----
-
-```php
-$application = new Pipe([
-    function (...) { /* error handler */ },
-    function (...) { /* force https */ },
-    new Router([
-        '/' => function (...) {
-            ...
-        },
-        '/about' => function (...) {
-            ...
-        },
-    ]),
-]);
-
-$next = function () { throw new ... };
-$response = $application(ServerRequestFactory::fromGlobals(), $next);
-(new SapiEmitter)->emit($response);
-```
-
----
-class: title
-
-# Authentification
-
----
-
-```php
-$application = new Pipe([
-    function (...) { /* error handler */ },
-    function (...) { /* force https */ },
-    function (...) { /* authentification */ },
-    new Router([
-        '/' => function (...) { ... },
-        '/about' => function (...) { ... },
-    ]),
-]);
-```
-
----
-
-```php
-$application = new Pipe([
-    function (...) { /* error handler */ },
-    function (...) { /* force https */ },
-    function (...) { /* authentification */ },
-    new Router([
-        '/' => function (...) { ... },
-        '/about' => function (...) { ... },
-        '/api/date' => function (...) { ... },
-        '/api/time' => function (...) { ... },
-    ]),
-]);
-```
-
----
-
-```php
-$application = new Pipe([
-    function (...) { /* error handler */ },
-    function (...) { /* force https */ },
-    new Router([
-        '/' => function (...) { ... },
-        '/about' => function (...) { ... },
-        
-        '/api/*' => new Pipe([
-            function (...) { /* authentification */ },
-            new Router([
-                '/api/date' => function (...) { ... },
-                '/api/time' => function (...) { ... },
-            ]),
-        ]),
-    ]),
-]);
-```
-
----
-class: title
-
-# Lisibilité
-
----
-
-```php
-$application = new Pipe([
-    new ErrorHandler,
-    new ForceHttps,
-    new Router([
-        '/' => [new HomeController, 'home'],
-        '/about' => [new HomeController, 'about'],
-        
-        '/api/*' => new Pipe([
-            new AuthenticationMiddleware,
-            new Router([
-                '/api/date' => [new ApiController, 'date'],
-                '/api/time' => [new ApiController, 'time'],
-            ]),
-        ]),
-    ]),
-]);
-```
-
----
-
-```php
-$application = new Pipe([
-    new ErrorHandler,
-    new ForceHttps,
-    new Router([
-        require 'routes-website.php',
-        
-        '/api/*' => new Pipe([
-            new AuthenticationMiddleware,
-            new Router([
-                require 'routes-api.php',
-            ]),
-        ]),
-    ]),
-]);
-```
+[github.com/oscarotero/psr7-middlewares](https://github.com/oscarotero/psr7-middlewares)
 
 ---
 class: title
@@ -1016,21 +633,122 @@ class: title
 
 ```php
 $application = new Pipe([
-    new ErrorHandler,
-    new ForceHttps,
+    new ErrorHandler(),
+    new ForceHttps(),
+    new MaintenanceMode(),
+    new SessionMiddleware(),
+    new DebugBar(),
+    new Authentication(),
+    
+    new Router([
+        '/' => function () { ... },
+        '/article/{id}' => function () { ... },
+        '/api/articles' => function () { ... },
+        '/api/articles/{id}' => function () { ... },
+    ]),
+]);
+```
+
+---
+
+```php
+$website = new Pipe([
+    new ErrorHandler(),
+    new ForceHttps(),
+    new MaintenanceMode(),
+    new SessionMiddleware(),
+    new DebugBar(),
+    new Router([
+        '/' => function () { ... },
+        '/article/{id}' => function () { ... },
+    ]),
+]);
+$api = new Pipe([
+    new ErrorHandler(),
+    new ForceHttps(),
+    new Authentication(),
+    new Router([
+        '/api/articles' => function () { ... },
+        '/api/articles/{id}' => function () { ... },
+    ]),
+]);
+```
+
+---
+
+```php
+$application = new Router([
+    '/api/{.*}' => new Pipe([
+        new ErrorHandler(),
+        new ForceHttps(),
+        new Authentication(),
+        new Router([
+            '/api/articles' => function () { ... },
+            '/api/articles/{id}' => function () { ... },
+        ]),
+    ]),
+    '/{.*}' => new Pipe([
+        new ErrorHandler(),
+        new ForceHttps(),
+        new MaintenanceMode(),
+        new SessionMiddleware(),
+        new DebugBar(),
+        new Router([
+            '/' => function () { ... },
+            '/article/{id}' => function () { ... },
+        ]),
+    ]),
+]);
+```
+
+---
+
+```php
+$application = new PrefixRouter([
+    '/api/' => new Pipe([
+        new ErrorHandler(),
+        new ForceHttps(),
+        new Authentication(),
+        new Router([
+            '/api/articles' => function () { ... },
+            '/api/articles/{id}' => function () { ... },
+        ]),
+    ]),
+    '/' => new Pipe([
+        new ErrorHandler(),
+        new ForceHttps(),
+        new MaintenanceMode(),
+        new SessionMiddleware(),
+        new DebugBar(),
+        new Router([
+            '/' => function () { ... },
+            '/article/{id}' => function () { ... },
+        ]),
+    ]),
+]);
+```
+
+---
+
+```php
+$application = new Pipe([
+    new ErrorHandler(),
+    new ForceHttps(),
     new PrefixRouter([
         '/api/' => new Pipe([
-            new AuthenticationMiddleware,
-            new ContentNegociationMiddleware,
+            new Authentication(),
             new Router([
-                require 'routes-api.php',
+                '/api/articles' => function () { ... },
+                '/api/articles/{id}' => function () { ... },
             ]),
         ]),
-        
         '/' => new Pipe([
-            new CacheMiddleware,
+            new MaintenanceMode(),
+            new SessionMiddleware(),
+            new DebugBar(),
             new Router([
-                require 'routes-website.php',
+                '/' => function () { ... },
+                '/article/{id}' => function () { ... },
             ]),
         ]),
     ]),
@@ -1039,11 +757,69 @@ $application = new Pipe([
 
 ---
 
+```php
+$expressive = Zend\Expressive\AppFactory::create();
+$expressive->...
+
+$slim = new Slim\App();
+$slim->...
+
+$application = new PrefixRouter([
+    '/dashboard/' => $slim,
+    '/api/' => $expressive,
+    '/admin/' => function () {
+        $legacy = LegacyApplication::init();
+        ob_start();
+        $legacy->run();
+        $html = ob_get_clean();
+        return new HtmlResponse($html);
+    },
+]);
+```
+
+---
+class: title
+
+# Et maintenant ?
+
+---
+
+## PSR-15
+
+- [PSR-15](https://github.com/php-fig/fig-standards/blob/master/proposed/http-middleware/middleware.md)
+- [http-interop/http-middleware](https://github.com/http-interop/http-middleware)
+
+```php
+class MyMiddleware implements MiddlewareInterface
+{
+    public function process(RequestInterface $request, DelegateInterface $delegate)
+    {
+        return $delegate->next($request);
+    }
+}
+```
+
+---
+class: center-image
+
+![](img/middlewares-vs-events.png)
+
+---
+class: main-title
+
+### Conclusion :
+
+# Un *middleware* est quelque chose qui prend une *requête* et retourne une *réponse*.
+
+---
+class: main-title
+
+# Les *middlewares* permettent de mieux controler *l'architecture* des applications HTTP.
+
+---
+
 # TODO :
 
-- avantages
-- inconvénients
 - attributes
-- frameworks
 - PSR-15
 - middlewares PSR-7
