@@ -467,6 +467,11 @@ class: main-title
 # Un *middleware* est quelque chose qui prend une *requête* **(et $next)** et retourne une *réponse*.
 
 ---
+class: main-title
+
+# Un *middleware* est quelque chose qui prend une *requête* et retourne une *réponse*.
+
+---
 
 ```php
 $pipe = new Pipe([
@@ -615,6 +620,45 @@ class: center-image
 [![](img/oscarotero-middlewares.png)](https://github.com/oscarotero/psr7-middlewares)
 
 [github.com/oscarotero/psr7-middlewares](https://github.com/oscarotero/psr7-middlewares)
+
+---
+
+```php
+class Authentication
+{
+    public function __invoke($request, $next)
+    {
+        $auth = /* get token from headers */;
+        
+        $user = /* find user by token */;
+        
+        if (!$user) {
+            return $response->withStatus(403);
+        }
+            
+        $request = $request->withAttribute('user', $user);
+
+        return $next($request, $response);
+    }
+}
+```
+
+---
+
+## PSR-15
+
+- [PSR-15](https://github.com/php-fig/fig-standards/blob/master/proposed/http-middleware/middleware.md)
+- [http-interop/http-middleware](https://github.com/http-interop/http-middleware)
+
+```php
+class MyMiddleware implements MiddlewareInterface
+{
+    public function process(RequestInterface $request, DelegateInterface $delegate)
+    {
+        return $delegate->next($request);
+    }
+}
+```
 
 ---
 class: title
@@ -773,31 +817,11 @@ $application = new PrefixRouter([
 ```
 
 ---
-class: title
+class: main-title
 
-# Et maintenant ?
+# Votre application
 
----
-
-## PSR-15
-
-- [PSR-15](https://github.com/php-fig/fig-standards/blob/master/proposed/http-middleware/middleware.md)
-- [http-interop/http-middleware](https://github.com/http-interop/http-middleware)
-
-```php
-class MyMiddleware implements MiddlewareInterface
-{
-    public function process(RequestInterface $request, DelegateInterface $delegate)
-    {
-        return $delegate->next($request);
-    }
-}
-```
-
----
-class: center-image
-
-![](img/middlewares-vs-events.png)
+# *Votre architecture*
 
 ---
 class: main-title
@@ -805,16 +829,3 @@ class: main-title
 ### Conclusion :
 
 # Un *middleware* est quelque chose qui prend une *requête* et retourne une *réponse*.
-
----
-class: main-title
-
-# Les *middlewares* permettent de mieux controler *l'architecture* des applications HTTP.
-
----
-
-# TODO :
-
-- attributes
-- PSR-15
-- middlewares PSR-7
