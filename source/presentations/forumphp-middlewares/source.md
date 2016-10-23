@@ -15,9 +15,9 @@ class: profile
 
 .company-logo[ [![](img/wizaplace.png)](https://wizaplace.com) ]
 
+- [github.com/stratifyphp](https://github.com/stratifyphp)
 - [externals.io](http://externals.io/)
 - [isitmaintained.com](https://isitmaintained.com/)
-- [github.com/stratifyphp](https://github.com/stratifyphp)
 
 ---
 
@@ -503,12 +503,8 @@ $pipe = new Pipe([
 
 ```php
 $router = new Router([
-    '/' => function () {
-        return new TextResponse('Hello world!');
-    },
-    '/about' => function () {
-        return new TextResponse('This super website is sponsored by AFUP!');
-    },
+    '/' => /* controller */,
+    '/about' => /* controller */,
 ]);
 $response = $router->route($request);
 ```
@@ -530,12 +526,8 @@ $pipe = new Pipe([
     new ErrorHandler(),
     new Logger(),
     new Router([
-        '/' => function () {
-            return new TextResponse('Hello world!');
-        },
-        '/about' => function () {
-            return new TextResponse('This super website is sponsored by AFUP!');
-        },
+        '/' => /* controller */,
+        '/about' => /* controller */,
     ]),
 ]);
 ```
@@ -641,10 +633,10 @@ $application = new Pipe([
     new Authentication(),
     
     new Router([
-        '/' => function () { ... },
-        '/article/{id}' => function () { ... },
-        '/api/articles' => function () { ... },
-        '/api/articles/{id}' => function () { ... },
+        '/' => /* controller */,
+        '/article/{id}' => /* controller */,
+        '/api/articles' => /* controller */,
+        '/api/articles/{id}' => /* controller */,
     ]),
 ]);
 ```
@@ -659,8 +651,8 @@ $website = new Pipe([
     new SessionMiddleware(),
     new DebugBar(),
     new Router([
-        '/' => function () { ... },
-        '/article/{id}' => function () { ... },
+        '/' => /* controller */,
+        '/article/{id}' => /* controller */,
     ]),
 ]);
 $api = new Pipe([
@@ -668,8 +660,8 @@ $api = new Pipe([
     new ForceHttps(),
     new Authentication(),
     new Router([
-        '/api/articles' => function () { ... },
-        '/api/articles/{id}' => function () { ... },
+        '/api/articles' => /* controller */,
+        '/api/articles/{id}' => /* controller */,
     ]),
 ]);
 ```
@@ -683,8 +675,8 @@ $application = new Router([
         new ForceHttps(),
         new Authentication(),
         new Router([
-            '/api/articles' => function () { ... },
-            '/api/articles/{id}' => function () { ... },
+            '/api/articles' => /* controller */,
+            '/api/articles/{id}' => /* controller */,
         ]),
     ]),
     '/{.*}' => new Pipe([
@@ -694,8 +686,8 @@ $application = new Router([
         new SessionMiddleware(),
         new DebugBar(),
         new Router([
-            '/' => function () { ... },
-            '/article/{id}' => function () { ... },
+            '/' => /* controller */,
+            '/article/{id}' => /* controller */,
         ]),
     ]),
 ]);
@@ -710,8 +702,8 @@ $application = new PrefixRouter([
         new ForceHttps(),
         new Authentication(),
         new Router([
-            '/api/articles' => function () { ... },
-            '/api/articles/{id}' => function () { ... },
+            '/api/articles' => /* controller */,
+            '/api/articles/{id}' => /* controller */,
         ]),
     ]),
     '/' => new Pipe([
@@ -721,8 +713,8 @@ $application = new PrefixRouter([
         new SessionMiddleware(),
         new DebugBar(),
         new Router([
-            '/' => function () { ... },
-            '/article/{id}' => function () { ... },
+            '/' => /* controller */,
+            '/article/{id}' => /* controller */,
         ]),
     ]),
 ]);
@@ -738,8 +730,8 @@ $application = new Pipe([
         '/api/' => new Pipe([
             new Authentication(),
             new Router([
-                '/api/articles' => function () { ... },
-                '/api/articles/{id}' => function () { ... },
+                '/api/articles' => /* controller */,
+                '/api/articles/{id}' => /* controller */,
             ]),
         ]),
         '/' => new Pipe([
@@ -747,8 +739,8 @@ $application = new Pipe([
             new SessionMiddleware(),
             new DebugBar(),
             new Router([
-                '/' => function () { ... },
-                '/article/{id}' => function () { ... },
+                '/' => /* controller */,
+                '/article/{id}' => /* controller */,
             ]),
         ]),
     ]),
@@ -765,12 +757,15 @@ $slim = new Slim\App();
 $slim->...
 
 $application = new PrefixRouter([
+
     '/dashboard/' => $slim,
-    '/api/' => $expressive,
-    '/admin/' => function () {
-        $legacy = LegacyApplication::init();
+    
+    '/api/' => $expressive, // ou API Platform ? ou Zend Apigility ?
+    
+    '/admin/' => function ($request) {
+        set_global_variables($request);
         ob_start();
-        $legacy->run();
+        $run_legacy_application();
         $html = ob_get_clean();
         return new HtmlResponse($html);
     },
