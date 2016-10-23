@@ -633,7 +633,7 @@ class Authentication
         $user = /* find user by token */;
         
         if (!$user) {
-            return $response->withStatus(403);
+            return new Response('YOU SHALL NOT PASS!', 403);
         }
             
         $request = $request->withAttribute('user', $user);
