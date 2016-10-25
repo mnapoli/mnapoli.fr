@@ -15,7 +15,9 @@ class: profile
 
 .company-logo[ [![](img/wizaplace.png)](https://wizaplace.com) ]
 
-- [github.com/stratifyphp](https://github.com/stratifyphp)
+<br>
+
+- Stratify ([github.com/stratifyphp](https://github.com/stratifyphp))
 - [externals.io](http://externals.io/)
 - [isitmaintained.com](https://isitmaintained.com/)
 
@@ -40,13 +42,14 @@ class: main-title
 
 ---
 
-> Accéder à d'autre composants (dépendances).
+## Accéder à d'autre composants (dépendances)
 
 - singleton
 - variables globales
 - service locator/registry
 - proxy statique ("facades" Laravel)
 - injection de dépendances
+- ...
 
 ---
 class: main-title
@@ -58,7 +61,7 @@ class: main-title
 
 # Architecture d'applications HTTP
 
-## « quand, comment et quoi est appelé ? »
+## *« quand, comment et quoi est appelé ? »*
 
 ---
 
@@ -88,14 +91,14 @@ class: title
 
 ```php
 try {
-    $event = new Event($request, ...);
+    $event = new Event(...);
     $this->dispatcher->dispatch(KernelEvents::REQUEST, $event);
     if ($event->hasResponse()) {
         return $event->getResponse();
     }
 
     $controller = $request->attributes->get('_controller');
-    $controllerArguments = $this->resolver->getArguments($request, $controller);
+    $controllerArguments = /* resolve arguments */;
 
     $response = call_user_func_array($controller, $controllerArguments);
 } catch (\Exception $e) {
@@ -511,6 +514,7 @@ $router = new Router([
     '/' => /* controller */,
     '/about' => /* controller */,
 ]);
+
 $response = $router->route($request);
 ```
 
