@@ -4,42 +4,8 @@
     <title>Les middlewares en PHP</title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="font/fonts.css">
+    <link rel="stylesheet" href="style/main.css">
     <style>
-        * {
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Droid Serif';
-        }
-        h1, h2, h3 {
-            font-family: 'Yanone Kaffeesatz';
-            font-weight: normal;
-        }
-        h2 img {
-            height: 35px;
-        }
-        h2 a:last-child {
-            float: right;
-            font-size: 30px;
-            line-height: 65px;
-            text-decoration: none;
-        }
-        p img, li img {
-            vertical-align: top;
-        }
-        hr {
-            border: none;
-            border-top: solid 1px lightgray;
-        }
-        pre {
-            border: solid 1px #E2E2E2;
-            background: #F3F3F3;
-            padding: 20px;
-            line-height: 27px;
-        }
-        a {
-            color: #4078c0;
-        }
         img {
             max-width: 100%;
         }
@@ -65,16 +31,6 @@
             margin: 10px 0;
         }
 
-        .remark-code, .remark-inline-code {
-            font-family: 'Ubuntu Mono', monospace;
-        }
-        .remark-inline-code {
-            background: #f0f0f0;
-            padding: 2px;
-        }
-        .remark-code {
-            font-size: 20px;
-        }
         .remark-slide-content {
             vertical-align: middle;
             font-size: 25px;
@@ -100,22 +56,6 @@
         }
         table tbody tr:nth-of-type(odd) {
             background-color: #f9f9f9;
-        }
-        .remark-slide>.title {
-            vertical-align: middle;
-            text-align: center;
-            background: #272727;
-            color: white;
-            text-shadow: 0 0 20px #333;
-        }
-        .remark-slide>.title h1 {
-            font-size: 100px;
-        }
-        .remark-slide>.title h1, .remark-slide>.inverse h2 {
-            color: #f3f3f3;
-        }
-        .remark-slide>.title a {
-            color: white;
         }
         .remark-slide-number {
             font-size: 18px;
@@ -174,28 +114,14 @@
         .profile ul {
             font-size: 0.8em;
         }
-
-        .full-image {
-            color: white;
-        }
-        .full-image img:first-of-type {
-            position: fixed;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-        }
-        .full-image h1 {
-            position: relative;
-        }
     </style>
+    <script src="js/remark.min.js"></script>
 </head>
 <body>
-    <script src="js/remark.min.js"></script>
     <script>
-        var slideshow = remark.create({
-            sourceUrl: 'source.md'
-//            ratio: '16:9'
+        remark.create({
+            sourceUrl: 'source.md',
+            ratio: '16:9'
         });
     </script>
 </body>

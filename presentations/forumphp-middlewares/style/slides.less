@@ -1,0 +1,96 @@
+@import "colors";
+
+.remark-slide-content {
+    padding: 1em 6em 1em 6em;
+}
+
+.remark-slide > .title {
+    vertical-align: middle;
+    text-align: center;
+    background: @color-black;
+    color: white;
+
+    h1 {
+        font-size: 100px;
+        color: #f3f3f3;
+    }
+    a {
+        color: white;
+    }
+}
+
+.remark-slide > .main-title {
+    vertical-align: middle;
+    text-align: center;
+    background: @color-black;
+    color: white;
+
+    h1 {
+        font-size: 70px;
+        color: #f3f3f3;
+    }
+    h3 {
+        color: lightgray;
+    }
+    em {
+        font-style: normal;
+        color: @color-primary-2;
+    }
+    strong {
+        color: @color-secondary-2-3;
+    }
+
+    .remark-slide-number {
+        visibility: hidden;
+    }
+}
+
+.remark-slide > .section {
+    vertical-align: middle;
+    text-align: center;
+    background: @color-primary-3;
+    color: white;
+    h1 {
+        font-size: 100px;
+        color: #f3f3f3;
+    }
+}
+
+.remark-slide > .full-image {
+    color: white;
+
+    img:first-of-type {
+        position: fixed;
+        left: 0;
+        top: 0;
+        min-width: 100%;
+        min-height: 100%;
+    }
+    h1 {
+        position: relative;
+    }
+
+    .remark-slide-number {
+        visibility: hidden;
+    }
+}
+
+.left-block, .right-block {
+    width: 48%;
+    .remark-code {
+        font-size: 0.75em;
+    }
+}
+.left-block {
+    float: left;
+}
+.right-block {
+    float: right;
+}
+
+.remark-slide > .center-image {
+    text-align: center;
+    img:first-of-type {
+        max-height: 570px;
+    }
+}

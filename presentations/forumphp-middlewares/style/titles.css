@@ -1,0 +1,15 @@
+h1,
+h2,
+h3 {
+  font-family: 'Yanone Kaffeesatz';
+  font-weight: normal;
+}
+h2 img {
+  height: 35px;
+}
+h2 a:last-child {
+  float: right;
+  font-size: 30px;
+  line-height: 65px;
+  text-decoration: none;
+}
