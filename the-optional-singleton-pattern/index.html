@@ -147,7 +147,38 @@
 <p>There is nothing revolutionary about it, see for yourself:</p>
 
 <div><script src='https://gist.github.com/5221664.js'></script>
-<noscript><pre><code></code></pre></noscript></div>
+<noscript><pre><code>&lt;?php
+// See also http://en.mnapoli.fr/the-optional-singleton-pattern/
+
+class MyService
+{
+    private static $singletonInstance = null;
+    
+    /**
+     * Keep the constructor public
+     */
+    public function __construct() {
+    }
+
+    /**
+     * Returns an instance of the class (Singleton design pattern)
+     * @return MyService
+     */
+    public static function getInstance() {
+        if (self::$singletonInstance === null) {
+            self::$singletonInstance = new self();
+        }
+        return self::$singletonInstance;
+    }
+
+}
+
+// Singleton usage
+$myService = MyService::getInstance();
+
+// Classic usage
+$myService = new MyService();
+</code></pre></noscript></div>
 
 
 <p>Of course, this is a pattern that has to be used where it makes sense. Singletons, as cool as they can be, will never do better than dependency injection.</p>
