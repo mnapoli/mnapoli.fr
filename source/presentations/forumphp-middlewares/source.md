@@ -98,9 +98,9 @@ try {
     }
 
     $controller = $request->attributes->get('_controller');
-    $args = /* resolve controller arguments */;
+    $controllerArguments = /* resolve arguments */;
 
-    $response = call_user_func_array($controller, $args);
+    $response = call_user_func_array($controller, $controllerArguments);
 } catch (\Exception $e) {
     $response = /* generate error response (error page) */;
 }
@@ -274,18 +274,18 @@ class: title
 
 .left-block[
 ```php
-function foo() { … }
+function foo() { ... }
 
-function () { … }
+function () { ... }
 
 class Foo
 {
-    public function bar() { … }
+    public function bar() { ... }
 }
 
 class Foo
 {
-    public function __invoke() { … }
+    public function __invoke() { ... }
 }
 ```
 ]
@@ -293,7 +293,7 @@ class Foo
 ```php
 $callable = 'foo';
 
-$callable = function () { … }
+$callable = function () { ... }
 
 
 
@@ -339,7 +339,7 @@ class LoggerMiddleware
 ```php
 class LoggerMiddleware
 {
-    public function __invoke($request, callable $next)
+    public function __invoke(ServerRequestInterface $request, callable $next)
     {
         $response = $next($request);
         
@@ -353,7 +353,7 @@ class LoggerMiddleware
 ---
 
 ```php
-$middleware = function ($request, callable $next) {
+$middleware = function (ServerRequestInterface $request, callable $next) {
     $response = $next($request);
     
     // write to log
@@ -379,7 +379,7 @@ $middleware = function ($request, $response, callable $next) {
 ---
 
 ```php
-$middleware = function ($request, callable $next) {
+$middleware = function (ServerRequestInterface $request, callable $next) {
     $response = $next($request);
     
     // write to log
@@ -391,7 +391,7 @@ $middleware = function ($request, callable $next) {
 ---
 
 ```php
-$logger = function ($request, callable $next) {
+$logger = function (ServerRequestInterface $request, callable $next) {
     $response = $next($request);
     
     // write to log
@@ -399,7 +399,7 @@ $logger = function ($request, callable $next) {
     return $response;
 }
 
-$errorHandler = function ($request, callable $next) {
+$errorHandler = function (ServerRequestInterface $request, callable $next) {
     try {
         return $next($request);
     } catch (\Throwable $e) {
@@ -430,7 +430,7 @@ class: center-image
 
 .left-block[
 ```php
-$p = new Pipe([
+$pipe = new Pipe([
     function ($request, $next) {
         ...
     },
@@ -450,15 +450,15 @@ $p = new Pipe([
 
 .right-block[
 ```php
-$p = new Pipe();
+$pipe = new Pipe();
 
-$p->pipe(function($request, $next) {
+$pipe->pipe(function ($request, $next) {
     ...
 });
-$p->pipe(function($request, $next) {
+$pipe->pipe(function ($request, $next) {
     ...
 });
-$p->pipe(function($request, $next) {
+$pipe->pipe(function ($request, $next) {
     ...
 });
 ```
@@ -479,12 +479,20 @@ class: main-title
 ```php
 $pipe = new Pipe([
 
-    function ($request, $next) {
-        // error handler
+    function ($request, $next) { // error handler
+        try {
+            return $next($request);
+        } catch (\Throwable $e) {
+            return new TextResponse('Oops!', 500);
+        }
     },
     
-    function ($request, $next) {
-        // logger
+    function ($request, $next) { // logger
+        $response = $next($request);
+        
+        // write to log
+        
+        return $response;
     },
     
 ]);
@@ -545,7 +553,9 @@ class: title
 ```php
 $app = Zend\Expressive\AppFactory::create();
 
-$app->pipe(function (...) { ... });
+$app->pipe(function (...) {
+    // middleware
+});
 $app->pipe(new MyMiddleware());
 $app->pipe('nom-de-service');
 
@@ -647,10 +657,8 @@ class Authentication
 ```php
 class MyMiddleware implements MiddlewareInterface
 {
-    public function process(
-        RequestInterface $request,
-        DelegateInterface $delegate
-    ) {
+    public function process(RequestInterface $request, DelegateInterface $delegate)
+    {
         return $delegate->next($request);
     }
 }
@@ -675,7 +683,6 @@ $application = new Pipe([
     new Router([
         '/' => /* controller */,
         '/article/{id}' => /* controller */,
-
         '/api/articles' => /* controller */,
         '/api/articles/{id}' => /* controller */,
     ]),
@@ -696,7 +703,6 @@ $website = new Pipe([
         '/article/{id}' => /* controller */,
     ]),
 ]);
-
 $api = new Pipe([
     new ErrorHandler(),
     new ForceHttps(),
@@ -802,7 +808,7 @@ $application = new PrefixRouter([
 
     '/dashboard/' => $slim,
     
-    '/api/' => $expressive, // ou API Platform, Zend Apigility ?
+    '/api/' => $expressive, // ou API Platform ? ou Zend Apigility ?
     
     '/admin/' => function ($request) {
         set_global_variables($request);

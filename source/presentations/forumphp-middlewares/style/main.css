@@ -6,7 +6,6 @@ pre {
   background: #F0F0F0;
   padding: 20px;
   line-height: 27px;
-  margin: 0;
 }
 .remark-code,
 .remark-inline-code {
@@ -17,7 +16,7 @@ pre {
   padding: 2px;
 }
 .remark-code {
-  font-size: 23px;
+  font-size: 20px;
 }
 h1,
 h2,
@@ -47,10 +46,7 @@ h2 a:last-child {
   color: #BA6D2F;
 }
 .remark-slide-content {
-  padding: 1em 2em;
-}
-.remark-slide-number {
-  right: 5px;
+  padding: 1em 6em 1em 6em;
 }
 .remark-slide > .title {
   vertical-align: middle;
@@ -70,10 +66,9 @@ h2 a:last-child {
   text-align: center;
   background: #272727;
   color: white;
-  padding: 1em 3em;
 }
 .remark-slide > .main-title h1 {
-  font-size: 85px;
+  font-size: 70px;
   color: #f3f3f3;
 }
 .remark-slide > .main-title h3 {
