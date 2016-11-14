@@ -4,48 +4,41 @@ class: title
 
 ---
 
-Les middle-what ?
+## Pré-requis
+
+- git
+- Composer
+- [github.com/mnapoli/workshop-middlewares](https://github.com/mnapoli/workshop-middlewares)
+- `composer install`
+- `composer web` -> [http://localhost:8000](http://localhost:8000/)
 
 ---
 
-Framework vs Library
+## Objectifs
+
+1. PSR-7
+2. middlewares
+3. architecture
 
 ---
 
-.center[ ![](img/middleware.png) ]
-
----
-
-```php
-$response = middleware($request);
-```
-
----
-
-## Symfony
-
-```php
-interface HttpKernelInterface
-{
-    /**
-     * @return Response
-     */
-    public function handle(Request $request, ...);
-}
-```
-
----
-
-## PSR-7
+## 1. [PSR-7](http://www.php-fig.org/psr/psr-7/)
 
 ```
 composer require psr/http-message
 ```
 
-- `RequestInterface`
 - `ServerRequestInterface`
 - `ResponseInterface`
 - ...
+
+---
+
+## PSR-7: streams
+
+```php
+$response->getBody()->write('Hello');
+```
 
 ---
 
@@ -61,8 +54,29 @@ $request = $request->withQueryParams([
 $response = $response->withHeader('Content-Length', 123);
 ```
 
+---
+
+## [Zend Diactoros](https://github.com/zendframework/zend-diactoros)
+
+---
+
+## 2. Middlewares
+
+middle-what?
+
+---
+class: main-title
+
+# Un *middleware* est quelque chose qui prend une *requête* et retourne une *réponse*.
+
+---
+
+.center[ ![](img/middleware.png) ]
+
+---
+
 ```php
-$response->getBody()->write('Hello');
+$response = middleware($request);
 ```
 
 ---
@@ -76,9 +90,18 @@ function (ServerRequestInterface $request) : ResponseInterface {
 }
 ```
 
-.small[
-*[Zend Diactoros](https://github.com/zendframework/zend-diactoros)*
-]
+---
+
+## 3. Architecture
+
+Framework vs Library
+
+---
+
+- `master` -> step 1
+- `step-2`
+- `sted-3`
+- ...
 
 ---
 class: title
@@ -86,6 +109,10 @@ class: title
 # Step 1
 
 ## write and run a middleware
+
+---
+
+## Application
 
 ---
 
