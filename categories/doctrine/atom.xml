@@ -4,7 +4,7 @@
   <title><![CDATA[Category: doctrine | Matthieu Napoli]]></title>
   <link href="http://mnapoli.fr/categories/doctrine/atom.xml" rel="self"/>
   <link href="http://mnapoli.fr/"/>
-  <updated>2016-10-31T12:10:04+01:00</updated>
+  <updated>2016-11-16T23:44:53+01:00</updated>
   <id>http://mnapoli.fr/</id>
   <author>
     <name><![CDATA[Matthieu Napoli]]></name>
@@ -459,44 +459,7 @@ Thank you dependency injection!</p>
 <p>So here is my implementation of a PHPUnit test failing when Doctrine validation find errors:</p>
 
 <p><div><script src='https://gist.github.com/4249675.js'></script>
-<noscript><pre><code>&lt;?php
-/**
- * @author Matthieu Napoli
- * @link http://en.mnapoli.fr/doctrine-schema-validation-in-a-phpunit-test/
- * @license WTFPL - Do What The Fuck You Want To Public License (http://sam.zoy.org/wtfpl/)
- */
-
-use Doctrine\ORM\Tools\SchemaValidator;
-
-/**
- * Doctrine schema validation
- */
-class SchemaValidationTest extends PHPUnit_Framework_TestCase
-{
-
-    /**
-     * @var \Doctrine\ORM\EntityManager
-     */
-    protected $entityManager;
-
-    public function setUp() {
-        $this-&gt;entityManager = /* inject your entity manager here */;
-    }
-
-    public function testValidateSchema() {
-        $validator = new SchemaValidator($this-&gt;entityManager);
-        $errors = $validator-&gt;validateMapping();
-
-        if (count($errors) &gt; 0) {
-            $message = PHP_EOL;
-            foreach ($errors as $class =&gt; $classErrors) {
-                $message .= &quot;- &quot; . $class . &quot;:&quot; . PHP_EOL . implode(PHP_EOL, $classErrors) . PHP_EOL . PHP_EOL;
-            }
-            $this-&gt;fail($message);
-        }
-    }
-
-}</code></pre></noscript></div>
+<noscript><pre><code></code></pre></noscript></div>
 </p>
 ]]></content>
   </entry>
@@ -514,142 +477,7 @@ class SchemaValidationTest extends PHPUnit_Framework_TestCase
 
 
 <p><div><script src='https://gist.github.com/3839501.js'></script>
-<noscript><pre><code># Inspired from http://blog.hio.fr/2011/09/17/doctrine2-yaml-mapping-example.html
-
-MyEntity:
-  type: entity
-  repositoryClass: MyRepositoryClass
-  table: my_entity
-  namedQueries:
-    all: &quot;SELECT u FROM __CLASS__ u&quot;
-
-  # Class-Table-Inheritance
-  inheritanceType: joined
-  discriminatorColumn:
-    name: type
-    type: string
-  discriminatorMap:
-    class1: MyClass1
-    class2: MyClass2
-
-  id:
-    id:
-      type: integer
-      generator:
-        strategy: AUTO
-      sequenceGenerator:
-        sequenceName: tablename_seq
-        allocationSize: 100
-        initialValue: 1
-
-  fields:
-    name:
-      type: string
-      length: 50
-      nullable: true
-      unique: true
-    email:
-      type: string
-      column: user_email
-      columnDefinition: CHAR(32) NOT NULL
-
-  oneToOne:
-    address:
-      targetEntity: Address
-      inversedBy: user
-      joinColumn:
-        name: address_id
-        referencedColumnName: id
-        onDelete: CASCADE
-        onUpdate: CASCADE
-      cascade: [ remove ]
-
-  oneToMany:
-    phonenumbers:
-      targetEntity: PhoneNumber
-      orphanRemoval: true
-      mappedBy: user
-      orderBy:
-        number: ASC
-      cascade: [ persist ]
-      fetch: EAGER
-
-  # ManyToMany unidirectionnal
-  manyToMany:
-    groups:
-      targetEntity: Group
-      joinTable:
-        name: users_groups
-        joinColumns:
-          user_id:
-            referencedColumnName: id
-        inverseJoinColumns:
-          group_id:
-            referencedColumnName: id
-
-  # ManyToMany bidirectionnal
-  manyToMany:
-    groups:
-      targetEntity: Group
-      inversedBy: users
-      joinTable:
-        name: users_groups
-        joinColumns:
-          user_id:
-            referencedColumnName: id
-            nullable: false
-            unique: false
-        inverseJoinColumns:
-          group_id:
-            referencedColumnName: id
-            columnDefinition: INT NULL
-      cascade:
-        - all
-  # Inverse side
-  Group:
-    type: entity
-    manyToMany:
-      users:
-        targetEntity: User
-        mappedBy: groups
-
-  manyToOne:
-    securityLevel:
-      targetEntity: SecurityLevel
-      inversedBy: users
-      joinColumn:
-        name: securitylevel_id
-        referencedColumnName: id
-        nullable: false
-
-  # Referencing an entity with a multiple columns primary key
-  manyToOne:
-    location:
-      targetEntity: Location
-      joinColumns:
-        - name: location_latitude
-          referencedColumnName: latitude
-          nullable: false
-        - name: location_longitude
-          referencedColumnName: longitude
-          nullable: false
-
-  lifecycleCallbacks:
-    prePersist: [ doStuffOnPrePersist, doOtherStuffOnPrePersistToo ]
-    postPersist: [ doStuffOnPostPersist ]
-    preUpdate: [ preUpdate ]
-    preRemove: [ preDelete ]
-    postLoad: [ postLoad ]
-
-  uniqueConstraints:
-    search_idx:
-      columns: [name, user_email]
-
-  indexes:
-    name_idx:
-      columns: name
-    0:
-      columns: user_email</code></pre></noscript></div>
+<noscript><pre><code></code></pre></noscript></div>
 </p>
 
 <p>It is based on <a href="http://blog.hio.fr/2011/09/17/doctrine2-yaml-mapping-example.html">this blog article</a>, completed, and turned into a git repository (thanks to github), so anyone can fork it and improve it.</p>

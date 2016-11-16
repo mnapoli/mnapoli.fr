@@ -4,7 +4,7 @@
   <title><![CDATA[Matthieu Napoli]]></title>
   <link href="http://mnapoli.fr/atom.xml" rel="self"/>
   <link href="http://mnapoli.fr/"/>
-  <updated>2016-10-31T12:10:04+01:00</updated>
+  <updated>2016-11-16T23:44:53+01:00</updated>
   <id>http://mnapoli.fr/</id>
   <author>
     <name><![CDATA[Matthieu Napoli]]></name>
@@ -2596,17 +2596,20 @@ But if you don&rsquo;t, you can act on PHP&rsquo;s configuration: instead of ins
 
 
 
-<div class='embed tweet'>Tweet could not be processed</div>
+<div class='embed tweet'><blockquote class="twitter-tweet"><p>A programmer had a problem. He thought to himself, &quot;I know, I&#39;ll solve it with threads!&quot;. has Now problems. two he</p>&mdash; Davidlohr Bueso (@davidlohr) <a href="https://twitter.com/davidlohr/statuses/288786300067270656">January 8, 2013</a></blockquote>
+<script async src="http://mnapoli.fr//platform.twitter.com/widgets.js" charset="utf-8"></script></div>
 
 
 
 
-<div class='embed tweet'>Tweet could not be processed</div>
+<div class='embed tweet'><blockquote class="twitter-tweet"><p><a href="https://twitter.com/davidlohr">@davidlohr</a> <a href="https://twitter.com/stramit">@stramit</a> &quot;I know! I&#39;ll add some locks!&quot; Now he ha</p>&mdash; Aras Pranckevičius (@aras_p) <a href="https://twitter.com/aras_p/statuses/289026199852830720">January 9, 2013</a></blockquote>
+<script async src="http://mnapoli.fr//platform.twitter.com/widgets.js" charset="utf-8"></script></div>
 
 
 
 
-<div class='embed tweet'>Tweet could not be processed</div>
+<div class='embed tweet'><blockquote class="twitter-tweet"><p><a href="https://twitter.com/davidlohr">@davidlohr</a> <a href="https://twitter.com/TheZotmeister">@TheZotmeister</a> and dear lord if he was handling udp packets. Then. And dear lord if he was handling udp packets. Then he would ha</p>&mdash; Juuso (@gameproducer) <a href="https://twitter.com/gameproducer/statuses/289081742248251394">January 9, 2013</a></blockquote>
+<script async src="http://mnapoli.fr//platform.twitter.com/widgets.js" charset="utf-8"></script></div>
 
 ]]></content>
   </entry>
@@ -2636,38 +2639,7 @@ But if you don&rsquo;t, you can act on PHP&rsquo;s configuration: instead of ins
 <p>There is nothing revolutionary about it, see for yourself:</p>
 
 <div><script src='https://gist.github.com/5221664.js'></script>
-<noscript><pre><code>&lt;?php
-// See also http://en.mnapoli.fr/the-optional-singleton-pattern/
-
-class MyService
-{
-    private static $singletonInstance = null;
-    
-    /**
-     * Keep the constructor public
-     */
-    public function __construct() {
-    }
-
-    /**
-     * Returns an instance of the class (Singleton design pattern)
-     * @return MyService
-     */
-    public static function getInstance() {
-        if (self::$singletonInstance === null) {
-            self::$singletonInstance = new self();
-        }
-        return self::$singletonInstance;
-    }
-
-}
-
-// Singleton usage
-$myService = MyService::getInstance();
-
-// Classic usage
-$myService = new MyService();
-</code></pre></noscript></div>
+<noscript><pre><code></code></pre></noscript></div>
 
 
 <p>Of course, this is a pattern that has to be used where it makes sense. Singletons, as cool as they can be, will never do better than dependency injection.</p>

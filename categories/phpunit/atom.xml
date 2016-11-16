@@ -4,7 +4,7 @@
   <title><![CDATA[Category: phpunit | Matthieu Napoli]]></title>
   <link href="http://mnapoli.fr/categories/phpunit/atom.xml" rel="self"/>
   <link href="http://mnapoli.fr/"/>
-  <updated>2016-10-31T12:10:04+01:00</updated>
+  <updated>2016-11-16T23:44:53+01:00</updated>
   <id>http://mnapoli.fr/</id>
   <author>
     <name><![CDATA[Matthieu Napoli]]></name>
@@ -34,44 +34,7 @@
 <p>So here is my implementation of a PHPUnit test failing when Doctrine validation find errors:</p>
 
 <p><div><script src='https://gist.github.com/4249675.js'></script>
-<noscript><pre><code>&lt;?php
-/**
- * @author Matthieu Napoli
- * @link http://en.mnapoli.fr/doctrine-schema-validation-in-a-phpunit-test/
- * @license WTFPL - Do What The Fuck You Want To Public License (http://sam.zoy.org/wtfpl/)
- */
-
-use Doctrine\ORM\Tools\SchemaValidator;
-
-/**
- * Doctrine schema validation
- */
-class SchemaValidationTest extends PHPUnit_Framework_TestCase
-{
-
-    /**
-     * @var \Doctrine\ORM\EntityManager
-     */
-    protected $entityManager;
-
-    public function setUp() {
-        $this-&gt;entityManager = /* inject your entity manager here */;
-    }
-
-    public function testValidateSchema() {
-        $validator = new SchemaValidator($this-&gt;entityManager);
-        $errors = $validator-&gt;validateMapping();
-
-        if (count($errors) &gt; 0) {
-            $message = PHP_EOL;
-            foreach ($errors as $class =&gt; $classErrors) {
-                $message .= &quot;- &quot; . $class . &quot;:&quot; . PHP_EOL . implode(PHP_EOL, $classErrors) . PHP_EOL . PHP_EOL;
-            }
-            $this-&gt;fail($message);
-        }
-    }
-
-}</code></pre></noscript></div>
+<noscript><pre><code></code></pre></noscript></div>
 </p>
 ]]></content>
   </entry>
