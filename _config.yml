@@ -106,10 +106,10 @@ facebook_like: false
 navigation:
 - text: Home
   url: /
-- text: Projects
-  url: /projects/
 - text: Talks
   url: /presentations/
+- text: Projects
+  url: /projects/
 - text: Blog archives
   url: /archives/
 - text: About me
