@@ -1,0 +1,24 @@
+---
+layout: default
+---
+
+<article role="article">
+    {% if page.title %}
+        <header>
+            <div class="jumbotron">
+                {% if site.titlecase %}{{ page.title | titlecase }}{% else %}{{ page.title }}{% endif %}
+            </div>
+            {% if page.date %}
+                <p class="meta">{{ page.date | date_to_long_string }}</p>
+            {% endif %}
+        </header>
+    {% endif %}
+    {{ content }}
+</article>
+
+{% if site.disqus_short_name and page.comments == true %}
+    <section>
+        <h1>Comments</h1>
+        <div id="disqus_thread" aria-live="polite">{% include post/disqus_thread.html %}</div>
+    </section>
+{% endif %}

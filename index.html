@@ -1,0 +1,33 @@
+---
+layout: default
+---
+
+<div class="jumbotron">
+    <div class="container clearfix">
+        <img class="avatar hidden-phone" src="https://github.com/mnapoli.png?size=140">
+        Hi, I'm Matthieu Napoli!
+        <h3 class="tagline">These and thoughts and experiments about web development and programming.</h3>
+    </div>
+</div>
+
+<div class="blog-index">
+    {% assign index = true %}
+    {% for post in paginator.posts %}
+        {% assign content = post.content | split:"<!-- more -->" | first | split:"<!--more-->" | first %}
+        <article>
+            {% include article.html %}
+        </article>
+        {% unless post == paginator.posts.last %}
+            <hr>
+        {% endunless %}
+    {% endfor %}
+    <div class="pagination">
+        {% if paginator.next_page %}
+            <a class="prev" href="{{paginator.next_page}}">&larr; Older</a>
+        {% endif %}
+        {% if paginator.previous_page %}
+            <a class="next" href="{{paginator.previous_page}}">Newer &rarr;</a>
+        {% endif %}
+    </div>
+</div>
+
