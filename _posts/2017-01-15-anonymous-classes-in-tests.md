@@ -97,7 +97,7 @@ class Class2 {
 }
 ```
 
-`Class1` and `Class2` and "fixture classes", i.e. those are classes written only for tests. You can put them inside the file containing the test class (but it's not PSR-4 compliant and it leads to conflicts if you have similar classes in other files of the same namespace), or in separate files (but then it's very hard to keep a track of which tests uses which fixture class).
+`Class1` and `Class2` and "fixture classes", i.e. those are classes written only for tests. You can put them inside the file containing the test class (but it's not PSR-4 compliant and it leads to conflicts if you have similar classes in other files of the same namespace), or in separate files (but then it's very hard to keep a track of which test uses which fixture class).
 
 Here is an alternative written using anonymous classes:
 
