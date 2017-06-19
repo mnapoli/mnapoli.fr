@@ -90,7 +90,7 @@ public function test there are no projects by default()
 This is very easy and quickly memorized:
 
 - MacOS: `Alt`+`Space`
-- Linux: `Alt Gr`+`Space`
+- Ubuntu: `Alt Gr`+`Space` (`Alt Gr` is the right `Alt` key)
 
 ### Does it work with all the tools?
 
@@ -98,6 +98,7 @@ In our experience yes, all the tools we use below work perfectly fine:
 
 - git
 - PhpStorm
+    - update: the shortcut will invoke the "Quick definition" helper, you will need to disable (or remap) that shortcut; "Quick definition" is also available via `Cmd+Y` or `Ctrl+Y` by default so remove the shortcut should be enough
 - Sublime Text
 - GitHub (and formerly Gitlab)
 - PHPUnit's integration in PhpStorm (right-click and "Run" still works)
