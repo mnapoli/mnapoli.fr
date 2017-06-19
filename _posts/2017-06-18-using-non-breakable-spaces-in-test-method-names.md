@@ -90,12 +90,11 @@ public function test there are no projects by default()
 This is very easy and quickly memorized:
 
 - MacOS: `Alt`+`Space`
-- Linux: `Shift`+`Space`
-- [bépo](https://bepo.fr) keyword layout (the french dvorak): `Shift`+`Space`
+- Linux: `Alt Gr`+`Space`
 
 ### Does it work with all the tools?
 
-In our experience yes, we have never had any problems with all the tools we use:
+In our experience yes, all the tools we use below work perfectly fine:
 
 - git
 - PhpStorm
@@ -105,6 +104,8 @@ In our experience yes, we have never had any problems with all the tools we use:
 - PhpStorm's analyzer and refactoring tools:
 
 ![](/images/posts/nbsp-code.png)
+
+We have seen minor issues on Atom and Visual Studio Code (syntax highlighting was off), those were fixed by [Florent](https://twitter.com/florent_viel) in the following pull requests: [atom/language-php#196](https://github.com/atom/language-php/pull/196) and [Microsoft/vscode#26992](https://github.com/Microsoft/vscode/pull/26992).
 
 ### Does it work with all the humans?
 
