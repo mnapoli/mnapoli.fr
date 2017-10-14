@@ -547,7 +547,7 @@ $app = Zend\Expressive\AppFactory::create();
 
 $app->pipe(function (...) { ... });
 $app->pipe(new MyMiddleware());
-$app->pipe('nom-de-service');
+$app->pipe('service_name');
 
 $app->get('/', function () {
     // controller
@@ -710,6 +710,12 @@ $api = new Pipe([
     ]),
 ]);
 ```
+
+---
+
+class: main-title
+
+# A *middleware* is something that takes a *request* and returns a *response*.
 
 ---
 
