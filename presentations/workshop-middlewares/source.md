@@ -170,7 +170,94 @@ class: title
 
 # Step 3
 
-## compose middlewares to handle errors nicely
+## compose middlewares
+
+---
+
+```php
+$app = function ($request) {
+    return new TextResponse('Hello world!');
+};
+
+$response = $app($request);
+```
+
+---
+
+```php
+$app = function ($request) {
+    return new TextResponse('Hello world!');
+};
+
+$loggerMiddleware = function ($request) {
+    file_put_contents('access.log', 'New request!', FILE_APPEND);
+    
+    return ?
+};
+
+$response = ???($request);
+```
+
+---
+
+```php
+$app = function ($request) {
+    return new TextResponse('Hello world!');
+};
+
+$loggerMiddleware = function ($request) use ($app) {
+    file_put_contents('access.log', 'New request!', FILE_APPEND);
+    
+    return $app($request);
+};
+
+$response = $loggerMiddleware($request);
+```
+
+---
+
+```php
+function (ServerRequestInterface $request) {
+    return new TextResponse('Hello world!');
+};
+```
+
+```php
+function (ServerRequestInterface $request, callable $next) {
+    return new TextResponse('Hello world!');
+};
+```
+
+---
+
+```php
+function (ServerRequestInterface $request, $next) {
+    // do something with $request
+    return $next($request);
+};
+
+function (ServerRequestInterface $request, $next) {
+    $response = $next($request);
+    // do something with $response
+    return $response;
+};
+```
+
+---
+
+```php
+$app = function ($request, $next) {
+    return new TextResponse('Hello world!');
+};
+
+$loggerMiddleware = function ($request, $next) {
+    file_put_contents('access.log', 'New request!', FILE_APPEND);
+
+    return $next($request);
+};
+
+$response = $loggerMiddleware($request);
+```
 
 ---
 
@@ -200,61 +287,10 @@ $ cat /var/log/apache2/access.log \
 ---
 
 ```php
-function (ServerRequestInterface $request, callable $next) {
-    return new TextResponse('Hello world!');
-};
-```
-
----
-
-```php
-function (ServerRequestInterface $request, $next) {
-    // do something with $request
-    return $next($request);
-};
-
-function (ServerRequestInterface $request, $next) {
-    $response = $next($request);
-    // do something with $response
-    return $response;
-};
-```
-
----
-
-```php
-$wrappedMiddleware = function ($request, $next) {
-    return new TextResponse('Hello world!');
-};
-
-$loggerMiddleware = function ($request, $next) {
-    file_put_contents('access.log', 'New request!', FILE_APPEND);
-    return $next($request);
-};
-
-$response = $loggerMiddleware($request, $wrappedMiddleware);
-```
-
-.center[?]
-
----
-
-```php
-$wrappedMiddleware = function ($request, $next) {
-    return new TextResponse('Hello world!');
-};
-
-$loggerMiddleware = function ($request, $next) {
-    file_put_contents('access.log', 'New request!', FILE_APPEND);
-    return $next($request);
-};
-
-$next = function ($request) use ($wrappedMiddleware) {
-    return $wrappedMiddleware($request, function () {
-        return new TextResponse('Not Found', 404);
-    });
-};
-$response = $loggerMiddleware($request, $next);
+$app = new Pipe([
+    function (...) { ... }, // middleware 1
+    function (...) { ... }, // middleware 2
+]);
 ```
 
 ---
