@@ -3,6 +3,27 @@ class: title
 # Les middlewares en PHP
 
 ---
+class: profile
+
+## Matthieu **Napoli**
+
+.company-logo[ [![](img/wizaplace.png)](https://wizaplace.com) ]
+
+[@matthieunapoli](https://twitter.com/matthieunapoli)
+
+- [github.com/mnapoli](https://github.com/mnapoli)
+- PHP-DI, Silly, Couscous
+- PSR-11
+- prettyci.com
+
+---
+
+- Stratify ([github.com/stratifyphp](https://github.com/stratifyphp))
+- [externals.io](http://externals.io/)
+- [isitmaintained.com](https://isitmaintained.com/)
+- PSR-15
+
+---
 
 ## Pré-requis
 
@@ -761,6 +782,162 @@ $router = new PrefixRouter([
 ---
 class: title
 
+# Step 8
+
+## lazy loading & dependency injection
+
+---
+
+```php
+$application = new Pipe([
+    ErrorHandler::class,
+    
+    new Router([
+        '/' => function () { ... },
+        '/about' => function () { ... },
+
+        '/api/{path}' => new Pipe([
+            HttpBasicAuthentication::class,
+            
+            new Router([
+                '/api/articles' => function () { ... },
+                '/api/time' => function () { ... },
+            ]),
+        ]),
+    ]),
+]);
+```
+
+---
+
+```php
+$whoops = new Run();
+$whoops->writeToOutput(false);
+$whoops->allowQuit(false);
+$whoops->pushHandler(new PrettyPageHandler);
+
+$errorHandler = new ErrorHandler($whoops);
+```
+
+```php
+$httpAuth = new HttpBasicAuthentication([
+    'bob' => 'superpassword',
+    'alice' => 'verygreatpassword',
+]);
+```
+
+---
+
+```php
+'/about' => function () use ($container) {
+    $twig = $container->twig();
+    return new HtmlResponse($twig->render('about.html.twig'));
+},
+```
+
+```php
+'/about' => function (Twig_Environment $twig) {
+    return new HtmlResponse($twig->render('about.html.twig'));
+},
+```
+
+---
+
+## PHP-DI
+
+- [php-di.org](http://php-di.org)
+- autowiring
+
+---
+
+```php
+$response = $middleware($request, $next);
+```
+
+```php
+$response = $container->call($middleware, [
+    'request' => $request,
+    'next' => $next,
+]);
+```
+
+```php
+function ($request, $next) { ... },
+function (Twig_Environment $twig) { ... },
+function ($request, $next, Twig_Environment $twig) { ... },
+```
+
+---
+
+## Step 8: lazy loading & dependency injection
+
+- lazy-load middlewares by using class names in pipes/routers (`ErrorHandler::class`)
+- inject dependencies in closures by using type-hinted parameters
+- make the Pipe and Router support these features
+
+```php
+$response = $container->call($middleware, [
+    'request' => $request,
+    'next' => $next,
+]);
+```
+
+---
+
+```php
+new Pipe($container, [
+    ...
+])
+```
+
+```php
+new Router($container, [
+    ...
+])
+```
+
+---
+
+```php
+$application = new Pipe($container, [
+    ErrorHandler::class,
+    new Router($container, [
+        '/' => function (Twig_Environment $twig, ArticleRepository $articleRepository) {
+            ...
+        },
+        ...
+    ]),
+    ...
+]);
+```
+
+---
+
+## Stratify
+
+```php
+$http = pipe([
+    ErrorHandler::class,
+    
+    router([
+        '/' => function (Twig_Environment $twig) {
+            ...
+        },
+    ]),
+]);
+
+$modules = [
+    'stratify/error-handler-module',
+    'stratify/twig-module',
+];
+
+$app = new Application($modules, 'dev', $http);
+$app->http()->run();
+```
+
+---
+class: title
+
 # Frameworks
 
 ---
@@ -929,19 +1106,17 @@ Pipe([
 
 ## PSR-15
 
+- [PSR-15](https://github.com/php-fig/fig-standards/blob/master/proposed/http-middleware/middleware.md)
+- [http-interop/http-middleware](https://github.com/http-interop/http-middleware)
+
 ```php
-interface ServerMiddlewareInterface
+class MyMiddleware implements MiddlewareInterface
 {
     public function process(
         ServerRequestInterface $request,
-        DelegateInterface $frame
-    );
-}
-```
-
-```php
-interface DelegateInterface
-{
-    public function next(RequestInterface $request);
+        RequestHandlerInterface $handler
+    ) {
+        return $handler->handle($request);
+    }
 }
 ```
