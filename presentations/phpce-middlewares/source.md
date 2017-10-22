@@ -7,19 +7,23 @@ class: main-title
 ---
 class: profile
 
-.profile-picture[
-    ![](img/profile.jpeg)
-]
-
-## Matthieu Napoli [github.com/mnapoli](https://github.com/mnapoli)
+## Matthieu **Napoli**
 
 .company-logo[ [![](img/wizaplace.png)](https://wizaplace.com) ]
 
-<br>
+[@matthieunapoli](https://twitter.com/matthieunapoli)
+
+- [github.com/mnapoli](https://github.com/mnapoli)
+- PHP-DI, Silly, Couscous
+- PSR-11
+- prettyci.com
+
+---
 
 - Stratify ([github.com/stratifyphp](https://github.com/stratifyphp))
 - [externals.io](http://externals.io/)
 - [isitmaintained.com](https://isitmaintained.com/)
+- PSR-15
 
 ---
 
@@ -47,7 +51,7 @@ class: main-title
 - singleton
 - global variables
 - service locator/registry
-- static proxy ("facades" Laravel)
+- static proxy (Laravel "facades")
 - dependency injection
 - ...
 
