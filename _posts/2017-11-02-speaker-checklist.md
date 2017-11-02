@@ -30,7 +30,7 @@ The checklist is quite long and might seem paranoid or more stressful than helpf
 - 💥 All useless code has been removed
 - Code has syntax highlighting
 - 💥 Unless the conference told me explicitly (with complete certainty) that the projector will be 16:9, I prepared my slides for a 4:3 format (if unsure choose 4:3)
-- I did not use animated gifs, or if I did they play only once and then they stop (there is nothing more distracting that that)
+- I did not use animated gifs, or if I did they play only once and then they stop (there is nothing more distracting than that)
 - Less is more: the slides contain only the most important words that I am going to say, the rest will be said out loud (the audience cannot read and listen at the same time)
 - I have a slide at the beginning to introduce myself (quickly) and I try to make it relevant to the talk (in other words: "*Who am I and why am I here talking to you about this topic*")
 
