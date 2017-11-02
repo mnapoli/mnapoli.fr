@@ -5,6 +5,8 @@ date: 2017-11-02 10:00
 comments: true
 ---
 
+![](/images/posts/have-fun.jpg)
+
 I follow a checklist whenever I am planning to speak at a conference. I am sharing it so that hopefully it can help you too.
 
 The steps marked with 💥 are the one I failed before and don't want to fail again :) It also let me justify why something that sounds silly may be part of the list!
