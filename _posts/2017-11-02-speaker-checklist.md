@@ -42,7 +42,7 @@ The checklist is quite long and might seem paranoid or more stressful than helpf
 - 💥 I have practiced my talk until I consistently deliver it *under the allocated time* (being too fast is an acceptable outcome, being too long is not because organizers will stop me)
 - I can deliver my talk without reading my slides
 - I have recorded myself and listened to/watched the recording (and cringed at my voice) at least once (this is super helpful)
-- I have practiced my talk in front of somebody at least once (as early as possible), and I have asked for feedback (choose [your person](https://twitter.com/upcomm) carefully, you want brutally honest feedback here)
+- I have practiced my talk in front of somebody at least once (as early as possible), and I have asked for feedback (choose [your person](https://www.linkedin.com/in/cguilluy/) carefully, you want brutally honest feedback here)
 - 💥 I have practiced several times with the tool I will use to switch slides (e.g. a remote)
 - 💥 I have practiced my talk holding a fake microphone (because it *will* be distracting when on stage)
 - 💥 I have practiced drinking water while holding the fake microphone and the remote at the same time (this is super hard when stressed, prepare for this); practice drinking at the right time and away from the microphone if possible
