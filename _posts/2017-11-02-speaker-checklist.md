@@ -69,7 +69,6 @@ The checklist is quite long and might seem paranoid or more stressful than helpf
 
 - I have gone to the bathroom (this is stupid but it's easy to forget)
 - 💥 I have walked 10 minutes beforehand to evacuate the stress
-- I have charged my laptop
 - 💥 I have disabled the screen saver of my laptop and made sure it's not going to sleep
 - I have a clean desktop and neutral background picture
 - I have my remote charged and setup
