@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "The speaker checklist"
+title: "My \"speaker checklist\""
 date: 2017-11-02 10:00
 comments: true
 ---
@@ -15,13 +15,13 @@ The checklist is quite long and might seem paranoid or more stressful than helpf
 
 <!--more-->
 
-## Planning my talk
+## Planning the talk
 
 - I plan on writing up the structure or the story before starting the slides (just like code or books, the structure must come first)
 - 💥 I have planned to finish the first version of my slides *at least* one month before the talk (because I know that the first version will suck and will be completely rewritten)
 - I have planned to practice the talk from beginning to end at least 10 times: that means at least 10 days (once per day)
 
-## Writing my slides
+## Writing the slides
 
 - 💥 There is an underlying theme, story or structure in my slides: readers should not feel lost in an endless succession of unrelated slides
 - I am using a template or standard design for the slides (unless I know what I am doing)
