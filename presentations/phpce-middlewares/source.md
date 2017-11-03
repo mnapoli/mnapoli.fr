@@ -94,20 +94,17 @@ class: title
 ---
 
 ```php
-try {
-    $event = new Event(...);
-    $this->dispatcher->dispatch(KernelEvents::REQUEST, $event);
-    if ($event->hasResponse()) {
-        return $event->getResponse();
-    }
+$event = new Event(...);
+$this->dispatcher->dispatch(KernelEvents::REQUEST, $event);
 
-    $controller = $request->attributes->get('_controller');
-    $args = /* resolve controller arguments */;
-
-    $response = call_user_func_array($controller, $args);
-} catch (\Exception $e) {
-    $response = /* generate error response (error page) */;
+if ($event->hasResponse()) {
+    return $event->getResponse();
 }
+
+$controller = $request->attributes->get('_controller');
+$args = /* resolve controller arguments */;
+
+$response = call_user_func_array($controller, $args);
 ```
 
 ---
