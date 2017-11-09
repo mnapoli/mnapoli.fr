@@ -36,7 +36,7 @@ The checklist is quite long and might seem paranoid or more stressful than helpf
 
 ## Practicing the talk
 
-- 💥 I can answer the question "**What is the message I want to convey?**" (thank you [@rgousi](https://twitter.com/rgousi))
+- 💥 I can answer thes questions "**What is the message I want to convey?**" (thank you [@rgousi](https://twitter.com/rgousi)) and "Why is that message interesting to the audience?" (thank you [@Louis_Remi](https://twitter.com/Louis_Remi))
 - I have practiced my talk multiple times until I feel confident
 - 💥 I have practiced my talk without my speaker notes (to simulate the case where I cannot rely on them for some reason the day of the talk)
 - 💥 I have practiced my talk until I consistently deliver it *under the allocated time* (being too fast is an acceptable outcome, being too long is not because organizers will stop me)
