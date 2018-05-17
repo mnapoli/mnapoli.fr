@@ -143,7 +143,7 @@ I believe there are 2 problems to solve for the "serverless PHP" equation:
 - **deploy easily on serverless providers**
 - **make PHP frameworks work just like before**
 
-*I decided to write [Bref](https://github.com/mnapoli/bref/blob/master/template/handler.js) to solve those problems.*
+*I decided to write [Bref](https://github.com/mnapoli/bref) to solve those problems.*
 
 > The name `bref` means `brief` in french, in reference to the ephemeral life of lambdas. French speakers will also enjoy the double meaning of "Bref, j'ai déployé une application serverless" ;)
 
