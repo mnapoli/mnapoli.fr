@@ -7,6 +7,12 @@ img.center {
 article blockquote {
     color: #1FA292;
     font-family: 'Open Sans', sans-serif;
+    font-size: 1.1em;
+    font-style: normal;
+}
+/* Remove quotes */
+article blockquote p:before, article blockquote p:after {
+    display: none;
 }
 
 li {
@@ -22,6 +28,9 @@ p code, li code {
 h2 {
     font-size: 30px;
     margin: 20px 0;
+}
+h4 {
+    margin-top: 18px;
 }
 
 .jumbotron {
