@@ -12,6 +12,9 @@ gems:
     - jekyll-paginate
     - jekyll-seo-tag
 
+# Generate posts with date in the future
+future: true
+
 url: http://mnapoli.fr
 
 # Variables used by the SEO plugin
