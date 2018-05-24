@@ -95,3 +95,5 @@ Like in all situation it is best to make your own tests to get a better idea. If
 - PHP's cold start is lower than other languages like Java and C#, from 768M and up the cold start stabilizes around 230ms
 
 Want to get started: have a look at [Bref](https://github.com/mnapoli/bref).
+
+Update: I realize I did not mention opcache which is an important player in PHP performances. I did not forget about it, out of the box it is not supported because PHP is running as CLI. However I am planning to work on that, opcache can be used in CLI processes.
