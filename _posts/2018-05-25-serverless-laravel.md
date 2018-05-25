@@ -9,7 +9,7 @@ Last week I introduced [Bref as a solution to running PHP serverless](/serverles
 
 Today let's try to deploy a Laravel application on AWS lambda using [Bref](https://github.com/mnapoli/bref). The code shown in this article is [available on GitHub](https://github.com/mnapoli/bref-laravel-demo).
 
-**You can check out the demo Laravel application on AWS lambda here: [https://k6ay4xiyld.execute-api.eu-west-3.amazonaws.com/dev](https://k6ay4xiyld.execute-api.eu-west-3.amazonaws.com/dev).**
+**You can check out the demo Laravel application on AWS lambda here: [https://k6ay4xiyld.execute-api.eu-west-3.amazonaws.com/dev](https://k6ay4xiyld.execute-api.eu-west-3.amazonaws.com/dev).** It is a simple application that uses a 3rd party HTTP API to convert between currencies.
 
 <!--more-->
 
@@ -269,7 +269,7 @@ If you need sessions you can store them [in database, Redis, etc](https://larave
 
 ## Routing
 
-Finally when deploying a lambda AWS creates a random URL that contains a `/dev` suffix. Because of that the default route (`/`) will not work out of the box. We can change the route for the welcome page:
+Finally when deploying a lambda AWS creates a random URL that contains [a `/dev` suffix](https://github.com/mnapoli/bref#why-is-there-a-dev-prefix-in-the-urls-on-aws-lambda). Because of that the default route (`/`) will not work out of the box. We can change the route for the welcome page:
 
 ```php
 // routes/web.php
