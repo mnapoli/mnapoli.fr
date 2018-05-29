@@ -262,7 +262,7 @@ Just like logging, storing sessions in `/tmp/storage` is not a good idea. If you
 ```dotenv
 # ...
 
-LOG_CHANNEL=array
+SESSION_DRIVER=array
 ```
 
 If you need sessions you can store them [in database, Redis, etc](https://laravel.com/docs/5.6/session).
