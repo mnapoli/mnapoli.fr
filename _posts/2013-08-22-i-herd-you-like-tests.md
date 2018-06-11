@@ -16,7 +16,7 @@ Fear not! Here comes **TestsTester**!
 
 ## Use case
 
-```php tests/MyTest.php
+```php
 <?php
 class MyTest extends PHPUnit_Framework_TestCase
 {
@@ -41,7 +41,7 @@ Now my sofware is filled with bugs!
 
 With **TestsTester**, I would have detected that:
 
-```php teststests/MyTestTest.php
+```php
 <?php
 class MyTestTest extends TestsTester
 {
