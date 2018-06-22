@@ -1,0 +1,15 @@
+/* Main Primary color */
+/* Main Secondary color (1) */
+/* Main Secondary color (2) */
+.remark-slide > .user {
+  background: #FFF7D4;
+}
+.remark-slide > .user h2 {
+  color: #BAA22F;
+}
+.remark-slide > .framework {
+  background: #FFE7D4;
+}
+.remark-slide > .framework h2 {
+  color: #BA6D2F;
+}
