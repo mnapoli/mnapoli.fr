@@ -9,8 +9,6 @@ class: profile
 
 ### [github.com/mnapoli](https://github.com/mnapoli)
 
-### [prettyci.com](http://prettyci.com)
-
 ---
 class: title
 
@@ -20,24 +18,6 @@ class: title
 class: serverless-analogy
 
 .slide-left[
-Taxi
-    
-Rental
-    
-Owning a car
-]
-
----
-class: serverless-analogy
-
-.slide-left[
-Taxi
-    
-Rental
-    
-Owning a car
-]
-.slide-right[
 Serverless
     
 The Cloud
@@ -45,12 +25,29 @@ The Cloud
 Bare metal
 ]
 
+---
+class: serverless-analogy
+
+.slide-left[
+Serverless
+
+The Cloud
+
+Bare metal
+]
+.slide-right[
+Taxi
+
+Rental
+
+Owning a car
+]
+
 ???
 - availability/scaling
 - costs
 - maintenance
-- risks/accidents/security
-- privacy
+- risks/security/privacy
 
 ---
 class: serverless-analogy
@@ -196,6 +193,31 @@ $ bref cli -- doctrine:query:sql 'SELECT * FROM product'
 
 ---
 
+## Performances
+
+| Memory | Node | PHP |
+| ------ | ---- | ----- |
+| 128M   | 8ms | 320ms |
+| 512M   | 8ms | 65ms  |
+| 1024M  | 0ms | 25ms  |
+| 2048M  | 0ms | 21ms  |
+
+HTTP = API Gateway: +15ms
+
+---
+
+## Performances
+
+Cold starts:
+
+| Memory | Python | Node | PHP    | Java   | C#     |
+|--------|--------|------|--------|--------|--------|
+| 128M   |    1ms | 21ms | 1261ms | 3562ms | 4387ms |
+| 512M   |    0ms |  3ms |  336ms |  999ms | 1223ms |
+| 1024M  |    0ms |  2ms |  210ms |  530ms |  524ms |
+
+---
+
 ## Use case #1 [returntrue.win](https://returntrue.win/)
 
 - Web lambda
@@ -221,3 +243,8 @@ worker/job queue => lambda
 --
 
 ![](img/prettyci-cost-simulation.png)
+
+---
+class: title
+
+[github.com/mnapoli/bref](https://github.com/mnapoli/bref)
