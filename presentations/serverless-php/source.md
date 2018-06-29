@@ -3,13 +3,6 @@ class: main-title
 # Serverless & *PHP*
 
 ---
-class: profile
-
-## Matthieu Napoli [@matthieunapoli](https://twitter.com/matthieunapoli)
-
-### [github.com/mnapoli](https://github.com/mnapoli)
-
----
 class: title
 
 # Serverless
@@ -53,18 +46,18 @@ Owning a car
 class: serverless-analogy
 
 .slide-left[
-*Taxi*
-    
-Rental
-    
-Owning a car
-]
-.slide-right[
 *Serverless*
     
 The Cloud
     
 Bare metal
+]
+.slide-right[
+*Taxi*
+    
+Rental
+    
+Owning a car
 ]
 
 ???
@@ -248,3 +241,5 @@ worker/job queue => lambda
 class: title
 
 [github.com/mnapoli/bref](https://github.com/mnapoli/bref)
+
+[@matthieunapoli](https://twitter.com/matthieunapoli)
