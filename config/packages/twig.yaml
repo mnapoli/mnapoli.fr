@@ -1,0 +1,5 @@
+twig:
+    default_path: '%kernel.project_dir%/templates'
+    debug: '%kernel.debug%'
+    strict_variables: '%kernel.debug%'
+    cache: false # this can also be set to '/tmp/twig/' if disabling the Twig cache isn't an option for you

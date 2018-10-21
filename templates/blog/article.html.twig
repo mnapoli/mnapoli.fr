@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% set metaTitle = article.title ~ ' | Matthieu Napoli' %}
+{% set metaDescription = article.extract|striptags %}
+
+{% block metaJson %}
+    <script type="application/ld+json">{"mainEntityOfPage":{"@type":"WebPage","@id":"{{ app.request.uri }}"},"@type":"BlogPosting","url":"{{ app.request.uri }}","dateModified":"{{ article.date|date('c') }}","datePublished":"{{ article.date|date('c') }}","headline":"{{ article.title|e('js') }}","description":"{{ article.extract|striptags|e('js') }}","@context":"http://schema.org"}</script>
+{% endblock %}
+
+{% block body %}
+
+    <article>
+        <header class="clearfix">
+            <h1>{{ article.title }}</h1>
+            <p class="article-info text-muted">
+                <i class="far fa-calendar-alt"></i> {{ article.date|date('j F Y') }}
+                -
+                <a href="/">Matthieu Napoli</a>
+            </p>
+        </header>
+        {{ article.htmlContent|raw }}
+    </article>
+
+    <section>
+        <h2>Comments</h2>
+        <div id="disqus_thread" aria-live="polite"></div>
+        <script type="text/javascript">
+            // var disqus_developer = 1;
+            var disqus_identifier = 'http://mnapoli.fr{{ app.request.pathinfo }}';
+            var disqus_url = 'http://mnapoli.fr{{ app.request.pathinfo }}';
+            (function () {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = 'https://mnapoli-blog.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            }());
+        </script>
+    </section>
+
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/github-gist.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+{% endblock %}

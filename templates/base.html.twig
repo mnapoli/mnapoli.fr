@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    {% set metaTitle = metaTitle|default('Matthieu Napoli | Software consultant expert with PHP and Symfony') %}
+    {% set metaDescription = metaDescription|default('Matthieu is a software consultant working on PHP and Symfony projects, based in Lyon, France.') %}
+    <title>{{ metaTitle }}</title>
+    <meta name="description" content="{{ metaDescription|e('html_attr') }}" />
+    <meta property="og:title" content="{{ metaTitle|e('html_attr') }}" />
+    <meta property="og:description" content="{{ metaDescription|e('html_attr') }}" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:url" content="{{ app.request.uri }}" />
+    <meta property="og:site_name" content="Matthieu Napoli" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="{{ metaTitle|e('html_attr') }}" />
+    <meta name="twitter:description" content="{{ metaDescription|e('html_attr') }}" />
+    <meta name="twitter:site" content="@matthieunapoli" />
+    {% block metaJson %}{% endblock %}
+    <link href="/atom.xml" rel="alternate" title="Blog Matthieu Napoli" type="application/atom+xml">
+
+    <link href="/assets/favicon.ico" rel="icon">
+    <link href='//fonts.googleapis.com/css?family=Lato|Open+Sans:300,300i,400' rel='stylesheet' type='text/css'>
+    <link href="{{ asset('assets/build/app.css') }}" rel="stylesheet" type="text/css">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-15584647-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-15584647-1');
+    </script>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand navbar-light bg-light">
+        <div class="container">
+            <div class="collapse navbar-collapse" id="navbarMenu">
+                <div class="navbar-nav">
+                    <a class="nav-item nav-link {% if app.request.get('_route') == 'home' %}active{% endif %}" href="/" title="Matthieu Napoli">Home</a>
+                    <a class="nav-item nav-link {% if app.request.get('_route') == 'talks' %}active{% endif %}" href="/presentations/">Talks</a>
+                    <a class="nav-item nav-link {% if app.request.get('_route') == 'projects' %}active{% endif %}" href="/projects/">Projects</a>
+                    <a class="nav-item nav-link d-none d-sm-block" href="/atom.xml" title="Blog Atom feed"><i class="fas fa-rss"></i></a>
+                </div>
+                <div class="navbar-nav navbar-social-links">
+                    <a class="nav-item nav-link" href="http://twitter.com/matthieunapoli" title="Matthieu Napoli on Twitter"><i class="fab fa-twitter"></i></a>
+                    <a class="nav-item nav-link" href="http://github.com/mnapoli" title="Matthieu Napoli on GitHub"><i class="fab fa-github"></i></a>
+                    <a class="nav-item nav-link" href="http://linkedin.com/in/matthieunapoli" title="Matthieu Napoli on Linkedin"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        {% block body %}{% endblock %}
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>
+                Copyright &copy; {{ 'now'|date('Y') }} - Matthieu Napoli
+            </p>
+            <p>
+                Related and unrelated sites, whatever:
+                <a href="https://externals.io/" title="PHP internals mailing list">Externals.io</a>,
+                <a href="http://php-di.org/" title="PHP dependency injection container">PHP-DI</a>,
+                <a href="https://prettyci.com/" title="PHP coding standard continuous integration">PrettyCI</a>,
+                <a href="https://petit-pilea.com/" title="Acheter des piléas peperomioïde sur Lyon">Petit Piléa</a>
+            </p>
+        </div>
+    </footer>
+
+    {% block scripts %}
+    {% endblock %}
+</body>
+</html>

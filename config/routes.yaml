@@ -1,0 +1,49 @@
+home:
+    path: /
+    controller: 'App\Controller\IndexController::home'
+
+talks:
+    path: /presentations/
+    controller: 'App\Controller\IndexController::talks'
+
+projects:
+    path: /projects/
+    controller: 'App\Controller\IndexController::projects'
+
+feed:
+    path: /atom.xml
+    controller: 'App\Controller\IndexController::feed'
+
+about-me:
+    path: /about-me/
+    controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::urlRedirectAction
+    defaults:
+        path: https://mnapoli.fr/
+        permanent: true
+
+archives:
+    path: /archives/
+    controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::urlRedirectAction
+    defaults:
+        path: https://mnapoli.fr/
+        permanent: true
+
+blog-pages:
+    path: /blog/page/{number}
+    controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::urlRedirectAction
+    defaults:
+        path: https://mnapoli.fr/
+        permanent: true
+
+blog:
+    path: /blog/
+    controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::urlRedirectAction
+    defaults:
+        path: https://mnapoli.fr/
+        permanent: true
+
+article:
+    path: /{slug}/
+    controller: 'App\Controller\BlogController::article'
+    requirements:
+        slug: '[a-zA-Z][^\\]*'

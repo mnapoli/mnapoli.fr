@@ -1,0 +1,157 @@
+{% extends 'base.html.twig' %}
+
+{% set metaTitle = 'Talks | Matthieu Napoli' %}
+{% set metaDescription = 'Talks and workshops about web development, PHP and serverless that I have given at conferences and meetups.' %}
+
+{% block body %}
+
+    <header>
+        <h1>Talks</h1>
+        <p>These are the talks and workshops I have given at conferences and meetups. Interested by a topic? <a href="mailto:matthieu@mnapoli.fr">Get in touch</a> for on-site workshops and training.</p>
+    </header>
+
+    <section class="talk">
+        <h2>Serverless PHP</h2>
+        <p class="small">An introduction to serverless and how to deploy PHP applications using the Bref project.</p>
+        <div class="row">
+            <div class="col-md-8">
+                <div style="width: 100%; min-height: 250px; background-color: #eee; text-align: center; line-height: 250px">Slides and video coming soon</div>
+            </div>
+            <div class="col">
+                <p><a href="https://www.cascadiaphp.com/">CascadiaPHP Portland</a></p>
+                <ul>
+                    <li><a href="#">Joind.in</a></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="talk">
+        <h2>Middleware-based architectures</h2>
+        <p class="small">Middlewares is a pattern that is taking over HTTP applications: what is it and how can we create a framework from scratch with it?</p>
+        <div class="row">
+            <div class="col-md-8">
+                <iframe style="width: 100%; min-height: 250px" src="https://www.youtube.com/embed/64TH94pclyU" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <div class="col">
+                <p><a href="https://2017.phpce.eu/">phpCE 2017</a></p>
+                <ul>
+                    <li><a href="/presentations/phpce-middlewares/" title="See the slides">Slides</a></li>
+                    <li><a href="https://joind.in/event/php-central-europe-conference/middleware-based-architectures">Joind.in</a></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="talk">
+        <h2>🇫🇷 Middlewares : un vieux concept au coeur des nouvelles architectures</h2>
+        <p class="small">Une introduction au design pattern du middleware HTTP en PHP. Ce talk a été accompagné d'un workshop au ForumPHP 2017.</p>
+        <div class="row">
+            <div class="col-md-8">
+                <iframe style="width: 100%; min-height: 250px" src="https://www.youtube.com/embed/Qma1HZ3gsu8" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <div class="col">
+                <p><a href="http://event.afup.org/forum-php-2016/home-forum-php-2016/">ForumPHP 2016</a></p>
+                <ul>
+                    <li><a href="/presentations/forumphp-middlewares/" title="See the slides">Slides</a></li>
+                    <li><a href="https://joind.in/event/forum-php-2016/middlewares--un-vieux-concept-au-coeur-des-nouvelles-architectures">Joind.in</a></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="talk">
+        <h2>🇫🇷 Lancez-vous dans l'open source</h2>
+        <p class="small">Comment affronter les 2 grands problèmes de l'open source : "mon projet n'est utilisé par personne", et "mon projet est utilisé par plein de monde".</p>
+        <div class="row">
+            <div class="col-md-8">
+                <iframe style="width: 100%; min-height: 250px" src="https://www.youtube.com/embed/HTx80GS66e0" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <div class="col">
+                <p><a href="http://event.afup.org/php-tour-2016/home-phptour-2016/">PHPTour 2016</a></p>
+                <ul>
+                    <li><a href="/presentations/phptour-open-source/" title="See the slides">Slides</a></li>
+                    <li><a href="https://joind.in/event/php-tour-clermont-ferrand-2016/lancez-vous-dans-lopen-source-">Joind.in</a></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="talk">
+        <h2>🇫🇷 Get Off My Domain</h2>
+        <p class="small">Introduction à la modélisation du domaine dans l'approche <em>Domain Driven Design</em>.</p>
+        <div class="row">
+            <div class="col-md-8">
+                <iframe style="width: 100%; min-height: 250px" src="https://www.youtube.com/embed/Yj_2hUE-Lio?list=PLGlYeGauEwnvAsDzJr9DlLYP09UIWoW2I" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <div class="col">
+                <p>DDD Day Lyon</p>
+                <ul>
+                    <li><a href="/presentations/ddd-day/" title="See the slides">Slides</a></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="talk">
+        <h2>🇫🇷 PSR-0 to 12</h2>
+        <p class="small">Présentation des PSR du <a href="https://www.php-fig.org/">PHP-FIG</a>, de 0 à 12, en 12 minutes.</p>
+        <div class="row">
+            <div class="col-md-8">
+                <iframe style="width: 100%; min-height: 250px" src="https://www.youtube.com/embed/fPpGIgeKTv0" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <div class="col">
+                <p>sfPot (Symfony) Lyon, Décembre 2015</p>
+                <ul>
+                    <li><a href="/presentations/psr-0-12/" title="See the slides">Slides</a></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="talk">
+        <h2>Dependency Injection & Containers</h2>
+        <p class="small">What is dependency injection and what are IoC containers?</p>
+        <div class="row">
+            <div class="col-md-8">
+                <a href="/presentations/di/" title="View the slides">
+                    <img src="/images/presentations/di.png" alt="Dependency Injection & Containers">
+                </a>
+            </div>
+            <div class="col">
+                <p>Wellington PHP Meetup, November 2014</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="talk">
+        <h2>🇫🇷 Interopérabilité cross-frameworks</h2>
+        <p class="small">Comment construire une application en utilisant plusieurs frameworks qui collaborent ?</p>
+        <div class="row">
+            <div class="col-md-8">
+                <a href="/presentations/framework-interop-fr/" title="View the slides">
+                    <img src="/images/presentations/framework-interop-fr.png" alt="Framework interop">
+                </a>
+            </div>
+            <div class="col">
+                <p>sfPot (Symfony) Lyon, Janvier 2014</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="talk">
+        <h2>🇫🇷 Injection de dépendances, Containers & PHP-DI</h2>
+        <p class="small">Introduction à l'injection de dépendances, les containers et <a href="http://php-di.org/">PHP-DI</a>.</p>
+        <div class="row">
+            <div class="col-md-8">
+                <a href="/presentations/di-fr/" title="View the slides">
+                    <img src="/images/presentations/di-fr.png" alt="Injection de dépendances">
+                </a>
+            </div>
+            <div class="col">
+                <p>Apéro PHP de l'AFUP, Octobre 2013</p>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

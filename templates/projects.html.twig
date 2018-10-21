@@ -1,0 +1,135 @@
+{% extends 'base.html.twig' %}
+
+{% set metaTitle = 'Projects | Matthieu Napoli' %}
+{% set metaDescription = 'Open source and commercial projects I have created and maintain.' %}
+
+{% block body %}
+
+    <header>
+        <h1>Projects</h1>
+        <p>The following projects are either open source or non-open source projects I created and maintain.</p>
+    </header>
+
+    <div class="project">
+        <div class="icon"><i class="fas fa-laptop"></i></div>
+        <div class="content">
+            <h2>PrettyCI</h2>
+            <p><a href="https://prettyci.com">PrettyCI</a> is <strong>a SaaS that provides continuous integration for PHP coding standards</strong>. It runs PHP CodeSniffer and PHP-CS-Fixer on every commit pushed to a GitHub repository.</p>
+            <p>The project is built using Laravel, <a href="https://spark.laravel.com/">Spark</a>, Stripe and AWS Lambda.</p>
+            <a href="https://prettyci.com" title="Continuous integration for PHP coding standards"><img class="img-thumbnail" src="/images/projects/prettyci.png" alt="PrettyCI - CI as a service for PHP coding style"></a>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col-sm project project-bordered">
+            <div class="icon"><i class="fas fa-box-open"></i></div>
+            <div class="content">
+                <h2>PHP-DI</h2>
+                <p><a href="http://php-di.org/" title="PHP dependency injection container">PHP-DI</a> is a dependency injection container for PHP applications. It aims to make dependency injection simple and practical.</p>
+                <p>The project started in 2012 and is now widely used, being installed <a href="https://packagist.org/packages/php-di/php-di/stats">more than 80000 times per month</a>.</p>
+                <a class="github-button" href="https://github.com/PHP-DI/PHP-DI" data-icon="octicon-star" data-show-count="true" aria-label="PHP-DI on GitHub">PHP-DI</a>
+            </div>
+        </div>
+        <div class="col-sm project">
+            <div class="icon"><i class="fas fa-box-open"></i></div>
+            <div class="content">
+                <h2>Bref</h2>
+                <p><a href="https://github.com/mnapoli/bref" title="Serverless PHP framework">Bref</a> is a PHP framework for building serverless PHP applications on AWS Lambda.</p>
+                <p>Read <a href="/serverless-php/" title="Serverless and PHP">the article about how it works</a> if you want to learn more.</p>
+                <a class="github-button" href="https://github.com/mnapoli/bref" data-icon="octicon-star" data-show-count="true" aria-label="Bref on GitHub">Bref</a>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="project">
+        <div class="icon"><i class="fas fa-laptop"></i></div>
+        <div class="content">
+            <h2>externals.io</h2>
+            <p><a href="https://externals.io/" title="PHP internals mailing list">externals.io</a> is a web interface for the PHP #internals mailing list. It fetches emails using the NNTP protocol-sm and displays them as threads in an interface designed for readability.</p>
+            <p>It is built to be optimized both on the backend and frontend, with the search implemented using <a href="https://www.algolia.com/">Algolia</a>.</p>
+            <a href="https://externals.io/" title="Web interface for PHP's internals mailing list"><img class="img-thumbnail" src="/images/projects/externals.png" alt="Externals - PHP's internals mailing list"></a>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col-sm project project-bordered">
+            <div class="icon"><i class="fas fa-box-open"></i></div>
+            <div class="content">
+                <h2>Couscous</h2>
+                <p><a href="http://couscous.io/" title="Documentation website generator">Couscous</a> is a command-line application that turns Markdown documentation into beautiful websites.</p>
+                <a class="github-button" href="https://github.com/CouscousPHP/Couscous" data-icon="octicon-star" data-show-count="true" aria-label="Couscous on GitHub">Couscous</a>
+            </div>
+        </div>
+        <div class="col-sm project">
+            <div class="icon"><i class="fas fa-box-open"></i></div>
+            <div class="content">
+                <h2>Silly</h2>
+                <p><a href="https://github.com/mnapoli/silly" title="PHP console micro-framework">Silly</a> is an open source micro-framework for PHP CLI applications based on the Symfony Console.</p>
+                <a class="github-button" href="https://github.com/mnapoli/silly" data-icon="octicon-star" data-show-count="true" aria-label="Silly on GitHub">Silly</a>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="project">
+        <div class="icon"><i class="fas fa-laptop"></i></div>
+        <div class="content">
+            <h2>returntrue.win</h2>
+            <p><a href="https://returntrue.win/" title="Return true to win PHP">returntrue.win</a> is a puzzle game for PHP developers to discover weird PHP behaviors.</p>
+            <p>It runs entirely as a <strong>serverless PHP application on AWS Lambda and DynamoDB</strong>, which <a href="https://twitter.com/matthieunapoli/status/995952637450350592">works really well even when it gets a bit of traffic</a>.</p>
+            <a href="https://returntrue.win/" title="Return true to win PHP"><img class="img-thumbnail" src="/images/projects/returntrue.png" alt="Return true to win PHP"></a>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col-sm project project-bordered">
+            <div class="icon"><i class="fas fa-box-open"></i></div>
+            <div class="content">
+                <h2>DeepCopy</h2>
+                <p><a href="https://github.com/myclabs/DeepCopy" title="PHP deep clones">DeepCopy</a> is a PHP library that helps creating deep clones of PHP objects, useful when dealing with complex object graphs.</p>
+                <p>It is used by PHPUnit, which explains its popularity and the fact that it is installed more than 2.5M times per month.</p>
+                <a class="github-button" href="https://github.com/myclabs/DeepCopy" data-icon="octicon-star" data-show-count="true" aria-label="DeepCopy on GitHub">DeepCopy</a>
+            </div>
+        </div>
+        <div class="col-sm project">
+            <div class="icon"><i class="fas fa-box-open"></i></div>
+            <div class="content">
+                <h2>php-enum</h2>
+                <p><a href="https://github.com/myclabs/php-enum" title="PHP enum">php-enum</a> is a library that adds Enums to PHP.</p>
+                <p>While there are several alternatives, this has become the most popular PHP implementation for enums. It is installed about 200,000 times per month.</p>
+                <a class="github-button" href="https://github.com/myclabs/php-enum" data-icon="octicon-star" data-show-count="true" aria-label="php-enum on GitHub">php-enum</a>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="project">
+        <div class="icon"><i class="fas fa-laptop"></i></div>
+        <div class="content">
+            <h2>isitmaintained.com</h2>
+            <p><a href="https://isitmaintained.com/" title="Is it maintained">isitmaintained.com</a> is a website that helps understanding how well an open source project is maintained, via metrics and badges.</p>
+            <p>More than 1,000 repositories have been setup by users and are continuously analyzed to create reports and badges.</p>
+            <a href="https://isitmaintained.com/" title="Open source projects metrics"><img class="img-thumbnail" src="/images/projects/isitmaintained.png" alt="Is it maintained"></a>
+        </div>
+    </div>
+
+    <hr>
+
+    <p>You can find more open source projects on my <a href="https://github.com/mnapoli">GitHub profile</a>.</p>
+
+{% endblock %}
+
+{% block scripts %}
+    {{ parent() }}
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+{% endblock %}
