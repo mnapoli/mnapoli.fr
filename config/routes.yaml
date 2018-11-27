@@ -45,5 +45,12 @@ blog:
 article:
     path: /{slug}/
     controller: 'App\Controller\BlogController::article'
-    requirements:
-        slug: '[a-zA-Z][^\\]*'
+missing-slash-article:
+    path: /{slug}
+    controller: 'App\Controller\BlogController::wrongArticleUrl'
+api-gateway-url:
+    path: /dev/{slug}/
+    controller: 'App\Controller\BlogController::wrongArticleUrl'
+api-gateway-url2:
+    path: /dev/{slug}
+    controller: 'App\Controller\BlogController::wrongArticleUrl'

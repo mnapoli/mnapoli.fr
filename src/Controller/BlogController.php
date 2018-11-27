@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Blog;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 class BlogController extends AbstractController
 {
@@ -18,5 +20,10 @@ class BlogController extends AbstractController
         return $this->render('blog/article.html.twig', [
             'article' => $article,
         ]);
+    }
+
+    public function wrongArticleUrl($slug)
+    {
+        return new RedirectResponse('https://mnapoli.fr/' . $slug . '/', Response::HTTP_MOVED_PERMANENTLY);
     }
 }
