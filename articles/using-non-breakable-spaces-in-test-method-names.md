@@ -4,7 +4,7 @@ title: "Using non-breakable spaces in test method names"
 date: 2017-06-19 10:00
 isPopular: true
 comments: true
-image: /images/posts/nbsp-code.png
+image: https://mnapoli.fr/images/posts/nbsp-code.png
 ---
 
 ![](/images/posts/nbsp-wat.jpg)

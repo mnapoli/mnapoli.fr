@@ -3,7 +3,7 @@ layout: post
 title: "My \"speaker checklist\""
 date: 2017-11-02 10:00
 comments: true
-image: /images/posts/have-fun.jpg
+image: https://mnapoli.fr/images/posts/have-fun.jpg
 ---
 
 ![](/images/posts/have-fun.jpg)

@@ -3,7 +3,7 @@ layout: post
 title: "HTTP performances with Bref v0.3"
 date: 2019-02-10 18:00
 comments: true
-image: /images/posts/bref-0.3-performance-returntrue.png
+image: https://mnapoli.fr/images/posts/bref-0.3-performance-returntrue.png
 ---
 
 Back in October I published a [case study of a serverless website: returntrue.win](/serverless-case-study-returntrue/). This website runs on AWS Lambda using [Bref](https://bref.sh/).
