@@ -48,7 +48,7 @@ This is very good news: the website runs **6 times faster** on average!
 
 With an average response time of 39ms instead of 250ms, building website or APIs on AWS Lambda becomes a lot more interesting. You can check out below the detailed graph to see how results spread out:
 
-[![](/images/posts/bref-0.3-performance-returntrue.png)](/images/posts/bref-0.3-performance-returntrue.png)
+[![](/images/posts/http-performance-bref-0-3.png)](/images/posts/http-performance-bref-0-3.png)
 
 - red lines: Bref 0.2 (minimum, average, maximum)
 - green lines: Bref 0.3 (minimum, average, maximum)
