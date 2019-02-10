@@ -35,13 +35,26 @@ class Article
      */
     public $isPopular;
 
-    public function __construct(string $title, \DateTimeImmutable $date, string $slug, string $htmlContent, string $extract, bool $isPopular)
-    {
+    /**
+     * @var string|null
+     */
+    public $image;
+
+    public function __construct(
+        string $title,
+        \DateTimeImmutable $date,
+        string $slug,
+        string $htmlContent,
+        string $extract,
+        bool $isPopular,
+        ?string $image
+    ) {
         $this->title = $title;
         $this->date = $date;
         $this->slug = $slug;
         $this->htmlContent = $htmlContent;
         $this->extract = $extract;
         $this->isPopular = $isPopular;
+        $this->image = $image;
     }
 }

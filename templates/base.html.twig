@@ -15,9 +15,13 @@
     <meta property="og:locale" content="en_US" />
     <meta property="og:url" content="{{ app.request.uri }}" />
     <meta property="og:site_name" content="Matthieu Napoli" />
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="{{ metaTitle|e('html_attr') }}" />
-    <meta name="twitter:description" content="{{ metaDescription|e('html_attr') }}" />
+    {% if metaImage|default is not empty %}
+        <meta property="og:image" content="{{ metaImage }}" />
+        <meta name="twitter:card" content="summary_large_image" />
+    {% else %}
+        <meta property="og:image" content="/images/profile.jpg" />
+        <meta name="twitter:card" content="summary" />
+    {% endif %}
     <meta name="twitter:site" content="@matthieunapoli" />
     {% block metaJson %}{% endblock %}
     <link href="/atom.xml" rel="alternate" title="Blog Matthieu Napoli" type="application/atom+xml">

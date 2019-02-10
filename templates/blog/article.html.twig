@@ -2,6 +2,7 @@
 
 {% set metaTitle = article.title ~ ' | Matthieu Napoli' %}
 {% set metaDescription = article.extract|striptags %}
+{% set metaImage = article.image %}
 
 {% block metaJson %}
     <script type="application/ld+json">{"mainEntityOfPage":{"@type":"WebPage","@id":"{{ app.request.uri }}"},"@type":"BlogPosting","url":"{{ app.request.uri }}","dateModified":"{{ article.date|date('c') }}","datePublished":"{{ article.date|date('c') }}","headline":"{{ article.title|e('js') }}","description":"{{ article.extract|striptags|e('js') }}","@context":"http://schema.org"}</script>

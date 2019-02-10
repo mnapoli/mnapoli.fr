@@ -30,7 +30,7 @@ class Blog
             $slug = basename($file, '.md');
             $isPopular = $yaml['isPopular'] ?? false;
 
-            $articles[] = new Article($yaml['title'], $date, $slug, '', '', $isPopular);
+            $articles[] = new Article($yaml['title'], $date, $slug, '', '', $isPopular, null);
         }
         usort($articles, function (Article $article1, Article $article2) {
             return $article2->date <=> $article1->date;
@@ -50,6 +50,7 @@ class Blog
         $yaml = $document->getYAML();
         $date = $this->parseDate($yaml, $file);
         $isPopular = $yaml['isPopular'] ?? false;
+        $image = $yaml['image'] ?? null;
 
         $morePosition = strpos($markdown, '<!--more-->');
         if ($morePosition !== false) {
@@ -59,7 +60,7 @@ class Blog
         }
         $extract = $this->parser->parse($markdownExtract)->getContent();
 
-        return new Article($yaml['title'], $date, $slug, $document->getContent(), $extract, $isPopular);
+        return new Article($yaml['title'], $date, $slug, $document->getContent(), $extract, $isPopular, $image);
     }
 
     private function parseDate(array $yaml, string $file): \DateTimeImmutable
