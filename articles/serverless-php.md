@@ -12,7 +12,11 @@ This article intends to explain what serverless means for web applications and m
 
 <!--more-->
 
-**If you are already familiar with serverless in general jump to the section "[Introducing Bref](#introducing-bref)".**
+---
+
+**Update: Since November 2018 AWS Lambda supports PHP via *custom runtimes*. Bref now takes advantage of that, [you can read more about it at bref.sh](https://bref.sh/).**
+
+---
 
 ## What is serverless?
 
@@ -93,6 +97,14 @@ A drawback usually brought up is vendor lock-in. While it is a legitimate concer
 Finally, a big drawback is that the serverless approach also impacts our code and our frameworks. Those are often not ready to work out of the box with lambdas because they were not imagined for those environments and architectures. While there is often not a huge effort required, it still is an effort (PHP is a good example for that and that is detailed below).
 
 ## Serverless and PHP
+
+---
+
+**Update: Since November 2018 AWS Lambda supports PHP via *custom runtimes*. The new version of Bref takes advantage of that, [you can read more about it at bref.sh](https://bref.sh/).**
+
+What is described below is now obsolete.
+
+---
 
 PHP applications are different than NodeJS/Java/Go web applications because they rely on Apache/Nginx + PHP-FPM for the HTTP server layer. In the NodeJS example, the application would start and listen on a port for HTTP requests, the same process would handle all the HTTP requests.
 

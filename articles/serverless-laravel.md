@@ -3,7 +3,13 @@ layout: post
 title: "Serverless Laravel"
 date: 2018-05-25 12:00
 comments: true
-image: /images/posts/serverless-laravel.png
+image: https://mnapoli.fr/images/posts/serverless-laravel.png
+---
+
+**Update: Since November 2018 AWS Lambda supports PHP via *custom runtimes*. Bref has changed to take advantage of that and the Laravel integration has changed accordingly. Read more about it [in Bref's documentation for Laravel](https://bref.sh/docs/frameworks/laravel.html).**
+
+The article below is now obsolete.
+
 ---
 
 Last week I introduced [Bref as a solution to running PHP serverless](/serverless-php/).

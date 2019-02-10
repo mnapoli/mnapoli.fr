@@ -8,6 +8,14 @@ image: https://mnapoli.fr/images/posts/serverless-performances.png
 
 Last week I introduced [Bref as a solution to running PHP serverless](/serverless-php/).
 
+---
+
+**Update: Since November 2018 AWS Lambda supports PHP via *custom runtimes*. Bref now takes advantage of that, [you can read more about it at bref.sh](https://bref.sh/).**
+
+**Performances have changed a lot with these new versions.** This article is now obsolete.
+
+---
+
 Today let's explore what performances to expect when running PHP on AWS lambda using [Bref](https://github.com/mnapoli/bref). Everything shown in this article is [open source on GitHub](https://github.com/mnapoli/bref-benchmark) and can be reproduced.
 
 Everything shown here is specific to AWS Lambda. Other serverless providers (Azure, Google Cloud…) could offer different performances and costs.
