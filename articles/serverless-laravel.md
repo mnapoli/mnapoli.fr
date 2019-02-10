@@ -3,6 +3,7 @@ layout: post
 title: "Serverless Laravel"
 date: 2018-05-25 12:00
 comments: true
+image: /images/posts/serverless-laravel.png
 ---
 
 Last week I introduced [Bref as a solution to running PHP serverless](/serverless-php/).

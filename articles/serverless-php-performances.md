@@ -3,6 +3,7 @@ layout: post
 title: "Serverless and PHP: Performances"
 date: 2018-05-24 12:00
 comments: true
+image: /images/posts/serverless-performances.png
 ---
 
 Last week I introduced [Bref as a solution to running PHP serverless](/serverless-php/).

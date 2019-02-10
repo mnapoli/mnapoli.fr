@@ -4,6 +4,7 @@ title: "Organizing code into domain modules"
 date: 2017-11-26 18:00
 isPopular: true
 comments: true
+image: /images/posts/code-modules.jpg
 ---
 
 ![](/images/posts/code-modules.jpg)
