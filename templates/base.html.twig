@@ -13,7 +13,7 @@
     <meta property="og:title" content="{{ metaTitle|e('html_attr') }}" />
     <meta property="og:description" content="{{ metaDescription|e('html_attr') }}" />
     <meta property="og:locale" content="en_US" />
-    <meta property="og:url" content="{{ app.request.uri }}" />
+    <meta property="og:url" content="https://mnapoli.fr{{ app.request.requestUri|replace({'/dev/': '/'}) }}" />
     <meta property="og:site_name" content="Matthieu Napoli" />
     {% if metaImage|default is not empty %}
         <meta property="og:image" content="{{ metaImage }}" />

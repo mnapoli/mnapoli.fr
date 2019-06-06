@@ -27,8 +27,8 @@
         <div id="disqus_thread" aria-live="polite"></div>
         <script type="text/javascript">
             // var disqus_developer = 1;
-            var disqus_identifier = 'http://mnapoli.fr{{ app.request.pathinfo }}';
-            var disqus_url = 'http://mnapoli.fr{{ app.request.pathinfo }}';
+            var disqus_identifier = 'http://mnapoli.fr{{ app.request.pathinfo|replace({'/dev/': '/'}) }}';
+            var disqus_url = 'http://mnapoli.fr{{ app.request.pathinfo|replace({'/dev/': '/'}) }}';
             (function () {
                 var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
                 dsq.src = 'https://mnapoli-blog.disqus.com/embed.js';
