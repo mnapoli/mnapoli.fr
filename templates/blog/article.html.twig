@@ -5,7 +5,7 @@
 {% set metaImage = article.image %}
 
 {% block metaJson %}
-    <script type="application/ld+json">{"mainEntityOfPage":{"@type":"WebPage","@id":"{{ app.request.uri }}"},"@type":"BlogPosting","url":"{{ app.request.uri }}","dateModified":"{{ article.date|date('c') }}","datePublished":"{{ article.date|date('c') }}","headline":"{{ article.title|e('js') }}","description":"{{ article.extract|striptags|e('js') }}","@context":"http://schema.org"}</script>
+    <script type="application/ld+json">{"mainEntityOfPage":{"@type":"WebPage","@id":"https://mnapoli.fr{{ app.request.requestUri|replace({'/dev/': '/'}) }}"},"@type":"BlogPosting","url":"https://mnapoli.fr{{ app.request.requestUri|replace({'/dev/': '/'}) }}","dateModified":"{{ article.date|date('c') }}","datePublished":"{{ article.date|date('c') }}","headline":"{{ article.title|e('js') }}","description":"{{ article.extract|striptags|e('js') }}","@context":"http://schema.org"}</script>
 {% endblock %}
 
 {% block body %}

@@ -4,6 +4,7 @@ title: "Bref is backed by null, the company"
 date: 2019-06-06 12:00
 isPopular: false
 comments: true
+image: https://mnapoli.fr/images/posts/null.png
 ---
 
 [Bref is an open source project that helps build serverless PHP applications](https://bref.sh/). I started the project in October 2017 after discovering AWS Lambda. Over time, the project turned from an experiment into a tool used in production by multiple companies.
