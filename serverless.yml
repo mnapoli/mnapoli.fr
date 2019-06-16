@@ -1,38 +1,35 @@
 service: blog
+description: 'mnapoli.fr'
 
 provider:
   name: aws
-  runtime: nodejs6.10
+  runtime: provided
+  # Symfony configuration using environment variables:
+  environment:
+    APP_ENV: 'prod'
+    APP_DEBUG: 0
 
 package:
   exclude:
-    - '*'
-    - '**'
-  include:
-    - bref.php
-    - 'src/**'
-    - 'vendor/**'
-    - 'articles/**'
-    - 'templates/**'
-    # Below are Symfony-specific files and directories
-    - composer.json # Symfony uses it to figure out the root directory
-    - public/assets/build/manifest.json # Symfony uses it to figure out assets paths
-    - 'bin/**'
-    - 'config/**'
-    - 'var/cache/prod/**' # We want to deploy the production caches
+    - 'assets/**'
+    - 'node_modules/**'
+    - 'public/assets/fonts/**'
+    - 'public/assets/images/**'
+    - 'public/images/**'
+    - 'public/presentations/**'
+    - 'var/cache/dev/**'
+    - 'var/log/**'
 
 functions:
-  # By default we create one "main" function
   main:
-    handler: handler.handle
-    # The function will match all HTTP URLs
+    handler: public/index.php
+    description: 'mnapoli.fr'
+    timeout: 30 # in seconds (API Gateway has a timeout of 30 seconds)
+    layers:
+      - 'arn:aws:lambda:us-east-1:209497400698:layer:php-73-fpm:7'
     events:
-      - http: 'ANY /'
-      - http: 'ANY {proxy+}'
-    # Symfony configuration using environment variables:
-    environment:
-      APP_ENV: 'prod'
-      APP_DEBUG: '0'
+      -   http: 'ANY /'
+      -   http: 'ANY {proxy+}'
 
 plugins:
   - serverless-finch

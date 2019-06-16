@@ -1,8 +1,0 @@
-hooks:
-    build:
-    - 'APP_ENV=prod php bin/console cache:clear --no-debug --no-warmup'
-    - 'APP_ENV=prod php bin/console cache:warmup'
-    - 'rm -rf node_modules/'
-    - 'yarn install'
-    - 'yarn encore production' # Generate assets
-    - 'serverless client deploy --no-confirm' # Upload assets to S3

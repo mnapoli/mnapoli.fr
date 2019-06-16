@@ -1,12 +1,12 @@
 {
     "aptoma/twig-markdown": {
-        "version": "3.0.0"
+        "version": "3.2.0"
     },
     "aws/aws-sdk-php": {
-        "version": "3.67.17"
+        "version": "3.100.4"
     },
     "debril/feed-io": {
-        "version": "v4.3.4"
+        "version": "v4.3.8"
     },
     "doctrine/annotations": {
         "version": "1.0",
@@ -21,10 +21,10 @@
         "version": "v1.8.0"
     },
     "doctrine/collections": {
-        "version": "v1.5.0"
+        "version": "v1.6.2"
     },
     "doctrine/common": {
-        "version": "v2.9.0"
+        "version": "v2.10.0"
     },
     "doctrine/event-manager": {
         "version": "v1.0.0"
@@ -33,16 +33,16 @@
         "version": "v1.3.0"
     },
     "doctrine/lexer": {
-        "version": "v1.0.1"
+        "version": "1.0.2"
     },
     "doctrine/persistence": {
-        "version": "v1.0.1"
+        "version": "1.1.1"
     },
     "doctrine/reflection": {
         "version": "v1.0.0"
     },
     "erusev/parsedown": {
-        "version": "1.7.1"
+        "version": "1.7.3"
     },
     "guzzlehttp/guzzle": {
         "version": "6.3.3"
@@ -51,31 +51,28 @@
         "version": "v1.3.1"
     },
     "guzzlehttp/psr7": {
-        "version": "1.4.2"
+        "version": "1.5.2"
     },
-    "jolicode/jolinotif": {
-        "version": "v2.0.1"
+    "hollodotme/fast-cgi-client": {
+        "version": "v2.7.2"
     },
     "league/commonmark": {
         "version": "0.17.5"
     },
-    "matomo/ini": {
-        "version": "2.0.0"
-    },
     "mnapoli/bref": {
-        "version": "0.2.27"
+        "version": "0.4.1"
     },
     "mnapoli/front-yaml": {
         "version": "1.6.0"
     },
     "mnapoli/silly": {
-        "version": "1.7.0"
+        "version": "1.7.1"
     },
     "mtdowling/jmespath.php": {
         "version": "2.4.0"
     },
     "nikic/php-parser": {
-        "version": "v4.0.3"
+        "version": "v4.2.2"
     },
     "php-di/invoker": {
         "version": "2.0.0"
@@ -89,17 +86,14 @@
     "psr/http-message": {
         "version": "1.0.1"
     },
-    "psr/http-server-handler": {
-        "version": "1.0.0"
-    },
     "psr/log": {
-        "version": "1.0.2"
+        "version": "1.1.0"
     },
     "psr/simple-cache": {
         "version": "1.0.1"
     },
-    "riverline/multipart-parser": {
-        "version": "1.2.0"
+    "ralouphie/getallheaders": {
+        "version": "2.0.5"
     },
     "sensio/framework-extra-bundle": {
         "version": "5.2",
@@ -111,13 +105,13 @@
         }
     },
     "symfony/asset": {
-        "version": "v4.1.6"
+        "version": "v4.1.12"
     },
     "symfony/cache": {
-        "version": "v4.1.4"
+        "version": "v4.1.12"
     },
     "symfony/config": {
-        "version": "v4.1.4"
+        "version": "v4.1.12"
     },
     "symfony/console": {
         "version": "3.3",
@@ -125,26 +119,30 @@
             "repo": "github.com/symfony/recipes",
             "branch": "master",
             "version": "3.3",
-            "ref": "e3868d2f4a5104f19f844fe551099a00c6562527"
-        }
+            "ref": "482d233eb8de91ebd042992077bbd5838858890c"
+        },
+        "files": [
+            "bin/console",
+            "config/bootstrap.php"
+        ]
     },
     "symfony/debug": {
-        "version": "v4.1.4"
+        "version": "v4.1.12"
     },
     "symfony/dependency-injection": {
-        "version": "v4.1.4"
+        "version": "v4.1.12"
     },
     "symfony/dotenv": {
-        "version": "v4.1.4"
+        "version": "v4.1.12"
     },
     "symfony/event-dispatcher": {
-        "version": "v4.1.4"
+        "version": "v4.1.12"
     },
     "symfony/filesystem": {
-        "version": "v4.1.4"
+        "version": "v4.1.12"
     },
     "symfony/finder": {
-        "version": "v4.1.4"
+        "version": "v4.1.12"
     },
     "symfony/flex": {
         "version": "1.0",
@@ -152,8 +150,11 @@
             "repo": "github.com/symfony/recipes",
             "branch": "master",
             "version": "1.0",
-            "ref": "e921bdbfe20cdefa3b82f379d1cd36df1bc8d115"
-        }
+            "ref": "dc3fc2e0334a4137c47cfd5a3ececc601fa61a0b"
+        },
+        "files": [
+            ".env"
+        ]
     },
     "symfony/framework-bundle": {
         "version": "3.3",
@@ -161,14 +162,24 @@
             "repo": "github.com/symfony/recipes",
             "branch": "master",
             "version": "3.3",
-            "ref": "87c585d24de9f43bca80ebcfd5cf5cb39445d95f"
-        }
+            "ref": "c5293854369fe2211687cd1e36e2156d01b31dd9"
+        },
+        "files": [
+            "config/bootstrap.php",
+            "config/packages/cache.yaml",
+            "config/packages/framework.yaml",
+            "config/packages/test/framework.yaml",
+            "config/services.yaml",
+            "public/index.php",
+            "src/Controller/.gitignore",
+            "src/Kernel.php"
+        ]
     },
     "symfony/http-foundation": {
-        "version": "v4.1.4"
+        "version": "v4.1.12"
     },
     "symfony/http-kernel": {
-        "version": "v4.1.4"
+        "version": "v4.1.13"
     },
     "symfony/maker-bundle": {
         "version": "1.0",
@@ -180,13 +191,10 @@
         }
     },
     "symfony/polyfill-mbstring": {
-        "version": "v1.9.0"
+        "version": "v1.11.0"
     },
     "symfony/process": {
-        "version": "v4.1.4"
-    },
-    "symfony/psr-http-message-bridge": {
-        "version": "v1.1.0"
+        "version": "v4.1.12"
     },
     "symfony/routing": {
         "version": "4.0",
@@ -198,7 +206,7 @@
         }
     },
     "symfony/twig-bridge": {
-        "version": "v4.1.4"
+        "version": "v4.1.12"
     },
     "symfony/twig-bundle": {
         "version": "3.3",
@@ -224,16 +232,13 @@
             "repo": "github.com/symfony/recipes",
             "branch": "master",
             "version": "1.0",
-            "ref": "8e81b0743207474b384548d9bc73fb03b218a9bf"
+            "ref": "e18b0c550c3ee79142dc314b3e38193caafe4bb5"
         }
     },
     "symfony/yaml": {
-        "version": "v4.1.4"
+        "version": "v4.1.12"
     },
     "twig/twig": {
-        "version": "v2.5.0"
-    },
-    "zendframework/zend-diactoros": {
-        "version": "1.8.6"
+        "version": "v2.11.2"
     }
 }

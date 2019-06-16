@@ -1,13 +1,21 @@
-install:
-	composer install
-	yarn install
+preview: vendor node_modules
 	yarn encore dev
+	bin/console server:run
 
-preview:
-	php -S 127.0.0.1:8000 -t public bref.php
-
-assets-dev:
+assets-dev: node_modules
 	yarn encore dev --watch
 
-deploy:
-	vendor/bin/bref deploy
+deploy: vendor node_modules
+	composer install -o
+	APP_ENV=prod php bin/console cache:clear --no-debug --no-warmup
+	APP_ENV=prod php bin/console cache:warmup
+	yarn encore production
+	serverless deploy
+	serverless client deploy --no-confirm
+
+vendor: composer.json composer.lock
+	composer install
+	yarn install
+
+node_modules: package.json yarn.lock
+	yarn
