@@ -2,152 +2,152 @@ service: blog
 description: 'mnapoli.fr'
 
 provider:
-  name: aws
-  runtime: provided
-  # Symfony configuration using environment variables:
-  environment:
-    APP_ENV: 'prod'
-    APP_DEBUG: 0
+    name: aws
+    runtime: provided
+    # Symfony configuration using environment variables:
+    environment:
+        APP_ENV: 'prod'
+        APP_DEBUG: 0
 
 package:
-  exclude:
-    - 'assets/**'
-    - 'node_modules/**'
-    - 'public/assets/fonts/**'
-    - 'public/assets/images/**'
-    - 'public/images/**'
-    - 'public/presentations/**'
-    - 'var/cache/dev/**'
-    - 'var/log/**'
+    exclude:
+        - 'assets/**'
+        - 'node_modules/**'
+        - 'public/assets/fonts/**'
+        - 'public/assets/images/**'
+        - 'public/images/**'
+        - 'public/presentations/**'
+        - 'var/cache/dev/**'
+        - 'var/log/**'
 
 functions:
-  main:
-    handler: public/index.php
-    description: 'mnapoli.fr'
-    timeout: 30 # in seconds (API Gateway has a timeout of 30 seconds)
-    layers:
-      - 'arn:aws:lambda:us-east-1:209497400698:layer:php-73-fpm:7'
-    events:
-      -   http: 'ANY /'
-      -   http: 'ANY {proxy+}'
+    main:
+        handler: public/index.php
+        description: 'mnapoli.fr'
+        timeout: 30 # in seconds (API Gateway has a timeout of 30 seconds)
+        layers:
+            - 'arn:aws:lambda:us-east-1:209497400698:layer:php-73-fpm:7'
+        events:
+            -   http: 'ANY /'
+            -   http: 'ANY {proxy+}'
 
 plugins:
-  - serverless-finch
+    - serverless-finch
 
 custom:
-  client:
-    bucketName: mnapoli-blog-assets
-    distributionFolder: 'public'
+    client:
+        bucketName: mnapoli-blog-assets
+        distributionFolder: 'public'
 
 resources:
-  Resources:
-    BlogCloudFrontDistribution:
-      Type: AWS::CloudFront::Distribution
-      Properties:
-        DistributionConfig:
-          Origins:
-            # The lambda
-              # TODO use variable
-            - DomainName: d3e8b7rvkc.execute-api.us-east-1.amazonaws.com
-              Id: Lambda
-              # TODO use variable?
-              OriginPath: '/dev'
-              CustomOriginConfig:
-                # API Gateway only supports HTTPS
-                OriginProtocolPolicy: 'https-only'
-            # The assets
-            # TODO use variable
-            # Watch out, use s3-website URL
-            # see https://stackoverflow.com/questions/15309113/amazon-cloudfront-doesnt-respect-my-s3-website-buckets-index-html-rules#15528757
-            - DomainName: mnapoli-blog-assets.s3-website-us-east-1.amazonaws.com
-              Id: Assets
-              CustomOriginConfig:
-                # S3 websites only support HTTP
-                OriginProtocolPolicy: 'http-only'
-          Enabled: 'true'
-          # Cheapest option by default
-          # https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_DistributionConfig.html
-          PriceClass: PriceClass_100
-#          DefaultRootObject: index.html
-          DefaultCacheBehavior:
-            AllowedMethods:
-              - GET
-              - HEAD
-              - OPTIONS
-              - PUT
-              - POST
-              - PATCH
-              - DELETE
-            TargetOriginId: Lambda
-            # No caching for Lambda
-            MinTTL: 0
-            MaxTTL: 0
-            # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudfront-distribution-forwardedvalues.html
-            ForwardedValues:
-              QueryString: 'true'
-              Cookies:
-                Forward: all
-              # We must not forward the `Host` header else it messes up API Gateway
-              Headers:
-                - 'Accept'
-                - 'Accept-Language'
-                - 'Origin'
-                - 'Referer'
-            ViewerProtocolPolicy: redirect-to-https
-          CacheBehaviors:
-            # Assets
-            - PathPattern: 'assets/*'
-              AllowedMethods:
-                - GET
-                - HEAD
-              TargetOriginId: Assets
-              ForwardedValues:
-                # No need for all that with assets
-                QueryString: 'false'
-                Cookies:
-                  Forward: none
-              ViewerProtocolPolicy: redirect-to-https
-              Compress: true
-            # Images
-            - PathPattern: 'images/*'
-              AllowedMethods:
-              - GET
-              - HEAD
-              TargetOriginId: Assets
-              ForwardedValues:
-                # No need for all that with assets
-                QueryString: 'false'
-                Cookies:
-                  Forward: none
-              ViewerProtocolPolicy: redirect-to-https
-              Compress: true
-            # Presentations
-            - PathPattern: 'presentations/*/*'
-              AllowedMethods:
-              - GET
-              - HEAD
-              TargetOriginId: Assets
-              ForwardedValues:
-                # No need for all that with assets
-                QueryString: 'false'
-                Cookies:
-                  Forward: none
-              ViewerProtocolPolicy: redirect-to-https
-              Compress: true
-          # Custom domain name
-          Aliases:
-          - mnapoli.fr
-          - www.mnapoli.fr
-          - v2.mnapoli.fr
-          ViewerCertificate:
-            # ARN of the certificate created in ACM
-            # TODO variable
-            AcmCertificateArn: arn:aws:acm:us-east-1:416566615250:certificate/a2000100-f4a1-4ff5-acb9-52fd51ec10b4
-            # See https://docs.aws.amazon.com/fr_fr/cloudfront/latest/APIReference/API_ViewerCertificate.html
-            SslSupportMethod: 'sni-only'
+    Resources:
+        BlogCloudFrontDistribution:
+            Type: AWS::CloudFront::Distribution
+            Properties:
+                DistributionConfig:
+                    Origins:
+                        # The lambda
+                        # TODO use variable
+                        -   DomainName: d3e8b7rvkc.execute-api.us-east-1.amazonaws.com
+                            Id: Lambda
+                            # TODO use variable?
+                            OriginPath: '/dev'
+                            CustomOriginConfig:
+                                # API Gateway only supports HTTPS
+                                OriginProtocolPolicy: 'https-only'
+                        # The assets
+                        # TODO use variable
+                        # Watch out, use s3-website URL
+                        # see https://stackoverflow.com/questions/15309113/amazon-cloudfront-doesnt-respect-my-s3-website-buckets-index-html-rules#15528757
+                        -   DomainName: mnapoli-blog-assets.s3-website-us-east-1.amazonaws.com
+                            Id: Assets
+                            CustomOriginConfig:
+                                # S3 websites only support HTTP
+                                OriginProtocolPolicy: 'http-only'
+                    Enabled: 'true'
+                    # Cheapest option by default
+                    # https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_DistributionConfig.html
+                    PriceClass: PriceClass_100
+                    #          DefaultRootObject: index.html
+                    DefaultCacheBehavior:
+                        AllowedMethods:
+                            - GET
+                            - HEAD
+                            - OPTIONS
+                            - PUT
+                            - POST
+                            - PATCH
+                            - DELETE
+                        TargetOriginId: Lambda
+                        # No caching for Lambda
+                        MinTTL: 0
+                        MaxTTL: 0
+                        # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-cloudfront-distribution-forwardedvalues.html
+                        ForwardedValues:
+                            QueryString: 'true'
+                            Cookies:
+                                Forward: all
+                            # We must not forward the `Host` header else it messes up API Gateway
+                            Headers:
+                                - 'Accept'
+                                - 'Accept-Language'
+                                - 'Origin'
+                                - 'Referer'
+                        ViewerProtocolPolicy: redirect-to-https
+                    CacheBehaviors:
+                        # Assets
+                        -   PathPattern: 'assets/*'
+                            AllowedMethods:
+                                - GET
+                                - HEAD
+                            TargetOriginId: Assets
+                            ForwardedValues:
+                                # No need for all that with assets
+                                QueryString: 'false'
+                                Cookies:
+                                    Forward: none
+                            ViewerProtocolPolicy: redirect-to-https
+                            Compress: true
+                        # Images
+                        -   PathPattern: 'images/*'
+                            AllowedMethods:
+                                - GET
+                                - HEAD
+                            TargetOriginId: Assets
+                            ForwardedValues:
+                                # No need for all that with assets
+                                QueryString: 'false'
+                                Cookies:
+                                    Forward: none
+                            ViewerProtocolPolicy: redirect-to-https
+                            Compress: true
+                        # Presentations
+                        -   PathPattern: 'presentations/*/*'
+                            AllowedMethods:
+                                - GET
+                                - HEAD
+                            TargetOriginId: Assets
+                            ForwardedValues:
+                                # No need for all that with assets
+                                QueryString: 'false'
+                                Cookies:
+                                    Forward: none
+                            ViewerProtocolPolicy: redirect-to-https
+                            Compress: true
+                    # Custom domain name
+                    Aliases:
+                        - mnapoli.fr
+                        - www.mnapoli.fr
+                        - v2.mnapoli.fr
+                    ViewerCertificate:
+                        # ARN of the certificate created in ACM
+                        # TODO variable
+                        AcmCertificateArn: arn:aws:acm:us-east-1:416566615250:certificate/a2000100-f4a1-4ff5-acb9-52fd51ec10b4
+                        # See https://docs.aws.amazon.com/fr_fr/cloudfront/latest/APIReference/API_ViewerCertificate.html
+                        SslSupportMethod: 'sni-only'
 
-  ## In order to print out the hosted domain via `serverless info` we need to define the DomainName output for CloudFormation
-  Outputs:
-    BlogCloudFrontDistributionOutput:
-      Value:
-        'Fn::GetAtt': [ BlogCloudFrontDistribution, DomainName ]
+    ## In order to print out the hosted domain via `serverless info` we need to define the DomainName output for CloudFormation
+    Outputs:
+        BlogCloudFrontDistributionOutput:
+            Value:
+                'Fn::GetAtt': [ BlogCloudFrontDistribution, DomainName ]
