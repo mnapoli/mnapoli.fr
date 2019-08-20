@@ -25,6 +25,7 @@ class IndexController extends AbstractController
     {
         $feed = new Feed;
         $feed->setTitle('Matthieu Napoli\'s blog');
+        $feed->setPublicId('https://mnapoli.fr/');
 
         $lastUpdate = null;
 
@@ -34,7 +35,9 @@ class IndexController extends AbstractController
             $articleDate = new \DateTime($article->date->format('Y-m-d H:i'));
             $lastUpdate = max($lastUpdate, $articleDate);
             $item->setLastModified($articleDate);
-            $item->setLink('/' . $article->slug . '/');
+            $item->setLink('https://mnapoli.fr/' . $article->slug . '/');
+            $item->setPublicId('https://mnapoli.fr/' . $article->slug . '/');
+            $item->setAuthor(($item->newAuthor())->setName('Matthieu Napoli'));
 
             $feed->add($item);
         }

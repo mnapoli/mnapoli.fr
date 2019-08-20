@@ -5,7 +5,7 @@ Blog posts are in the `articles` folder.
 ## Installation
 
 ```
-make install
+make vendor
 ```
 
 ## Preview
