@@ -41,7 +41,7 @@ Okay, here we are:
 
 > In 2019, Null earned around 2000€ directly related to open-source work.
 
-Needless to say, it is a small share of the total revenue. After taxes and company expenses, I get around 750€ as net income from that.
+Needless to say, it is a small share of the total revenue. After taxes and company expenses, that would roughly be equivalent to 750€ as net income for me.
 
 That year, I spent around 50 days working on open-source (conference talks not included). I also hired a friend to work on Bref for a total of 10 days. While 2000€ is probably most than most open-source developers, it would not cover 60 days of work.
 
