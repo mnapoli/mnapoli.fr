@@ -6,7 +6,7 @@ assets-dev: node_modules
 	yarn encore dev --watch
 
 deploy: vendor node_modules
-	composer install -o --no-dev
+	composer install -o --no-dev --no-scripts
 	APP_ENV=prod php bin/console cache:clear --no-debug --no-warmup
 	APP_ENV=prod php bin/console cache:warmup
 	yarn encore production
