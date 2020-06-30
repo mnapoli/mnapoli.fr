@@ -6,12 +6,13 @@ assets-dev: node_modules
 	yarn encore dev --watch
 
 deploy: vendor node_modules
-	composer install -o
+	composer install -o --no-dev
 	APP_ENV=prod php bin/console cache:clear --no-debug --no-warmup
 	APP_ENV=prod php bin/console cache:warmup
 	yarn encore production
 	serverless deploy
 	serverless client deploy --no-confirm
+	composer install
 
 vendor: composer.json composer.lock
 	composer install

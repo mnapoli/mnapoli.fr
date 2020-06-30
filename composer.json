@@ -8,7 +8,7 @@
         "aptoma/twig-markdown": "^3.0",
         "debril/feed-io": "^4.3",
         "league/commonmark": "^0.17.5",
-        "mnapoli/bref": "~0.4.1",
+        "bref/bref": "~0.5.28",
         "mnapoli/front-yaml": "^1.6",
         "sensio/framework-extra-bundle": "^5.2",
         "symfony/console": "^4.1",
