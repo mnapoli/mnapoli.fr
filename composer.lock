@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5148bda3a58d3142aa8dea0d575bc37a",
+    "content-hash": "821adbd38c649ff6cdcfbdb3a5856b51",
     "packages": [
         {
             "name": "aptoma/twig-markdown",
@@ -238,16 +238,16 @@
         },
         {
             "name": "bref/bref",
-            "version": "0.5.28",
+            "version": "0.5.29",
             "source": {
                 "type": "git",
                 "url": "https://github.com/brefphp/bref.git",
-                "reference": "f16004517bbdb9b2caf133efcf1205237687fba9"
+                "reference": "b21cd69e9792b5dfc59270034ed2cd8deacb20d7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/brefphp/bref/zipball/f16004517bbdb9b2caf133efcf1205237687fba9",
-                "reference": "f16004517bbdb9b2caf133efcf1205237687fba9",
+                "url": "https://api.github.com/repos/brefphp/bref/zipball/b21cd69e9792b5dfc59270034ed2cd8deacb20d7",
+                "reference": "b21cd69e9792b5dfc59270034ed2cd8deacb20d7",
                 "shasum": ""
             },
             "require": {
@@ -299,7 +299,7 @@
             ],
             "funding": [
                 {
-                    "url": "https://bref.sh/",
+                    "url": "https://bref.sh/#enterprise",
                     "type": "custom"
                 },
                 {
@@ -307,7 +307,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-06-30T09:09:57+00:00"
+            "time": "2020-07-14T10:17:33+00:00"
         },
         {
             "name": "debril/feed-io",
