@@ -3,6 +3,8 @@ layout: post
 title: "Email alerts on SQS dead letter queues"
 date: 2020-10-07 13:00
 comments: true
+tags:
+    - serverless
 ---
 
 When running asynchronous tasks on AWS, it often makes sense to send failed tasks to an SQS "_Dead Letter Queue_".

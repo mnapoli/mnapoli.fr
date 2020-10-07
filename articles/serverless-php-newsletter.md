@@ -4,6 +4,8 @@ title: "Launching the Serverless PHP newsletter"
 date: 2019-01-07 12:00
 isPopular: false
 comments: true
+tags:
+    - serverless
 ---
 
 Serverless is a topic that is getting more and more attention lately. While this is exciting, it also means there is a lot to follow, read and test.

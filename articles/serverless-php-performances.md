@@ -4,6 +4,8 @@ title: "Serverless and PHP: Performances"
 date: 2018-05-24 12:00
 comments: true
 image: https://mnapoli.fr/images/posts/serverless-performances.png
+tags:
+    - serverless
 ---
 
 Last week I introduced [Bref as a solution to running PHP serverless](/serverless-php/).

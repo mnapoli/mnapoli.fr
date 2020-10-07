@@ -3,6 +3,8 @@ layout: post
 title: "Serverless case study: PrettyCI and Laravel Queues"
 date: 2019-03-21 18:00
 comments: true
+tags:
+    - serverless
 ---
 
 *This article is part of a series of case studies of serverless PHP applications built with [Bref](https://bref.sh/) on AWS Lambda. If you are not familiar with serverless and Bref, I invite you to read [**Serverless and PHP: introducing Bref**](/serverless-php/).*

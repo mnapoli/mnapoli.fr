@@ -4,6 +4,8 @@ title: "Serverless and PHP: introducing Bref"
 date: 2018-05-17 12:00
 isPopular: true
 comments: true
+tags:
+    - serverless
 ---
 
 Serverless basically means "Running apps without worrying about servers". Obviously [there are still servers involved](http://www.commitstrip.com/en/2017/04/26/servers-there-are-no-servers-here/), the main difference is that you do not maintain the servers and reserve their capacity. They are scaled up or down automatically and you pay only for what you use.

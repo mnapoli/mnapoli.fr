@@ -3,6 +3,8 @@ layout: post
 title: "Serverless PHP: frequently asked questions"
 date: 2019-11-21 18:00
 comments: true
+tags:
+    - serverless
 ---
 
 This article is a compilation of answers to the most common questions I get about serverless PHP applications built with [Bref](https://bref.sh/).

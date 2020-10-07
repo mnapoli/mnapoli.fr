@@ -4,6 +4,8 @@ title: "From LAMP to serverless: case study of externals.io"
 date: 2019-08-11 18:00
 comments: true
 image: https://mnapoli.fr/images/posts/externals/stack-after.svg
+tags:
+    - serverless
 ---
 
 *This article is part of a series of case studies of serverless PHP applications built with [Bref](https://bref.sh/) on AWS Lambda. You can [read more of those case studies here](https://bref.sh/docs/case-studies.html).*

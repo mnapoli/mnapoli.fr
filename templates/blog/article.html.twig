@@ -22,6 +22,16 @@
         {{ article.htmlContent|raw }}
     </article>
 
+    {% if 'serverless' in article.tags %}
+        <section class="text-muted border-top mt-5">
+            <p>
+                Interested to learn more about serverless? <br>
+                Check out my interactive course:
+                <a href="https://serverless-visually-explained.com/?utm_source=mnapoli.fr&utm_medium=article&utm_campaign=course" title="Online serverless course" class="font-weight-bold">Serverless Visually Explained</a>.
+            </p>
+        </section>
+    {% endif %}
+
     <section>
         <h2>Comments</h2>
         <div id="disqus_thread" aria-live="polite"></div>

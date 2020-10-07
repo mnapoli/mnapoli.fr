@@ -4,6 +4,8 @@ title: "Serverless case study: returntrue.win"
 date: 2018-10-29 18:00
 comments: true
 image: https://mnapoli.fr/images/posts/returntrue-stats.png
+tags:
+    - serverless
 ---
 
 *This article is part of a series of case studies of serverless PHP applications built with [Bref](https://github.com/mnapoli/bref) on AWS Lambda. If you are not familiar with serverless and Bref, I invite you to read [**Serverless and PHP: introducing Bref**](/serverless-php/).*
