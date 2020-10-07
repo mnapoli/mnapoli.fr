@@ -3,14 +3,12 @@ declare(strict_types=1);
 
 namespace App;
 
+use App\Model\Article;
 use Mni\FrontYAML\Parser;
 
 class Blog
 {
-    /**
-     * @var Parser
-     */
-    private $parser;
+    private Parser $parser;
 
     public function __construct()
     {
@@ -29,8 +27,9 @@ class Blog
             $date = $this->parseDate($yaml, $file);
             $slug = basename($file, '.md');
             $isPopular = $yaml['isPopular'] ?? false;
+            $tags = $yaml['tags'] ?? [];
 
-            $articles[] = new Article($yaml['title'], $date, $slug, '', '', $isPopular, null);
+            $articles[] = new Article($yaml['title'], $date, $slug, '', '', $isPopular, null, $tags);
         }
         usort($articles, function (Article $article1, Article $article2) {
             return $article2->date <=> $article1->date;
@@ -51,6 +50,7 @@ class Blog
         $date = $this->parseDate($yaml, $file);
         $isPopular = $yaml['isPopular'] ?? false;
         $image = $yaml['image'] ?? null;
+        $tags = $yaml['tags'] ?? [];
 
         $morePosition = strpos($markdown, '<!--more-->');
         if ($morePosition !== false) {
@@ -60,7 +60,7 @@ class Blog
         }
         $extract = $this->parser->parse($markdownExtract)->getContent();
 
-        return new Article($yaml['title'], $date, $slug, $document->getContent(), $extract, $isPopular, $image);
+        return new Article($yaml['title'], $date, $slug, $document->getContent(), $extract, $isPopular, $image, $tags);
     }
 
     private function parseDate(array $yaml, string $file): \DateTimeImmutable
