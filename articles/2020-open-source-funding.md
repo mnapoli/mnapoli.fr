@@ -4,7 +4,7 @@ title: "Open-source funding in 2020"
 date: 2021-01-21 18:00
 isPopular: false
 comments: true
-image: https://mnapoli.fr/images/posts/2019-open-source-funding.png
+image: https://mnapoli.fr/images/posts/2020-open-source-funding.png
 ---
 
 Back in January 2019, I [created the Null company](https://null.tc/). My goal: help developers work better, through products, training and consulting. My secondary goal: make some of that work open-source.
