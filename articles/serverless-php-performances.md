@@ -14,7 +14,7 @@ Last week I introduced [Bref as a solution to running PHP serverless](/serverles
 
 **Update: Since November 2018 AWS Lambda supports PHP via *custom runtimes*. Bref now takes advantage of that, [you can read more about it at bref.sh](https://bref.sh/).**
 
-**Performances have changed a lot with these new versions.** This article is now obsolete.
+**Performances have changed a lot with these new versions ([see new benchmarks](https://bref.sh/docs/environment/performances.html)).** This article is now obsolete.
 
 ---
 

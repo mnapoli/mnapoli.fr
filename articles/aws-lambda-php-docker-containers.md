@@ -58,14 +58,16 @@ Using those images as a base for your application is the fastest way to get star
 That means that they work out of the box on Lambda. Check out this `Dockerfile` for example:
 
 ```dockerfile
-FROM bref/php-80
-# Copy our code in the container
-COPY . /var/task
-# Start Bref's runtime client
-CMD _HANDLER=function.php /opt/bootstrap
-```
+FROM bref/php-80-fpm
 
-`/opt/bootstrap` is a file provided by Bref that takes care of invoking your code in the "Lambda way".
+# Include any extension we want, for example:
+#COPY --from=bref/extra-gd-php-73:0.9.5 /opt /opt
+
+# Copy our code in the container
+ADD . $LAMBDA_TASK_ROOT
+
+CMD [ "index.php" ]
+```
 
 In the coming weeks, we will explore the possibility of using *any* Docker image, including the official PHP Docker images.
 
@@ -119,8 +121,8 @@ To deploy a web application using PHP-FPM ([the FPM runtime](https://bref.sh/doc
 ```dockerfile
 # Uses PHP 8.0, feel free to use php-74-fpm if you prefer
 FROM bref/php-80-fpm
-COPY . /var/task
-CMD _HANDLER=index.php /opt/bootstrap
+ADD . $LAMBDA_TASK_ROOT
+CMD [ "index.php" ]
 ```
 
 `index.php` is the front controller of the application. For the example, let's keep it simple:
@@ -135,8 +137,8 @@ To deploy an event-driven function instead ([the Function runtime](https://bref.
 ```dockerfile
 # Uses PHP 8.0, feel free to use php-74 if you prefer
 FROM bref/php-80
-COPY . /var/task
-CMD _HANDLER=function.php /opt/bootstrap
+ADD . $LAMBDA_TASK_ROOT
+CMD [ "function.php" ]
 ```
 
 `function.php` is the function to invoke:
@@ -151,6 +153,8 @@ return function () {
 As you can see, thanks to the Docker images provided by Bref it's extremely simple!
 
 ### Deploying
+
+**Update: the Serverless Framework [now supports deploying containers directly in `serverless.yml`](https://www.serverless.com/blog/container-support-for-lambda), which is much simpler than the process described below.**
 
 Let's deploy that:
 
