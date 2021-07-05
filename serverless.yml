@@ -10,16 +10,16 @@ provider:
         APP_DEBUG: 0
 
 package:
-    exclude:
-        - 'assets/**'
-        - 'drafts/**'
-        - 'node_modules/**'
-        - 'public/assets/fonts/**'
-        - 'public/assets/images/**'
-        - 'public/images/**'
-        - 'public/presentations/**'
-        - 'var/cache/dev/**'
-        - 'var/log/**'
+    patterns:
+        - '!assets/**'
+        - '!drafts/**'
+        - '!node_modules/**'
+        - '!public/assets/fonts/**'
+        - '!public/assets/images/**'
+        - '!public/images/**'
+        - '!public/presentations/**'
+        - '!var/cache/dev/**'
+        - '!var/log/**'
 
 functions:
     main:
