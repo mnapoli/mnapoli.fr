@@ -1,6 +1,7 @@
 var Encore = require('@symfony/webpack-encore');
 
 Encore
+    .enableSingleRuntimeChunk()
     // directory where compiled assets will be stored
     .setOutputPath('public/assets/build/')
     // public path used by the web server to access the output path
