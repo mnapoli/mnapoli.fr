@@ -11,19 +11,22 @@
         "bref/bref": "~0.5.29",
         "mnapoli/front-yaml": "^1.6",
         "sensio/framework-extra-bundle": "^5.2",
-        "symfony/console": "^4.1",
+        "symfony/console": "^4.4",
         "symfony/flex": "^1.1",
-        "symfony/framework-bundle": "^4.1",
-        "symfony/twig-bundle": "^4.1",
-        "symfony/webpack-encore-pack": "^1.0",
-        "symfony/yaml": "^4.1",
-        "symfony/dotenv": "^4.1"
+        "symfony/framework-bundle": "^4.4",
+        "symfony/twig-bundle": "^4.4",
+        "symfony/webpack-encore-bundle": "^1.0",
+        "symfony/yaml": "^4.4",
+        "symfony/dotenv": "^4.4"
     },
     "require-dev": {
         "symfony/maker-bundle": "^1.7",
-        "symfony/web-server-bundle": "^4.1"
+        "symfony/web-server-bundle": "^4.4"
     },
     "config": {
+        "platform": {
+            "php": "7.4.10"
+        },
         "preferred-install": {
             "*": "dist"
         },
@@ -63,7 +66,7 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "4.1.*"
+            "require": "4.4.*"
         }
     }
 }
