@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Simpler single-file AWS CDK deployments"
-date: 2022-12-16 16:32
+date: 2023-01-02 16:32
 comments: true
 categories:
 ---
