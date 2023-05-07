@@ -8,6 +8,8 @@ tags:
   - serverless
 ---
 
+> **Update**: Bref now supports deploying PHP apps with Docker on AWS Lambda. Check out the up-to-date guide: [PHP on Lambda with Docker](https://bref.sh/docs/web-apps/docker.html).
+
 AWS Lambda [now supports running Docker containers](https://aws.amazon.com/fr/blogs/aws/new-for-aws-lambda-container-image-support/)!
 
 **This is big news for the PHP community**: while [Bref](https://bref.sh/) runtimes provide out-of-the-box support for PHP on AWS Lambda, we can now run any container image 🎉

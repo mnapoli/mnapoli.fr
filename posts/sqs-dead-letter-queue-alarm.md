@@ -7,6 +7,8 @@ tags:
     - serverless
 ---
 
+> **Update:** are you using Serverless Framework? Check out Lift, a plugin that deploys pre-configured SQS queues, Lambda workers, and [SQS DLQ with email alerts](https://github.com/getlift/lift/blob/master/docs/queue.md#how-it-works).
+
 When running asynchronous tasks on AWS, it often makes sense to send failed tasks to an SQS "_Dead Letter Queue_".
 
 A dead letter queue is simply a standard SQS queue that we create to store those failed tasks.
