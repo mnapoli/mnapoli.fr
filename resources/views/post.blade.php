@@ -35,4 +35,18 @@
         <div class="mt-10 prose dark:prose-invert">{!! $post->htmlContent !!}</div>
     </article>
 
+    <section class="relative mx-auto max-w-2xl mt-12 lg:mt-20">
+        <div id="disqus_thread" aria-live="polite"></div>
+        <script>
+            // var disqus_developer = 1;
+            var disqus_identifier = 'https://mnapoli.fr{{ request()->getPathInfo() }}';
+            var disqus_url = 'https://mnapoli.fr{{ request()->getPathInfo() }}';
+            (function () {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = 'https://mnapoli-blog.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            }());
+        </script>
+    </section>
+
 @endsection
