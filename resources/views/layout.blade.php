@@ -10,6 +10,7 @@
     <meta property="og:description" content="@yield('description', config('journal.description'))"/>
     <meta property="og:locale" content="{{ app()->getLocale() }}"/>
     <meta property="og:site_name" content="{{ config('journal.title') }}"/>
+    <meta property="og:locale" content="en_US" />
     @if (View::hasSection('metaImage'))
         <meta property="og:image" content="@yield('metaImage')"/>
         <meta name="twitter:card" content="summary_large_image"/>
@@ -19,8 +20,12 @@
     @if (config('journal.twitter'))
         <meta name="twitter:site" content="{{ config('journal.twitter') }}"/>
     @endif
+
+    <link href="/atom.xml" rel="alternate" title="Blog Matthieu Napoli" type="application/atom+xml">
     <link href="{{ mix('assets/css/app.css') }}" rel="stylesheet">
     <link href="/favicon.ico" rel="icon">
+
+    <script defer data-domain="mnapoli.fr" src="https://plausible.io/js/script.outbound-links.js"></script>
 </head>
 @php
 

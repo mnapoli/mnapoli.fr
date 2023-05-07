@@ -28,10 +28,6 @@
             </h1>
         </header>
 
-        @if ($post->image)
-            <img class="mt-8 w-full" src="{{ $post->image }}" alt="{{ $post->title }}">
-        @endif
-
         <div class="mt-10 prose dark:prose-invert">{!! $post->htmlContent !!}</div>
     </article>
 

@@ -35,7 +35,7 @@ module.exports = {
             },
             DEFAULT: {
                 css: {
-                    '--tw-prose-body': theme('colors.zinc.600'),
+                    '--tw-prose-body': theme('colors.zinc.700'),
                     '--tw-prose-headings': theme('colors.zinc.900'),
                     '--tw-prose-links': theme('colors.teal.500'),
                     '--tw-prose-links-hover': theme('colors.teal.600'),
