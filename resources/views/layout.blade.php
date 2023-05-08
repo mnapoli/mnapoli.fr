@@ -122,7 +122,13 @@ $menu = [
                                         <a href="https://github.com/mnapoli/mnapoli.github.io" class="underline transition hover:text-teal-500 dark:hover:text-teal-400">Source</a> - built with <a href="https://bref.sh" class="underline transition hover:text-teal-500 dark:hover:text-teal-400">Bref</a>
                                     </p>
                                     <p class="text-sm text-zinc-400 dark:text-zinc-500">
-                                        © <!-- -->{{ date('Y') }}<!-- --> Matthieu Napoli. All rights reserved.
+                                        © <!-- -->{{ date('Y') }}<!-- --> Matthieu Napoli
+                                        -
+                                        Links:
+                                        <a href="https://null.tc" title="PHP consulting company">null</a>,
+                                        <a href="https://bref.sh" title="Serverless PHP on AWS Lambda">Bref</a>,
+                                        <a href="https://serverless-visually-explained.com" title="Learn serverless with visual animations and code examples">Serverless visual course</a>,
+                                        <a href="https://port7777.com" title="Connect to AWS RDS databases via SSH tunnels">7777</a>
                                     </p>
                                 </div>
                             </div>
