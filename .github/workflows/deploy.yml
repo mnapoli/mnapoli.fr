@@ -1,0 +1,46 @@
+name: Deploy
+
+on:
+    push:
+        branches: ['master']
+
+jobs:
+
+    deploy:
+        runs-on: ubuntu-latest
+        timeout-minutes: 15
+        steps:
+
+            -   uses: actions/checkout@v2
+
+            -   uses: actions/setup-node@v2
+                with:
+                    node-version: '16'
+
+            -   name: Cache npm dependencies
+                uses: actions/cache@v2
+                with:
+                    path: ~/.npm # npm cache files are stored in `~/.npm`
+                    key: ${{ runner.OS }}-node-${{ hashFiles('**/package-lock.json') }}
+                    restore-keys: |
+                        ${{ runner.OS }}-node-
+
+            -   name: Setup PHP
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: '8.2'
+                    coverage: none
+
+            -   uses: ramsey/composer-install@v1
+                with:
+                    composer-options: '--optimize-autoloader --no-dev'
+
+            -   run: npm ci
+
+            -   name: Compile the assets
+                run: npm run production
+
+            -   run: npx serverless deploy
+                env:
+                    AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+                    AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

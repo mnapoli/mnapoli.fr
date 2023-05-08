@@ -26,7 +26,7 @@ functions:
         handler: public/index.php
         description: 'mnapoli.fr'
         runtime: php-82-fpm
-        timeout: 28 # in seconds (API Gateway has a timeout of 29 seconds)
+        timeout: 10
         events:
             - httpApi: '*'
 
