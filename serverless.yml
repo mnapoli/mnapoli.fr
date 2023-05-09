@@ -51,3 +51,8 @@ constructs:
             '/presentations/*': public/images
             '/favicon.ico': public/favicon.ico
             '/robots.txt': public/robots.txt
+        domain:
+            - mnapoli.fr
+            - www.mnapoli.fr
+        redirectToMainDomain: true
+        certificate: arn:aws:acm:us-east-1:416566615250:certificate/05f5f9e1-b896-4725-96e3-6f143d06ac0b
