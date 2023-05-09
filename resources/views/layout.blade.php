@@ -119,7 +119,7 @@ $menu = [
                             <div class="mx-auto max-w-2xl lg:max-w-5xl">
                                 <div class="flex flex-col items-center justify-between gap-6 sm:flex-row">
                                     <p class="text-sm text-zinc-600 dark:text-zinc-300 font-medium">
-                                        <a href="https://github.com/mnapoli/mnapoli.github.io" class="underline transition hover:text-teal-500 dark:hover:text-teal-400">Source</a> - built with <a href="https://bref.sh" class="underline transition hover:text-teal-500 dark:hover:text-teal-400">Bref</a>
+                                        <a href="https://github.com/mnapoli/mnapoli.fr" class="underline transition hover:text-teal-500 dark:hover:text-teal-400">Source</a> - built with <a href="https://bref.sh" class="underline transition hover:text-teal-500 dark:hover:text-teal-400">Bref</a>
                                     </p>
                                     <p class="text-sm text-zinc-400 dark:text-zinc-500">
                                         © <!-- -->{{ date('Y') }}<!-- --> Matthieu Napoli
