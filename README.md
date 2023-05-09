@@ -1,12 +1,6 @@
-# [mnapoli.fr](http://mnapoli.fr)
+Personal website built on [Journal](https://journal.serverless-visually-explained.com/), Laravel and [Bref](https://bref.sh).
 
-Blog posts are in the `articles` folder.
-
-## Installation
-
-```
-make vendor
-```
+Blog posts are in the [`posts`](./posts) folder.
 
 ## Preview
 
@@ -15,8 +9,6 @@ make preview
 ```
 
 http://localhost:8000/
-
-If you update assets, run `make assets-dev` in another tab.
 
 ## Deploy
 
