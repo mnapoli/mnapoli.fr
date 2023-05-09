@@ -1,0 +1,8 @@
+@tailwind base;
+
+@import "style.css";
+
+@tailwind components;
+@tailwind utilities;
+
+@import "~highlight.js/styles/zenburn.css";
