@@ -8,6 +8,12 @@ provider:
         APP_DEBUG: false
         APP_KEY: 'base64:/EStlF5sExBpWdQ3eB/h+F2zzKGDc5bvDzwe0KD8ZPg='
 
+params:
+    dev:
+        brefLive: true
+    prod:
+        brefLive: false
+
 package:
     patterns:
         - '!.env'
@@ -27,12 +33,14 @@ functions:
         description: 'mnapoli.fr'
         runtime: php-82-fpm
         timeout: 10
+        brefLive: ${param:brefLive}
         events:
             - httpApi: '*'
 
 plugins:
   - ./vendor/bref/bref
   - serverless-lift
+  - '@bref.sh/live'
 
 constructs:
     website:
