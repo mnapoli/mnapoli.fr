@@ -17,8 +17,8 @@
     },
     "require-dev": {
         "laravel/sail": "^1.18",
-        "nunomaduro/collision": "^7.0",
-        "spatie/laravel-ignition": "^2.0"
+        "spatie/laravel-ignition": "^2.0",
+        "nunomaduro/collision": "^7.0"
     },
     "autoload": {
         "psr-4": {

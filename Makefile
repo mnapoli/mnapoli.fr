@@ -7,7 +7,7 @@ preview-php: vendor
 	php artisan serve
 
 deploy: vendor node_modules
-	composer install -o --no-dev --no-scripts
+	composer install -o --no-dev
 	npm run prod
 	npx serverless deploy
 	composer install
