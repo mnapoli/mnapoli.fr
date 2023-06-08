@@ -48,7 +48,6 @@ constructs:
         assets:
             '/assets/*': public/assets
             '/images/*': public/images
-            '/presentations/*': public/images
             '/favicon.ico': public/favicon.ico
             '/robots.txt': public/robots.txt
         domain:

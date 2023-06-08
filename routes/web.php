@@ -19,9 +19,15 @@ Route::get('/', 'Controller@home');
 
 Route::get('/atom.xml', 'Controller@feed');
 
+Route::permanentRedirect('/articles/', '/articles');
 Route::get('/articles', 'Controller@articles');
+
+Route::permanentRedirect('/projects/', '/projects');
 Route::get('/projects', 'Controller@projects');
+
 Route::get('/speaking', 'Controller@speaking');
+Route::permanentRedirect('/presentations/', '/speaking');
+Route::permanentRedirect('/presentations', '/speaking');
 
 // Admin is only available when running locally
 if (App::environment('local')) {
