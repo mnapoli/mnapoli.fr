@@ -17,7 +17,12 @@
                     Hi! I’m <strong>Matthieu Napoli</strong>, open-source developer and <a href="https://null.tc">consultant</a>.
                 </p>
                 <p>
-                    I’m the creator of <a href="https://bref.sh">Bref</a>, the serverless framework for PHP. I believe running modern applications should be simpler, and I’m trying to do my part!
+                    I’m the creator of <a href="https://bref.sh">Bref</a>, the serverless framework for PHP,
+                    author of the <a href="https://serverless-visually-explained.com/">Serverless Visually Explained</a> course,
+                    and <a href="https://aws.amazon.com/developer/community/heroes/matthieu-napoli/">AWS serverless hero</a>.
+                </p>
+                <p>
+                    I believe <strong>running modern applications should be simpler</strong>, and I’m trying to do my part!
                 </p>
             </div>
 

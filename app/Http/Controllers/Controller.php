@@ -155,6 +155,11 @@ class Controller extends BaseController
                 date: new CarbonImmutable('2023-05-03'),
                 url: 'https://planetscale.com/blog/serverless-laravel-app-aws-lambda-bref-planetscale',
             ),
+            new ExternalPost(
+                title: 'Using PlanetScale with Serverless Framework Node applications on AWS',
+                date: new CarbonImmutable('2023-06-13'),
+                url: 'https://planetscale.com/blog/using-planetscale-with-serverless-framework-node-apps-on-aws',
+            ),
         ];
         $allPosts = array_merge($posts, $externalPosts);
         usort($allPosts, fn($post1, $post2) => $post2->date <=> $post1->date);
