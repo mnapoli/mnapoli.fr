@@ -17,6 +17,12 @@ $videos = [
         'subtext' => '',
     ],
     [
+        'title' => '🇫🇷 Bref on the AWS Podcast',
+        'description' => 'Talking about Bref on the french AWS podcast.',
+        'youtube' => 'https://embed.podcasts.apple.com/fr/podcast/vos-applications-php-sur-aws-lambda/id1452118442?i=1000621851482&theme=light',
+        'subtext' => '',
+    ],
+    [
         'title' => 'Talking Serverless Podcast #52',
         'description' => 'Talking with Ryan about Serverless Framework and Bref.',
         'youtube' => 'https://www.youtube.com/embed/SoG3zG468AI',
