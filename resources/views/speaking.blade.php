@@ -5,10 +5,22 @@
 @php
 $videos = [
     [
-        'title' => 'Serverless PHP with Bref',
-        'description' => 'Introduction to serverless PHP applications on AWS using <a class="text-teal-500" href="https://bref.sh">Bref</a>.',
+        'title' => 'Intro to serverless PHP with Bref',
+        'description' => 'What is serverless and how to use it with PHP on AWS using <a class="text-teal-500" href="https://bref.sh">Bref</a>.',
         'youtube' => 'https://www.youtube.com/embed/R2V4QTM2aes',
-        'subtext' => 'AWS Summit Paris, PHP UK, PHP Barcelona, phpDay, PHP Serbia, CascadiaPHP, phpCE Prague',
+        'subtext' => 'AWS Summit Paris, PHP UK, PHP Barcelona, phpDay, PHP Serbia, CascadiaPHP, phpCE Prague…',
+    ],
+    [
+        'title' => 'How serverless PHP works',
+        'description' => 'Deep dive on how AWS Lambda and <a class="text-teal-500" href="https://bref.sh">Bref</a> work and scale.',
+        'youtube' => 'https://www.youtube.com/embed/r8fgR0lTV-k',
+        'subtext' => 'PHP UK',
+    ],
+    [
+        'title' => '🇫🇷 Comment Bref fonctionne ?',
+        'description' => 'Comment AWS Lambda et <a class="text-teal-500" href="https://bref.sh">Bref</a> fonctionnent sous le capot.',
+        'youtube' => 'https://www.youtube.com/embed/BUzamyasfiM',
+        'subtext' => 'AWS Summit Paris, ForumPHP Paris',
     ],
     [
         'title' => 'Serverless Chats #55: Bref',
@@ -35,7 +47,7 @@ $videos = [
         'subtext' => 'AWS Community Day',
     ],
     [
-        'title' => '🇫🇷 L\'architecture progressive - Forum PHP 2019',
+        'title' => '🇫🇷 L\'architecture progressive',
         'description' => 'Et si la meilleure architecture ne dépendait pas de sa maintenabilité, son extensibilité ou sa testabilité, mais plutôt du contexte ?',
         'youtube' => 'https://www.youtube.com/embed/XyxvP5f67Po',
         'subtext' => 'ForumPHP',
