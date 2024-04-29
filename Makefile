@@ -7,13 +7,13 @@ preview-php: vendor
 	php artisan serve
 
 deploy: vendor node_modules
-	composer install -o --no-dev
+	composer install -o --no-dev --ignore-platform-reqs
 	npm run prod
 	npx serverless deploy
-	composer install
+	composer install --ignore-platform-reqs
 
 vendor: composer.json composer.lock
-	composer install
+	composer install --ignore-platform-reqs
 
 node_modules: package.json package-lock.json
 	npm ci
