@@ -30,6 +30,7 @@ jobs:
                 with:
                     php-version: '8.2'
                     coverage: none
+                    tools: bref/cli:dev-main
 
             -   uses: ramsey/composer-install@v1
                 with:
@@ -40,12 +41,6 @@ jobs:
             -   name: Compile the assets
                 run: npm run production
 
-            -   run: ls -lah
-            -   run: ls -lah vendor
-            -   run: ls -lah vendor/bref
-            -   run: ls -lah vendor/bref/cli
-            -   run: ls -lah vendor/bref/cli/bref
-
-            -   run: php vendor/bref/cli/bref deploy --env=prod
+            -   run: bref deploy --env=prod
                 env:
                     BREF_TOKEN: ${{ secrets.BREF_TOKEN }}
