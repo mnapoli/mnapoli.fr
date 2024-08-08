@@ -40,7 +40,6 @@ jobs:
             -   name: Compile the assets
                 run: npm run production
 
-            -   run: npx serverless deploy
+            -   run: vendor/bin/bref deploy --env=prod
                 env:
-                    AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-                    AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+                    BREF_TOKEN: ${{ secrets.BREF_TOKEN }}
