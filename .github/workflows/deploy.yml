@@ -40,6 +40,8 @@ jobs:
             -   name: Compile the assets
                 run: npm run production
 
-            -   run: ./vendor/bref/cli/bref deploy --env=prod
+            -   run: ls -lah
+
+            -   run: php vendor/bref/cli/bref deploy --env=prod
                 env:
                     BREF_TOKEN: ${{ secrets.BREF_TOKEN }}
