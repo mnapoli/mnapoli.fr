@@ -41,6 +41,10 @@ jobs:
                 run: npm run production
 
             -   run: ls -lah
+            -   run: ls -lah vendor
+            -   run: ls -lah vendor/bref
+            -   run: ls -lah vendor/bref/cli
+            -   run: ls -lah vendor/bref/cli/bref
 
             -   run: php vendor/bref/cli/bref deploy --env=prod
                 env:
