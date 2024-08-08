@@ -1,5 +1,8 @@
 service: blog
 
+custom:
+    brefOrg: matthieu
+
 provider:
     name: aws
     stage: prod
