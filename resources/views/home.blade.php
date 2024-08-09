@@ -115,7 +115,7 @@
                             <dd class="ml-auto text-xs text-zinc-400 dark:text-zinc-500">
                                 <time datetime="2018">2018</time>
                                 <span aria-hidden="true">—</span>
-                                <time datetime="2023">Present</time>
+                                <time datetime="2024">Present</time>
                             </dd>
                         </dl>
                     </li>
