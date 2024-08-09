@@ -10,7 +10,6 @@
     "production": "mix --production"
   },
   "devDependencies": {
-    "@bref.sh/live": "^1.0.1",
     "laravel-mix": "^6.0.49",
     "serverless": "^3.30.1",
     "serverless-lift": "^1.26.0"
