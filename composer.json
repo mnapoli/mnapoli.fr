@@ -13,11 +13,9 @@
         "league/commonmark": "^2.0",
         "mnapoli/front-yaml": "^2.0",
         "spatie/commonmark-highlighter": "^3.0",
-        "symfony/http-client": "^6.2",
         "thecodingmachine/safe": "^1.1"
     },
     "require-dev": {
-        "bref/cli": "dev-main",
         "laravel/sail": "^1.18",
         "nunomaduro/collision": "^7.0",
         "spatie/laravel-ignition": "^2.0"
