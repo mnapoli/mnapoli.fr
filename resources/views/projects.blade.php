@@ -29,13 +29,13 @@
             </p>
             <div class="relative z-10 mt-2 text-xs font-semibold text-zinc-400 dark:text-zinc-400 flex items-center gap-4">
                 <div class="flex items-center">
-                    2.7k
+                    3.1k
                     <svg aria-hidden="true" viewBox="0 0 16 16" class="mx-1 h-3 w-3 fill-current">
                         <path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"></path>
                     </svg>
                 </div>
                 <div>
-                    10B requests/mo
+                    30B requests/mo
                 </div>
             </div>
             <img class="relative z-10 mt-4 w-full object-cover aspect-video rounded-2xl shadow-lg transition-transform transform group-hover:scale-110"
@@ -81,7 +81,7 @@
             </p>
             <div class="relative z-10 mt-2 text-xs font-semibold text-zinc-400 dark:text-zinc-400 flex items-center gap-4">
                 <div class="flex items-center">
-                    800
+                    900
                     <svg aria-hidden="true" viewBox="0 0 16 16" class="mx-1 h-3 w-3 fill-current">
                         <path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"></path>
                     </svg>
@@ -133,7 +133,7 @@
             </p>
             <div class="relative z-10 mt-2 text-xs font-semibold text-zinc-400 dark:text-zinc-400 flex items-center gap-4">
                 <div class="flex items-center">
-                    44k
+                    46k
                     <svg aria-hidden="true" viewBox="0 0 16 16" class="mx-1 h-3 w-3 fill-current">
                         <path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"></path>
                     </svg>
@@ -208,7 +208,7 @@
             </p>
             <div class="relative z-10 mt-2 text-xs font-semibold text-zinc-400 dark:text-zinc-400 flex items-center gap-4">
                 <div class="flex items-center">
-                    2.5k
+                    2.7k
                     <svg aria-hidden="true" viewBox="0 0 16 16" class="mx-1 h-3 w-3 fill-current">
                         <path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"></path>
                     </svg>
