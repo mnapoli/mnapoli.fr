@@ -1,7 +1,7 @@
 service: blog
 
-custom:
-    brefOrg: bref
+bref:
+    team: bref
 
 provider:
     name: aws
