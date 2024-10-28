@@ -34,7 +34,7 @@ functions:
             - httpApi: '*'
     artisan:
         handler: artisan
-        runtime: php-82
+        runtime: php-82-console
 
 plugins:
   - ./vendor/bref/bref
