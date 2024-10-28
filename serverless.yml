@@ -32,6 +32,9 @@ functions:
         timeout: 10
         events:
             - httpApi: '*'
+    artisan:
+        handler: artisan
+        runtime: php-82
 
 plugins:
   - ./vendor/bref/bref
