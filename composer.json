@@ -5,6 +5,7 @@
         "php": "^8.2",
         "bref/bref": "^2.0",
         "bref/laravel-bridge": "^2.0",
+        "bref/laravel-health-check": "dev-main",
         "debril/feed-io": "^6.0",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^10.0",
