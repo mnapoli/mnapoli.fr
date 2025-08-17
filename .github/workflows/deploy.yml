@@ -9,6 +9,9 @@ jobs:
     deploy:
         runs-on: ubuntu-latest
         timeout-minutes: 15
+        environment:
+            name: prod
+            url: https://mnapoli.fr
         steps:
 
             -   uses: actions/checkout@v4
