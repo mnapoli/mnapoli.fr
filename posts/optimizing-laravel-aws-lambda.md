@@ -11,24 +11,27 @@ This article is based on my notes after experimenting with caching as much as po
 
 ## Caching Laravel configuration, routes, and more
 
-Bref provides built-in support for Laravel via a package. By default, this integration will cache the Laravel configuration on startup, i.e. on AWS Lambda cold start. That allows making subsequent requests faster.
+Bref provides [built-in support for Laravel via a package](https://bref.sh/docs/laravel/getting-started). By default, this integration will cache the Laravel configuration on startup, i.e. on AWS Lambda cold start. That allows making subsequent requests faster.
 
 This is the most basic step to optimizing Laravel. Laravel can "cache" many things (config, routes, etc.), and these are often done on deployment before traffic reaches the application.
 
 We can replicate that with Bref, but the main thing to keep in mind is to do these caching operations in an environment as close to production as possible. Indeed, Laravel will sometimes **hardcode absolute paths** or even environment variables (if you cache the config) in the cached configuration.
 
-To solve that, we need to run caching commands in Docker, using the Bref-provided container images.
+To solve that, we need to run caching commands in Docker, using the [Bref-provided container images](https://hub.docker.com/u/bref).
 
-One solution is to run Laravel commands like `route:cache` in a Bref container by mounting the application in `/var/task` (the path where the app runs in Lambda):
+One solution is to run Laravel commands like `route:cache` in a Bref container by mounting the application in `/var/task` (the path [where the app runs in Lambda](https://bref.sh/docs/environment/storage)):
 
 ```shell
-docker run --rm -it --entrypoint=php -v $(pwd):/var/task bref/php-84:2 artisan route:cache
+docker run --rm -it \
+    --entrypoint=php \
+    -v $(pwd):/var/task \
+    bref/php-84:2 \
+    artisan route:cache
 ```
 
-Another approach would be to deploy the application as a container image instead of a zip file. In that case, we can build the image entirely the way we want to. Here’s an example:
+Another approach would be to deploy the application [as a container image](https://bref.sh/docs/deploy/docker) instead of a zip file. In that case, we can build the image entirely the way we want to. Here’s an example:
 
 ```dockerfile
-# syntax=docker/dockerfile:1.7
 FROM bref/php-84:2
 
 # Copy the application code
@@ -49,7 +52,7 @@ RUN chmod -R 777 storage/framework/views
 RUN chmod -R 777 bootstrap/cache
 ```
 
-One important thing to note if you want to compile the configuration before deploying: all environment variables will be hardcoded in the cached configuration.
+One important thing to note if you want to compile the configuration before deploying: [all environment variables will be hardcoded in the cached configuration](https://laravel.com/docs/12.x/configuration#configuration-caching).
 
 That means you must have **production** environment variables set during that build. One way is to create the `.env` file with production secrets and copy that with the application in the container image. Then, `php artisan config:cache` (or `optimize`) will be able to cache those variables. If you do this, keep in mind that the container image contains production secrets, treat it appropriately (for example by tightening permissions to ECR).
 
@@ -57,7 +60,9 @@ That means you must have **production** environment variables set during that bu
 
 Another option I explored was pre-compiling PHP's opcode cache before deploying. That would enable PHP-FPM, on startup, to start with a partially warm opcache (avoiding reading PHP files from disk, parsing them, and compiling them on the fly).
 
-Usually, PHP's opcode cache is stored in memory. But it can also be stored to disk during deployment and loaded from these files on startup in Lambda.
+Note that this is different from [opcache Preloading](https://www.php.net/manual/en/opcache.preloading.php), which wouldn't really improve cold starts since preloading is all about loading "more" things on startup, which is the opposite of what we want.
+
+Usually, PHP's opcode cache is stored in memory. But it can also [be stored to disk](https://www.php.net/manual/en/opcache.configuration.php#ini.opcache.file-cache) during deployment and loaded from these files on startup in Lambda.
 
 This approach is trickier for several reasons:
 
@@ -119,7 +124,7 @@ I upgraded my test project to PHP 8.5 (in beta at the time of writing) and Bref 
 
 > 4\. you need a way to trigger opcache compilation to disk
 
-The last step is to actually compile some PHP files to opcache files during deployment. Here is an example script:
+The last step is to actually compile some PHP files to opcache files during deployment, which can be done with [`opcache_compile_file()`](https://www.php.net/manual/en/function.opcache-compile-file.php). Here is an example script:
 
 ```php
 <?php
