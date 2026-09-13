@@ -22,7 +22,8 @@
     @endif
 
     <link href="/atom.xml" rel="alternate" title="Blog Matthieu Napoli" type="application/atom+xml">
-    <link href="{{ mix('assets/css/app.css') }}" rel="stylesheet">
+    @vite('resources/css/app.css')
+    @stack('assets')
     <link href="/favicon.ico" rel="icon">
 
     <script defer data-domain="mnapoli.fr" src="https://plausible.io/js/script.outbound-links.js"></script>
@@ -57,14 +58,14 @@ $menu = [
                                 <div class="relative flex gap-4">
                                     <div class="flex flex-1">
                                         @if (($home ?? false) === false)
-                                            <div class="h-11 w-11 rounded-full bg-white/90 p-0.5 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:ring-white/10">
+                                            <div class="h-11 w-11 rounded-full bg-white/90 p-0.5 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur-sm dark:bg-zinc-800/90 dark:ring-white/10">
                                                 <a aria-label="Home" class="pointer-events-auto" href="/"><img alt="Matthieu Napoli" class="rounded-full bg-zinc-100 object-cover dark:bg-zinc-800 h-10 w-10" style="color:transparent" sizes="2.25rem" src="/images/profile.jpg"></a>
                                             </div>
                                         @endif
                                     </div>
                                     <div class="flex flex-1 justify-end md:justify-center">
                                         <nav class="pointer-events-auto">
-                                            <ul class="flex rounded-full bg-white/90 px-3 text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur dark:bg-zinc-800/90 dark:text-zinc-200 dark:ring-white/10">
+                                            <ul class="flex rounded-full bg-white/90 px-3 text-sm font-medium text-zinc-800 shadow-lg shadow-zinc-800/5 ring-1 ring-zinc-900/5 backdrop-blur-sm dark:bg-zinc-800/90 dark:text-zinc-200 dark:ring-white/10">
                                                 @foreach($menu as $url => $text)
                                                     <li>
                                                         <a class="relative block px-3 py-3 transition hover:text-teal-500 dark:hover:text-teal-400 {{ request()->is($url === '/' ? $url : ltrim($url, '/')) ? 'text-teal-500' : '' }}" href="{{ $url }}">

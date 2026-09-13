@@ -5,7 +5,7 @@
 }
 
 .button {
-    @apply bg-gray-700 text-white font-bold text-sm py-2 px-4 rounded;
+    @apply bg-gray-700 text-white font-bold text-sm py-2 px-4 rounded-sm;
 }
 .button:hover {
     @apply bg-gray-900;
@@ -13,11 +13,11 @@
 
 /* Editor */
 .EasyMDEContainer .CodeMirror {
-    @apply border-none px-0 py-6 !important;
+    @apply border-none! px-0! py-6!;
 }
 .EasyMDEContainer .CodeMirror .cm-header {
     @apply font-bold;
 }
 .EasyMDEContainer .editor-toolbar {
-    @apply bg-gray-100 border border-gray-300 rounded shadow-md;
+    @apply bg-gray-100 border border-gray-300 rounded-sm shadow-md;
 }

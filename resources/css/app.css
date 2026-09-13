@@ -1,8 +1,17 @@
-@tailwind base;
+@import "tailwindcss";
+@import "./typography.css";
+@import "./style.css";
+@import "./highlight.css";
 
-@import "style.css";
+@source "../views";
+@source "../js";
+@source "../../posts";
+@plugin "@tailwindcss/typography";
 
-@tailwind components;
-@tailwind utilities;
+@custom-variant dark (&:where(.dark, .dark *));
 
-@import "~highlight.js/styles/zenburn.css";
+@layer base {
+    *, ::before, ::after, ::backdrop, ::file-selector-button {
+        border-color: var(--color-gray-200, currentColor);
+    }
+}

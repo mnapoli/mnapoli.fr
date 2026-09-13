@@ -1,0 +1,26 @@
+/* Tempest token classes, using the blog's existing Zenburn code palette. */
+@layer utilities {
+    .prose pre .hl-keyword,
+    .prose pre .hl-type {
+        color: #e3ceab;
+    }
+
+    .prose pre .hl-value,
+    .prose pre .hl-generic {
+        color: #cc9393;
+    }
+
+    .prose pre .hl-property,
+    .prose pre .hl-variable {
+        color: #dfaf8f;
+    }
+
+    .prose pre .hl-comment,
+    .prose pre .hl-comment span {
+        color: #7f9f7f;
+    }
+
+    .prose pre .hl-attribute {
+        color: #efef8f;
+    }
+}

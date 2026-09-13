@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App;
 
@@ -11,6 +13,5 @@ class ExternalPost
         public CarbonImmutable $date,
         public string $url,
         public string $extract = '',
-    ) {
-    }
+    ) {}
 }

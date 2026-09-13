@@ -1,4 +1,6 @@
 service: blog
+frameworkVersion: '4'
+configValidationMode: error
 
 bref:
     team: bref
@@ -9,18 +11,39 @@ provider:
     environment:
         APP_ENV: production
         APP_DEBUG: false
+        APP_URL: https://mnapoli.fr
+        CACHE_STORE: array
+        SESSION_DRIVER: cookie
+        SESSION_SECURE_COOKIE: true
+        QUEUE_CONNECTION: sync
         APP_KEY: 'base64:/EStlF5sExBpWdQ3eB/h+F2zzKGDc5bvDzwe0KD8ZPg='
 
 package:
     patterns:
-        - '!.env'
+        - '!.env*'
+        - '!.github/**'
+        - '!.idea/**'
+        - '!.vscode/**'
+        - '!**/.DS_Store'
+        - '!vendor/_laravel_idea/**'
+        - '!tests/**'
+        - '!phpunit.xml'
+        - '!.phpunit.cache/**'
+        - '!bootstrap/cache/config.php'
+        - '!bootstrap/cache/routes-*.php'
         - '!drafts/**'
         - '!node_modules/**'
         - '!public/storage'
-        - '!resources/assets/**'
+        - '!resources/css/**'
+        - '!resources/js/**'
         - '!storage/**'
         - '!public/favicon.ico'
         - '!public/assets/**'
+        - '!public/build/assets/**'
+        - '!public/hot'
+        - '!public/mix-manifest.json'
+        - '!vite.config.js'
+        - '!Makefile'
         - '!public/images/**'
         - '!public/presentations/**'
 
@@ -28,13 +51,13 @@ functions:
     web:
         handler: public/index.php
         description: 'mnapoli.fr'
-        runtime: php-84-fpm
+        runtime: php-85-fpm
         timeout: 10
         events:
             - httpApi: '*'
     artisan:
         handler: artisan
-        runtime: php-84-console
+        runtime: php-85-console
 
 plugins:
   - ./vendor/bref/bref
@@ -44,6 +67,7 @@ constructs:
     website:
         type: server-side-website
         assets:
+            '/build/assets/*': public/build/assets
             '/assets/*': public/assets
             '/images/*': public/images
             '/favicon.ico': public/favicon.ico
