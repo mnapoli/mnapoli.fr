@@ -134,7 +134,7 @@
                             <dd class="ml-auto text-xs text-zinc-400 dark:text-zinc-500">
                                 <time datetime="2021">2024</time>
                                 <span aria-hidden="true">—</span>
-                                <time datetime="2022">Present</time>
+                                <time datetime="2022">2026</time>
                             </dd>
                         </dl>
                     </li>
