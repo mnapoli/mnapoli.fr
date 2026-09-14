@@ -12,7 +12,7 @@
                      src="/images/profile.jpg">
             </div>
 
-            <div class="mt-6 text-zinc-600 dark:text-zinc-400 prose prose-lg">
+            <div class="mt-6 text-zinc-600 dark:text-zinc-400 prose">
                 <p>
                     Hi! I’m <strong>Matthieu Napoli</strong>, open-source developer and <a href="https://null.tc">consultant</a>.
                 </p>
