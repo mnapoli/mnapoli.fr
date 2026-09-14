@@ -152,6 +152,12 @@ class BlogController extends Controller
                 date: new CarbonImmutable('2023-06-13'),
                 url: 'https://planetscale.com/blog/using-planetscale-with-serverless-framework-node-apps-on-aws',
             ),
+            new ExternalPost(
+                title: 'Bref 3.0 is released 🎉',
+                date: new CarbonImmutable('2026-02-26'),
+                url: 'https://bref.sh/news/03-bref-3.0',
+                extract: 'Celebrating 40 billion executions per month',
+            ),
         ];
         $allPosts = array_merge($posts, $externalPosts);
         usort($allPosts, fn ($post1, $post2) => $post2->date <=> $post1->date);
