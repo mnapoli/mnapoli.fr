@@ -1,20 +1,12 @@
-Personal website built on [Journal](https://journal.serverless-visually-explained.com/), Laravel and [Bref](https://bref.sh).
+Personal website built with Laravel 13 and [Bref](https://bref.sh).
 
-[mnapoli.fr](https://mnapoli.fr)
+[mnapoli.fr](https://mnapoli.fr) · Blog posts live in [posts](./posts).
 
-Blog posts are in the [`posts`](./posts) folder.
+## Setup and development
 
-## Preview
-
-```
-make preview
-```
-
-http://localhost:8000/
-
-## Deploy
-
-```
-make deploy
+```sh
+composer run setup
+composer run dev
 ```
 
+The post editor is available only with `APP_ENV=local`: open `/post` to create an article or `/post/{slug}/edit` to edit one.

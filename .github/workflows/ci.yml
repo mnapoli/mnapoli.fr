@@ -1,0 +1,57 @@
+name: CI
+
+on:
+    pull_request:
+    workflow_call:
+    workflow_dispatch:
+
+permissions:
+    contents: read
+
+concurrency:
+    group: ci-${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: true
+
+jobs:
+    checks:
+        runs-on: ubuntu-latest
+        timeout-minutes: 10
+        steps:
+            - uses: actions/checkout@v7
+              with:
+                  persist-credentials: false
+
+            - uses: actions/setup-node@v7
+              with:
+                  node-version-file: .nvmrc
+                  cache: npm
+
+            - uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '8.5'
+                  coverage: none
+                  tools: composer:v2
+
+            - uses: ramsey/composer-install@4.0.0
+              with:
+                  require-lock-file: true
+
+            - run: composer validate --strict
+            - run: composer check-platform-reqs
+            - run: composer audit
+            - run: vendor/bin/pint --test
+            - run: npm ci
+            - run: npm audit
+            - run: npm run build
+            - run: composer test -- --compact
+
+            - name: Verify production bootstrap and caches
+              env:
+                  APP_ENV: production
+                  APP_DEBUG: false
+                  APP_KEY: base64:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
+              run: |
+                  php artisan config:cache
+                  php artisan route:cache
+                  php artisan view:cache
+                  php artisan route:list --except-vendor

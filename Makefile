@@ -1,19 +1,23 @@
-preview:
-	make -j2 preview-parallel
-preview-parallel: preview-assets preview-php
-preview-assets: node_modules
-	npm run hot
-preview-php: vendor
-	php artisan serve
+.PHONY: setup preview test build deploy
 
-deploy: vendor node_modules
-	composer install -o --no-dev --ignore-platform-reqs
-	npm run prod
-	npx serverless deploy
-	composer install --ignore-platform-reqs
+setup:
+	composer run setup
+
+preview: vendor node_modules
+	php artisan dev
+
+test: vendor
+	composer test
+
+build: vendor node_modules
+	npm run build
+
+deploy: build
+	composer install --no-dev --optimize-autoloader
+	bref deploy --env=prod --osls4; status=$$?; composer install; exit $$status
 
 vendor: composer.json composer.lock
-	composer install --ignore-platform-reqs
+	composer install
 
 node_modules: package.json package-lock.json
 	npm ci

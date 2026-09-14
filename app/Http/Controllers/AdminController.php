@@ -1,35 +1,27 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
 use App\Blog;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
-class AdminController extends BaseController
+class AdminController extends Controller
 {
-    use AuthorizesRequests, ValidatesRequests;
-
-    private Blog $blog;
-
-    public function __construct()
-    {
-        $this->blog = new Blog();
-    }
+    public function __construct(private readonly Blog $blog) {}
 
     public function newPost(Request $request)
     {
         if ($request->isMethod('post')) {
             // The form is submitted
-            $this->validate($request, [
-                'title' => 'required',
-                'slug' => 'required',
+            $request->validate([
+                'title' => 'required|string',
+                'slug' => ['required', 'string', 'regex:/^[a-z0-9]+(?:-[a-z0-9]+)*$/'],
             ]);
 
             $slug = $request->input('slug');
@@ -46,10 +38,10 @@ class AdminController extends BaseController
     {
         if ($request->isMethod('post')) {
             // The form is submitted
-            $this->validate($request, [
+            $request->validate([
                 'title' => 'required',
-                'content' => 'required',
-                'image' => 'nullable',
+                'content' => 'required|string',
+                'image' => 'nullable|string',
             ]);
 
             $content = $request->input('content');
@@ -57,11 +49,11 @@ class AdminController extends BaseController
             $imageUrl = $request->input('image');
 
             if ($request->hasFile('uploadedImage')) {
-                $this->validate($request, [
+                $request->validate([
                     'uploadedImage' => 'required|image',
                 ]);
                 // Store uploaded image in the `public/assets/images/posts` directory
-                $imageUrl = $this->storeUploadedImage($request->file('uploadedImage'), 'posts/' . $slug);
+                $imageUrl = $this->storeUploadedImage($request->file('uploadedImage'), 'posts/'.$slug);
             }
 
             $this->blog->editPost($slug, $content, $title, $imageUrl);
@@ -77,8 +69,8 @@ class AdminController extends BaseController
     public function uploadImage(Request $request): JsonResponse
     {
         try {
-            $this->validate($request, [
-                'directory' => 'required',
+            $request->validate([
+                'directory' => ['required', 'string', 'regex:#^posts/[a-z0-9]+(?:-[a-z0-9]+)*$#'],
                 'image' => 'required|image',
             ]);
         } catch (ValidationException $e) {
@@ -103,22 +95,23 @@ class AdminController extends BaseController
      */
     public function preview(Request $request): JsonResponse
     {
+        $validated = $request->validate(['markdown' => ['present', 'nullable', 'string']]);
+
         return new JsonResponse([
-            'html' => $this->blog->preview($request->get('markdown')),
+            'html' => $this->blog->preview($validated['markdown'] ?? ''),
         ]);
     }
 
     private function storeUploadedImage(UploadedFile $imageFile, $targetDirectory): string
     {
-        $originalFileName = $imageFile->getClientOriginalName();
-        $originalFileName = str_replace($imageFile->getClientOriginalExtension(), '', $originalFileName);
+        $originalFileName = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
         // We rename the uploaded file to be a clean-looking URL
-        $newFileName = Str::slug($originalFileName) . '.' . $imageFile->extension();
+        $newFileName = Str::slug($originalFileName).'.'.$imageFile->extension();
 
-        // Store the upladed image in the `images` filesystem
+        // Store the uploaded image in the `images` filesystem
         $path = $imageFile->storeAs($targetDirectory, $newFileName, 'images');
 
         // Return the URL of the uploaded image
-        return '/assets/images/' . $path;
+        return '/assets/images/'.$path;
     }
 }

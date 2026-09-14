@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App;
 
@@ -6,19 +8,17 @@ use Carbon\CarbonImmutable;
 use DateTimeImmutable;
 use League\CommonMark\Environment\Environment;
 use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
-use League\CommonMark\Extension\CommonMark\Node\Block\FencedCode;
-use League\CommonMark\Extension\CommonMark\Node\Block\IndentedCode;
 use League\CommonMark\Extension\Table\TableExtension;
 use League\CommonMark\MarkdownConverter;
 use Mni\FrontYAML\Bridge\CommonMark\CommonMarkParser;
 use Mni\FrontYAML\Parser;
 use RuntimeException;
 use Safe\Exceptions\FilesystemException;
-use Spatie\CommonMarkHighlighter\FencedCodeRenderer;
-use Spatie\CommonMarkHighlighter\IndentedCodeRenderer;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Yaml\Yaml;
+use Tempest\Highlight\CommonMark\HighlightExtension;
 use Throwable;
+
 use function Safe\file_get_contents;
 
 /**
@@ -33,8 +33,7 @@ class Blog
         $environment = new Environment;
         $environment->addExtension(new CommonMarkCoreExtension);
         $environment->addExtension(new TableExtension);
-        $environment->addRenderer(FencedCode::class, new FencedCodeRenderer);
-        $environment->addRenderer(IndentedCode::class, new IndentedCodeRenderer);
+        $environment->addExtension(new HighlightExtension);
 
         $markdownConverter = new MarkdownConverter($environment);
 
@@ -47,13 +46,14 @@ class Blog
      * List all the blog posts.
      *
      * @return Post[]
+     *
      * @throws FilesystemException
      */
     public function getPosts(): array
     {
         $posts = [];
 
-        foreach (glob(__DIR__ . '/../posts/*.md') as $file) {
+        foreach (glob(__DIR__.'/../posts/*.md') as $file) {
             $markdown = file_get_contents($file);
             $document = $this->parser->parse($markdown, false);
             $yaml = $document->getYAML();
@@ -83,8 +83,8 @@ class Blog
      */
     public function getPost(string $slug): Post
     {
-        $file = __DIR__ . '/../posts/' . $slug . '.md';
-        if (!file_exists($file)) {
+        $file = __DIR__.'/../posts/'.$slug.'.md';
+        if (! file_exists($file)) {
             throw new NotFoundHttpException('Not found');
         }
 
@@ -102,7 +102,7 @@ class Blog
 
     public function createPost(string $slug, string $title): void
     {
-        $file = __DIR__ . '/../posts/' . $slug . '.md';
+        $file = __DIR__.'/../posts/'.$slug.'.md';
         if (file_exists($file)) {
             throw new RuntimeException("The file $file already exists");
         }
@@ -116,8 +116,8 @@ class Blog
 
     public function editPost(string $slug, string $markdown, string $title, ?string $image): void
     {
-        $file = __DIR__ . '/../posts/' . $slug . '.md';
-        if (!file_exists($file)) {
+        $file = __DIR__.'/../posts/'.$slug.'.md';
+        if (! file_exists($file)) {
             throw new RuntimeException('Not found');
         }
         $fileContent = file_get_contents($file);
@@ -141,7 +141,7 @@ class Blog
         try {
             return new CarbonImmutable($yaml['date']);
         } catch (Throwable $e) {
-            throw new RuntimeException('Unable to parse the date for post ' . $file);
+            throw new RuntimeException('Unable to parse the date for post '.$file);
         }
     }
 
@@ -153,6 +153,7 @@ class Blog
         } else {
             $markdownExtract = '';
         }
+
         return $this->parser->parse($markdownExtract)->getContent();
     }
 
@@ -165,20 +166,21 @@ class Blog
     public function preview(string $markdown): string
     {
         $document = $this->parser->parse($markdown, true);
+
         return $document->getContent();
     }
 
     private function dumpPost(string $file, array $yaml, string $markdown): void
     {
         $content = "---\n"
-            . Yaml::dump($yaml)
-            . "---\n\n"
-            . $markdown;
+            .Yaml::dump($yaml)
+            ."---\n\n"
+            .$markdown;
 
         // Make sure we store LF line endings
         $content = preg_replace('~\r\n?~', "\n", $content);
         // Add a trailing empty line
-        $content = rtrim($content) . "\n";
+        $content = rtrim($content)."\n";
 
         file_put_contents($file, $content);
     }

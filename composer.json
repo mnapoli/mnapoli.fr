@@ -1,33 +1,52 @@
 {
+    "$schema": "https://getcomposer.org/schema.json",
+    "name": "mnapoli/blog",
+    "description": "Matthieu Napoli's personal website and Markdown blog.",
     "type": "project",
     "license": "proprietary",
     "require": {
-        "php": "^8.2",
-        "bref/bref": "^2.0",
-        "bref/laravel-bridge": "^2.0",
-        "debril/feed-io": "^6.0",
-        "guzzlehttp/guzzle": "^7.2",
-        "laravel/framework": "^10.0",
-        "laravel/sanctum": "^3.2",
-        "laravel/tinker": "^2.8",
-        "league/commonmark": "^2.0",
-        "mnapoli/front-yaml": "^2.0",
-        "spatie/commonmark-highlighter": "^3.0",
-        "thecodingmachine/safe": "^1.1"
+        "php": "^8.5",
+        "bref/bref": "^3.0",
+        "bref/laravel-bridge": "^3.0",
+        "laravel/framework": "^13.0",
+        "laravel/tinker": "^3.0",
+        "league/commonmark": "^2.10",
+        "mnapoli/front-yaml": "^2.0.6",
+        "php-feed-io/feed-io": "^6.4",
+        "symfony/yaml": "^8.0",
+        "tempest/highlight": "^2.28",
+        "thecodingmachine/safe": "^3.4"
     },
     "require-dev": {
-        "laravel/sail": "^1.18",
-        "nunomaduro/collision": "^7.0",
-        "spatie/laravel-ignition": "^2.0"
+        "laravel/pint": "^1.27",
+        "nunomaduro/collision": "^8.6",
+        "pestphp/pest": "^5.0",
+        "pestphp/pest-plugin-laravel": "^5.0"
     },
     "autoload": {
         "psr-4": {
-            "App\\": "app/",
-            "Database\\Factories\\": "database/factories/",
-            "Database\\Seeders\\": "database/seeders/"
+            "App\\": "app/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
         }
     },
     "scripts": {
+        "setup": [
+            "composer install",
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
+            "@php artisan key:generate --ansi",
+            "npm ci",
+            "npm run build"
+        ],
+        "dev": [
+            "Composer\\Config::disableProcessTimeout",
+            "@php artisan dev"
+        ],
+        "lint": "pint --test",
+        "test": "@php artisan test",
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"
@@ -40,6 +59,9 @@
         ],
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
+        ],
+        "pre-package-uninstall": [
+            "Illuminate\\Foundation\\ComposerScripts::prePackageUninstall"
         ]
     },
     "extra": {
@@ -56,7 +78,7 @@
             "php-http/discovery": true
         },
         "platform": {
-            "php": "8.2"
+            "php": "8.5.0"
         }
     },
     "minimum-stability": "stable",
