@@ -43,7 +43,7 @@
         ],
         "dev": [
             "Composer\\Config::disableProcessTimeout",
-            "make preview"
+            "@php artisan dev"
         ],
         "lint": "pint --test",
         "test": "@php artisan test",

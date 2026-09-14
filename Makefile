@@ -1,16 +1,10 @@
-.PHONY: setup preview preview-assets preview-php test build deploy
+.PHONY: setup preview test build deploy
 
 setup:
 	composer run setup
 
-preview:
-	$(MAKE) -j2 preview-assets preview-php
-
-preview-assets: node_modules
-	npm run dev
-
-preview-php: vendor
-	php artisan serve
+preview: vendor node_modules
+	php artisan dev
 
 test: vendor
 	composer test

@@ -11,7 +11,7 @@ composer run setup
 composer run dev
 ```
 
-Open http://localhost:8000. Vite serves the assets with hot reload.
+Open http://localhost:8000. `artisan dev` runs the PHP server and Vite with hot reload.
 `make setup` and `make preview` are equivalent shortcuts.
 
 The post editor is available only with `APP_ENV=local`: open `/post` to create an article or `/post/{slug}/edit` to edit one. Preview and image uploads use CSRF-protected web routes. Uploaded images are stored in `public/assets/images` and should be committed with the posts.
