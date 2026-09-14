@@ -68,7 +68,6 @@ constructs:
         type: server-side-website
         assets:
             '/build/assets/*': public/build/assets
-            '/assets/*': public/assets
             '/images/*': public/images
             '/favicon.ico': public/favicon.ico
             '/robots.txt': public/robots.txt
