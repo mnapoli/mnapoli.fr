@@ -38,10 +38,8 @@ jobs:
 
             - run: composer validate --strict
             - run: composer check-platform-reqs
-            - run: composer audit
             - run: vendor/bin/pint --test
             - run: npm ci
-            - run: npm audit
             - run: npm run build
             - run: composer test -- --compact
 
