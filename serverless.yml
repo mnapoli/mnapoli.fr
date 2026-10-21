@@ -49,10 +49,12 @@ package:
 
 functions:
     web:
-        handler: public/index.php
+        handler: Bref\LaravelBridge\Http\OctaneHandler
         description: 'mnapoli.fr'
-        runtime: php-85-fpm
+        runtime: php-85
         timeout: 10
+        environment:
+            BREF_LOOP_MAX: 250
         events:
             - httpApi: '*'
     artisan:
