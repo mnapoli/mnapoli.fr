@@ -9,6 +9,7 @@
         "bref/bref": "^3.0",
         "bref/laravel-bridge": "^3.0",
         "laravel/framework": "^13.0",
+        "laravel/octane": "^2.22",
         "laravel/tinker": "^3.0",
         "league/commonmark": "^2.10",
         "mnapoli/front-yaml": "^2.0.6",
