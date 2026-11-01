@@ -11,19 +11,19 @@
     "package": "osls package"
   },
   "devDependencies": {
-    "@laravel/multiplex": "^0.4.4",
+    "@laravel/multiplex": "^0.4.5",
     "@tailwindcss/typography": "^0.5.20",
     "@tailwindcss/vite": "^4.3.3",
-    "fontaine": "^1.0.0",
+    "fontaine": "^1.0.3",
     "laravel-vite-plugin": "^3.2.0",
-    "osls": "^4.4.0",
-    "serverless-lift": "^1.37.7",
+    "osls": "^4.5.0",
+    "serverless-lift": "^1.37.10",
     "tailwindcss": "^4.3.3",
-    "vite": "^8.3.1"
+    "vite": "^8.3.5"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^7.3.1",
     "easymde": "^2.21.0",
-    "vue": "^3.5.43"
+    "vue": "^3.5.44"
   }
 }
