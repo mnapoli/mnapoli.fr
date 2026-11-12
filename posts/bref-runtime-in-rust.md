@@ -7,7 +7,7 @@ comments: true
 
 [Bref](https://bref.sh) runs PHP applications on AWS Lambda. Its runtime is the code that receives AWS Lambda events and passes them to your application, and it is written in PHP. While working on Bref v4, I wanted to know if rewriting it in Rust would make things faster.
 
-The short answer is no, because the PHP code in Bref takes almost no time. This article is based on my notes from that experiment.
+The answer is no, because the PHP code in Bref takes almost no time. This article is based on my notes from that experiment.
 
 <!--more-->
 
@@ -16,9 +16,9 @@ The short answer is no, because the PHP code in Bref takes almost no time. This 
 When an HTTP request reaches a PHP application on AWS Lambda, Bref:
 
 - fetches the event from the AWS Lambda runtime API
-- turns the event into a FastCGI request
+- converts the event into a FastCGI request
 - sends it to PHP-FPM, which runs the application
-- turns the response into JSON and sends it back to AWS Lambda
+- converts the response to JSON and sends it back to AWS Lambda
 
 All of that is PHP code running in a PHP process next to PHP-FPM. With Laravel Octane there is no PHP-FPM: Bref's code calls Laravel directly, in the same process.
 
@@ -31,7 +31,7 @@ I tested both on AWS Lambda (ARM, 1024 MB, PHP 8.5) with a "hello world" applica
 
 ## Measuring first
 
-Before writing any Rust, I added timers in Bref to see where the time goes. Here is a warm Laravel request with PHP-FPM, 5.9 ms in total:
+Before writing any Rust, I added timers in Bref to see what takes time. Here is a warm Laravel request with PHP-FPM, 5.9 ms in total:
 
 - 4.65 ms: Laravel
 - 0.54 ms: sending the response to AWS Lambda
@@ -48,20 +48,20 @@ I still built the two prototypes to check.
 
 ## The Rust extension
 
-The extension replaces the loop that talks to AWS Lambda. The HTTP calls to the runtime API happen in Rust instead of using curl from PHP.
+The extension replaces the loop that calls the AWS Lambda runtime API. The HTTP calls are done in Rust instead of using curl in PHP.
 
 Results:
 
 - cold starts: no difference
 - warm invocations: about 0.3 ms faster
 
-0.3 ms is a third of a "hello world" invocation, but less than 10% of a Laravel Octane request. And to get that, Bref would need to ship a compiled extension for every PHP version and CPU architecture.
+0.3 ms is a third of a "hello world" invocation, but less than 10% of a Laravel Octane request. And to get that, Bref would need to provide a compiled extension for every PHP version and CPU architecture.
 
 That's not worth it.
 
 ## Replacing PHP-FPM
 
-The second prototype goes further. One Rust binary contains PHP itself (linked statically). It talks to AWS Lambda and runs the PHP application in the same process. There is no PHP-FPM, no FastCGI, and no PHP code at all in the runtime.
+The second prototype is a bigger change. One Rust binary contains PHP itself (linked statically). It calls the AWS Lambda runtime API and runs the PHP application in the same process. There is no PHP-FPM, no FastCGI, and no PHP code at all in the runtime.
 
 This time there is a difference:
 
@@ -74,9 +74,9 @@ This time there is a difference:
 
 100 ms less on a "hello world" cold start is nice. But with Laravel that's only 5% on cold starts and 11% on warm requests, because most of the time is spent in Laravel.
 
-Also, this gain has little to do with Rust. It's faster because PHP-FPM is gone: there is one process to start instead of two, and no FastCGI between them. I would get the same numbers by writing it in C.
+Also, this gain is not really because of Rust. It's faster because there is no PHP-FPM anymore: there is one process to start instead of two, and no FastCGI between them. I would get the same numbers by writing it in C.
 
-And it comes with a lot of work. PHP-FPM parses requests, handles file uploads and timeouts, and when a request crashes the next one still works. Without PHP-FPM, Bref has to do all of that. The prototype also needed some C code to deal with PHP's internals (PHP uses `longjmp` for fatal errors, and that doesn't play well with Rust).
+And it would be a lot of work. PHP-FPM parses requests, handles file uploads and timeouts, and when a request crashes the next one still works. Without PHP-FPM, Bref has to do all of that. The prototype also needed some C code to work with PHP's internals (PHP uses `longjmp` for fatal errors, and that doesn't work well with Rust).
 
 ## What about Octane?
 
@@ -86,7 +86,7 @@ With Laravel Octane, Bref keeps Laravel in memory between requests, so there is 
 - the Rust binary running Bref's Octane handler
 - the Rust binary filling `$_GET`, `$_POST` and `$_SERVER` itself, like FrankenPHP does
 
-All three give about the same result: 0.2 to 0.4 ms faster on a request that takes 3 to 4 ms. With the Rust binary, cold starts were also 40 to 80 ms slower. I didn't look into why.
+All three give about the same result: 0.2 to 0.4 ms faster on a request that takes 3 to 4 ms. With the Rust binary, cold starts were also 40 to 80 ms slower. I didn't investigate why.
 
 ## Three different CPUs
 
@@ -110,6 +110,6 @@ A few hundred lines of PHP run on every request and they cost less than half a m
 
 I'm glad I added the timers before anything else, because they already showed what the prototypes confirmed later.
 
-If you want faster cold starts with Laravel, look at the application instead of the runtime: [caching the config and the opcode cache before deploying](/optimizing-laravel-aws-lambda/) gives much better results.
+If you want faster cold starts with Laravel, optimize the application instead of the runtime: [caching the config and the opcode cache before deploying](/optimizing-laravel-aws-lambda/) gives much better results.
 
-The one idea I'm keeping from this is running PHP without PHP-FPM. But that's a much bigger project than rewriting the runtime.
+The one idea I want to keep exploring is running PHP without PHP-FPM. But that's a much bigger project than rewriting the runtime.
