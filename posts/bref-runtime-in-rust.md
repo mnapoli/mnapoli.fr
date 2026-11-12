@@ -104,6 +104,6 @@ What I take from this:
 
 - PHP is fast. A few hundred lines of PHP running on every request cost less than half a millisecond.
 - measure before rewriting. The timers predicted the results of both prototypes before I wrote any Rust.
-- the time is in the application. For Laravel cold starts, [caching the config and the opcode cache before deploying](/optimizing-laravel-aws-lambda) matters ten times more than anything in the runtime.
+- the time is in the application. For Laravel cold starts, [caching the config and the opcode cache before deploying](/optimizing-laravel-aws-lambda/) matters ten times more than anything in the runtime.
 
 The only real lead is running PHP without PHP-FPM. That is a much bigger change than a rewrite, and Rust has little to do with it.
