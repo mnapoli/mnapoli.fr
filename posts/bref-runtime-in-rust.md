@@ -1,11 +1,11 @@
 ---
 layout: post
-title: "Would Bref be faster if it was written in Rust?"
+title: "Exploring a Rust runtime for Bref"
 date: 2026-11-13 10:32
 comments: true
 ---
 
-[Bref](https://bref.sh) runs PHP applications on AWS Lambda. Its runtime, the code that receives AWS Lambda events and passes them to your application, is written in PHP. I wanted to know if rewriting it in Rust would make things faster.
+[Bref](https://bref.sh) runs PHP applications on AWS Lambda. Its runtime, the code that receives AWS Lambda events and passes them to your application, is written in PHP. While working on Bref v4, I wanted to know if rewriting it in Rust would make things faster.
 
 Short answer: no. **The PHP code in Bref takes almost no time.** Here are my notes.
 
@@ -98,7 +98,7 @@ If you benchmark on AWS Lambda with ARM, log the CPU model (it's in `/proc/cpuin
 
 ## Conclusion
 
-Bref's runtime is PHP code, and it's fast enough that rewriting it in Rust gains nothing worth the trouble. I'm keeping it in PHP.
+Bref's runtime is PHP code, and it's fast enough that rewriting it in Rust gains nothing worth the trouble. It will stay in PHP in Bref v4.
 
 What I take from this:
 
