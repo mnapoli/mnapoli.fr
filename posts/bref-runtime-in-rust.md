@@ -117,4 +117,4 @@ I'm glad I added the timers before anything else, because they already showed wh
 
 If you want faster cold starts with Laravel, optimize the application instead of the runtime: [caching the config and the opcode cache before deploying](/optimizing-laravel-aws-lambda/) gives much better results.
 
-The one idea I want to keep exploring is running PHP without PHP-FPM. But that's a much bigger project than rewriting the runtime.
+Bref v4 will come with many other performance optimizations, stay tuned for the release.
