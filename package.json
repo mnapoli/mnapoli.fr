@@ -15,7 +15,7 @@
     "@tailwindcss/typography": "^0.5.20",
     "@tailwindcss/vite": "^4.3.3",
     "fontaine": "^1.0.3",
-    "laravel-vite-plugin": "^3.2.0",
+    "laravel-vite-plugin": "^3.2.1",
     "osls": "^4.5.0",
     "serverless-lift": "^1.37.10",
     "tailwindcss": "^4.3.3",
@@ -25,5 +25,8 @@
     "@fortawesome/fontawesome-free": "^7.3.1",
     "easymde": "^2.21.0",
     "vue": "^3.5.44"
+  },
+  "overrides": {
+    "postcss-selector-parser": "^6.1.5"
   }
 }
