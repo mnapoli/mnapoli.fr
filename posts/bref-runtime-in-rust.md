@@ -68,6 +68,8 @@ The second prototype is a bigger change. One Rust binary contains PHP itself (li
 
 This time there is a difference:
 
+![](/images/posts/bref-rust-benchmark.png)
+
 | | Cold start | Warm request |
 |-|-:|-:|
 | Hello world, Bref with PHP-FPM | 222 ms | 1.4 ms |
