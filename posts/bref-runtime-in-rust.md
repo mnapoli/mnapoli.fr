@@ -75,6 +75,8 @@ This time there is a difference:
 | Laravel, Bref with PHP-FPM | 1097 ms | 6.8 ms |
 | Laravel, Rust binary | 1043 ms | 6.0 ms |
 
+Note: Bref v4 will make Laravel cold starts much shorter, but that is not included in this benchmark.
+
 100 ms less on a "hello world" cold start is nice. But with Laravel that's only 5% on cold starts and 11% on warm requests, because most of the time is spent in Laravel.
 
 Also, this gain is not really because of Rust. It's faster because there is no PHP-FPM anymore: there is one process to start instead of two, and no FastCGI between them. I would get the same numbers by writing it in C.
