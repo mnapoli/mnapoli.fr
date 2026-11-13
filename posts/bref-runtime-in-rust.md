@@ -83,9 +83,13 @@ Note: Bref v4 will make Laravel cold starts much shorter, but that is not includ
 
 100 ms less on a "hello world" cold start is nice. But with Laravel that's only 5% on cold starts and 11% on warm requests, because most of the time is spent in Laravel.
 
-Also, this gain is not really because of Rust. It's faster because there is no PHP-FPM anymore: there is one process to start instead of two, and no FastCGI between them. I would get the same numbers by writing it in C.
+Also, this gain is not really because of Rust. It's faster because there is no PHP-FPM process anymore.
 
-And it would be a lot of work. PHP-FPM parses requests, handles file uploads and timeouts, and when a request crashes the next one still works. Without PHP-FPM, Bref has to do all of that. The prototype also needed some C code to work with PHP's internals (PHP uses `longjmp` for fatal errors, and that doesn't work well with Rust).
+So where do these 100 ms come from? On a cold start, Bref starts two programs: `php` (which runs Bref's code), then `php-fpm`. They are two separate files of about 25 MB that contain almost the same code, and AWS Lambda has to load both from disk. Most of the 100 ms is spent loading the second one.
+
+There is a simpler way to avoid that: compile `php` and `php-fpm` into a single binary. I [proposed that change to PHP](https://github.com/php/php-src/pull/23558) and I benchmarked it a few weeks ago (on x86 that time): the "hello world" cold start went from 280 ms to 211 ms. The same application without PHP-FPM at all starts in 195 ms. So a single binary gives most of the gain, and we keep PHP-FPM.
+
+And keeping PHP-FPM is a good thing. It parses requests, handles file uploads and timeouts, and when a request crashes the next one still works. Without PHP-FPM, Bref would have to do all of that. The prototype also needed some C code to work with PHP's internals (PHP uses `longjmp` for fatal errors, and that doesn't work well with Rust).
 
 ## What about Octane?
 
