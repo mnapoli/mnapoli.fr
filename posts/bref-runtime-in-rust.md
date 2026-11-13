@@ -99,6 +99,8 @@ With Laravel Octane, Bref keeps Laravel in memory between requests, so there is 
 - the Rust binary running Bref's Octane handler
 - the Rust binary filling `$_GET`, `$_POST` and `$_SERVER` itself, like FrankenPHP does
 
+![](/images/posts/bref-rust-octane.png)
+
 All three give about the same result: 0.2 to 0.4 ms faster on a request that takes 3 to 4 ms. With the Rust binary, cold starts were also 40 to 80 ms slower. I didn't investigate why.
 
 ## Three different CPUs
