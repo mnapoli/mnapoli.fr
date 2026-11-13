@@ -66,6 +66,8 @@ That's not worth it.
 
 The second prototype is a bigger change. One Rust binary contains PHP itself (linked statically). It calls the AWS Lambda runtime API and runs the PHP application in the same process. There is no PHP-FPM, no FastCGI, and no PHP code at all in the runtime.
 
+It behaves like PHP-FPM: every request starts from scratch and nothing is kept in memory between requests. So this compares the same thing, with and without PHP-FPM.
+
 This time there is a difference:
 
 ![](/images/posts/bref-rust-benchmark.png)
