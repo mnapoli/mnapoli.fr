@@ -3,6 +3,7 @@ layout: post
 title: "Exploring a Rust runtime for Bref"
 date: 2026-11-13 10:32
 comments: true
+image: https://mnapoli.fr/images/posts/bref-runtime-flow.png
 ---
 
 [Bref](https://bref.sh) runs PHP applications on AWS Lambda. Its runtime is the code that receives AWS Lambda events and passes them to your application, and it is written in PHP. While working on Bref v4, I wanted to know if rewriting it in Rust would make things faster.
@@ -19,6 +20,8 @@ When an HTTP request reaches a PHP application on AWS Lambda, Bref:
 - converts the event into a FastCGI request
 - sends it to PHP-FPM, which runs the application
 - converts the response to JSON and sends it back to AWS Lambda
+
+![](/images/posts/bref-runtime-flow.png)
 
 All of that is PHP code running in a PHP process next to PHP-FPM. With Laravel Octane there is no PHP-FPM: Bref's code calls Laravel directly, in the same process.
 
